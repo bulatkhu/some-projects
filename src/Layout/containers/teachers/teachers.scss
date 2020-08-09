@@ -1,0 +1,134 @@
+.slick-slide.slick-active {
+  opacity: 1;
+}
+
+.slick-slide {
+  transition: all 0.4s ease, opacity 0.8s ease;
+  transform: scale(0.9);
+  opacity: 0;
+}
+
+.slick-slide.slick-center.slick-cloned {
+  opacity: 1;
+}
+
+.slick-next {
+  //background: green !important;
+  width: 40px;
+  height: 50px;
+  z-index: 10;
+  right: 20px;
+  &::before {
+    content: '';
+  }
+  &::after {
+    content: '';
+    position: absolute;
+    right: -30px; top: 15px;
+    border: 10px solid transparent;
+    border-left: 20px solid #FF5773;
+  }
+}
+
+.slick-prev {
+  //background: green !important;
+  width: 40px;
+  height: 50px;
+  z-index: 10;
+  left: 20px;
+  &::before {
+    content: '';
+  }
+  &::after {
+    content: '';
+    position: absolute;
+    left: -30px; top: 15px;
+    border: 10px solid transparent;
+    border-right: 20px solid #FF5773;
+  }
+}
+
+@media (min-width: 1024px) {
+  .slick-active.slick-center.slick-current {
+    transform: scale(1.0);
+  }
+
+  .slick-slide {
+    transition: all 0.4s ease;
+    transform: scale(0.90);
+  }
+}
+
+.teachers {
+  background: #F0F5FB;
+  padding: 90px 0 90px 0;
+
+  &__title {
+    font-size: 36px;
+    line-height: 42px;
+    text-align: center;
+    color: #626267;
+    margin: 0 0 84px 0;
+  }
+
+  &__container {
+    overflow: hidden;
+  }
+
+  &__slider {
+    position: relative;
+    //left: 40px;
+  }
+}
+
+.slider {
+
+  &__box {
+  }
+
+  &__content {
+    transition: all .5s;
+    display: grid;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    grid-template-columns: auto auto auto;
+  }
+
+  &__item {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    flex-direction: column;
+
+    &__name {
+      font-size: 24px;
+      line-height: 28px;
+      color: #626267;
+      text-align: center;
+      font-style: normal;
+      font-weight: normal;
+      margin: 29px 0 0 0;
+    }
+
+    &__wrapper {
+
+      max-width: 300px;
+      max-height: 300px;
+      border-radius: 50%;
+      overflow: hidden;
+
+      @media (max-width: 530px) {
+        max-width: 240px;
+        max-height: 240px;
+      }
+
+      img {
+        width: 100%;
+        height: 100%;
+      }
+
+    }
+  }
+}
