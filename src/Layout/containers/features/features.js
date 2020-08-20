@@ -1,16 +1,44 @@
 import React from 'react'
 import './features.scss'
-import icon1 from '../../../images/features/feature-icon1.svg'
-import icon2 from '../../../images/features/feature-icon2.svg'
-import icon3 from '../../../images/features/feature-icon3.svg'
-import icon4 from '../../../images/features/feature-icon4.svg'
+import feature1 from '../../../../src/images/features/feature1.svg'
+import feature2 from '../../../../src/images/features/feature2.svg'
+import feature3 from '../../../../src/images/features/feature3.svg'
+import feature4 from '../../../../src/images/features/feature4.svg'
+import feature5 from '../../../../src/images/features/feature5.svg'
+import feature6 from '../../../../src/images/features/feature6.svg'
+import feature7 from '../../../../src/images/features/feature7.svg'
+import feature8 from '../../../../src/images/features/feature8.svg'
+import feature9 from '../../../../src/images/features/feature9.svg'
+import feature10 from '../../../../src/images/features/feature10.svg'
+import feature11 from '../../../../src/images/features/feature11.svg'
+import feature12 from '../../../../src/images/features/feature12.svg'
+import feature13 from '../../../../src/images/features/feature13.svg'
+import feature14 from '../../../../src/images/features/feature14.svg'
+import feature15 from '../../../../src/images/features/feature15.svg'
 import FeatureBox from '../../components/FeatureBox/FeatureBox'
 
 const FeatureBoxes = [
-  {icon: icon1, title: 'ҰБТ', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. '},
-  {icon: icon2, title: 'НЗМ', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. '},
-  {icon: icon3, title: 'БИЛ', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. '},
-  {icon: icon4, title: 'Мектепке қосымша', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. '}
+  {title: 'ҰБТ', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam in nam sed bibendum.'},
+  {title: 'НЗМ'},
+  {title: 'БИЛ'},
+]
+
+const FeatureItems = [
+  {text: 'Ең мықты ұстаздар', img: feature1},
+  {text: '24/7 Көмек', img: feature2},
+  {text: 'Өзіміздің оқулықтар', img: feature3},
+  {text: 'Онлайн кураторлық', img: feature4},
+  {text: 'Авторлық методика', img: feature5},
+  {text: 'Тегін деңгей анықау сынағы', img: feature6},
+  {text: 'Сапалы видео сабақтар', img: feature7},
+  {text: 'EduCoin', img: feature8},
+  {text: 'Live вебинар', img: feature9},
+  {text: 'Жеке кабинетр', img: feature10},
+  {text: 'Профориентология', img: feature11},
+  {text: 'Тест анализ', img: feature12},
+  {text: 'Тақырыптық тесттер', img: feature13},
+  {text: 'Айлық байқау сынақтары', img: feature14},
+  {text: 'Айлық байқау сынақтары', img: feature15},
 ]
 
 const Features = () => {
@@ -28,6 +56,26 @@ const Features = () => {
               text={item.text}
             />
           ))}
+        </div>
+
+        <h3 className="features__title">Біздің артықшылықтарымыз</h3>
+
+        <div className="features__secContent secContent">
+
+          {FeatureItems.map((item, index) => {
+
+            return (
+              <div className="secContent__item" key={index + item.img}>
+                <div className="secContent__img">
+                  <img src={item.img} alt="feature 1"/>
+                </div>
+
+                <p className="secContent__text">
+                  {item.text}
+                </p>
+              </div>
+            )
+          })}
         </div>
       </div>
     </section>

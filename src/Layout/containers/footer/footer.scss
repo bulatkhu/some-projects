@@ -9,7 +9,7 @@
   &__content {
     display: grid;
     justify-content: space-around;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: 1fr 1fr 1fr 1fr auto;
     row-gap: 30px;
 
     @media (max-width: 767px) {
@@ -74,6 +74,9 @@
     &:nth-child(4) {
       grid-row: 3;
     }
+    &:nth-child(5) {
+      grid-row: 3;
+    }
   }
 
 
@@ -98,6 +101,12 @@
       width: 50%;
       background: #FF5773;
       height: 4px;
+    }
+
+    &__none {
+      &:after {
+        background: transparent;
+      }
     }
   }
 

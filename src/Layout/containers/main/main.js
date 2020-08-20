@@ -1,8 +1,32 @@
 import React from 'react'
 import './main.scss'
-import mainImage from '../../../images/main/main-image.svg'
+import mainImage1 from '../../../images/main/main-image1.svg'
+import mainImage2 from '../../../images/main/main-image2.svg'
+import mainImage3 from '../../../images/main/main-image3.svg'
+import Slider from 'react-slick'
 
 const Main = () => {
+
+  const settings = {
+    fade: true,
+    infinite: true,
+    speed: 500,
+    verticalSwiping: true,
+    initialSlide: 0,
+    slidesToShow: 1,
+    lazyLoad: true,
+    slidesToScroll: 1,
+    dots: true,
+    arrows: false,
+    responsive: [
+      {
+        breakpoint: 576,
+        settings: {
+          verticalSwiping: false,
+        }
+      }
+    ]
+  }
 
   return (
     <main className="main">
@@ -22,9 +46,22 @@ const Main = () => {
             </div>
           </div>
           <div className="main__column image">
-            <div className="image__wrapper">
-              <img src={mainImage} alt="Work table"/>
-            </div>
+
+                <Slider {...settings}>
+                  <div className="image__wrapper">
+                    <img src={mainImage1} alt="Work table"/>
+                  </div>
+
+                  <div className="image__wrapper">
+                    <img src={mainImage2} alt="Work table"/>
+                  </div>
+
+                  <div className="image__wrapper">
+                    <img src={mainImage3} alt="Work table"/>
+                  </div>
+                </Slider>
+
+
           </div>
         </div>
       </div>

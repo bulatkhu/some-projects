@@ -4,7 +4,6 @@ import photo2 from '../../../images/teachers/teacher-photo2.jpg'
 import photo3 from '../../../images/teachers/teacher-photo3.jpg'
 import Slider from 'react-slick'
 import "slick-carousel/slick/slick.css"
-import "slick-carousel/slick/slick-theme.css"
 import './teachers.scss'
 
 const Teachers = () => {

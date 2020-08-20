@@ -54,6 +54,15 @@ const Footer = () => {
               </ul>
             </div>
           </div>
+          <div className="footer__column columnFoot">
+            <div className="columnFoot__content">
+              <h5 className="columnFoot__title columnFoot__title__none">&nbsp;</h5>
+              <ul className="columnFoot__list">
+                <li className="columnFoot__link"><a href="/">EduCoin</a></li>
+                <li className="columnFoot__link"><a href="/">Кіру</a></li>
+              </ul>
+            </div>
+          </div>
         </div>
         <div className="footer__rights">
           <p>EDUCONLINE © 2020 Барлық құқықтар қорғалған</p>

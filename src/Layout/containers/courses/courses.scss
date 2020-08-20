@@ -1,5 +1,11 @@
 .courses {
+
   color: #fff;
+
+
+  @media (max-width: 576px) {
+    margin: 20px 0 0 0;
+  }
 
   &__header {
     background: #407BBF;
@@ -29,39 +35,6 @@
     background: #E5E5E5;
     @media (max-width: 576px) {
       padding: 40px 0 40px 0;
-    }
-  }
-}
-
-.tabs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-  justify-content: center;
-
-  &__item {
-    transition: all 0.4s ease-in;
-    cursor: pointer;
-    border-radius: 5px;
-    color: #FF5773;
-    text-align: center;
-    display: inline-block;
-    font-size: 18px;
-    border: 1px solid #FF5773;
-    background: #fff;
-    box-sizing: border-box;
-    padding: 10px 5px 10px 5px;
-    min-width: 110px;
-
-    @media (max-width: 576px) {
-      font-size: 14px;
-      //padding: 10px 5px 10px 5px;
-      min-width: 80px;
-    }
-
-    &.active-tab {
-      background: #FF5773;
-      color: #fff;
     }
   }
 }
@@ -124,6 +97,8 @@
       line-height: 28px;
       color: #626267;
       margin: 0 0 12px 0;
+      min-height: 44px;
+      padding: 0 5px 0 5px;
     }
 
     &_mark {

@@ -1,5 +1,8 @@
 .header_title {
   margin: 0 0 60px 0;
+  min-width: 140%;
+  transform: translateX(-10%);
+  z-index: 5;
 
   &__content {
     display: grid;
@@ -15,6 +18,11 @@
       background: #407BBF;
       padding: 15px 22px 15px 0;
       border-radius: 0 15px 15px 0;
+
+      &__red {
+        background: #FF5773;
+      }
+
       @media (max-width: 576px) {
         padding: 10px 18px 10px 0;
       }
@@ -55,6 +63,7 @@
 
     @media (max-width: 576px) {
       font-size: 16px;
+      max-width: 200px;
     }
   }
 }
@@ -62,9 +71,100 @@
 
 .literacy {
   padding: 40px 0 86px 0;
+  background: #fff;
+
+  .slick-slider {
+
+    .slick-track, .slick-slide div {
+      outline: none;
+      z-index: 5;
+    }
+
+    .slick-dots {
+      bottom: -40px;
+
+      li {
+        button {
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          border: 2px solid #FF5773;
+
+          &::before {
+            content: '';
+          }
+        }
+      }
+
+      li.slick-active {
+        button {
+          background: #FF5773;
+        }
+      }
+    }
+
+    .slick-next {
+      width: 40px;
+      height: 50px;
+      z-index: 10;
+      top: 58%;
+      right: 45px;
+
+      &::before {
+        content: '';
+      }
+
+      &::after {
+        content: '';
+        position: absolute;
+        right: -30px;
+        top: 15px;
+        border: 10px solid transparent;
+        border-left: 20px solid #FF5773;
+      }
+
+      @media (max-width: 576px) {
+        top: 30%;
+      }
+
+      @media (max-width: 480px) {
+        right: 25px;
+      }
+    }
+
+    .slick-prev {
+      width: 40px;
+      height: 50px;
+      z-index: 10;
+      top: 58%;
+      left: 45px;
+
+      &::before {
+        content: '';
+      }
+
+      &::after {
+        content: '';
+        position: absolute;
+        left: -30px;
+        top: 15px;
+        border: 10px solid transparent;
+        border-right: 20px solid #FF5773;
+      }
+
+      @media (max-width: 576px) {
+        top: 30%;
+      }
+
+      @media (max-width: 480px) {
+        left: 25px;
+      }
+    }
+
+  }
 
   @media (max-width: 576px) {
-    padding: 40px 0;
+    padding: 20px 0 60px 0;
   }
 
   &__container {
@@ -138,39 +238,73 @@
 
   &::before, &::after {
     content: '';
+    z-index: 1;
     position: absolute;
-    height: 118px;
-    width: 2px;
+    height: 86px;
+    width: 5px;
+    border-radius: 0 0 2px 2px;
     background: #626267;
+    top: -60px;
   }
 
   &::before {
-    left: 10%;
-    top: -118px;
+    left: 33.9px;
   }
 
   &::after {
-    right: 10%;
-    top: -118px;
+    right: 33.9px;
+  }
+
+  @media (max-width: 1200px) {
+    &::before, &::after {
+      content: none;
+      display: none;
+    }
+  }
+
+  &__dots {
+    display: block;
+    height: 1px;
+    min-width: 100%;
+    position: relative;
+
+    &::before, &::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: #fff;
+      border-radius: 50%;
+      top: 15px;
+    }
+
+    &::before {
+      left: 13px;
+    }
+
+    &::after {
+      right: 13px;
+    }
+
+    @media (max-width: 1200px) {
+      content: none;
+      display: none;
+    }
   }
 
   max-width: 320px;
   position: relative;
   margin: auto;
   background: #407BBF;
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
   border-radius: 33px;
   color: #fff;
   text-align: center;
   padding: 0.1px 13px 13px 13px;
-
-  @media (max-width: 992px) {
-    &::before, &::after {
-      content: none;
-    }
-  }
+  z-index: -1;
 
   &__title {
+    margin-top: 15px;
   }
 
   &__content {
@@ -187,7 +321,7 @@
       padding: 40px 20px 20px 15px;
 
       @media (max-width: 767px) {
-          padding: 15px;
+        padding: 15px;
       }
 
       input {
@@ -205,9 +339,9 @@
 
 
         @media (max-width: 767px) {
-            font-size: 15px;
-            line-height: 15px;
-            margin: 0 0 10px 0;
+          font-size: 15px;
+          line-height: 15px;
+          margin: 0 0 10px 0;
         }
       }
     }

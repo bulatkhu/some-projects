@@ -1,0 +1,173 @@
+.rateRow {
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
+  border-radius: 68px;
+  background: #FFFFFF;
+
+  td {
+    padding: 20px;
+    font-size: 24px;
+    line-height: 28px;
+    color: #626267;
+
+    &:first-child {
+      border-bottom-left-radius: 68px;
+      border-top-left-radius: 68px;
+      text-align: center;
+      padding: 0 0 0 33px;
+      font-size: 24px;
+      line-height: 28px;
+      color: #626267
+    }
+
+    &:last-child {
+      border-bottom-right-radius: 68px;
+      border-top-right-radius: 68px;
+      font-size: 18px;
+      line-height: 21px;
+      color: #FF5773;
+      padding: 15px 0 15px 0;
+    }
+
+    @media (max-width: 992px) {
+      font-size: 18px;
+      padding: 10px;
+
+      &:first-child {
+        padding: 0 0 0 15px;
+        font-size: 18px;
+      }
+
+      &:last-child {
+        font-size: 15px;
+        padding: 10px 0 10px 0;
+      }
+    }
+
+    @media (max-width: 767px) {
+      font-size: 12px;
+
+      &:first-child {
+        padding: 0 0 0 15px;
+        font-size: 12px;
+      }
+
+      &:last-child {
+        font-size: 12px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      padding: 5px;
+
+      &:first-child {
+        padding: 0 0 0 10px;
+      }
+    }
+
+  }
+
+  &__number {
+  }
+
+  &__name {
+  }
+
+  &__class {
+    @media (max-width: 576px) {
+      display: none;
+    }
+  }
+
+  &__school {
+  }
+
+  &__coins {
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 21px;
+    color: #FF5773;
+  }
+}
+
+.coins {
+
+  &__wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    column-gap: 20px;
+  }
+
+  &__image {
+    background: #FF5773;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+
+    @media (max-width: 767px) {
+      width: 30px;
+      height: 30px;
+    }
+
+    @media (max-width: 576px) {
+      display: none;
+    }
+  }
+
+  &__arc {
+    width: 17px;
+    height: 17px;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &__text {
+
+  }
+}
+
+
+.circle {
+
+  &__gold {
+    font-weight: 900;
+    color: #FFD749;
+    border: 7px solid #FFD749;
+    @media (max-width: 767px) {
+      border: 2px solid #FFD749;
+    }
+    @media (max-width: 576px) {
+      border: none;
+    }
+  }
+
+  &__silver {
+    font-weight: 900;
+    color: #CECECE;
+    border: 7px solid #CECECE;
+    @media (max-width: 767px) {
+      border: 2px solid #CECECE;
+    }
+    @media (max-width: 576px) {
+      border: none;
+    }
+  }
+
+  &__bronze {
+    font-weight: 900;
+    color: #A0744A;
+    border: 7px solid #A0744A;
+    @media (max-width: 767px) {
+      border: 2px solid #A0744A;
+    }
+    @media (max-width: 576px) {
+      border: none;
+    }
+  }
+}

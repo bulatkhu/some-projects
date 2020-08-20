@@ -8,6 +8,10 @@ import Courses from "./Layout/containers/courses/courses";
 import Marathon from "./Layout/containers/marathon/marathon";
 import Teachers from "./Layout/containers/teachers/teachers";
 import Footer from "./Layout/containers/footer/footer";
+import EduCoin from './Layout/containers/educoin/educoin'
+import Rating from './Layout/containers/rating/rating'
+import SocialLinks from './Layout/containers/socialLinks/socialLinks'
+// import ModalSignIn from './Layout/components/ModalSignIn/ModalSignIn'
 
 const menuLinks = [
   {name: 'Негізгі', to: '/'},
@@ -21,16 +25,25 @@ const menuLinks = [
 function App() {
   return (
     <div className="App">
+      {/*<ModalSignIn/>*/}
+
       <Menu
         links={menuLinks}
         isSignIn={false}
       />
+
+
       <Main/>
       <Features/>
-      <Literacy/>
       <Courses/>
+      <Literacy/>
       <Marathon/>
       <Teachers/>
+      <EduCoin/>
+      <Rating/>
+      <SocialLinks/>
+
+
       <Footer/>
     </div>
   );

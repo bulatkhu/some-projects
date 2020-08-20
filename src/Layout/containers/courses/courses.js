@@ -16,6 +16,14 @@ import tabItem14 from '../../../images/courses/tab-thing14.svg'
 import tabItem15 from '../../../images/courses/tab-thing15.svg'
 import './courses.scss'
 import ThingCard from '../../components/ThingCard/ThingCard'
+import Tabs from '../../components/Tabs/tabs'
+
+const dataTabs = [
+  {title: 'ҰБТ', id: '1'},
+  {title: 'НЗМ', id: '2'},
+  {title: 'БИЛ', id: '3'},
+  {title: 'Қосымша', id: '4'}
+]
 
 const boxThing = [
   {tab: 1, img: tabItem1, title: 'Қазақ әдебиеті', rating: '3,0', curPrice: '9999 ₸', oldPrice: '109999 TG'},
@@ -107,12 +115,14 @@ const Courses = () => {
 
       <div className="courses__header">
         <h2 className="courses__title">Курстарымыз</h2>
-        <div className="courses__tabs tabs">
-          <div className="tabs__item active-tab" data-tab="true" data-tabid="1">ҰБТ</div>
-          <div className="tabs__item" data-tab="true" data-tabid="2">НЗМ</div>
-          <div className="tabs__item" data-tab="true" data-tabid="3">БИЛ</div>
-          <div className="tabs__item" data-tab="true" data-tabid="4">Қосымша</div>
-        </div>
+
+        <Tabs data={dataTabs} />
+        {/*<div className="courses__tabs tabs">*/}
+        {/*  <div className="tabs__item active-tab" data-tab="true" data-tabid="1">ҰБТ</div>*/}
+        {/*  <div className="tabs__item" data-tab="true" data-tabid="2">НЗМ</div>*/}
+        {/*  <div className="tabs__item" data-tab="true" data-tabid="3">БИЛ</div>*/}
+        {/*  <div className="tabs__item" data-tab="true" data-tabid="4">Қосымша</div>*/}
+        {/*</div>*/}
       </div>
 
       <div className="courses__bottom bottom">

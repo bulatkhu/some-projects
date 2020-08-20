@@ -1,0 +1,511 @@
+.modalReg {
+
+  padding: 41px 0 41px 0;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  max-width: 700px;
+  margin: auto;
+  background: #fff;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.25);
+  border-radius: 40px;
+  text-align: center;
+  overflow: hidden;
+
+  @media (max-width: 767px) {
+    max-width: 90%;
+    padding: 10px 0 20px 0;
+    top: 10%;
+    transform: translateY(0%);
+    margin: auto auto 20px auto;
+  }
+
+  &__overlay {
+    position: fixed;
+    top: -200%;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
+    visibility: hidden;
+    transition: all 0.3s;
+    background: rgba(0, 0, 0, 0.3);
+
+    &.modalActive {
+      top: 0;
+      visibility: visible;
+      overflow: auto;
+    }
+  }
+
+  &__title {
+    margin: 0 25px;
+    font-weight: bold;
+    font-size: 48px;
+    line-height: 56px;
+    color: #03382E;
+
+    @media (max-width: 767px) {
+      font-size: 32px;
+    }
+
+
+    @media (max-width: 576px) {
+      font-size: 28px;
+    }
+  }
+
+  &__text {
+    font-size: 18px;
+    line-height: 25px;
+    color: #626267;
+    margin-bottom: 35px;
+    padding: 0 20px;
+
+    @media (max-width: 767px) {
+      font-size: 15px;
+    }
+
+    &__red {
+      color: #FF5773;
+
+    }
+  }
+
+  &__form {
+  }
+}
+
+.phoneConfirm {
+  &__confirm {
+    margin: 90px auto 0                                                                                                                                                                                                         auto;
+    max-width: 290px;
+    padding: 20px 10px;
+    background: #FFFFFF;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.25);
+    border-radius: 22px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    @media (max-width: 576px) {
+      max-width: 85%;
+    }
+  }
+
+  &__input {
+    box-sizing: border-box;
+    background: #FFFFFF;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    font-size: 18px;
+    line-height: 21px;
+    color: #000;
+    border: none;
+    padding: 11px 0;
+    max-width: 131px;
+    text-align: center;
+    margin: auto;
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
+    }
+  }
+
+  &__timer {
+    margin: 5px 0 5px 0;
+    text-align: center;
+    font-size: 18px;
+    line-height: 21px;
+    color: #252841;
+  }
+
+  &__button {
+    font-size: 12px;
+    line-height: 14px;
+    text-align: center;
+    color: #FFFFFF;
+    background: #407BBF;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
+    border-radius: 37px;
+    padding: 5px 0;
+    box-sizing: border-box;
+    min-width: 104px;
+    border: none;
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
+    }
+  }
+
+  &__success {
+    text-align: center;
+    padding: 40px 0;
+    margin: 49px auto 49px auto;
+    max-width: 290px;
+    font-size: 26px;
+    line-height: 30px;
+    color: #03382E;
+    background: #FFFFFF;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.25);
+    border-radius: 22px;
+
+    @media (max-width: 576px) {
+      max-width: 90%;
+    }
+
+    p {
+      margin: auto;
+      padding: 0;
+      max-width: 170px;
+    }
+  }
+}
+
+.regForm {
+  margin: auto;
+  width: 82%;
+
+  &__passEye {
+    position: relative;
+    display: inline-block;
+    font-size: 0;
+    cursor: pointer;
+
+    @media (max-width: 767px) {
+      display: block;
+    }
+
+    &:first-child {
+      margin: 0 16px 0 0;
+      @media (max-width: 767px) {
+        margin: 0 0 25px 0;
+      }
+
+      @media (max-width: 576px) {
+        margin-bottom: 10px;
+      }
+    }
+
+    span {
+      display: none;
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      display: inline-block;
+      top: 15px;
+      right: 15px;
+      width: 23px;
+      height: 16px;
+      background: url("../../../images/modalSignIn/eye.svg") no-repeat center;
+
+      @media (max-width: 576px) {
+        top: 10px;
+      }
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      right: 14px;
+      top: 22px;
+      display: inline-block;
+      background: #626267;
+      transform: rotate(-45deg);
+      height: 2px;
+      width: 25px;
+      opacity: 0;
+      transition: all 0.3s;
+
+      @media (max-width: 576px) {
+        top: 17px;
+      }
+    }
+
+    &.active {
+      &::after {
+        opacity: 1;
+      }
+    }
+  }
+
+  &__wrapper {
+    margin-bottom: 25px;
+
+    @media (max-width: 576px) {
+      margin-bottom: 10px;
+    }
+  }
+
+  &__label {
+
+    @media (max-width: 767px) {
+      display: block;
+    }
+
+    &:first-child {
+      margin-right: 16px;
+
+      @media (max-width: 767px) {
+        margin: 0 0 25px 0;
+      }
+
+      @media (max-width: 576px) {
+        margin-bottom: 10px;
+      }
+    }
+
+    span {
+      display: none;
+    }
+  }
+
+  &__input {
+    background: #FFFFFF;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
+    border: none;
+    padding: 11px;
+    font-size: 18px;
+    color: #000;
+    text-indent: 12px;
+    box-sizing: border-box;
+
+    @media (max-width: 767px) {
+      width: 100%;
+    }
+
+    @media (max-width: 576px) {
+      padding: 8px;
+      font-size: initial;
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.25);
+    }
+  }
+
+  &__checkbox {
+  }
+
+  &__promo {
+  }
+
+  &__button {
+    background: #FF5773;
+    border: none;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
+    border-radius: 48px;
+    font-size: 24px;
+    line-height: 28px;
+    text-align: center;
+    color: #FFFFFF;
+    padding: 11px 2px;
+    min-width: 165px;
+
+    &:focus {
+      outline: none;
+      text-decoration: underline;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.25);
+    }
+  }
+}
+
+.regCheckbox {
+  margin: 0 0 20px 0;
+
+  &__text {
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 18px;
+    color: #707070;
+    vertical-align: middle;
+  }
+
+  &__red {
+    color: #FF5773;
+  }
+
+  &__input {
+    vertical-align: middle;
+    margin: 2px 7px 0 0;
+  }
+}
+
+.regPromo {
+  padding-bottom: 25px;
+
+  &__wrapper {
+
+
+    &__ofDescr {
+      //@media (max-width: 690px) {
+      //  padding-bottom: 60px;
+      //}
+    }
+  }
+
+  &__label {
+    display: inline-block;
+    position: relative;
+
+    &:first-child {
+      margin-bottom: 12px;
+    }
+  }
+
+  &__block {
+    transition: all 0.3s;
+    opacity: 0;
+    visibility: hidden;
+    max-width: 0;
+  }
+
+  &__info {
+    display: flex;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid #FF5773;
+    width: 15px;
+    height: 15px;
+    top: 50%;
+    right: -30px;
+    transform: translateY(-50%);
+
+    @media (max-width: 424px) {
+      top: 170%;
+      right: 0;
+    }
+
+    &:hover {
+      .regPromo__block {
+        opacity: 1;
+        //display: inline-block;
+        visibility: visible;
+      }
+    }
+  }
+
+  &__description {
+    z-index: 3;
+    padding: 5px;
+    display: block;
+    position: absolute;
+    right: -22px;
+    transform: translateX(100%);
+    top: 8px;
+    min-width: 120px;
+    background: #FFFFFF;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
+    font-family: Kurale, sans-serif;
+    text-align: left;
+    font-size: 11px;
+    line-height: 12px;
+    color: #626267;
+
+    @media (max-width: 690px) {
+      min-width: 340px;
+      right: 320px;
+      top: 35px;
+      //border-bottom-right-radius: 20%;
+    }
+
+    @media (max-width: 424px) {
+      min-width: 240px;
+      //right: 270px;
+      right: 245px;
+      border-bottom-right-radius: 10px;
+      border-bottom-left-radius: 10px;
+      top: 30px;
+    }
+
+    p {
+      margin: 0;
+      padding: 0;
+
+      &:first-child {
+        &::before {
+          content: '';
+          display: block;
+          position: absolute;
+          left: -10px;
+          top: 0;
+          height: 12px;
+          width: 12px;
+          background: #fff;
+          clip-path: polygon(100% 0, 0 0, 100% 100%);
+
+          @media (max-width: 690px) {
+            display: none;
+          }
+        }
+      }
+    }
+
+    .pos-rel {
+      position: relative;
+    }
+
+    &__red {
+      color: #FF5773;
+    }
+  }
+
+  &__input {
+    min-width: 230px;
+    text-indent: initial;
+    font-size: 17px;
+  }
+
+  &__labelCheckbox {
+    font-size: 13px;
+    line-height: 18px;
+    color: #707070;
+    vertical-align: middle;
+  }
+
+  &__checkbox {
+    vertical-align: middle;
+    margin: 0 7px 0 0;
+  }
+}
+
+.label__hidden {
+  display: none;
+}
+
+.myTriangle {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  background: #fff;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
+  /*z-index: -1;*/
+  right: -35px;
+  top: 3px;
+  position: absolute;
+  transform: rotate(-150deg) skewX(-60deg) scale(1, 0.436);
+
+  @media (max-width: 690px) {
+    display: none;
+  }
+}
+
+.pos-rel {
+  position: relative;
+}
+
+.margin0 {
+  margin: 0 !important;
+}
