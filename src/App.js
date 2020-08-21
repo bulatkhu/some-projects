@@ -5,13 +5,13 @@ import Main from "./Layout/containers/main/main";
 import Features from "./Layout/containers/features/features";
 import Literacy from "./Layout/containers/literacy/literacy";
 import Courses from "./Layout/containers/courses/courses";
-import Marathon from "./Layout/containers/marathon/marathon";
+// import Marathon from "./Layout/containers/marathon/marathon";
 import Teachers from "./Layout/containers/teachers/teachers";
 import Footer from "./Layout/containers/footer/footer";
 import EduCoin from './Layout/containers/educoin/educoin'
 import Rating from './Layout/containers/rating/rating'
 import SocialLinks from './Layout/containers/socialLinks/socialLinks'
-// import ModalSignIn from './Layout/components/ModalSignIn/ModalSignIn'
+import Progress from './Layout/containers/progress/progress'
 
 const menuLinks = [
   {name: 'Негізгі', to: '/'},
@@ -36,11 +36,12 @@ function App() {
       <Main/>
       <Features/>
       <Courses/>
-      <Literacy/>
-      <Marathon/>
+      {/*<Marathon/>*/}
       <Teachers/>
       <EduCoin/>
       <Rating/>
+      <Progress/>
+      <Literacy/>
       <SocialLinks/>
 
 

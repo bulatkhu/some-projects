@@ -6,8 +6,7 @@ import TableItem from '../../components/TableItem/TableItem'
 const ratingTabs = [
   {title: 'ҰБТ', id: 1},
   {title: 'НЗМ', id: 2},
-  {title: 'БИЛ', id: 3},
-  {title: 'Қосымша', id: 4}
+  {title: 'БИЛ', id: 3}
 ]
 
 const tableItems = [
