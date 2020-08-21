@@ -11,13 +11,12 @@ const FeatureBox = ({title, text}) => {
         <div className="featBody__line80"/>
         <div className="featBody__line70"/>
       </div>
-      {
-        text
-          ? <div className="featBody__bottom">
-              <p className="featBody__text">{text}</p>
-            </div>
-          : <div className="featBody__line60"/>
-      }
+
+      <div className="featBody__bottom">
+        <p className="featBody__text">{text}</p>
+      </div>
+
+      <div className="featBody__line60"/>
     </div>
   )
 }

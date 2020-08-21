@@ -12,6 +12,7 @@ import EduCoin from './Layout/containers/educoin/educoin'
 import Rating from './Layout/containers/rating/rating'
 import SocialLinks from './Layout/containers/socialLinks/socialLinks'
 import Progress from './Layout/containers/progress/progress'
+import Prices from './Layout/containers/prices/prices'
 
 const menuLinks = [
   {name: 'Негізгі', to: '/'},
@@ -42,6 +43,7 @@ function App() {
       <Rating/>
       <Progress/>
       <Literacy/>
+      <Prices/>
       <SocialLinks/>
 
 

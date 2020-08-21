@@ -19,8 +19,8 @@ import FeatureBox from '../../components/FeatureBox/FeatureBox'
 
 const FeatureBoxes = [
   {title: 'ҰБТ', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam in nam sed bibendum.'},
-  {title: 'НЗМ'},
-  {title: 'БИЛ'},
+  {title: 'НЗМ', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam in nam sed bibendum.'},
+  {title: 'БИЛ', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam in nam sed bibendum.'},
 ]
 
 const FeatureItems = [

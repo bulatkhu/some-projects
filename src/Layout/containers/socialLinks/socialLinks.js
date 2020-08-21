@@ -12,31 +12,37 @@ const SocialLinks = () => {
     <section className="socialLinks">
       <div className="socialLinks__container _container">
         <div className="socialLinks__boxLinks boxLinks">
+
           <a href="/" className="boxLinks__item item__t">
             <span className="item__wrapper">
               <img src={tIcon} alt="social"/>
             </span>
           </a>
+
           <a href="/" className="boxLinks__item item__whatsapp">
             <span className="item__wrapper">
               <img src={whatsappIcon} alt="social"/>
             </span>
           </a>
+
           <a href="/" className="boxLinks__item item__telegram">
             <span className="item__wrapper">
               <img src={telegramIcon} alt="social"/>
             </span>
           </a>
+
           <a href="/" className="boxLinks__item item__instagram">
             <span className="item__wrapper">
               <img src={instagramIcon} alt="social"/>
             </span>
           </a>
+
           <a href="/" className="boxLinks__item item__arrowUp">
             <span className="item__wrapper">
               <img src={arrowUpIcon} alt="arrowUp"/>
             </span>
           </a>
+
         </div>
       </div>
     </section>
