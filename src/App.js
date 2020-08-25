@@ -1,54 +1,41 @@
 import React from 'react'
+import {BrowserRouter, Switch, Route} from 'react-router-dom'
 import './App.scss'
-import Menu from './Layout/containers/menu/menu'
-import Main from "./Layout/containers/main/main";
-import Features from "./Layout/containers/features/features";
-import Literacy from "./Layout/containers/literacy/literacy";
-import Courses from "./Layout/containers/courses/courses";
-// import Marathon from "./Layout/containers/marathon/marathon";
-import Teachers from "./Layout/containers/teachers/teachers";
-import Footer from "./Layout/containers/footer/footer";
-import EduCoin from './Layout/containers/educoin/educoin'
-import Rating from './Layout/containers/rating/rating'
-import SocialLinks from './Layout/containers/socialLinks/socialLinks'
-import Progress from './Layout/containers/progress/progress'
-import Prices from './Layout/containers/prices/prices'
+import Menu from './Layout/landing/containers/menu/menu'
+import Footer from './Layout/landing/containers/footer/footer'
+import Landing from './Layout/landing/landing'
+import Login from './Layout/login/login'
 
 const menuLinks = [
   {name: 'Негізгі', to: '/'},
+  {name: 'Ұстаздар', to: '/'},
   {name: 'Курстар', to: '/'},
   {name: 'Материалдар', to: '/'},
-  {name: 'Профильt', to: '/'},
-  {name: 'Сілтеме', to: '/'},
-  {name: 'Байланыс', to: '/'},
+  {name: 'Блог', to: '/'},
+  {name: 'EduCoin', to: '/'},
 ]
 
 function App() {
   return (
-    <div className="App">
-      {/*<ModalSignIn/>*/}
-
-      <Menu
-        links={menuLinks}
-        isSignIn={false}
-      />
+    <BrowserRouter>
+      <div className="App">
+        <Menu links={menuLinks} isSignIn={false}/>
 
 
-      <Main/>
-      <Features/>
-      <Courses/>
-      {/*<Marathon/>*/}
-      <Teachers/>
-      <EduCoin/>
-      <Rating/>
-      <Progress/>
-      <Literacy/>
-      <Prices/>
-      <SocialLinks/>
+        <Switch>
+          <Route path="/login">
+            <Login/>
+          </Route>
+          <Route exact path="/">
+            <Landing/>
+          </Route>
+        </Switch>
 
 
-      <Footer/>
-    </div>
+
+        <Footer/>
+      </div>
+    </BrowserRouter>
   );
 }
 
