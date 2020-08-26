@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react'
+import {Link} from 'react-router-dom'
 import './menu.scss'
 import logo from '../../../../images/landing/header/logo.svg'
 import avatar from '../../../../images/landing/header/avatar-icon.svg'
@@ -64,9 +65,9 @@ const Menu = ({links, isSignIn}) => {
       <header className="menu">
         <div className="_container">
           <div className="menu__container">
-            <a href="/" className="menu__logo">
+            <Link to="/" className="menu__logo">
               <img src={logo} alt="Logo"/>
-            </a>
+            </Link>
             <div className="menu__nav">
               <div
                 onClick={toggleMenuHandler}
@@ -82,7 +83,7 @@ const Menu = ({links, isSignIn}) => {
                       className="list__link"
                       key={index + link}
                     >
-                      <a href={link.to}>{link.name}</a>
+                      <Link to={link.to}>{link.name}</Link>
                     </li>)
                   )}
                 </ul>

@@ -109,6 +109,16 @@
             span {
               font-size: 0;
             }
+
+            .loginNav__linkMessages {
+              position: absolute;
+              top: 5px;
+              right: 5px;
+
+              span {
+                font-size: 12px;
+              }
+            }
           }
         }
       }
@@ -138,15 +148,28 @@
 
   &__linkChat {
     justify-content: space-between;
+    align-items: center !important;
     padding-right: 17px;
+    position: relative;
   }
 
   &__linkMessages {
-    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #FF5773;
     border-radius: 50%;
-    min-height: 14px;
-    min-width: 14px;
+    height: 20px;
+    min-width: 20px;
+    padding: 0 5px 0 5px;
+    box-sizing: border-box;
 
+    span {
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 15px;
+      color: #FFF;
+    }
   }
 
   &__linkWrapper {
@@ -170,7 +193,7 @@
     column-gap: 7px;
 
     span {
-      transition: color .2s ease-in-out, font-size .3s ease-in-out;
+      transition: color .2s ease-in-out, font-size .5s .1s ease-in-out;
     }
 
     .loginNav__linkIcon {
@@ -193,6 +216,13 @@
       .loginNav__linkIcon {
         svg path {
           fill: #fff;
+        }
+      }
+
+      .loginNav__linkMessages {
+        background: #fff;
+        span {
+          color: #FF5773;
         }
       }
     }

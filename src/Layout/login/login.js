@@ -90,7 +90,9 @@ const Login = () => {
                 <span>Чат</span>
               </div>
 
-              <div className="loginNav__linkMessages">9</div>
+              <div className="loginNav__linkMessages">
+                <span>1</span>
+              </div>
             </NavLink>
           </li>
           <li className="loginNav__item">
