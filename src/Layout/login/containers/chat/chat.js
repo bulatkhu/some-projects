@@ -83,7 +83,10 @@ const Chat = () => {
 
             <div className="chatDisplay__description">
               <h2 className="chatDisplay__title">Tutor Name</h2>
-              <div className="chatDisplay__status">Active</div>
+              <div className="chatDisplay__status">
+                <span className="chatDisplay__activeDot"/>
+                <span>Active</span>
+              </div>
             </div>
 
             {/*<div className="chatDisplay__content">*/}
@@ -92,33 +95,73 @@ const Chat = () => {
             <div className="chatDisplay__chat chatMsgBox">
 
               <div className="chatMsgBox__message">
-                <span className="chatMsgBox__text">Malesuada nam vitae dignissim.</span>
+                <div className="chatMsgBox__wrapper">
+                  <span className="chatMsgBox__text">Malesuada nam vitae dignissim.</span>
                 <span className="chatMsgBox__time">15:05</span>
+                </div>
               </div>
 
               <div className="chatMsgBox__message">
-                <span className="chatMsgBox__text">Quam nunc ut vitae. Lore</span>
+                <div className="chatMsgBox__wrapper">
+                  <span className="chatMsgBox__text">Quam nunc ut vitae. Lore</span>
                 <span className="chatMsgBox__time">15:05</span>
+                </div>
               </div>
 
               <div className="chatMsgBox__message">
-                <span className="chatMsgBox__text">Lorem upson</span>
+                <div className="chatMsgBox__wrapper">
+                  <span className="chatMsgBox__text">Lorem upson</span>
                 <span className="chatMsgBox__time">15:05</span>
+                </div>
               </div>
 
               <div className="chatMsgBox__message chatMsgBox__ownMessage">
-                <span className="chatMsgBox__text">Malesuada nam vitae dignissim.</span>
+                <div className="chatMsgBox__wrapper">
+                  <span className="chatMsgBox__text">Malesuada nam vitae dignissim.</span>
                 <span className="chatMsgBox__time">15:05</span>
+                </div>
               </div>
 
               <div className="chatMsgBox__message chatMsgBox__ownMessage">
-                <span className="chatMsgBox__text">Quam nunc ut vitae. Lore</span>
+                <div className="chatMsgBox__wrapper">
+                  <span className="chatMsgBox__text">Quam nunc ut vitae. Lore</span>
                 <span className="chatMsgBox__time">15:05</span>
+                </div>
               </div>
 
               <div className="chatMsgBox__message chatMsgBox__ownMessage">
-                <span className="chatMsgBox__text">Lorem upson</span>
+                <div className="chatMsgBox__wrapper">
+                  <span className="chatMsgBox__text">Lorem upson</span>
                 <span className="chatMsgBox__time">15:05</span>
+                </div>
+              </div>
+
+              <div className="chatMsgBox__message">
+                <div className="chatMsgBox__wrapper">
+                  <span className="chatMsgBox__text">Malesuada nam vitae dignissim.</span>
+                  <span className="chatMsgBox__time">15:05</span>
+                </div>
+              </div>
+
+              <div className="chatMsgBox__message">
+                <div className="chatMsgBox__wrapper">
+                  <span className="chatMsgBox__text">Malesuada nam vitae dignissim.</span>
+                  <span className="chatMsgBox__time">15:05</span>
+                </div>
+              </div>
+
+              <div className="chatMsgBox__message chatMsgBox__ownMessage">
+                <div className="chatMsgBox__wrapper">
+                  <span className="chatMsgBox__text">Quam nunc ut vitae. Lore</span>
+                  <span className="chatMsgBox__time">15:05</span>
+                </div>
+              </div>
+
+              <div className="chatMsgBox__message chatMsgBox__ownMessage">
+                <div className="chatMsgBox__wrapper">
+                  <span className="chatMsgBox__text">Quam nunc ut vitae. Lore</span>
+                  <span className="chatMsgBox__time">15:05</span>
+                </div>
               </div>
 
             </div>

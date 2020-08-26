@@ -1,10 +1,19 @@
 .chat {
   padding: 75px 0 102px 0;
 
+  @media (max-width: 576px) {
+    padding: 30px 0 30px 0;
+  }
+
   &__content {
     display: flex;
-    column-gap: 35px;
+    column-gap: 15px;
+    row-gap: 20px;
 
+    @media (max-width: 767px) {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
   }
 
   &__column {
@@ -21,6 +30,12 @@
     &:last-child {
       padding: 11px 0 19px 0;
       flex-basis: 60%;
+    }
+
+    @media (max-width: 767px) {
+      &:first-child, &:last-child {
+        flex-basis: 100%;
+      }
     }
   }
 
@@ -57,7 +72,7 @@
   &__searchButton {
     position: absolute;
     top: 50%;
-    transform: translateY(-50%);
+    transform: translateY(-65%);
     right: 10%;
 
     width: 30px;
@@ -85,6 +100,11 @@
       border-radius: 3px;
     }
 
+    @media (max-width: 576px) {
+      margin: 0 8px 15px 0;
+      max-height: 200px;
+    }
+
   }
 
   &__box {
@@ -98,6 +118,10 @@
     &:hover {
       background: #F5F5F5;
     }
+
+    @media (max-width: 576px) {
+      padding: 5px 10px;
+    }
   }
 
   &__wrapper {
@@ -110,8 +134,9 @@
   }
 
   &__img {
-    width: 44px;
-    height: 44px;
+    min-width: 44px;
+    max-width: 46px;
+    min-height: auto;
     border-radius: 50%;
     overflow: hidden;
 
@@ -129,6 +154,10 @@
     font-size: 14px;
     line-height: 19px;
     color: #626267;
+
+    @media (max-width: 576px) {
+      font-size: 13px;
+    }
   }
 
   &__subject {
@@ -151,6 +180,10 @@
 
     span {
       color: #FFF;
+    }
+
+    @media (max-width: 576px) {
+      font-size: 12px;
     }
   }
 }
@@ -175,14 +208,37 @@
   }
 
   &__status {
-    font-weight: bold;
-    font-size: 14px;
-    line-height: 19px;
-    color: #626267
+    position: relative;
+    display: inline-block;
+
+    span {
+      font-weight: bold;
+      font-size: 14px;
+      line-height: 19px;
+      color: #626267
+    }
+  }
+
+  &__activeDot, &__unActiveDot {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-25%);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    left: -10px;
+  }
+
+  &__activeDot {
+    background: #FF5773;
+  }
+
+  &__unActiveDot {
+    background: #000;
   }
 
   &__chat {
-    width: 100%;
+    width: 99%;
   }
 
   &__formWrapper {
@@ -192,6 +248,7 @@
   }
 
   &__form {
+    padding: 10px 0 0 0;
     width: 100%;
   }
 
@@ -266,15 +323,49 @@
 }
 
 .chatMsgBox {
-  display: flex;
-  flex-direction: column;
+  display: grid;
   row-gap: 15px;
-  justify-content: flex-end;
+  max-height: 314px;
+  overflow: auto;
 
   padding: 20px;
   box-sizing: border-box;
 
+  @media (max-width: 576px) {
+    padding: 8px;
+  }
+
+  &::-webkit-scrollbar {
+    position: relative;
+    right: 10px;
+    width: 3px;
+    height: 3px;
+  }
+  &::-webkit-scrollbar-track-piece {
+    background-color: #BDBDBD;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #FF3870;
+    border-radius: 3px;
+  }
+
+  &__wrapper {
+    display: inline-block;
+    position: relative;
+    border: 1px solid #FF5773;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    overflow: hidden;
+
+    @media (max-width: 576px) {
+      border-radius: 10px;
+    }
+  }
+
   &__message {
+    &:last-child {
+      margin-bottom: 10px;
+    }
   }
 
   &__text {
@@ -285,19 +376,36 @@
     line-height: 19px;
     color: #FF5773;
     background: #FFFFFF;
-    border: 1px solid #FF5773;
     box-sizing: border-box;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
-    border-radius: 56px;
+
+    @media (max-width: 576px) {
+      font-size: 13px;
+      padding: 3px 7.5px;
+    }
+  }
+
+  &__time {
+    font-size: 10px;
+    line-height: 10px;
+    color: #FF5773;
+    position: absolute;
+    bottom: -12px;
+    right: 12px;
   }
 
   &__ownMessage {
     display: flex;
     justify-content: flex-end;
 
-    span {
-      background: #FF5773;
-      color: #FFFFFF;
+    .chatMsgBox__wrapper {
+      .chatMsgBox__text {
+        background: #FF5773;
+        color: #FFFFFF;
+      }
+
+      .chatMsgBox__time {
+        left: 10px;
+      }
     }
   }
 }
