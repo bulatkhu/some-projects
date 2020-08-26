@@ -9,8 +9,7 @@ import MyCourses from './containers/myCourses/myCourses'
 const Login = () => {
   const {path, url} = useRouteMatch()
 
-  console.log('path', path)
-  console.log('url', url)
+  console.log('path:', path, 'url:', url)
 
   const toggleNavBar = event => {
 
@@ -48,7 +47,7 @@ const Login = () => {
         </div>
 
         <ul className="loginNav__column loginNav__list">
-          <li className="loginNav__item active">
+          <li className="loginNav__item">
             <NavLink exact className="loginNav__link" to="/login">
               <div className="loginNav__linkIcon">
                 <svg width="23" height="19" viewBox="0 0 23 19" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -80,14 +79,18 @@ const Login = () => {
             </NavLink>
           </li>
           <li className="loginNav__item">
-            <NavLink className="loginNav__link" to="/login/chat">
-              <div className="loginNav__linkIcon">
-                <svg width="20" height="14" viewBox="0 0 20 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M18.2422 0H1.75781C0.788555 0 0 0.788555 0 1.75781V11.9446C0 12.9139 0.788555 13.7024 1.75781 13.7024H18.2422C19.2114 13.7024 20 12.9139 20 11.9446V1.75781C20 0.788555 19.2114 0 18.2422 0ZM18.0128 1.17188L17.7782 1.36723L10.6974 7.26336C10.2933 7.59984 9.70664 7.59984 9.30258 7.26336L2.22184 1.36723L1.98723 1.17188H18.0128ZM1.17188 2.01789L6.94109 6.82191L1.17188 10.6615V2.01789ZM18.2422 12.5305H1.75781C1.47469 12.5305 1.23789 12.3287 1.18363 12.0614L7.8807 7.6043L8.55273 8.16391C8.97203 8.51305 9.48606 8.68762 10 8.68762C10.514 8.68762 11.028 8.51305 11.4473 8.16391L12.1194 7.6043L18.8164 12.0613C18.7621 12.3287 18.5253 12.5305 18.2422 12.5305ZM18.8281 10.6615L13.0589 6.82195L18.8281 2.01789V10.6615Z" fill="#FF5773"/>
-                </svg>
+            <NavLink className="loginNav__link loginNav__linkChat" to="/login/chat">
+              <div className="loginNav__linkWrapper">
+                <div className="loginNav__linkIcon">
+                  <svg width="20" height="14" viewBox="0 0 20 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18.2422 0H1.75781C0.788555 0 0 0.788555 0 1.75781V11.9446C0 12.9139 0.788555 13.7024 1.75781 13.7024H18.2422C19.2114 13.7024 20 12.9139 20 11.9446V1.75781C20 0.788555 19.2114 0 18.2422 0ZM18.0128 1.17188L17.7782 1.36723L10.6974 7.26336C10.2933 7.59984 9.70664 7.59984 9.30258 7.26336L2.22184 1.36723L1.98723 1.17188H18.0128ZM1.17188 2.01789L6.94109 6.82191L1.17188 10.6615V2.01789ZM18.2422 12.5305H1.75781C1.47469 12.5305 1.23789 12.3287 1.18363 12.0614L7.8807 7.6043L8.55273 8.16391C8.97203 8.51305 9.48606 8.68762 10 8.68762C10.514 8.68762 11.028 8.51305 11.4473 8.16391L12.1194 7.6043L18.8164 12.0613C18.7621 12.3287 18.5253 12.5305 18.2422 12.5305ZM18.8281 10.6615L13.0589 6.82195L18.8281 2.01789V10.6615Z" fill="#FF5773"/>
+                  </svg>
+                </div>
+
+                <span>Чат</span>
               </div>
 
-              <span>Чат</span>
+              <div className="loginNav__linkMessages">9</div>
             </NavLink>
           </li>
           <li className="loginNav__item">

@@ -56,20 +56,25 @@ const MyCourses = () => {
 
           {webinarItems.map((item, index) => {
             return (
-              <div className="myCoursesBottom__column">
+              <div key={index} className="myCoursesBottom__column">
 
-                <div className="myCoursesBottom__img">
-                  <img src={item.img} alt="item"/>
+
+                <div className="myCoursesBottom__topWrapper">
+                  <div className="myCoursesBottom__img">
+                    <img src={item.img} alt="item"/>
+                  </div>
+
+                  <div className="myCoursesBottom__text">{item.text}</div>
                 </div>
 
-                <div className="myCoursesBottom__text">{item.text}</div>
+                <div className="myCoursesBottom__wrapper">
+                  <div className="myCoursesBottom__date">
+                    <a href={item.link}>{item.date}</a>
+                  </div>
 
-                <div className="myCoursesBottom__date">
-                  <a href={item.link}>{item.date}</a>
-                </div>
-
-                <div className="myCoursesBottom__percent">
-                  <span>{item.progress}</span>
+                  <div className="myCoursesBottom__percent">
+                    <span>{item.progress}</span>
+                  </div>
                 </div>
               </div>
             )

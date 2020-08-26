@@ -67,6 +67,23 @@
 }
 .myCoursesBottom {
 
+  &__topWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 20px;
+  }
+
+  &__wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    @media (max-width: 576px) {
+      justify-content: space-evenly;
+    }
+  }
+
   &__content {
     display: flex;
     flex-direction:column;
@@ -75,23 +92,24 @@
 
   &__column {
     min-height: 114px;
-    align-items: center;justify-content: space-between;
+    align-items: center;
+    justify-content: space-between;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
     border-radius: 13px;
     background: #FFF;
     display: grid;
     padding: 0 30px 0 20px;
-    grid-template-columns: auto 45% 20% 5%;
+    grid-template-columns: auto minmax(160px, 30%);
     color: #626267;
 
     @media (max-width: 767px) {
       padding: 0 20px 0 10px;
-      grid-template-columns: auto 40% 25% minmax(30px, 8%);
     }
 
     @media (max-width: 576px) {
-      grid-template-columns: auto auto auto;
-
+      grid-template-columns: auto;
+      row-gap: 10px;
+      padding: 10px 20px 10px 10px;
     }
   }
 
@@ -135,6 +153,12 @@
     align-items: center;
     background: url("../../../../images/login/myCourses/circlePercent.png") center no-repeat;
     background-size: contain;
+
+    @media (max-width: 576px) {
+      font-size: 11px;
+      width: 30px;
+      height: 30px;
+    }
   }
 }
 
