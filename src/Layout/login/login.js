@@ -4,6 +4,7 @@ import './login.scss'
 import avatar from '../../images/login/navbar/profilePhoto.jpg'
 import eduCoin from '../../images/landing/educoin/eduCoin.svg'
 import MyCourses from './containers/myCourses/myCourses'
+import Chat from './containers/chat/chat'
 
 
 const Login = () => {
@@ -166,6 +167,12 @@ const Login = () => {
             <Route exact path={path}>
 
               <MyCourses/>
+
+            </Route>
+
+            <Route exact path={path + '/chat'}>
+
+              <Chat/>
 
             </Route>
           </Switch>

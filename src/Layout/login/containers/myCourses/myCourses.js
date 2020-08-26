@@ -6,9 +6,6 @@ import thingItem2 from '../../../../images/login/myCourses/courseItem2.jpg'
 import thingItem3 from '../../../../images/login/myCourses/courseItem3.jpg'
 import thingItem4 from '../../../../images/login/myCourses/courseItem4.jpg'
 import CourseBox from '../../components/courseBox/courseBox'
-// import thingItem1 from '../../../../images/login/myCourses/courseItem.jpg'
-// import thingItem1 from '../../../../images/login/myCourses/courseItem.jpg'
-// import thingItem1 from '../../../../images/login/myCourses/courseItem.jpg'
 
 const courseItems = [
   {courseImg, filling: '67%', text: 'жалғастыру'},

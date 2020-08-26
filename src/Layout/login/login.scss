@@ -1,5 +1,6 @@
 .loginNav {
   position: relative;
+  background: #F0F5FB;
 
   @media (max-width: 576px) {
     padding: 60px 0 0 0;
@@ -229,7 +230,7 @@
   }
 
   &__body {
-    background: #F0F5FB;
+    //background: #F0F5FB;
     flex: 1 0 auto;
   }
 }
