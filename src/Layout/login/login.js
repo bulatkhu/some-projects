@@ -5,6 +5,8 @@ import avatar from '../../images/login/navbar/profilePhoto.jpg'
 import eduCoin from '../../images/landing/educoin/eduCoin.svg'
 import MyCourses from './containers/myCourses/myCourses'
 import Chat from './containers/chat/chat'
+import PromoCode from './containers/promoCode/promoCode'
+import EditProfile from './containers/editProfile/editProfile'
 
 
 const Login = () => {
@@ -32,11 +34,11 @@ const Login = () => {
         </div>
 
         <div className="loginNav__column loginNav__profile loginProf">
-          <div className="loginProf__img">
+          <div className="loginProf__img loginProf__column">
             <img src={avatar} alt="avatar"/>
           </div>
 
-          <div className="loginProf__description">
+          <div className="loginProf__description loginProf__column">
             <div className="loginProf__name">Student Name</div>
             <div className="loginProf__coins">
               <div className="loginProf__educoin">
@@ -173,6 +175,19 @@ const Login = () => {
             <Route exact path={path + '/chat'}>
 
               <Chat/>
+
+            </Route>
+
+
+            <Route exact path={path + '/promo'}>
+
+              <PromoCode/>
+
+            </Route>
+
+            <Route exact path={path + '/edit'}>
+
+              <EditProfile/>
 
             </Route>
           </Switch>

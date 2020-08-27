@@ -63,12 +63,6 @@
     display: flex;
     align-items: center;
     min-height: 40px;
-    column-gap: 20px;
-
-    @media (max-width: 992px) {
-      column-gap: 10px;
-    }
-
 
     @media (max-width: 576px) {
       order: 2;
@@ -104,9 +98,6 @@
         opacity: 1;
         visibility: visible;
       }
-    }
-    @media (max-width: 640px) {
-      //padding: 0 0 20px 20px ;
     }
   }
 }
@@ -158,6 +149,18 @@
 }
 
 .login {
+
+  &__column {
+    margin: 0 20px 0 0 !important;
+
+    @media (max-width: 992px) {
+      margin: 0 10px 0 0 !important;
+    }
+
+    &:last-child {
+      margin: 0 !important;
+    }
+  }
 
   &__lang {
     background: transparent;

@@ -1,0 +1,101 @@
+.promoCode {
+  padding: 47px 0 40px 0;
+  color: #626267;
+  font-weight: normal;
+
+  @media (max-width: 576px) {
+    padding: 15px 0 40px 0;
+  }
+
+  &__title {
+    font-weight: bold;
+    font-size: 24px;
+    margin-bottom: 23px;
+
+    @media (max-width: 576px) {
+      font-size: 21px;
+      margin-bottom: 15px;
+    }
+  }
+
+  &__text {
+    font-size: 18px;
+    line-height: 25px;
+    margin-bottom: 31px;
+
+    @media (max-width: 576px) {
+      font-size: 15px;
+    }
+  }
+
+  &__create {
+  }
+}
+
+
+.promoCreate {
+
+  &__text {
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 33px;
+    margin: 0 5px 0 0;
+
+    @media (max-width: 576px) {
+      display: block;
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 20px;
+    }
+  }
+
+  &__form {
+    display: inline-block;
+    @media (max-width: 576px) {
+      display: block;
+      text-align: center;
+    }
+  }
+
+  &__input {
+    background: #FFFFFF;
+    border-radius: 20px;
+    color: #FF5773;
+    min-height: 52px;
+    text-align: center;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 33px;
+    border: none;
+    max-width: 152px;
+    margin-right: 10px;
+
+    @media (max-width: 576px) {
+      min-height: 30px;
+      font-size: 19px;
+      max-width: 110px;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &__button {
+    min-height: 52px;
+    padding: 0 23px;
+    background: #FF5773;
+    border-radius: 20px;
+    border: none;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 33px;
+    color: #FFFFFF;
+
+    @media (max-width: 576px) {
+      min-height: 30px;
+      padding: 0 15px;
+      font-size: 19px;
+    }
+  }
+}

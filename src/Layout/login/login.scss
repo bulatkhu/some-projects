@@ -29,7 +29,6 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-end;
-    row-gap: 25px;
     position: absolute;
     overflow: hidden;
 
@@ -46,12 +45,12 @@
       @media (max-width: 767px) {
         padding: 2px 0 40px 0;
         width: 35px;
-        row-gap: 5px;
       }
 
       .btnBurger {
         //padding: 0 5px 0 0;
         padding: 0 15px 0 0;
+        margin: 0 0 10px 0;
 
         @media (max-width: 767px) {
           padding: 0 6px 0 0;
@@ -85,9 +84,6 @@
 
         .loginProf__description {
           display: none;
-          //.loginProf__name, .loginProf__coins {
-          //  font-size: 0;
-          //}
         }
       }
 
@@ -140,13 +136,13 @@
 
   &__column {
     min-width: 80%;
+    margin: 0 0 25px 0;
   }
 
   &__profile {
     max-width: 80%;
     display: flex;
     align-items: center;
-    column-gap: 10px;
   }
 
   &__list {
@@ -187,7 +183,6 @@
 
   &__linkWrapper {
     display: flex;
-    column-gap: 7px;
   }
 
   &__link {
@@ -203,15 +198,15 @@
 
     display: flex;
     align-items: stretch;
-    column-gap: 7px;
 
     span {
       transition: color .2s ease-in-out, font-size .5s .1s ease-in-out;
     }
 
     .loginNav__linkIcon {
-      max-width: 25px;
+      width: 20px;
       max-height: 25px;
+      margin-right: 7px;
       svg {
         width: 100% !important;
         height: 100% !important;
@@ -227,6 +222,8 @@
       background: #FF5773;
       color: #fff;
       .loginNav__linkIcon {
+        margin-right: 7px;
+
         svg path {
           fill: #fff;
         }
@@ -249,6 +246,14 @@
 
 
 .loginProf {
+
+  &__column {
+    margin-right: 10px;
+
+    &:last-child {
+      margin: 0;
+    }
+  }
 
   &__img {
     width: 90px;
@@ -281,7 +286,6 @@
     color: #626267;
     display: flex;
     align-items: center;
-    column-gap: 5px;
     transition: all 2s;
   }
 
@@ -293,6 +297,8 @@
     align-items: center;
     background: #FF5773;
     border-radius: 50%;
+
+    margin-right: 7px;
 
 
     img {
@@ -308,7 +314,6 @@
   align-items: center;
   height: 30px;
   padding: 0 21px 0 0;
-  margin: 0 0 10px 0;
 
   &__menu {
     cursor: pointer;

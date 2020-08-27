@@ -90,7 +90,7 @@ const Menu = ({links, isSignIn}) => {
               </nav>
             </div>
             <div className="menu__login login">
-              <select className="login__lang">
+              <select className="login__column login__lang">
                 <option value="kz">KZ</option>
                 <option value="ru">RU</option>
               </select>
@@ -104,8 +104,8 @@ const Menu = ({links, isSignIn}) => {
                     </>
 
                   : <>
-                      <button onClick={signInModalHandler} className="login__card login__card__icon">Кіру</button>
-                      <button onClick={registerModalHandler} className="login__button">Тіркелу</button>
+                      <button onClick={signInModalHandler} className="login__column login__card login__card__icon">Кіру</button>
+                      <button onClick={registerModalHandler} className="login__column login__button">Тіркелу</button>
                     </>
               }
             </div>
