@@ -1,0 +1,39 @@
+.item_mark {
+  margin: 0 0 10px 0;
+  min-width: 70%;
+
+  &__value {
+    font-size: 24px;
+    line-height: 28px;
+  }
+
+  &__stars {
+    display: inline-block;
+    unicode-bidi: bidi-override;
+    direction: rtl;
+
+    span.grey {
+      display: inline-block;
+      &::before {
+        content: "\2605";
+        color: #626267;
+      }
+    }
+
+    span {
+
+      display: inline-block;
+      position: relative;
+      width: 15px;
+
+      &::before {
+        content: "\2605";
+        position: absolute;
+        top: -24px;
+        left: 5px;
+        font-size: 20px;
+        color: #FF5773;
+      }
+    }
+  }
+}

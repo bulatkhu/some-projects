@@ -22,10 +22,11 @@
   }
 
   &__content {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 176px);
+
     column-gap: 17px;
     row-gap: 13px;
-    flex-wrap: wrap;
 
     @media (max-width: 767px) {
       justify-content: center;
@@ -85,8 +86,7 @@
   }
 
   &__content {
-    display: flex;
-    flex-direction:column;
+    display: grid;
     row-gap: 16px;
   }
 

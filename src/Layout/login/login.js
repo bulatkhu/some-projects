@@ -7,6 +7,9 @@ import MyCourses from './containers/myCourses/myCourses'
 import Chat from './containers/chat/chat'
 import PromoCode from './containers/promoCode/promoCode'
 import EditProfile from './containers/editProfile/editProfile'
+import Payment from './containers/payment/payment'
+import TeacherPage from '../general/teacherPage/teacherPage'
+import Subject from '../general/subject/subject'
 
 
 const Login = () => {
@@ -166,30 +169,15 @@ const Login = () => {
       <div className="loginNav__body">
         <div className="loginNav__container _container">
           <Switch>
-            <Route exact path={path}>
-
-              <MyCourses/>
-
-            </Route>
-
-            <Route exact path={path + '/chat'}>
-
-              <Chat/>
-
-            </Route>
+            <Route exact path={path} component={MyCourses}/>
+            <Route exact path={path + '/chat'} component={Chat}/>
+            <Route exact path={path + '/promo'} component={PromoCode}/>
+            <Route exact path={path + '/edit'} component={EditProfile}/>
+            <Route exact path={path + '/payment'} component={Payment}/>
 
 
-            <Route exact path={path + '/promo'}>
-
-              <PromoCode/>
-
-            </Route>
-
-            <Route exact path={path + '/edit'}>
-
-              <EditProfile/>
-
-            </Route>
+            <Route path={path + '/teacher'} component={TeacherPage}/>
+            <Route path={path + '/subject'} component={Subject}/>
           </Switch>
         </div>
       </div>

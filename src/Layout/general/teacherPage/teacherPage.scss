@@ -1,0 +1,520 @@
+.teacherPage {
+  padding: 85px 0 30px 0;
+  color: #626267;
+
+  @media (max-width: 992px) {
+    padding: 30px 0 30px 0;
+  }
+
+  &__top {
+  }
+
+  &__middle {
+  }
+
+  &__bottom {
+  }
+}
+
+.topTeachPage {
+  margin-bottom: 60px;
+
+  @media (max-width: 767px) {
+    margin-bottom: 30px;
+  }
+
+  &__content {
+    display: flex;
+    justify-content: space-between;
+
+    @media (max-width: 992px) {
+      flex-direction: column;
+    }
+  }
+
+  &__column {
+    &:first-child {
+      margin: 0 40px 0 0 ;
+
+      @media (max-width: 992px) {
+        display: flex;
+        justify-content: space-between;
+        margin: 0;
+      }
+
+      @media (max-width: 576px) {
+        flex-direction: column;
+      }
+    }
+  }
+
+  &__profile {
+    background: #FFFFFF;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    padding: 42px 0 37px 0;
+    margin: auto auto 30px auto;
+    width: 271px;
+
+    display: inline-grid;
+    justify-content: center;
+    text-align: center;
+
+    @media (max-width: 576px) {
+      width: 90%;
+    }
+  }
+
+  &__img {
+    max-width: 176px;
+    max-height: 176px;
+    border-radius: 50%;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &__name {
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 33px;
+  }
+
+  &__subject {
+    font-size: 18px;
+    line-height: 25px;
+    text-align: center;
+    margin: 0 0 10px 0;
+  }
+
+  &__socialLinks {
+    text-align: center;
+  }
+
+  &__socialLink {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    background: #FF5773;
+    border-radius: 50%;
+
+    margin-right: 5px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  &__wrapperVideo {
+    width: 210px;
+    height: 178px;
+    background: #FFF;
+    border-radius: 20px;
+    margin: auto;
+    position: relative;
+
+    @media (max-width: 992px) {
+      display: inline-block;
+    }
+  }
+
+  &__video {
+    display: inline-block;
+
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 85%;
+    height: 85%;
+    border-radius: 20px;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: url("../../../images/general/teacher/play-icon.png") center center;
+      width: 39px;
+      height: 39px;
+      z-index: 2;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &__description {
+  }
+}
+
+.teacherDescr {
+
+  &__top {
+    margin-bottom: 77px;
+
+    @media (max-width: 992px) {
+      margin-bottom: 25px;
+    }
+  }
+
+  &__name {
+    font-weight: bold;
+    font-size: 36px;
+    line-height: 49px;
+    margin-bottom: 5px;
+
+    @media (max-width: 992px) {
+      margin: 0 0 5px 0;
+      font-size: 30px;
+    }
+  }
+
+  &__qualification {
+    margin: 2px 0 20px 0;
+
+    @media (max-width: 992px) {
+      font-size: 20px;
+    }
+  }
+
+  &__wrapper {
+  }
+
+  &__students, &__stars, &__reviews, &__aboutText {
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 21px;
+  }
+
+  &__students {
+    margin: 10px 100px auto auto;
+    display: inline-block;
+  }
+
+  &__stars {
+    display: inline-block !important;
+    min-width: auto;
+    color: #FF5773;
+    line-height: initial;
+
+    .item_mark__value {
+      font-weight: normal;
+      font-size: 18px;
+      line-height: 21px;
+    }
+  }
+
+  &__reviews {
+  }
+
+  &__about {
+  }
+
+  &__aboutTitle {
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 28px;
+
+    @media (max-width: 767px) {
+      font-size: 19px;
+    }
+  }
+
+  &__aboutText {
+    @media (max-width: 767px) {
+      font-size: 14px;
+    }
+  }
+}
+
+.middleTeachPage {
+  margin-bottom: 120px;
+
+  &__title {
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 28px;
+    margin-bottom: 53px;
+  }
+
+  &__content {
+    display: grid;
+    justify-content: center;
+    grid-template-columns: repeat(auto-fill, 256px);
+    column-gap: 50px;
+    row-gap: 50px;
+  }
+
+  &__column {
+  }
+}
+
+
+.bottomTeachPage {
+
+  &__title {
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 28px;
+    margin-bottom: 32px;
+  }
+
+  &__content {
+    margin: 0 0 32px 0;
+  }
+
+  &__column {
+    padding: 21px 25px;
+    background: #FFFFFF;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    margin: 0 0 10px 0;
+  }
+
+  &__comment {
+    display: flex;
+    align-items: center;
+
+    @media (max-width: 576px) {
+      flex-direction: column;
+    }
+  }
+
+  &__img {
+    min-width: 84px;
+    min-height: 84px;
+    margin-right: 35px;
+    border-radius: 50%;
+    overflow: hidden;
+
+    @media (max-width: 576px) {
+      margin-right: 0;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &__about {
+  }
+
+  &__name {
+    font-weight: normal;
+    font-size: 24px;
+    line-height: 28px;
+    margin: 0 0 3px 0;
+    @media (max-width: 576px) {
+      text-align: center;
+    }
+  }
+
+  &__stars {
+    @media (max-width: 576px) {
+      text-align: center;
+    }
+    .item_mark__stars {
+      span {
+        transform: translateX(-5px);
+      }
+    }
+  }
+
+  &__starsValue {
+    display: none;
+  }
+
+  &__text {
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 16px;
+  }
+
+  &__addComment {
+  }
+}
+
+.addComment {
+  padding: 21px 0 21px 25px;
+  display: grid;
+  align-items: center;
+
+  grid-template-columns: 84px 1fr;
+  grid-template-rows: 117px;
+
+  @media (max-width: 992px) {
+    padding: 21px 0 21px 0;
+  }
+
+  @media (max-width: 576px) {
+    grid-template-columns: auto ;
+    row-gap: 20px;
+    grid-template-rows: auto  117px;
+  }
+
+  &__inputWrapper {
+    position: relative;
+    height: 100%;
+    padding: 0 0 0 20px;
+    background: url("../../../images/general/teacher/triangle.png") left center no-repeat;
+
+    @media (max-width: 576px) {
+      padding: 20px 0 0 0;
+      background: none;
+    }
+
+    &::before {
+      content: '';
+      top: 50%;
+      position: absolute;
+      width: 10px;
+      left: 10px;
+      transform: translateY(-50%);
+      height: 15px;
+      background: #FFF;
+      clip-path: polygon(100% 0, 0 50%, 100% 100%);
+
+      @media (max-width: 576px) {
+        content: none;
+      }
+    }
+
+    @media (max-width: 576px) {
+      &::after {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 2px;
+        width: 20px;
+        height: 20px;
+        transform: rotate(90deg) translateY(50%);
+        background: url("../../../images/general/teacher/triangle.png") top center no-repeat;
+      }
+    }
+  }
+
+  &__input {
+    background: #FFFFFF;
+    z-index: 2;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
+    border: none;
+    border-radius: 20px;
+    min-width: 100%;
+    min-height: 100%;
+    padding: 17px 23px;
+    box-sizing: border-box;
+    resize: none;
+    font-size: 18px;
+    line-height: 21px;
+    transition: all .3s;
+    font-family: sans-serif;
+
+
+    &::placeholder {
+      font-family: sans-serif;
+      font-weight: normal;
+      font-size: 18px;
+      line-height: 21px;
+      color: #BDBDBD;
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+    }
+  }
+
+  &__buttons {
+    margin: 0 10px 10px 0;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    border-radius: 20px;
+    background: #fff;
+  }
+
+  &__btn {
+    background: #FF5773;
+    border-radius: 26px;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 21px;
+    min-width: 92px;
+    padding: 5px;
+    border: none;
+    color: #FFFFFF;
+  }
+
+  &__image {
+    width: 84px;
+    height: 84px;
+    border-radius: 50%;
+    overflow: hidden;
+
+    @media (max-width: 576px) {
+      margin: auto;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .rating__stars {
+    unicode-bidi: bidi-override;
+    direction: rtl;
+    display: inline-block;
+    margin: 0 7px 0 0;
+    cursor: pointer;
+
+    input {
+      visibility: hidden;
+      max-width: 0;
+      max-height: 0;
+      opacity: 0;
+      margin: -4px;
+    }
+
+    >span {
+      display: inline-block;
+      position: relative;
+      width: 20px;
+      font-size: 23px;
+
+      &:before {
+        color: #bdbdbd;
+        transition: color .3s ease;
+        content: "\2605";
+        position: absolute;
+      }
+      &:hover, &.active {
+        &:before {
+          color: #FF5773;
+          content: "\2605";
+          position: absolute;
+        }
+        ~ {
+          span {
+            &:before {
+              color: #FF5773;
+              content: "\2605";
+              position: absolute;
+            }
+          }
+        }
+      }
+    }
+  }
+
+}

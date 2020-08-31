@@ -61,9 +61,9 @@
   }
 
   &__content {
-    display: flex;
+    display: grid;
     justify-content: center;
-    flex-wrap: wrap;
+    grid-template-columns: repeat(auto-fill, 256px);
     column-gap: 50px;
     row-gap: 50px;
   }
@@ -137,36 +137,7 @@
   }
 }
 
-.item_mark {
-  margin: 0 0 10px 0;
-  min-width: 70%;
 
-  &__value {
-    font-size: 24px;
-    line-height: 28px;
-  }
-
-  &__stars {
-    unicode-bidi: bidi-override;
-    direction: rtl;
-
-    span {
-
-      display: inline-block;
-      position: relative;
-      width: 15px;
-
-      &::before {
-        content: "\2605";
-        position: absolute;
-        top: -24px;
-        left: 5px;
-        font-size: 20px;
-        color: #FF5773;
-      }
-    }
-  }
-}
 
 .item_price {
 

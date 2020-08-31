@@ -13,11 +13,12 @@
 }
 
 .boxLinks {
-  display: flex;
-  justify-content: flex-end;
-  flex-wrap: wrap;
-  row-gap: 10px;
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: end;
   column-gap: 20px;
+  row-gap: 10px;
+
 
   &__item {
     width: 100px;

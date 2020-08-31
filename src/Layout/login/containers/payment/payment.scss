@@ -1,0 +1,248 @@
+.payment {
+  padding: 110px 0 30px 0;
+
+  @media (max-width: 1200px) {
+    padding: 30px 0 30px 0;
+  }
+
+  &__title {
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 25px;
+    color: #626267
+  }
+
+  &__table {
+    text-align: center;
+  }
+
+  &__newPayments {
+    margin: 0 0 48px 0 ;
+  }
+
+  &__history {
+  }
+
+  &__tableTitle {
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 19px;
+    color: #626267;
+
+    @media (max-width: 992px) {
+      font-size: 12px;
+    }
+  }
+
+  &__tableItem {
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 15px;
+    color: #626267;
+
+    &:first-child {
+      text-align: left;
+      padding: 0 0 0 24px;
+
+      @media (max-width: 1200px) {
+        padding: 0 0 0 10px;
+      }
+
+      @media (max-width: 992px) {
+        font-size: 11px;
+      }
+
+      @media (max-width: 576px) {
+        font-size: 12px;
+      }
+    }
+  }
+
+  &__row {
+    min-height: 47px;
+    background: #FFFFFF;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
+    border-radius: 28px;
+    margin: 0 0 17px 0;
+  }
+
+  &__button {
+    display: inline-block;
+    background: #FF5773;
+    border-radius: 16.5px;
+    min-width: 90%;
+    border: none;
+    padding: 9px 5px;
+    box-sizing: border-box;
+
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 15px;
+    color: #FFFFFF;
+
+    @media (max-width: 992px) {
+      font-size: 11px;
+    }
+  }
+}
+.newPaying {
+
+  &__title {
+    margin: 0 0 17px 0;
+  }
+
+  &__table {
+  }
+
+  &__column {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 130px;
+    align-items: center;
+
+    @media (max-width: 992px) {
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr 50px;
+    }
+
+    @media (max-width: 767px) {
+      grid-template-columns: 1fr 1fr 1fr 1fr 50px;
+    }
+
+    @media (max-width: 576px) {
+      grid-template-columns: 1fr 1fr 50px;
+    }
+  }
+
+  &__item {
+
+    @media (max-width: 767px) {
+      &:nth-child(5) {
+        display: none;
+      }
+    }
+
+    @media (max-width: 576px) {
+      &:nth-child(2), &:nth-child(3) {
+        display: none;
+      }
+    }
+  }
+
+  &__littleDate {
+  }
+
+  &__littleDate, &__currency {
+    display: block;
+    font-weight: normal;
+    font-size: 8px;
+    line-height: 11px;
+  }
+
+  &__bigDate {
+  }
+
+  &__currency {
+    display: block;
+  }
+
+  &__educoin {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    @media (max-width: 992px) {
+      font-size: 11px;
+    }
+  }
+
+  &__coin {
+    display: inline-block;
+    width: 13px;
+    height: 13px;
+    margin: 0 5px 0 5px;
+    background: url("../../../../images/login/payment/educoin-icon.png") center;
+  }
+
+  &__button {
+  }
+}
+.historyPayment {
+
+  &__download {
+  }
+
+  &__currency, &__littleDate {
+    display: block;
+  }
+
+  &__littleDate {
+    font-size: 8px;
+    line-height: 11px;
+  }
+
+  &__title {
+    margin: 0 0 17px 0;
+  }
+
+  &__content, &__column {
+    text-align: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr minmax(auto, 103px) 1fr 1fr 1fr 130px;
+    align-items: center;
+
+    @media (max-width: 992px) {
+      grid-template-columns: 1fr 1fr minmax(auto, 103px) 1fr 1fr 1fr 50px;
+    }
+
+    @media (max-width: 767px) {
+      grid-template-columns: 1fr 1fr minmax(auto, 103px) 1fr 1fr 50px;
+    }
+
+    @media (max-width: 576px) {
+      grid-template-columns: 1fr 1fr 50px;
+    }
+  }
+
+  &__column {
+
+  }
+
+  &__item {
+    @media (max-width: 767px) {
+      &:nth-child(6) {
+        display: none;
+      }
+    }
+
+    @media (max-width: 576px) {
+      &:nth-child(2), &:nth-child(3), &:nth-child(4) {
+        display: none;
+      }
+    }
+  }
+
+  &__buttonWrapper {
+    text-align: right;
+  }
+
+  &__button {
+    display: inline-block;
+    background: #FF5773;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
+    border-radius: 36px;
+    max-width: 137px;
+    border: none;
+    padding: 9px 25px;
+    box-sizing: border-box;
+
+    font-size: 14px;
+    line-height: 19px;
+    text-align: center;
+    color: #FFFFFF;
+  }
+
+  &__downloadText {
+    @media (max-width: 992px) {
+      display: none;
+    }
+  }
+}

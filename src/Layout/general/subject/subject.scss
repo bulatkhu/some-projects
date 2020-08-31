@@ -1,0 +1,264 @@
+.subject {
+  padding: 92px 0 40px 0;
+  color: #626267;
+
+  &__content {
+    display: grid;
+    grid-template-columns: 1fr 374px;
+    column-gap: 40px;
+  }
+
+  &__column {
+    margin-bottom: 20px;
+  }
+
+  &__titles {
+    margin: 0 0 50px 0;
+  }
+
+  &__title {
+    font-weight: bold;
+    font-size: 36px;
+    line-height: 42px;
+    margin: 0 0 6px 0 ;
+  }
+
+  &__subTitle {
+    margin: 0;
+  }
+
+  &__info {
+  }
+
+  &__box {
+  }
+
+
+
+  &__text {
+    margin-top: 20px;
+    margin-bottom: 60px;
+  }
+
+  &__textTitle {
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 28px;
+  }
+
+  &__mainText {
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 21px;
+  }
+
+  &__bottom {
+  }
+
+  &__item {
+  }
+}
+
+.subjectInfo {
+
+  &__rating {
+    display: flex;
+    align-items: center;
+    margin: 0 0 10px 0;
+  }
+
+  &__stars {
+    display: inline-block;
+    min-width: auto;
+    margin: 0 10px 0 0;
+  }
+
+  &__students {
+  }
+
+  &__person {
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 21px;
+    margin: 0 0 21px 0;
+  }
+
+  &__name {
+    margin-right: 15%;
+  }
+
+  &__language {
+    padding: 0 0 0 26px;
+    background: url("../../../images/general/subject/globe.png") left center no-repeat;
+  }
+
+  &__buttons {
+    margin-bottom: 26px;
+  }
+
+  &__btn {
+    padding: 10px 20px;
+    box-sizing: border-box;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 16px;
+    color: #FFFFFF;
+    background-color: #FF5773;
+    border-radius: 7px;
+    border: none;
+    margin: 0 6px 0 0;
+  }
+
+  &__wishlist {
+    padding-left: 26px;
+    background: #FF5773 url("../../../images/general/subject/heart.png") 9px center no-repeat;
+  }
+
+  &__part {
+    padding-right: 30px;
+    background: #FF5773 url("../../../images/general/subject/arrow.png") 90% center no-repeat;
+  }
+
+  &__present {
+    padding-left: 40px;
+    background: #FF5773 url("../../../images/general/subject/present.png") 19px center no-repeat;
+  }
+
+  &__studying {
+    padding: 22px 33px;
+    background: #FFFFFF;
+    border-radius: 11px;
+  }
+
+  &__studyingTitle {
+    margin: 0 0 22px 0;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 28px;
+  }
+
+  &__labels {
+    padding: 0 0 0 15px;
+  }
+
+  &__label {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 0 12px 0;
+
+    span {
+      &:last-child {
+        position: relative;
+
+        &:before {
+          content: '';
+          width: 5px;
+          height: 5px;
+          border-radius: 50%;
+          background-color:  #FF5773;
+          position: absolute;
+          top: 50%;
+          transform: translateY(-1px);
+          left: -10px;
+        }
+      }
+    }
+  }
+}
+
+.subjectItem {
+  border: 1px solid #FF5773;
+  box-sizing: border-box;
+  border-radius: 20px;
+  background: #FFF;
+
+  &__top {
+    padding: 22px 30px;
+    background: #FFF;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+  }
+
+  &__bottom {
+    transition: all .3s;
+    height: 0;
+    visibility: hidden;
+  }
+
+  &.active {
+    .subjectItem__bottom {
+      height: fit-content !important;
+      visibility: visible !important;
+    }
+  }
+}
+.subjectItemTop {
+  margin: -1px;
+  display: flex;
+  justify-content: space-between;
+
+  &__left {
+  }
+
+  &__toggle {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-top: 2px solid #FF5773;
+    border-right: 2px solid #FF5773;
+    margin-right: 0px;
+    transform: rotate(135deg) translateY(50%);
+  }
+
+  &__title {
+    margin: 0 0 0 25px;
+  }
+
+  &__right {
+  }
+
+  &__lecture {
+    margin: 0 20px 0 0 ;
+  }
+
+  &__duration {
+  }
+}
+.subjectItemButton {
+
+  &__item {
+    padding: 21px 30px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__left, &__right {
+    display: flex;
+    align-items: center;
+  }
+
+  &__right {
+  }
+
+  &__icon {
+    display: inline-block;
+    margin: 0 17px 0 0 ;
+  }
+
+  &__title, &__preview {
+    font-size: 18px;
+    line-height: 21px;
+    text-decoration-line: underline;
+    color: #FF5773;
+  }
+
+  &__title {
+  }
+
+  &__preview {
+    margin: 0 32px 0 0 ;
+  }
+
+  &__duration {
+  }
+}

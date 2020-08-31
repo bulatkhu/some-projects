@@ -1,11 +1,8 @@
 import React from 'react'
+import Stars from '../../../general/stars/stars'
 
 const ThingCard = ({item}) => {
   const {img, rating, curPrice, tab} = item
-  const currentRating = rating.charAt(0)
-
-  const array = [1, 2, 3, 4, 5]
-  array.length = currentRating
 
   return (
     <div className="bottom__column" data-item="true" data-forid={tab}>
@@ -13,12 +10,12 @@ const ThingCard = ({item}) => {
         <div className="bottom__item_img">
           { img ? <img src={img} alt="thing"/> : null }
         </div>
-        <div className="bottom__item_mark item_mark">
-          <span className="item_mark__value">{rating}</span>
-          <span className="item_mark__stars">
-            {array.map((item) => <span key={item}/>)}
-          </span>
-        </div>
+
+        <Stars
+          className="bottom__item_mark"
+          classNameOfValue=""
+          rating={rating}
+        />
         <div className="bottom__item_price item_price">
           <span className="item_price__current">{curPrice}</span>
         </div>

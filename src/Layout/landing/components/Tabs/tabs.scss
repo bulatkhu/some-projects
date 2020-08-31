@@ -1,7 +1,6 @@
 .tabs {
   display: flex;
   flex-wrap: wrap;
-  gap: 15px;
   justify-content: center;
 
   &__item {
@@ -17,6 +16,13 @@
     box-sizing: border-box;
     padding: 10px 5px 10px 5px;
     min-width: 110px;
+    margin: 0 15px 15px 0;
+
+    &:last-child {
+      margin: 0 0 15px 0;
+    }
+
+
 
     @media (max-width: 576px) {
       font-size: 14px;

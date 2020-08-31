@@ -169,7 +169,7 @@ const Chat = () => {
 
             <form method="post" action="/addMessage" className="chatDisplay__form">
               <div className="chatDisplay__formWrapper">
-                <input className="chatDisplay__input" type="text"/>
+                <input placeholder="Input message" className="chatDisplay__input" type="text"/>
                 <input className="chatDisplay__file" type="file" multiple/>
                 <button className="chatDisplay__button" type="submit">Send</button>
               </div>

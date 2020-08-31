@@ -1,18 +1,18 @@
 import React from 'react'
-import tabItem1 from '../../../../images/landing/courses/tab-thing1.jpg'
-import tabItem2 from '../../../../images/landing/courses/tab-thing2.jpg'
-import tabItem3 from '../../../../images/landing/courses/tab-thing3.jpg'
-import tabItem4 from '../../../../images/landing/courses/tab-thing4.jpg'
-import tabItem5 from '../../../../images/landing/courses/tab-thing5.jpg'
-import tabItem6 from '../../../../images/landing/courses/tab-thing6.jpg'
-import tabItem7 from '../../../../images/landing/courses/tab-thing7.jpg'
-import tabItem8 from '../../../../images/landing/courses/tab-thing8.jpg'
-import tabItem9 from '../../../../images/landing/courses/tab-thing9.jpg'
-import tabItem10 from '../../../../images/landing/courses/tab-thing10.jpg'
-import tabItem11 from '../../../../images/landing/courses/tab-thing11.jpg'
-import tabItem12 from '../../../../images/landing/courses/tab-thing12.jpg'
-import tabItem13 from '../../../../images/landing/courses/tab-thing13.jpg'
 import './courses.scss'
+import tabItem1 from '../../../../images/general/courses/tab-thing1.jpg'
+import tabItem2 from '../../../../images/general/courses/tab-thing2.jpg'
+import tabItem3 from '../../../../images/general/courses/tab-thing3.jpg'
+import tabItem4 from '../../../../images/general/courses/tab-thing4.jpg'
+import tabItem5 from '../../../../images/general/courses/tab-thing5.jpg'
+import tabItem6 from '../../../../images/general/courses/tab-thing6.jpg'
+import tabItem7 from '../../../../images/general/courses/tab-thing7.jpg'
+import tabItem8 from '../../../../images/general/courses/tab-thing8.jpg'
+import tabItem9 from '../../../../images/general/courses/tab-thing9.jpg'
+import tabItem10 from '../../../../images/general/courses/tab-thing10.jpg'
+import tabItem11 from '../../../../images/general/courses/tab-thing11.jpg'
+import tabItem12 from '../../../../images/general/courses/tab-thing12.jpg'
+import tabItem13 from '../../../../images/general/courses/tab-thing13.jpg'
 import ThingCard from '../../../landing/components/ThingCard/ThingCard'
 import Tabs from '../../../landing/components/Tabs/tabs'
 
@@ -114,7 +114,7 @@ const Courses = () => {
       <div className="courses__header">
         <h2 className="courses__title">Курстарымыз</h2>
 
-        <Tabs data={dataTabs} />
+        <Tabs useDefTabs={false} data={dataTabs} />
       </div>
 
       <div className="courses__bottom bottom">
