@@ -210,7 +210,13 @@
     border-radius: 16px;
     padding: 31px 0;
     box-shadow: 0 0 10px 2px #cccccc;
+    transition: all .3s;
+    cursor: pointer;
 
+    &:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 14px 2px #cccccc;
+    }
   }
 
   &__img {

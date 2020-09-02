@@ -122,7 +122,45 @@
       padding: 9px 65px;
       border: none;
       font-size: 24px;
+      transition: all .3s;
       border-radius: 23.5px;
+
+      span {
+        display: inline-block;
+        transition: all .3s;
+        position: relative;
+
+
+
+        &::after {
+          content: "";
+          transition: all .3s;
+          position: absolute;
+          bottom: -3px;
+          width: 0;
+          height: 2px;
+          left: 50%;
+          transform: translateX(-50%);
+          background: #FFF;
+        }
+      }
+
+      &:hover {
+
+        span {
+          background: #f81a3b;
+
+          &::after {
+            width: 100%;
+          }
+        }
+      }
+
+      &:focus {
+        outline: none;
+        background: #ff0228;
+      }
+
       @media (max-width: 992px) {
         padding: 9px 40px;
         font-size: 16px;

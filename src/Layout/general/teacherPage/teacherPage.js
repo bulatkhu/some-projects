@@ -1,9 +1,9 @@
-import React, {useRef} from 'react'
+import React from 'react'
 import './teacherPage.scss'
 import teacherIcon from '../../../images/general/teacher/teacher-icon.jpg'
-import telegramIcon from '../../../images/general/teacher/telegram.png'
-import instagramIcon from '../../../images/general/teacher/instagram.png'
-import whatsappIcon from '../../../images/general/teacher/whatsapp.png'
+import telegramIcon from '../../../images/general/teacher/telegram-svg.svg'
+import instagramIcon from '../../../images/general/teacher/instagram-svg.svg'
+import whatsappIcon from '../../../images/general/teacher/whatsapp-svg.svg'
 
 import videoIcon from '../../../images/general/teacher/video-img.jpg'
 import tabItem1 from '../../../images/general/courses/tab-thing1.jpg'
@@ -20,44 +20,32 @@ import ThingCard from '../../landing/components/ThingCard/ThingCard'
 
 import studentsIcon from '../../../images/general/teacher/students-icon.jpg'
 import Stars from '../stars/stars'
+import Comments from '../../login/components/comments/comments'
 
 
 const boxThing = [
-  {tab: 1, img: tabItem1,  rating: '3,0', curPrice: '9999 ₸'},
-  {tab: 1, img: tabItem2,  rating: '5,0', curPrice: '9999 ₸'},
-  {tab: 1, img: tabItem3,  rating: '1,0', curPrice: '9999 ₸'},
-  {tab: 1, img: tabItem4,  rating: '2,0', curPrice: '9999 ₸'},
-  {tab: 1, img: tabItem5,  rating: '5,0', curPrice: '9999 ₸'},
-  {tab: 1, img: tabItem6,  rating: '3,0', curPrice: '9999 ₸'},
-  {tab: 1, img: tabItem7,  rating: '5,0', curPrice: '9999 ₸'},
-  {tab: 1, img: tabItem8,  rating: '4,0', curPrice: '9999 ₸'},
-  {tab: 1, img: tabItem9,  rating: '2,0', curPrice: '9999 ₸'},
+  {tab: 1, img: tabItem1, rating: '3,0', curPrice: '9999 ₸'},
+  {tab: 1, img: tabItem2, rating: '5,0', curPrice: '9999 ₸'},
+  {tab: 1, img: tabItem3, rating: '1,0', curPrice: '9999 ₸'},
+  {tab: 1, img: tabItem4, rating: '2,0', curPrice: '9999 ₸'},
+  {tab: 1, img: tabItem5, rating: '5,0', curPrice: '9999 ₸'},
+  {tab: 1, img: tabItem6, rating: '3,0', curPrice: '9999 ₸'},
+  {tab: 1, img: tabItem7, rating: '5,0', curPrice: '9999 ₸'},
+  {tab: 1, img: tabItem8, rating: '4,0', curPrice: '9999 ₸'},
+  {tab: 1, img: tabItem9, rating: '2,0', curPrice: '9999 ₸'},
   {tab: 1, img: tabItem10, rating: '4,0', curPrice: '9999 ₸'},
 ]
 
+const commentsInfo = {
+  comments: [
+    { name: 'Бекзат Ералиев 1', icon: studentsIcon, stars: '3', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sit pulvinar quam at ut sed. Sociis ullamcorper fusce libero ultricies. Ante quis vulputate nunc dolor dolor. Quis blandit eu vel sapien pulvinar volutpat dolor. Ligula arcu facilisi quis cursus nibh urna mi. Cursus auctor fusce diam nullam tempor mauris.'},
+    { name: 'Бекзат Ералиев 2', icon: studentsIcon, stars: '2', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sit pulvinar quam at ut sed. Sociis ullamcorper fusce libero ultricies. Ante quis vulputate nunc dolor dolor. Quis blandit eu vel sapien pulvinar volutpat dolor. Ligula arcu facilisi quis cursus nibh urna mi. Cursus auctor fusce diam nullam tempor mauris.'},
+    { name: 'Бекзат Ералиев 3', icon: studentsIcon, stars: '1', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sit pulvinar quam at ut sed. Sociis ullamcorper fusce libero ultricies. Ante quis vulputate nunc dolor dolor. Quis blandit eu vel sapien pulvinar volutpat dolor. Ligula arcu facilisi quis cursus nibh urna mi. Cursus auctor fusce diam nullam tempor mauris.'},
+  ],
+  ownProfile: { icon: studentsIcon }
+}
+
 const TeacherPage = () => {
-  const starsInput = useRef(null)
-
-  const ratingHandler = event => {
-    if (event.target.dataset.value) {
-
-      if (event.target.classList.contains('active')) {
-        removeAllActiveStars(event.currentTarget)
-        event.target.classList.remove('active')
-        starsInput.current.value = 'null'
-      } else {
-        removeAllActiveStars(event.currentTarget)
-        event.target.classList.add('active')
-        starsInput.current.value = event.target.dataset.value
-      }
-    }
-  }
-
-  const removeAllActiveStars = target => {
-    const $stars = target.querySelectorAll('span')
-    $stars.forEach(item => item.classList.remove('active'))
-  }
-
 
   return (
     <section className="teacherPage">
@@ -78,16 +66,16 @@ const TeacherPage = () => {
 
               <div className="topTeachPage__subject">Math Teacher</div>
 
-              <div className="topTeachPage__socialLinks">
-                <a href="/" className="topTeachPage__socialLink">
+              <div className="topTeachPage__socLinks">
+                <a href="/" className="topTeachPage__socLink">
                   <img src={whatsappIcon} alt="whatsapp"/>
                 </a>
 
-                <a href="/" className="topTeachPage__socialLink">
+                <a href="/" className="topTeachPage__socLink">
                   <img src={telegramIcon} alt="telegram"/>
                 </a>
 
-                <a href="/" className="topTeachPage__socialLink">
+                <a href="/" className="topTeachPage__socLink">
                   <img src={instagramIcon} alt="instagram"/>
                 </a>
               </div>
@@ -168,7 +156,7 @@ const TeacherPage = () => {
           {boxThing.map((item, index) => {
 
             return (
-              <ThingCard key={index} item={item} />
+              <ThingCard key={index} item={item}/>
             )
           })}
 
@@ -176,109 +164,7 @@ const TeacherPage = () => {
 
       </div>
 
-      <div className="teacherPage__bottom bottomTeachPage">
-
-        <h3 className="bottomTeachPage__title">Курс туралы пікірлер</h3>
-
-        <div className="bottomTeachPage__content">
-
-          <div className="bottomTeachPage__column">
-            <div className="bottomTeachPage__comment">
-              <div className="bottomTeachPage__img">
-                <img src={studentsIcon} alt="student"/>
-              </div>
-
-              <div className="bottomTeachPage__about">
-                <h4 className="bottomTeachPage__name">Бекзат Ералиев</h4>
-                <Stars
-                  className="bottomTeachPage__stars"
-                  rating={4}
-                  classNameOfValue="bottomTeachPage__starsValue"
-                />
-                <p className="bottomTeachPage__text">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sit pulvinar quam at ut sed. Sociis ullamcorper fusce libero ultricies. Ante quis vulputate nunc dolor dolor. Quis blandit eu vel sapien pulvinar volutpat dolor. Ligula arcu facilisi quis cursus nibh urna mi.
-                  Cursus auctor fusce diam nullam tempor mauris.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="bottomTeachPage__column">
-            <div className="bottomTeachPage__comment">
-              <div className="bottomTeachPage__img">
-                <img src={studentsIcon} alt="student"/>
-              </div>
-
-              <div className="bottomTeachPage__about">
-                <h4 className="bottomTeachPage__name">Бекзат Ералиев</h4>
-                <Stars
-                  className="bottomTeachPage__stars"
-                  rating={4}
-                  classNameOfValue="bottomTeachPage__starsValue"
-                />
-
-                <p className="bottomTeachPage__text">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sit pulvinar quam at ut sed. Sociis ullamcorper fusce libero ultricies. Ante quis vulputate nunc dolor dolor. Quis blandit eu vel sapien pulvinar volutpat dolor. Ligula arcu facilisi quis cursus nibh urna mi.
-                  Cursus auctor fusce diam nullam tempor mauris.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="bottomTeachPage__column">
-            <div className="bottomTeachPage__comment">
-              <div className="bottomTeachPage__img">
-                <img src={studentsIcon} alt="student"/>
-              </div>
-
-              <div className="bottomTeachPage__about">
-                <h4 className="bottomTeachPage__name">Бекзат Ералиев</h4>
-                <Stars
-                  className="bottomTeachPage__stars"
-                  rating={4}
-                  classNameOfValue="bottomTeachPage__starsValue"
-                />
-
-                <p className="bottomTeachPage__text">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sit pulvinar quam at ut sed. Sociis ullamcorper fusce libero ultricies. Ante quis vulputate nunc dolor dolor. Quis blandit eu vel sapien pulvinar volutpat dolor. Ligula arcu facilisi quis cursus nibh urna mi.
-                  Cursus auctor fusce diam nullam tempor mauris.
-                </p>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-        <form className="bottomTeachPage__addComment addComment">
-
-          <div className="addComment__image">
-            <img src={studentsIcon} alt="your profile"/>
-          </div>
-
-          <div className="addComment__inputWrapper">
-
-
-            <textarea className="addComment__input" placeholder="Make Comment..."/>
-
-            <div className="addComment__buttons">
-
-              <div className="rating__stars" onClick={ratingHandler}>
-                <input ref={starsInput} name="stars" type="text" defaultValue="null"/>
-
-                <span data-value="5">☆</span>
-                <span data-value="4">☆</span>
-                <span data-value="3">☆</span>
-                <span data-value="2">☆</span>
-                <span data-value="1">☆</span>
-              </div>
-
-              <button className="addComment__btn">Send</button>
-
-            </div>
-
-          </div>
-          
-        </form>
-
-      </div>
+      <Comments info={commentsInfo}/>
 
     </section>
   )

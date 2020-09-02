@@ -9,9 +9,9 @@ const Stars = ({rating, className, classNameOfValue}) => {
   const array = [1, 2, 3, 4, 5]
   array.length = currentRating
 
-  const otherStars = 5 - currentRating
+  const greyStars = 5 - currentRating
   const someArr = [1, 2, 3, 4, 5]
-  someArr.length = otherStars
+  someArr.length = greyStars
 
   return (
     <div className={['item_mark', className].join(' ')}>

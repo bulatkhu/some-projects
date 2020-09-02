@@ -41,7 +41,7 @@ const Main = () => {
             </p>
             <div className="body__icon">
               <button className="body__icon__button">
-                Деңгей анықтау
+                <span>Деңгей анықтау</span>
               </button>
             </div>
           </div>

@@ -2,14 +2,14 @@ import React from 'react'
 import './prices.scss'
 
 const pricesData = [
-  {title: '1 айға', price1: '4000₸', price2: '6000₸', price3: '9000₸',  price4: '8000₸', price5: '14900₸', price6: '65465₸', price7: '65465₸'},
-  {title: '3 айға', price1: '6000₸', price2: '8000₸', price3: '14000₸', price4: '13000₸', price5: '24900₸', price6: '65465₸', price7: '65465₸'},
-  {title: '6 айға', price1: '12000₸', price2: '14000₸', price3: '24000₸',  price4: '23000₸', price5: '44990₸', price6: '65465₸', price7: '65465₸'},
-  {title: '9 айға', price1: '16000₸', price2: '20000₸', price3: '34000₸',  price4: '33000₸', price5: '59990₸', price6: '65465₸', price7: '65465₸'},
-  {title: 'Видеосабақтар', price1: 'plus', price2: 'plus', price3: 'plus',  price4: 'plus', price5: 'plus', price6: 'plus', price7: 'plus'},
-  {title: 'Тест видео шешімдері', price1: 'plus', price2: 'plus', price3: 'plus',  price4: 'plus', price5: 'plus', price6: 'plus', price7: 'plus'},
+  {title: '1 айға', price1: '3990₸', price2: '5990₸', price3: '8990₸',  price4: '7990₸', price5: '14990₸', price6: '14990₸', price7: '14990₸'},
+  {title: '3 айға', price1: '5990₸', price2: '7990₸', price3: '13990₸', price4: '12990₸', price5: '24990₸', price6: '24990₸', price7: '24990₸'},
+  {title: '6 айға', price1: '11990₸', price2: '13990₸', price3: '23990₸',  price4: '22990₸', price5: '44990₸', price6: '44990₸', price7: '44990₸'},
+  {title: '9 айға', price1: '15990₸', price2: '19990₸', price3: '33990₸',  price4: '32990₸', price5: '59990₸', price6: '59990₸', price7: '59990₸'},
+  {title: 'Видеосабақтар', price1: '+', price2: '+', price3: 'plus',  price4: 'plus', price5: 'plus', price6: 'plus', price7: 'plus'},
   {title: 'Тест видео шешімдері', price1: 'plus', price2: 'plus', price3: 'plus',  price4: 'plus', price5: 'plus', price6: 'plus', price7: 'plus'},
   {title: 'Тақырыптық тесттер', price1: 'plus', price2: 'plus', price3: 'plus',  price4: 'plus', price5: 'plus', price6: 'plus', price7: 'plus'},
+  {title: 'Байқау сынақтары', price1: '-', price2: 'plus', price3: 'plus',  price4: 'plus', price5: 'plus', price6: 'plus', price7: 'plus'},
   {title: 'Айлық қорытынды тесті', price1: 'minus', price2: 'plus', price3: 'plus',  price4: 'plus', price5: 'plus', price6: 'plus', price7: 'plus'},
   {title: 'Кураторлық', price1: 'minus', price2: 'minus', price3: 'plus',  price4: 'plus', price5: 'plus', price6: 'plus', price7: 'plus'},
   {title: 'Профориентология ', price1: 'minus', price2: 'minus', price3: 'minus',  price4: 'minus', price5: 'plus', price6: 'minus', price7: 'minus'},

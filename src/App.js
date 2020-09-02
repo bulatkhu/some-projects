@@ -7,6 +7,7 @@ import Landing from './Layout/landing/landing'
 import Login from './Layout/login/login'
 import NotFound from './Layout/general/notFound/notFound'
 import Materials from './Layout/general/materials/materials'
+import Subject from './Layout/general/subject/subject'
 
 const menuLinks = [
   {name: 'Негізгі', to: '/'},
@@ -35,6 +36,9 @@ function App() {
             </Route>
             <Route exact path="/materials">
               <Materials/>
+            </Route>
+            <Route exact path="/subject">
+              <Subject container/>
             </Route>
 
 
