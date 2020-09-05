@@ -10,6 +10,7 @@ import EditProfile from './containers/editProfile/editProfile'
 import Payment from './containers/payment/payment'
 import TeacherPage from '../general/teacherPage/teacherPage'
 import Subject from '../general/subject/subject'
+import Calendar from './containers/calendar/calendar'
 
 
 const Login = () => {
@@ -102,7 +103,7 @@ const Login = () => {
             </NavLink>
           </li>
           <li className="loginNav__item">
-            <NavLink className="loginNav__link" to="/login/planes">
+            <NavLink className="loginNav__link" to="/login/calendar">
               <div className="loginNav__linkIcon">
                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M16.0714 1.92857H14.1429V0.642869C14.1429 0.287816 13.855 0 13.5 0C13.1449 0 12.8571 0.287816 12.8571 0.642869V1.92857H5.14284V0.642869C5.14284 0.287816 4.85502 0 4.50001 0C4.14499 0 3.85714 0.287816 3.85714 0.642869V1.92857H1.92857C0.863449 1.92857 0 2.79202 0 3.85714V16.0714C0 17.1365 0.863449 18 1.92857 18H16.0714C17.1365 18 18 17.1365 18 16.0714V3.85714C18 2.79202 17.1365 1.92857 16.0714 1.92857ZM16.7143 16.0714C16.7143 16.4265 16.4264 16.7143 16.0714 16.7143H1.92857C1.57352 16.7143 1.2857 16.4265 1.2857 16.0714V7.71428H16.7143V16.0714ZM16.7143 6.42858H1.2857V3.85714C1.2857 3.50209 1.57352 3.21427 1.92857 3.21427H3.85714V4.49997C3.85714 4.85502 4.14496 5.14284 4.50001 5.14284C4.85506 5.14284 5.14288 4.85502 5.14288 4.49997V3.21427H12.8572V4.49997C12.8572 4.85502 13.145 5.14284 13.5 5.14284C13.8551 5.14284 14.1429 4.85502 14.1429 4.49997V3.21427H16.0715C16.4265 3.21427 16.7143 3.50209 16.7143 3.85714V6.42858H16.7143Z" fill="#FF5773"/>
@@ -174,6 +175,7 @@ const Login = () => {
             <Route exact path={path + '/promo'} component={PromoCode}/>
             <Route exact path={path + '/edit'} component={EditProfile}/>
             <Route exact path={path + '/payment'} component={Payment}/>
+            <Route exact path={path + '/calendar'} component={Calendar}/>
 
 
             <Route path={path + '/teacher'} component={TeacherPage}/>
