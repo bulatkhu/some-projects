@@ -1,11 +1,17 @@
 import React from 'react'
 import Stars from '../../../general/stars/stars'
+import './ThingCard.scss'
 
 const ThingCard = ({item}) => {
-  const {img, rating, curPrice, tab} = item
+  const {img, rating, curPrice, tab, important} = item
+  const cls = ['bottom__column']
+
+  if (important) {
+    cls.push('bottom__border')
+  }
 
   return (
-    <div className="bottom__column" data-item="true" data-forid={tab}>
+    <div className={cls.join(' ')} data-item="true" data-forid={tab}>
       <div className="bottom__item">
         <div className="bottom__item_img">
           { img ? <img src={img} alt="thing"/> : null }

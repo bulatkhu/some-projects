@@ -11,6 +11,10 @@ import Payment from './containers/payment/payment'
 import TeacherPage from '../general/teacherPage/teacherPage'
 import Subject from '../general/subject/subject'
 import Calendar from './containers/calendar/calendar'
+import BuySubject from './containers/buySubject/buySubject'
+import Lesson from '../general/lesson/lesson'
+import Connect from '../general/connect/connect'
+import WatchCourse from './containers/watchCourse/watchCourse'
 
 
 const Login = () => {
@@ -176,6 +180,10 @@ const Login = () => {
             <Route exact path={path + '/edit'} component={EditProfile}/>
             <Route exact path={path + '/payment'} component={Payment}/>
             <Route exact path={path + '/calendar'} component={Calendar}/>
+            <Route exact path={path + '/buy'} component={BuySubject}/>
+            <Route exact path={path + '/lesson'} component={Lesson}/>
+            <Route exact path={path + '/connecting'} component={Connect}/>
+            <Route exact path={path + '/watchCourse'} component={WatchCourse}/>
 
 
             <Route path={path + '/teacher'} component={TeacherPage}/>

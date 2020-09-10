@@ -32,16 +32,8 @@ const Menu = ({links, isSignIn}) => {
   }, [showSignIn, showRegister, scrollBodyHandler, showMobileMenu])
 
 
-  const toggleMenuHandler = event => {
-    if (event.currentTarget.classList.contains('_active')) {
-      setShowMobileMenu(prev => !prev)
-      event.currentTarget.classList.remove('_active')
-      event.currentTarget.nextElementSibling.classList.remove('_active')
-    } else {
-      setShowMobileMenu(prev => !prev)
-      event.currentTarget.classList.add('_active')
-      event.currentTarget.nextElementSibling.classList.add('_active')
-    }
+  const toggleMenuHandler = () => {
+    setShowMobileMenu(prev => !prev)
   }
 
   const signInModalHandler = () => {
@@ -60,6 +52,13 @@ const Menu = ({links, isSignIn}) => {
     event.target.classList.contains('modalActive') && setShowRegister(prev => !prev)
   }
 
+
+  const menuClasses = ['menu__nav']
+
+  if (showMobileMenu) {
+    menuClasses.push('active')
+  }
+
   return (
     <div className="menu__wrapper">
       <header className="menu">
@@ -68,7 +67,7 @@ const Menu = ({links, isSignIn}) => {
             <Link to="/" className="menu__logo">
               <img src={logo} alt="Logo"/>
             </Link>
-            <div className="menu__nav">
+            <div className={menuClasses.join(' ')}>
               <div
                 onClick={toggleMenuHandler}
                 className="menu__icon icon-menu">
@@ -83,7 +82,10 @@ const Menu = ({links, isSignIn}) => {
                       className="list__link"
                       key={index + link}
                     >
-                      <Link to={link.to}>{link.name}</Link>
+                      <Link
+                        onClick={toggleMenuHandler}
+                        to={link.to}
+                      >{link.name}</Link>
                     </li>)
                   )}
                 </ul>

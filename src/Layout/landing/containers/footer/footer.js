@@ -1,5 +1,5 @@
 import React from 'react'
-import logoEducon from '../../../../images/landing/header/logo.svg'
+import logoEducon from '../../../../images/landing/footer/footer-logo.svg'
 import './footer.scss'
 import telegramIcon from '../../../../images/general/teacher/telegram-svg.svg'
 import whatsappIcon from '../../../../images/general/teacher/whatsapp-svg.svg'

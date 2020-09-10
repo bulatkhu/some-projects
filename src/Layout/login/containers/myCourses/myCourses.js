@@ -40,6 +40,25 @@ const MyCourses = () => {
             return <CourseBox key={index} {...item}/>
           })}
 
+          <div className="myCourses__column">
+            <div className="myCourses__addSubject myCoursesAdd">
+
+              <a href="/" className="myCoursesAdd">
+
+                <div className="myCoursesAdd__wrapper">
+                  <div className="myCoursesAdd__plus">
+                    <span/>
+                    <span/>
+                  </div>
+
+                  <div className="myCoursesAdd__btn">New</div>
+                </div>
+
+              </a>
+
+            </div>
+          </div>
+
 
         </div>
 
