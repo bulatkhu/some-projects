@@ -20,7 +20,6 @@
     margin: 0 0 130px 0;
   }
 }
-
 .accordion {
 
   &__title {
@@ -38,29 +37,59 @@
 
   &__wrapper {
     background: #FFFFFF;
-    padding: 18px 23px;
+    overflow: hidden;
+    margin: 0 0 3px 0;
   }
 
   &__item {
+    padding: 18px 23px 0px 23px;
+    cursor: pointer;
   }
 
   &__top {
     font-size: 18px;
     line-height: 21px;
+    padding: 18px 24px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+
+    &.active {
+      &::after {
+        transform: rotate(-45deg) translate(-50%, -50%);
+      }
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-top: 2px solid #626267;
+      border-right: 2px solid #626267;
+      margin-right: 0;
+      transform: rotate(135deg) translateY(50%);
+      transition: all .3s;
+    }
   }
 
   &__bottom {
   }
 }
-
 .accorBot {
-  height: 0;
-  visibility: hidden;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  padding: 0 24px;
 
-  &.active {
-    height: 261px;
-    visibility: visible;
-  }
+  //&.active {
+  //  height: 261px;
+  //  visibility: visible;
+  //}
 
   &__wrapper  {
     display: flex;
@@ -68,16 +97,18 @@
     margin: 0 0 24px 0;
 
     &:first-child {
-      margin: 24px 0 24px 0;
+      margin: 0 0 24px 0;
     }
   }
 
   &__icon {
     width: 38px;
+    margin-top: 2px;
     height: 38px;
     background: #FFFFFF;
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
     border-radius: 50%;
+    font-size: 0;
     display: inline-block;
     background: url("../../../../images/general/icons/play-iconRED.svg") center no-repeat;
     background-size: 50% 50%;
@@ -125,7 +156,6 @@
     color: #777171;
   }
 }
-
 .accorBot-test {
   display: flex;
   justify-content: space-between;
@@ -140,5 +170,15 @@
                 url("../../../../images/general/icons/arrow-icon.svg") right center no-repeat;
 
     background-size: 10px 20px;
+  }
+}
+
+.course-panel {
+
+  &__column {
+  }
+
+  &__stars {
+    transform: scale(1.1);
   }
 }

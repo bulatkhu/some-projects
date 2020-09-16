@@ -48,6 +48,10 @@ ul {
   }
 }
 
+.hidden {
+  display: none !important;
+}
+
 @media (max-width: 576px) {
   ._container {
     max-width: 540px;
