@@ -39,6 +39,14 @@ ul {
   margin-left: auto;
 }
 
+.clearFix {
+  overflow: auto;
+  &::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+}
 
 @media (max-width: 576px) {
   ._container {

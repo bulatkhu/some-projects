@@ -15,6 +15,7 @@ import BuySubject from './containers/buySubject/buySubject'
 import Lesson from '../general/lesson/lesson'
 import Connect from '../general/connect/connect'
 import WatchCourse from './containers/watchCourse/watchCourse'
+import NotFound from '../general/notFound/notFound'
 
 
 const Login = () => {
@@ -188,6 +189,8 @@ const Login = () => {
 
             <Route path={path + '/teacher'} component={TeacherPage}/>
             <Route path={path + '/subject'} component={Subject}/>
+
+            <Route path="*" component={NotFound}/>
           </Switch>
         </div>
       </div>
