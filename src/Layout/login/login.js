@@ -1,27 +1,11 @@
 import React from 'react'
-import {Switch, Route, useRouteMatch, NavLink} from 'react-router-dom'
+import {NavLink} from 'react-router-dom'
 import './login.scss'
 import avatar from '../../images/login/navbar/profilePhoto.jpg'
 import eduCoin from '../../images/landing/educoin/eduCoin.svg'
-import MyCourses from './containers/myCourses/myCourses'
-import Chat from './containers/chat/chat'
-import PromoCode from './containers/promoCode/promoCode'
-import EditProfile from './containers/editProfile/editProfile'
-import Payment from './containers/payment/payment'
-import TeacherPage from '../general/teacherPage/teacherPage'
-import Subject from '../general/subject/subject'
-import Calendar from './containers/calendar/calendar'
-import BuySubject from './containers/buySubject/buySubject'
-import Lesson from '../general/lesson/lesson'
-import Connect from '../general/connect/connect'
-import WatchCourse from './containers/watchCourse/watchCourse'
-import NotFound from '../general/notFound/notFound'
 
 
-const Login = () => {
-  const {path, url} = useRouteMatch()
-
-  console.log('path:', path, 'url:', url)
+const Login = ({children}) => {
 
   const toggleNavBar = event => {
 
@@ -174,24 +158,7 @@ const Login = () => {
 
       <div className="loginNav__body">
         <div className="loginNav__container _container">
-          <Switch>
-            <Route exact path={path} component={MyCourses}/>
-            <Route exact path={path + '/chat'} component={Chat}/>
-            <Route exact path={path + '/promo'} component={PromoCode}/>
-            <Route exact path={path + '/edit'} component={EditProfile}/>
-            <Route exact path={path + '/payment'} component={Payment}/>
-            <Route exact path={path + '/calendar'} component={Calendar}/>
-            <Route exact path={path + '/buy'} component={BuySubject}/>
-            <Route exact path={path + '/lesson'} component={Lesson}/>
-            <Route exact path={path + '/connecting'} component={Connect}/>
-            <Route exact path={path + '/watchCourse'} component={WatchCourse}/>
-
-
-            <Route path={path + '/teacher'} component={TeacherPage}/>
-            <Route path={path + '/subject'} component={Subject}/>
-
-            <Route path="*" component={NotFound}/>
-          </Switch>
+          {children}
         </div>
       </div>
 

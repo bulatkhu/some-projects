@@ -48,8 +48,40 @@ ul {
   }
 }
 
+.slick-slide, .slick-slide div {
+  outline: none;
+}
+
 .hidden {
   display: none !important;
+}
+
+.btn {
+  &__shadowFromNull {
+    box-shadow: 0 0 0 0 #cccccc;
+    transition: all .3s;
+
+    &:hover {
+      box-shadow: 0 0 10px 5px #cccccc;
+    }
+  }
+
+  &__shadow {
+    box-shadow: 0 0 5px 2px #cccccc;
+    transition: all .3s;
+
+    &:hover {
+      box-shadow: 0 0 25px 5px #cccccc;
+    }
+  }
+
+  &__noFocus {
+
+    &:focus {
+      outline: none;
+    }
+  }
+
 }
 
 @media (max-width: 576px) {
