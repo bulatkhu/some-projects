@@ -64,6 +64,10 @@ ul {
     &:hover {
       box-shadow: 0 0 10px 5px #cccccc;
     }
+
+    &:focus {
+      outline: none;
+    }
   }
 
   &__shadow {

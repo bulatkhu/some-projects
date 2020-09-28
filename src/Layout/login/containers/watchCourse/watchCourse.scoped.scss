@@ -39,7 +39,7 @@
 
   &__column {
     grid-column: 2;
-    grid-row: 1;
+    grid-row: 1 / 3;
 
     @media (max-width: 992px) {
       grid-column: 1;
@@ -640,6 +640,18 @@
           }
         }
 
+        &:hover {
+          .slideItem__otherHover {
+            color: initial;
+
+            &::before {
+              background: initial;
+              color: initial;
+              border-color: initial;
+            }
+          }
+        }
+
         .slideItem__point {
 
           position: relative;
@@ -877,10 +889,10 @@
 .courseResults {
   padding: 25px 33px;
   background: #FFFFFF;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
   border-radius: 20px;
 
   &__circleWrapper {
+    max-width: 320px;
     width: 100%;
     margin: 0 auto 30px auto;
   }
