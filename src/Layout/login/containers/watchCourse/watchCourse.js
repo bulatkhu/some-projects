@@ -1,10 +1,10 @@
-import React, {useEffect, useRef, useState} from 'react'
+import React, {useRef, useState} from 'react'
 import './watchCourse.scoped.scss'
 import VideoPlayer from '../../../general/videoPlayer/videoPlayer'
 import Stars from '../../../general/stars/stars';
 import FlipBookComponent from '../../../general/flipBook/flipBookComp'
-import CanvasCircle from '../../components/CanvasCircle/CanvasCircle'
 import TestSlider from "../../components/testSlider/testSlider";
+import ConsiderResults from '../../../landing/auxiliary/considerResults'
 
 const playersProps = [
   {
@@ -39,8 +39,8 @@ const playersProps = [
   }
 ]
 const initialTestState = {
-  showTest: true,
-  startTest: false,
+  showTest: false,
+  startTest: true,
   time: 15,
   showResults: false,
 }
@@ -157,46 +157,12 @@ const initialSliderItems = [
   },
 
 ]
-const initialAnswers = {
-  right: 0,
-  wrong: 0,
-  empty: 0
-}
 
 
 function Course() {
   const [testState, changeTestState] = useState(initialTestState)
   const [testItems, setTestItems] = useState(initialSliderItems)
-  const [answerState, setAnswerState] = useState(initialAnswers)
-
-
   const refCoursesButtons = useRef(null)
-
-  useEffect(() => {
-
-    console.log('render testState.showResults')
-
-    // if (testState.showResults) {
-    //   testItems.forEach(item => {
-    //     if (item.answer === item.rightAnswer) {
-    //       return setAnswerState(prev => ({
-    //         ...prev, right: prev.right + 1
-    //       }))
-    //     } else if (item.answer === null) {
-    //       return setAnswerState(prev => ({
-    //         ...prev, empty: prev.empty + 1
-    //       }))
-    //     } else {
-    //       return setAnswerState(prev => ({
-    //         ...prev, wrong: prev.wrong + 1
-    //       }))
-    //     }
-    //   })
-    // }
-
-    console.log(testItems)
-
-  }, [testState.showResults, testItems])
 
 
   const onButtonClick = event => {
@@ -413,38 +379,7 @@ function Course() {
                 </div>
                 : ''
               : <div className="course-results courseResults">
-                  <div className="courseResults__circleWrapper">
-
-                    <CanvasCircle
-                      right={initialAnswers.right}
-                      wrong={initialAnswers.wrong}
-                      empty={initialAnswers.empty}
-                      width={70}
-                    />
-
-                  </div>
-
-                  <div className="courseResults__numeralRating numeralRating">
-
-                    <div className="numeralRating__item">
-                      <span className="numeralRating__number">5</span>
-                      <span className="numeralRating__line"/>
-                      <span className="numeralRating__text">False</span>
-                    </div>
-
-                    <div className="numeralRating__item">
-                      <span className="numeralRating__number">5</span>
-                      <span className="numeralRating__line"/>
-                      <span className="numeralRating__text">False</span>
-                    </div>
-
-                    <div className="numeralRating__item">
-                      <span className="numeralRating__number">5</span>
-                      <span className="numeralRating__line"/>
-                      <span className="numeralRating__text">False</span>
-                    </div>
-
-                  </div>
+                  <ConsiderResults results={testItems}/>
                 </div>
           }
         </div>

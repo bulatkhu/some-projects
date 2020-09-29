@@ -31,36 +31,66 @@ const menuLinks = [
   {name: 'EduCoin', to: '/'},
 ]
 
+const loginRoutePaths = {
+  student: {
+    base: '/student',
+    chat: '/student/chat',
+    promo: '/student/promo',
+    edit: '/student/edit',
+    payment: '/student/payment',
+    calendar: '/student/calendar',
+    buy: '/student/buy',
+    lesson: '/student/lesson',
+    connecting: '/student/connecting',
+    watchCourse: '/student/watchCourse',
+  },
+  teacher: {
+    base: '/teacher',
+
+  }
+}
+
 function App() {
+  const {student, teacher} = loginRoutePaths
+
   return (
     <BrowserRouter>
       <div className="App">
         <Menu links={menuLinks} isSignIn={false}/>
 
 
-
         <div className="app__wrapper">
           <Switch>
-            <Route path="/login">
-              <Login>
-                <Route exact path="/login"             component={MyCourses}/>
-                <Route exact path="/login/chat"        component={Chat}/>
-                <Route exact path="/login/promo"       component={PromoCode}/>
-                <Route exact path="/login/edit"        component={EditProfile}/>
-                <Route exact path="/login/payment"     component={Payment}/>
-                <Route exact path="/login/calendar"    component={Calendar}/>
-                <Route exact path="/login/buy"         component={BuySubject}/>
-                <Route exact path="/login/lesson"      component={Lesson}/>
-                <Route exact path="/login/connecting"  component={Connect}/>
-                <Route exact path="/login/watchCourse" component={WatchCourse}/>
+            <Route path="/student">
+              <Login type="student" links={student}>
+                <Route exact path={student.base} component={MyCourses}/>
+                <Route exact path={student.chat} component={Chat}/>
+                <Route exact path={student.promo} component={PromoCode}/>
+                <Route exact path={student.edit} component={EditProfile}/>
+                <Route exact path={student.payment} component={Payment}/>
+                <Route exact path={student.calendar} component={Calendar}/>
+                <Route exact path={student.buy} component={BuySubject}/>
+                <Route exact path={student.lesson} component={Lesson}/>
+                <Route exact path={student.connecting} component={Connect}/>
+                <Route exact path={student.watchCourse} component={WatchCourse}/>
 
 
-                <Route path="/login/teacher" component={TeacherPage}/>
-                <Route path="/login/subject" component={Subject}/>
+                <Route path="/student/teacher" component={TeacherPage}/>
+                <Route path="/student/subject" component={Subject}/>
 
                 {/*<Route path="*" component={NotFound}/>*/}
               </Login>
             </Route>
+
+            <Route path="/teacher">
+              <Login type="teacher" links={teacher}>
+                <Route exact path="/teacher">
+                  <div/>
+                  <h1>Teacher</h1></Route>
+              </Login>
+            </Route>
+
+
             <Route exact path="/">
               <Landing/>
             </Route>
@@ -78,13 +108,11 @@ function App() {
             </Route>
 
 
-
             <Route path="*">
               <NotFound/>
             </Route>
           </Switch>
         </div>
-
 
 
         <Footer/>

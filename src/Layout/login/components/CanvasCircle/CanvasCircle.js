@@ -3,7 +3,6 @@ import './CanvasCircle.scss'
 
 
 const CanvasCircle = ({right = 1, empty = 6, wrong = 5, width = 40, wrapClassName}) => {
-
   const refCanvas = useRef(null)
   const colors = ['#27AE60', '#FFC000', '#FF4141']
   const results = new ResultsInPercent(right, empty, wrong)
