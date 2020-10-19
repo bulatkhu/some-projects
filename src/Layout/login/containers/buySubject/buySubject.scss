@@ -1,0 +1,141 @@
+.buySubject {
+  padding: 90px 0 60px 0;
+
+  @media (max-width: 992px) {
+    padding: 60px 0 60px 0;
+  }
+
+  @media (max-width: 576px) {
+    padding: 20px 0 60px 0;
+  }
+
+  &__text {
+    margin: 0 0 50px 0 ;
+  }
+
+  &__mainSubject {
+  }
+
+  &__items {
+  }
+}
+.buyMainSubject {
+  margin: 0 0 62px 0 ;
+
+  &__content {
+    display: flex;
+    justify-content: space-around;
+  }
+}
+.buySubjectItems {
+  margin: 0 0 69px 0;
+
+  &__content {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    grid-template-columns: repeat(auto-fit, 176px);
+    grid-column-gap: 33px;
+    grid-row-gap: 30px;
+  }
+
+  &__column {
+  }
+
+  &__item {
+    position: relative;
+    font-size: 18px;
+    padding: 10px 14px;
+    line-height: 21px;
+    text-align: center;
+    color: #FF5773;
+    background: #fff;
+    border: 2px solid #FF5773;
+    box-sizing: border-box;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+  }
+
+  &__action {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: translate(50%, -50%);
+
+    width: 41px;
+    height: 41px;
+    background: #FF5773;
+    border-radius: 50%;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 21px;
+    color: #FFFFFF;
+  }
+
+  &__line {
+    width: 100%;
+    height: 1px;
+    background: #FF5773;
+    margin: 0 0 5px 0;
+  }
+
+  &__month {
+    margin: 0 0 8px 0;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 21px;
+  }
+
+  &__price {
+    font-weight: bold;
+  }
+
+  &__oldPrice {
+    font-size: 14px;
+    display: inline-block;
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      width: 120%;
+      left: 50%;
+      top: 50%;
+      transform: rotate(2.43deg) translate(-50%, -50%);
+      height: 1px;
+      background: #FF5773;
+    }
+  }
+}
+.buySubject-button {
+  margin: 0 0 69px 0;
+  text-align: center;
+
+  &__button {
+    background: #FF5773;
+    border-radius: 44px;
+    font-weight: normal;
+    font-size: 24px;
+    line-height: 28px;
+    color: #FFFFFF;
+    border: none;
+    padding: 10px;
+    min-width: 210px;
+  }
+}
+.buySubjectThings {
+
+  &__content {
+    display: grid;
+    justify-content: center;
+    grid-template-columns: repeat(auto-fill, 256px);
+    grid-column-gap: 50px;
+    column-gap: 50px;
+    grid-row-gap: 50px;
+    row-gap: 50px;
+  }
+}

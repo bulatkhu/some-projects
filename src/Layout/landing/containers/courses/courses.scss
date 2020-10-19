@@ -1,0 +1,60 @@
+.courses {
+
+  color: #fff;
+  background: #F0F5FB;
+
+
+  @media (max-width: 576px) {
+    margin: 20px 0 0 0;
+  }
+
+  &__header {
+    background: #407BBF;
+    padding: 65px 0 54px 0;
+    @media (max-width: 767px) {
+      padding: 40px 0 40px 0;
+    }
+  }
+
+  &__title {
+    margin: 0 0 50px 0;
+    font-size: 40px;
+    line-height: 47px;
+    text-align: center;
+
+    @media (max-width: 767px) {
+      font-size: 30px;
+      margin: 0 0 30px 0;
+    }
+  }
+
+  &__tabs {
+  }
+
+  &__bottom {
+    padding: 123px 0 107px 0;
+    background: #F0F5FB;
+
+    position: relative;
+
+    @media (max-width: 576px) {
+      padding: 40px 0 40px 0;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+
+      height: 2px;
+      width: 55%;
+      background: #407BBF;
+    }
+  }
+}
+
+.unselectedTab {
+  display: none !important;
+}

@@ -1,0 +1,10 @@
+.notFound {
+  min-height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &__title {
+    color: #FF5773;
+  }
+}

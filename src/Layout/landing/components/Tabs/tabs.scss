@@ -1,0 +1,32 @@
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  &__item {
+    transition: all 0.4s ease-in;
+    cursor: pointer;
+    border-radius: 5px;
+    color: #FF5773;
+    text-align: center;
+    display: inline-block;
+    font-size: 18px;
+    border: 1px solid #FF5773;
+    background: #fff;
+    box-sizing: border-box;
+    padding: 10px 5px 10px 5px;
+    min-width: 110px;
+    margin: 0 15px 15px 0;
+
+    @media (max-width: 576px) {
+      font-size: 14px;
+      //padding: 10px 5px 10px 5px;
+      min-width: 80px;
+    }
+
+    &.active-tab {
+      background: #FF5773;
+      color: #fff;
+    }
+  }
+}

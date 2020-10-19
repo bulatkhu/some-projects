@@ -1,0 +1,2 @@
+export const SET_USERS_DATA = 'SET_USERS_DATA'
+export const DELETE_USERS_DATA = 'DELETE_USERS_DATA'

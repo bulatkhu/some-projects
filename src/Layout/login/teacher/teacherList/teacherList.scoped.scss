@@ -1,0 +1,281 @@
+.list {
+  color: #626267;
+  display: block;
+  padding: 40px 0;
+
+  &__top {
+  }
+
+  &__bottom {
+  }
+}
+
+
+.listTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 50px;
+
+  @media (max-width: 576px) {
+    flex-direction: column;
+    margin-bottom: 25px;
+  }
+
+  &__title {
+    text-indent: 10px;
+    margin: 0;
+    text-align: center;
+
+    @media (max-width: 576px) {
+      margin-bottom: 15px;
+    }
+  }
+
+  &__label {
+    position: relative;
+    &::after {
+      cursor: pointer;
+      content: '';
+      width: 14px;
+      height: 14px;
+      position: absolute;
+      background: url("../../../../images/general/icons/search-icon.svg") center / 100%;
+      top: 50%;
+      right: 11px;
+      transform: translateY(-50%);
+    }
+  }
+
+  &__input {
+    padding: 6px 7px;
+    min-width: 205px;
+    background: #FFFFFF;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
+    border-radius: 26px;
+    border: none;
+
+    &::placeholder {
+      font-weight: normal;
+      font-size: 12px;
+      line-height: 16px;
+      color: #DADADA;
+    }
+  }
+}
+
+.listBottom {
+  margin-bottom: 20px;
+  overflow-x: auto;
+  padding: 0 3px;
+
+  &__table {
+  }
+}
+
+.table {
+  width: 100%;
+  border-spacing: 0 17px;
+  table-layout: fixed;
+
+  @media (max-width: 992px) {
+    table-layout: unset;
+  }
+
+  &__thead {
+  }
+
+  &__row {
+    padding: 15px 20px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+    border-radius: 28px;
+
+    @media (max-width: 767px) {
+      padding: 0;
+      border-radius: 17px;
+    }
+  }
+
+  &__title {
+
+    @media (max-width: 992px) {
+      font-size: 13px;
+    }
+
+    @media (max-width: 576px) {
+      padding: 5px;
+    }
+  }
+
+  &__tbody {
+  }
+
+  &__item {
+    padding: 20px 0;
+    background: #fff;
+
+    &:first-child {
+      padding-left: 20px;
+      padding-right: 20px;
+      font-weight: normal;
+      font-size: 18px;
+      line-height: 25px;
+      color: #FF5773;
+
+      border-radius: 28px 0 0 28px;
+    }
+
+    &:last-child {
+      border-radius: 0 28px 28px 0;
+
+    }
+
+    @media (max-width: 992px) {
+      font-size: 12px;
+    }
+
+    @media (max-width: 767px) {
+      padding: 10px 0;
+
+      &:first-child {
+        padding-left: 5px;
+        padding-right: 5px;
+
+        border-radius: 17px 0 0 17px;
+      }
+
+      &:last-child {
+        border-radius: 0 17px 17px 0;
+      }
+    }
+
+    @media (max-width: 576px) {
+
+    }
+  }
+
+  &__filter {
+    @media (max-width: 992px) {
+      font-size: 12px;
+    }
+  }
+
+  &__filter, &__item, &__title {
+
+    @media (max-width: 576px) {
+      &:nth-child(2){
+        min-width: 85px;
+      }
+    }
+  }
+}
+
+.filter {
+
+  &__text {
+    margin-right: 4px;
+  }
+
+  &__label {
+    position: relative;
+    cursor: pointer;
+
+    &.active {
+
+      .filter__arrow {
+        transform: rotate(225deg);
+      }
+    }
+  }
+
+  &__row {
+    border-radius: 35px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
+  }
+
+  &__item {
+    background: #fff;
+    padding: 6px 0;
+    &:first-child {
+      border-radius: 35px 0 0 35px;
+    }
+    &:last-child {
+      border-radius: 0 35px 35px 0;
+    }
+  }
+
+  &__icon {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+
+    &:checked {
+
+      & ~ .filter__arrow {
+        transform: rotate(-136deg) translate(-2px, -2px);
+      }
+    }
+  }
+
+  &__arrow {
+    border: solid #FF5773;
+    border-width: 0 2px 2px 0;
+    display: inline-block;
+    padding: 3px;
+    margin: 0 0 2px 4px;
+    transition: all .3s;
+    transform: rotate(45deg);
+  }
+}
+
+.item {
+
+  &__coin {
+    display: inline-block;
+    vertical-align: middle;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    background:#ff5773 url("../../../../images/general/icons/educon-icon.svg") center no-repeat;
+    background-size: 60%;
+
+    @media (max-width: 992px) {
+      display: none;
+    }
+  }
+
+  &__chat {
+    width: 26.5em;
+    height: 18px;
+    position: relative;
+
+    svg {
+      min-width: 100%;
+      min-height: 100%;
+    }
+  }
+
+  &__chatNumber {
+    position: absolute;
+    top: -4px;
+    right: -6px;
+    padding: 1px 5px;
+    border-radius: 50%;
+    background: #FF5773;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-weight: normal;
+    font-size: 9px;
+    line-height: 12px;
+    color: #FFFFFF;
+  }
+}
+
+//.filter__icon:checked ~ .filter__arrow {
+//  transform: rotate(90deg);
+//}

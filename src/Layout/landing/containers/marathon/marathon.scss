@@ -1,0 +1,214 @@
+.marathon {
+  padding: 35px 0 41px 0;
+  color: #fff;
+  background: url("../../../../images/landing/marathon/background.jpg") top center no-repeat;
+  background-size: cover;
+  position: relative;
+  z-index: 1;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(64, 123, 191, 0.57);
+    z-index: -1;
+  }
+
+  &__title {
+    position: relative;
+    margin: 0 auto 35px auto;
+    text-align: center;
+    font-weight: 500;
+    font-size: 64px;
+    line-height: 75px;
+
+    &::before, &::after {
+      content: '';
+      position: absolute;
+      transform: translateY(3px);
+      top: 50%;
+      width: calc(50% - 170px);
+      height: 3px;
+      background: #FF5773;
+    }
+
+    @media (max-width: 767px) {
+      font-size: 28px;
+
+      &::before, &::after {
+        width: calc(50% - 80px);
+      }
+    }
+
+    &::before {
+      left: 0;
+    }
+
+    &::after {
+      right: 0;
+    }
+  }
+
+  &__content {
+    display: grid;
+    column-gap: 40px;
+    row-gap: 40px;
+    justify-content: center;
+    grid-template-columns: minmax(300px, 400px) 1fr;
+    align-items: center;
+
+    @media (max-width: 992px) {
+      justify-content: center;
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__column {
+
+  }
+
+  &__wrapper {
+  }
+}
+
+.marathonForm {
+  max-width: 409px;
+  margin: auto;
+
+
+  &__form {
+    padding: 55px 35px 32px 35px;
+    background: #FFFFFF;
+    text-align: center;
+    border-radius: 30px;
+  }
+
+  &__input {
+    width: 100%;
+    margin: 0 0 35px 0;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 18px;
+    height: 25px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1px solid #626267;
+    color: #626267;
+    padding: 5px 0 5px 0;
+    text-indent: 8px;
+
+    &:last-child {
+      margin-bottom: 45px;
+    }
+
+    @media (max-width: 767px) {
+      font-size: 16px;
+      margin: 0 0 25px 0;
+    }
+  }
+
+  &__button {
+    display: inline;
+    background: #FF5773;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
+    border-radius: 37px;
+    padding: 10px 40px;
+    border: none;
+
+    font-size: 18px;
+    line-height: 25px;
+    color: #FFFFFF;
+  }
+}
+
+.marathonTab {
+
+  display: grid;
+  overflow: hidden;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: 45px;
+  cursor: pointer;
+  border: 2px solid #FF5773;
+  box-sizing: border-box;
+  border-radius: 38px;
+  align-items: center;
+  color: #FF5773;
+  background: #fff;
+
+  @media (max-width: 400px) {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 45px);
+  }
+
+  &__item {
+    transition: all .3s;
+    text-align: center;
+    border-radius: 38px;
+    min-height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    line-height: 25px;
+
+    @media (max-width: 767px) {
+      font-size: 15px;
+    }
+
+    @media (max-width: 400px) {
+      border-radius: 0;
+
+      &:first-child {
+        border-bottom: 2px solid #FF5773;
+        border-right: 2px solid #FF5773;
+      }
+
+      &:nth-child(2) {
+        border-bottom: 2px solid #FF5773;
+      }
+
+      &:nth-child(3) {
+        border-right: 2px solid #FF5773;
+      }
+    }
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &__title {
+    font-weight: bold;
+    font-size: 36px;
+    line-height: 49px;
+
+    @media (max-width: 767px) {
+      font-size: 25px;
+    }
+
+  }
+
+  &__text {
+    font-size: 24px;
+    line-height: 33px;
+
+    @media (max-width: 767px) {
+      font-size: 18px;
+    }
+
+  }
+
+}
+
+.marathon-active {
+  background: #FF5773;
+  color: #fff;
+}
+
+.marathon__hidden {
+  display: none;
+}

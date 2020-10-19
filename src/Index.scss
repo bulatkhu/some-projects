@@ -1,0 +1,168 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.scroll-locked {
+  overflow: hidden !important;
+}
+
+._container {
+  max-width: 1180px;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.clearFix {
+  overflow: auto;
+  &::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+}
+
+.slick-slide, .slick-slide div {
+  outline: none;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.input {
+
+  &__focusedBoxShadow {
+    transition: all .3s;
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.25) !important;
+    }
+  }
+}
+
+.error {
+  color: red;
+  font-size: 12px;
+
+  &__big {
+    color: red;
+    font-size: 24px;
+  }
+}
+
+.text-center {
+  text-align: center;
+}
+
+.success {
+  color: #ff5773;
+  padding: 0 15px;
+}
+
+.btn {
+  &__shadowFromNull {
+    box-shadow: 0 0 0 0 #cccccc;
+    transition: all .3s;
+
+    &:hover {
+      box-shadow: 0 0 10px 5px #cccccc;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &__shadow {
+    box-shadow: 0 0 5px 2px #cccccc;
+    transition: all .3s;
+
+    &:hover {
+      box-shadow: 0 0 25px 5px #cccccc;
+    }
+  }
+
+  &__noFocus {
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+}
+
+@media (max-width: 576px) {
+  ._container {
+    max-width: 540px;
+  }
+}
+
+@media (max-width: 768px) {
+  ._container {
+    max-width: 720px;
+  }
+}
+
+@media (max-width: 992px) {
+  ._container {
+    max-width: 750px;
+  }
+}
+
+@media (max-width: 1200px) {
+  ._container {
+    max-width: 970px;
+  }
+}
+
+//@media (min-width: 576px) {
+//  ._container {
+//    max-width: 540px;
+//  }
+//}
+//
+//@media (min-width: 768px) {
+//  ._container {
+//    max-width: 720px;
+//  }
+//}
+//
+//@media (min-width: 992px) {
+//  ._container {
+//    max-width: 960px;
+//  }
+//}
+//
+//@media (min-width: 1200px) {
+//  ._container {
+//    max-width: 1180px;
+//  }
+//}

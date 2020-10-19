@@ -1,0 +1,174 @@
+.tutor {
+  padding: 57px 0;
+  color: #626267;
+
+  &__title {
+    margin-bottom: 60px;
+    margin-top: 0;
+    padding-left: 20px;
+  }
+
+  &__content {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, max(216px));
+    grid-gap: 25px;
+    justify-content: center;
+  }
+}
+
+.tutorBox {
+  margin-bottom: 96px;
+
+  &__wrapper {
+    border-bottom: 1px solid #ff5773;
+  }
+
+  &__item {
+    background: #FFFFFF;
+    border: 3px solid #FF5773;
+    box-sizing: border-box;
+    border-radius: 20px;
+    max-width: 216px;
+    padding: 21px;
+  }
+
+  &__title {
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 21px;
+    text-align: center;
+  }
+
+  &__coins {
+    text-align: center;
+  }
+
+  &__amount {
+    font-weight: normal;
+    font-size: 24px;
+    line-height: 33px;
+    color: #FF5773;
+    margin: 0 4px 0 0;
+  }
+
+  &__eduCoinIcon {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    min-width: 39px;
+    min-height: 39px;
+    background: #FF5773;
+    border-radius: 50%;
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+.students {
+
+  &__item {
+  }
+}
+
+.studentsItem {
+  background: #FFFFFF;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
+  border-radius: 49px;
+  padding: 5px 15px 2px 8px;
+  margin-bottom: 10px;
+
+  @media (max-width: 576px) {
+    border-radius: 20px;
+  }
+
+  &__infoWrapper {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  &__content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    @media (max-width: 576px) {
+      flex-wrap: wrap;
+      justify-content: space-around;
+    }
+  }
+
+  &__column {
+  }
+
+  &__img {
+    margin-right: 16px;
+    min-width: 57px;
+    width: 57px;
+    min-height: 57px;
+    height: 57px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      overflow: hidden;
+    }
+
+    @media (max-width: 576px) {
+      margin-right: 7px;
+      min-width: 40px;
+      width: 40px;
+      min-height: 40px;
+      height: 40px;
+    }
+  }
+
+  &__name {
+  }
+
+  &__class {
+  }
+
+  &__amount {
+    @media (max-width: 576px) {
+      font-size: 17px;
+    }
+  }
+
+  &__eduCoinIcon {
+
+
+    @media (max-width: 576px) {
+      min-width: initial;
+      min-height: initial;
+      width: 30px;
+      height: 30px;
+
+      svg {
+        width: 100% !important;
+        height: 100% !important;
+      }
+    }
+  }
+
+  &__name, &__class {
+    font-size: 24px;
+    line-height: 28px;
+
+
+    @media (max-width: 576px) {
+      font-size: 17px;
+    }
+  }
+}
+.tutorBox {
+
+  &__amount {
+  }
+}
+
+
