@@ -1,10 +1,10 @@
 import React, {useRef} from 'react'
 import './comments.scss'
 import Stars from '../../../general/stars/stars'
+import NoPhoto from '../../../../images/general/noPhoto/noPhoto'
 
 
-const Comments = ({info}) => {
-
+const Comments = ({comments, profilePhoto}) => {
   const starsInput = useRef(null)
 
   const ratingHandler = event => {
@@ -34,39 +34,49 @@ const Comments = ({info}) => {
 
       <div className="bottomTeachPage__content">
 
-        {info.comments.map((comment, index) => {
+        {
+          comments.length
+            ? comments.map((comment, index) => {
 
-          return (
-            <div key={index} className="bottomTeachPage__column">
-              <div className="bottomTeachPage__comment">
-                <div className="bottomTeachPage__img">
-                  <img src={comment.icon} alt="student"/>
-                </div>
+            console.log(comment)
 
-                <div className="bottomTeachPage__about">
-                  <h4 className="bottomTeachPage__name">{comment.name}</h4>
-                  <Stars
-                    className="bottomTeachPage__stars"
-                    rating={comment.stars}
-                    classNameOfValue="bottomTeachPage__starsValue"
-                  />
+            return (
+              <div key={index} className="bottomTeachPage__column">
+                <div className="bottomTeachPage__comment">
+                  <div className="bottomTeachPage__img">
+                    {
+                      comment.icon
+                        ? <img src={comment.icon} alt="student"/>
+                        : <NoPhoto/>
+                    }
+                  </div>
 
-                  <p className="bottomTeachPage__text">
-                    {comment.text}
-                  </p>
+                  <div className="bottomTeachPage__about">
+                    <h4 className="bottomTeachPage__name">{comment.name}</h4>
+                    <Stars
+                      className="bottomTeachPage__stars"
+                      rating={comment.user.rate_count}
+                      classNameOfValue="bottomTeachPage__starsValue"
+                    />
+
+                    <p className="bottomTeachPage__text">
+                      {comment.comment}
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
-          )
+            )
 
-        })}
+          })
+            : <p className="text-center">Nobody did not leave a comment</p>
+        }
 
       </div>
 
       <form className="bottomTeachPage__addComment addComment">
 
         <div className="addComment__image">
-          <img src={info.ownProfile.icon} alt="your profile"/>
+          <img src={profilePhoto} alt="your profile"/>
         </div>
 
         <div className="addComment__inputWrapper">

@@ -18,9 +18,9 @@ import feature15 from '../../../../../src/images/landing/features/feature15.svg'
 import FeatureBox from '../../../landing/components/FeatureBox/FeatureBox'
 
 const FeatureBoxes = [
-  {title: 'ҰБТ', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam in nam sed bibendum.'},
-  {title: 'НЗМ', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam in nam sed bibendum.'},
-  {title: 'БИЛ', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam in nam sed bibendum.'},
+  {title: 'ҰБТ', text: 'ҰБТ-ға дайындыққа арналған білім беру жүйемізді көру үшін басыңыз.'},
+  {title: 'НЗМ', text: 'НЗМ-ға дайындыққа арналған білім беру жүйемізді көру үшін басыңыз.'},
+  {title: 'БИЛ', text: 'БИЛ-ға дайындыққа арналған білім беру жүйемізді көру үшін басыңыз.'},
 ]
 
 const FeatureItems = [
@@ -34,10 +34,10 @@ const FeatureItems = [
   {text: 'EduCoin', img: feature8},
   {text: 'Live вебинар', img: feature9},
   {text: 'Жеке кабинетр', img: feature10},
-  {text: 'Профориентология', img: feature11},
-  {text: 'Тест анализ', img: feature12},
-  {text: 'Тақырыптық тесттер', img: feature13},
-  {text: 'Айлық байқау сынақтары', img: feature14},
+  {text: 'Жүйелі бағдарлама', img: feature11},
+  {text: 'Профориентология', img: feature12},
+  {text: 'Тест анализ', img: feature13},
+  {text: 'Тақырыптық тесттер', img: feature14},
   {text: 'Айлық байқау сынақтары', img: feature15},
 ]
 

@@ -20,10 +20,6 @@ import {connect} from 'react-redux'
 import {setActiveTab} from '../../../../redux/actions/coursesTabActionsFunc'
 
 
-// function filterArray(array) {
-//
-// }
-
 
 const Courses = props => {
   const [courses, setCourses] = useState([])

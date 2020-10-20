@@ -609,9 +609,18 @@
   &__img {
     border-radius: 50%;
     overflow: hidden;
-    width: 101px;
-    height: 101px;
+    min-width: 101px;
+    max-width: 101px;
+    min-height: 101px;
+    max-height: 101px;
     margin: 0 11px 0 0;
+
+    @media (max-width: 767px) {
+      min-width: 75px;
+      max-width: 75px;
+      min-height: 75px;
+      max-height: 75px;
+    }
 
     img {
       width: 100%;
@@ -642,5 +651,9 @@
     font-size: 18px;
     line-height: 21px;
 
+    @media (max-width: 767px) {
+      font-size: 15px;
+      text-indent: 0;
+    }
   }
 }

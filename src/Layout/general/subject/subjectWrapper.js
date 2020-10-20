@@ -7,18 +7,18 @@ import thing2 from '../../../images/main/things/small-things/thing2.png'
 import thing3 from '../../../images/main/things/small-things/thing3.png'
 import thing4 from '../../../images/main/things/small-things/thing4.png'
 import thing5 from '../../../images/main/things/small-things/thing5.png'
-import teacherIcon from '../../../images/general/subject/teacher-icon.jpg'
 import Comments from '../../login/components/comments/comments'
 import studentsIcon from '../../../images/general/teacher/students-icon.jpg'
+import {isEmpty} from '../../../scripts/isEmpty/isEmpty'
 
 
-const commentsInfo = {
-  comments: [
-    { name: 'Бекзат Ералиев 1', icon: studentsIcon, stars: '3', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sit pulvinar quam at ut sed. Sociis ullamcorper fusce libero ultricies. Ante quis vulputate nunc dolor dolor. Quis blandit eu vel sapien pulvinar volutpat dolor. Ligula arcu facilisi quis cursus nibh urna mi. Cursus auctor fusce diam nullam tempor mauris.'},
-    { name: 'Бекзат Ералиев 2', icon: studentsIcon, stars: '2', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sit pulvinar quam at ut sed. Sociis ullamcorper fusce libero ultricies. Ante quis vulputate nunc dolor dolor. Quis blandit eu vel sapien pulvinar volutpat dolor. Ligula arcu facilisi quis cursus nibh urna mi. Cursus auctor fusce diam nullam tempor mauris.'},
-    { name: 'Бекзат Ералиев 3', icon: studentsIcon, stars: '1', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sit pulvinar quam at ut sed. Sociis ullamcorper fusce libero ultricies. Ante quis vulputate nunc dolor dolor. Quis blandit eu vel sapien pulvinar volutpat dolor. Ligula arcu facilisi quis cursus nibh urna mi. Cursus auctor fusce diam nullam tempor mauris.'},
-  ],
-  ownProfile: { icon: studentsIcon }
+function getFromUserMeta(user, option) {
+  const candidate = user.usermetas.find(item => item.option === option)
+  if (!isEmpty(candidate)) {
+    return candidate.value
+  } else {
+    return null
+  }
 }
 
 
@@ -71,8 +71,15 @@ const SubjectWrapper = ({response, isLoaded}) => {
       setElements(() => [...itemsObject])
     }
 
-    console.log(response.parts)
+    console.log(response.product.comments)
   }, [response, isLoaded])
+
+  const {user} = response.product || null
+  const biography =
+    getFromUserMeta(user, 'biography') ||
+    getFromUserMeta(user, 'short_biography')
+  const avatar = getFromUserMeta(user, 'avatar')
+  const comments = response.product.comments
 
   return (
     <>
@@ -90,14 +97,14 @@ const SubjectWrapper = ({response, isLoaded}) => {
           <div className="subject__info subjectInfo">
 
             <div className="subjectInfo__rating">
-              <Stars className="subjectInfo__stars" rating="4.5"/>
+              <Stars className="subjectInfo__stars" rating={response.product.comments_count}/>
 
               <span className="subjectInfo__students">(123 Student)</span>
             </div>
 
             <div className="subjectInfo__person">
 
-              <span className="subjectInfo__name">Ұстаз: Оралбек Қалиев</span>
+              <span className="subjectInfo__name">Ұстаз: {user.name}</span>
 
               <span className="subjectInfo__language">Қазақша</span>
 
@@ -373,27 +380,23 @@ const SubjectWrapper = ({response, isLoaded}) => {
         <div className="subjectTeacher__top">
 
           <div className="subjectTeacher__img">
-            <img src={teacherIcon} alt="this teacher"/>
+            <img src={'http://api.ustaz.xyz/' + avatar} alt="this teacher"/>
           </div>
 
           <div className="subjectTeacher__description">
-            <div className="subjectTeacher__name">Teacher Name</div>
-            <div className="subjectTeacher__subject">Math Teacher</div>
+            <div className="subjectTeacher__name">{user.name}</div>
+            <div className="subjectTeacher__subject">{user.email}</div>
           </div>
 
         </div>
 
         <div className="subjectTeacher__bottom">
-          <p className="subjectTeacher__text"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. A faucibus blandit
-            pellentesque praesent ullamcorper purus neque vitae eleifend. Felis accumsan sapien, varius sit integer.
-            Condimentum tristique sagittis, duis sit fames nibh tristique. Massa fermentum mus faucibus orci. Amet,
-            quisque integer urna, elit ultricies amet, in. Ultrices nibh pharetra dictum eleifend a mauris, purus
-            lectus. Id sed ipsum ac quam at magna </p>
+          <p className="subjectTeacher__text">{biography}</p>
         </div>
 
       </div>
 
-      <Comments info={commentsInfo}/>
+      <Comments comments={comments} profilePhoto={studentsIcon}/>
 
     </>
   )

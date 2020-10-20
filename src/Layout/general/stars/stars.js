@@ -2,7 +2,7 @@ import React from 'react'
 import './stars.scss'
 
 
-const Stars = ({rating, className, classNameOfValue}) => {
+const Stars = ({rating = 0, className, classNameOfValue}) => {
 
   const currentRating = +rating.toString().charAt(0)
 

@@ -30,7 +30,7 @@ const ThingCard = ({activeTab, course}) => {
         <div className="bottom__item_price item_price">
           <span className="item_price__current">{`${price} ${currency}`}</span>
         </div>
-        <Link to="/subject" className="btn__shadowFromNull bottom__item_button item_button">
+        <Link to={"/subject/" + id}className="btn__shadowFromNull bottom__item_button item_button">
           Толығырақ
         </Link>
       </div>
