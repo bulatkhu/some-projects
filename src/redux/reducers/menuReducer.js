@@ -4,7 +4,7 @@ import * as actions from '../actions/menu/menuActions'
 const initialMenuState = {
   showRegisterModal: false,
   showLoginModal: false,
-  showPassModal: true,
+  showPassModal: false,
   isLoggedMenu: false,
 }
 
