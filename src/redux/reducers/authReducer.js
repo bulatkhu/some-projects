@@ -1,4 +1,4 @@
-import * as actions from '../actions/authActions'
+import * as actions from '../actions/auth/authActions'
 
 const initialAuthState = {
   isAuthenticated: false

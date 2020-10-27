@@ -1,4 +1,4 @@
-import * as actions from '../actions/userActions'
+import * as actions from '../actions/user/userActions'
 
 const initialUserState = {
   user: null

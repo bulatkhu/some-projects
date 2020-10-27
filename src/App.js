@@ -1,5 +1,5 @@
-import React, { useLayoutEffect } from 'react'
-import {Switch, Route, useLocation } from 'react-router-dom'
+import React, {useLayoutEffect} from 'react'
+import {Switch, Route, useLocation} from 'react-router-dom'
 import './App.scss'
 import Menu from './Layout/landing/containers/menu/menu'
 import Footer from './Layout/landing/containers/footer/footer'
@@ -25,52 +25,53 @@ const menuLinks = [
 function App(props) {
   const location = useLocation()
   useLayoutEffect(() => {
-    window.scrollTo(0,0)
+    window.scrollTo(0, 0)
   }, [location.pathname])
 
 
   return (
-      <div className="App">
-        <Menu links={menuLinks} isSignIn={false}/>
+    <div className="App">
+      <Menu links={menuLinks} isSignIn={false}/>
 
 
-        <div className="app__wrapper">
-          <Switch>
+      <div className="app__wrapper">
 
 
-            <Route exact path="/">
-              <Landing/>
-            </Route>
-            <Route exact path="/teachers">
-              <TeachersRoute/>
-            </Route>
-            <Route exact path="/materials">
-              <Materials/>
-            </Route>
-            <Route exact path="/subject/:id?">
-              <Subject container/>
-            </Route>
-            <Route exact path="/paying">
-              <Paying/>
-            </Route>
+        <Switch>
 
+          <Route exact path="/">
+            <Landing/>
+          </Route>
 
-            <AuthRequired isAuth={props.isAuth}/>
+          <Route exact path="/teachers">
+            <TeachersRoute/>
+          </Route>
+          <Route exact path="/materials">
+            <Materials/>
+          </Route>
+          <Route exact path="/subject/:id?">
+            <Subject container/>
+          </Route>
+          <Route exact path="/paying">
+            <Paying/>
+          </Route>
 
-            <Route path="*">
-              <NotFound/>
-            </Route>
-          </Switch>
-        </div>
+          <AuthRequired isAuth={props.isAuth}/>
 
-
-        <Footer/>
+          <Route path="*">
+            <NotFound/>
+          </Route>
+        </Switch>
       </div>
+
+      <Footer/>
+    </div>
   )
 }
 
 const mapStateToProps = state => {
   return {
+    menu: state.menu,
     isAuth: state.auth.isAuthenticated
   }
 }

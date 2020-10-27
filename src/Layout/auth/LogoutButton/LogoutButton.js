@@ -2,7 +2,7 @@ import React from 'react'
 import {LogoutIcon} from '../../../images/general/menuIcons/infoIcon'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
-import {logoutAction} from '../../../redux/actions/authActionsFuncs'
+import {logoutAction} from '../../../redux/actions/auth/authActionsFuncs'
 
 
 const LogoutButton = props => {

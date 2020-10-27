@@ -1,7 +1,7 @@
 import React from 'react'
 import './CircleForModals.scoped.scss'
 import {connect} from 'react-redux'
-import {hideModalLogin, hideModalReg, showModalLogin, showModalReg} from '../../../../redux/actions/menuActionsFuncs'
+import {hideModalLogin, hideModalReg, showModalLogin, showModalReg} from '../../../redux/actions/menu/menuActionsFuncs'
 
 
 const CircleForModals = props => {
@@ -16,8 +16,6 @@ const CircleForModals = props => {
       props.hideLogin()
       props.showRegister()
     }
-
-
   }
 
 

@@ -1,46 +1,33 @@
 import React, {useEffect, useState} from 'react'
-import {Link} from 'react-router-dom'
+import {Link, withRouter} from 'react-router-dom'
 import './menu.scss'
 import logo from '../../../../images/landing/header/logo.svg'
-import ModalSignIn from '../../../landing/components/ModalSignIn/ModalSignIn'
-import ModalRegister from '../../../landing/components/ModalRegister/ModalRegister'
+import ModalSignIn from '../../../modals/ModalSignIn/ModalSignIn'
+import ModalRegister from '../../../modals/ModalRegister/ModalRegister'
 import {connect} from 'react-redux'
-import {showModalLogin, showModalReg} from '../../../../redux/actions/menuActionsFuncs'
+import {showModalLogin, showModalReg} from '../../../../redux/actions/menu/menuActionsFuncs'
 import profilePhoto from '../../../../images/login/navbar/profilePhoto.jpg'
+import {scrollBodyHandler} from '../../../../scripts/scrollController/scrollController'
+import ModalPortal from '../../../modals/ModalPortal/ModalPortal'
+import ModalPass from '../../../modals/ModalPass/ModalPass'
+
 
 const Menu = props => {
   const {links, menu} = props
   const [showMobileMenu, setShowMobileMenu] = useState(false)
-  const scrollBodyHandler = {
-    body: document.querySelector('body'),
-    lock() {
-      this.body.classList.add('scroll-locked')
-    },
-    unLock() {
-      this.body.classList.remove('scroll-locked')
-    },
-    switch() {
-      this.body.classList.contains('scroll-locked')
-        ? this.body.classList.remove('scroll-locked')
-        : this.body.classList.add('scroll-locked')
-    }
-  }
+
 
   useEffect(() => {
-    if (menu.showRegisterModal || menu.showLoginModal || showMobileMenu) {
+    if (menu.showRegisterModal || menu.showLoginModal ||
+        menu.showPassModal     || showMobileMenu) {
       scrollBodyHandler.lock()
     } else {
       scrollBodyHandler.unLock()
     }
-  }, [menu.showLoginModal, menu.showRegisterModal, scrollBodyHandler, showMobileMenu])
+  }, [menu, showMobileMenu])
 
 
   const toggleMenuHandler = () => setShowMobileMenu(prev => !prev)
-
-  // const signInModalHandler = () => setShowSignIn(prev => !prev)
-  const signInModalHandler = () => props.onShowLogin()
-
-  const registerModalHandler = () => props.onShowRegister()
 
 
   const menuClasses = ['menu__nav']
@@ -60,7 +47,8 @@ const Menu = props => {
             <div className={menuClasses.join(' ')}>
               <div
                 onClick={toggleMenuHandler}
-                className="menu__icon icon-menu">
+                className="menu__icon icon-menu"
+              >
                 <span/>
                 <span/>
                 <span/>
@@ -96,8 +84,8 @@ const Menu = props => {
                     </>
 
                   : <>
-                      <button onClick={signInModalHandler} className="login__column login__card login__card__icon">Кіру</button>
-                      <button onClick={registerModalHandler} className="login__column login__button">Тіркелу</button>
+                      <button onClick={() => props.onShowLogin()} className="login__column login__card login__card__icon">Кіру</button>
+                      <button onClick={() => props.onShowRegister()} className="login__column login__button">Тіркелу</button>
                     </>
               }
             </div>
@@ -105,9 +93,16 @@ const Menu = props => {
         </div>
       </header>
 
-      <ModalSignIn/>
-
-      <ModalRegister/>
+      {
+        !props.isAuth && !props.isSignIn
+        ?
+          <>
+            <ModalPortal><ModalSignIn   show={menu.showLoginModal}/></ModalPortal>
+            <ModalPortal><ModalRegister show={menu.showRegisterModal}/></ModalPortal>
+            <ModalPortal><ModalPass     show={menu.showPassModal}/></ModalPortal>
+          </>
+        : null
+      }
     </div>
   )
 }
@@ -129,4 +124,4 @@ const mapDispatchToProps = dispatch => {
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Menu)
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Menu))

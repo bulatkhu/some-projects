@@ -3,9 +3,9 @@ import {useHistory} from 'react-router-dom';
 import './ModalSignIn.scss'
 import axios from 'axios'
 import {connect} from 'react-redux'
-import {hideModalLogin} from '../../../../redux/actions/menuActionsFuncs'
-import {checkIsAuth} from '../../../../redux/actions/authActionsFuncs'
-import {setUsersData} from '../../../../redux/actions/userActionsFuncs'
+import {hideModalLogin, showModalLogin, showModalPass} from '../../../redux/actions/menu/menuActionsFuncs'
+import {checkIsAuth} from '../../../redux/actions/auth/authActionsFuncs'
+import {setUsersData} from '../../../redux/actions/user/userActionsFuncs'
 import CircleForModals from '../CircleForModals/CircleForModals'
 import {Form, Field} from 'react-final-form'
 // import {validateEmail} from '../../../../scripts/validations/validators'
@@ -86,10 +86,17 @@ const ModalSignIn = props => {
     }
   }
 
+  const resetPassHandler = event => {
+    event.preventDefault()
+    props.onHideLoginModal()
+    props.onShowPassModal()
+  }
+
 
   return (
     <div onClick={onOverlayClick}
-         className={['modalSignIn__overlay', props.showLoginModal ? 'modalActive' : null].join(' ')}>
+      className={['modalSignIn__overlay', props.show ? 'modalActive' : null].join(' ')}
+    >
       <div className="modalSignIn">
         <CircleForModals title="Тіркелу"/>
 
@@ -161,7 +168,7 @@ const ModalSignIn = props => {
                   <label htmlFor="SignInformRemember">Есте сақтау</label>
                 </div>
 
-                <a href="/resetPassword" className="questionsSignIn__reset">Құпиясөзді ұмыттыңыз ба?</a>
+                <a href="/resetPassword" onClick={resetPassHandler} className="questionsSignIn__reset">Құпиясөзді ұмыттыңыз ба?</a>
 
               </div>
 
@@ -189,7 +196,9 @@ const matchDispatchToProps = dispatch => {
   return {
     onHideLoginModal: () => dispatch(hideModalLogin()),
     isAuth: boolean => dispatch(checkIsAuth(!!boolean)),
-    setUserData: user => dispatch(setUsersData(user))
+    setUserData: user => dispatch(setUsersData(user)),
+    onShowLogin: () => dispatch(showModalLogin()),
+    onShowPassModal: () => dispatch(showModalPass())
   }
 }
 

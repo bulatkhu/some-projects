@@ -1,4 +1,4 @@
-import * as actions from '../actions/coursesTabActions'
+import * as actions from '../actions/coursesTab/coursesTabActions'
 
 
 const initialMenuState = {

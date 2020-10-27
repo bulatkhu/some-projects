@@ -8,11 +8,13 @@ import {
   PaymentIcon, PromoIcon, TestIcon
 } from '../../images/general/menuIcons/infoIcon'
 import LogoutButton from '../auth/LogoutButton/LogoutButton'
+import {connect} from 'react-redux'
 
 
-const Login = ({children, links, type, photo, coins, name}) => {
+const Login = ({children, links, type, photo, coins, name, user}) => {
   const [showMenu, setShowMenu] = useState(true)
   const {base} = links
+
 
   const toggleNavBar = event => {
 
@@ -277,4 +279,12 @@ const Login = ({children, links, type, photo, coins, name}) => {
   )
 }
 
-export default Login
+
+function mapStateToProps(state) {
+  return {
+    user: {...state.user}
+  }
+}
+
+
+export default connect(mapStateToProps)(Login)

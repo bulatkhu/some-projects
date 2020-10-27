@@ -1,5 +1,9 @@
 .modalReg {
 
+  &__wrapper {
+    position: relative;
+  }
+
   position: relative;
   padding: 41px 0 41px 0;
   max-width: 700px;
@@ -8,7 +12,7 @@
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.25);
   border-radius: 40px;
   text-align: center;
-  //overflow: hidden;
+  overflow: auto;
 
   @media (max-width: 767px) {
     max-width: 90%;
@@ -74,6 +78,17 @@
 }
 
 .phoneConfirm {
+
+  margin: auto;
+
+  &__description {
+    font-size: 16px;
+    line-height: 19px;
+    text-align: center;
+    color: #03382E;
+    margin-top: 0;
+  }
+
   &__confirm {
     margin: 90px auto 0                                                                                                                                                                                                         auto;
     max-width: 290px;
@@ -126,7 +141,7 @@
     background: #407BBF;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
     border-radius: 37px;
-    padding: 5px 0;
+    padding: 5px;
     box-sizing: border-box;
     min-width: 104px;
     border: none;
@@ -210,7 +225,7 @@
       right: 15px;
       width: 23px;
       height: 16px;
-      background: url("../../../../images/landing/modalSignIn/eye.svg") no-repeat center;
+      background: url("../../../images/landing/modalSignIn/eye.svg") no-repeat center;
 
       @media (max-width: 576px) {
         top: 10px;

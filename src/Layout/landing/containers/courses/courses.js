@@ -17,7 +17,7 @@ import ThingCard from '../../../landing/components/ThingCard/ThingCard'
 import Tabs from '../../../landing/components/Tabs/tabs'
 import axios from 'axios'
 import {connect} from 'react-redux'
-import {setActiveTab} from '../../../../redux/actions/coursesTabActionsFunc'
+import {setActiveTab} from '../../../../redux/actions/coursesTab/coursesTabActionsFunc'
 
 
 

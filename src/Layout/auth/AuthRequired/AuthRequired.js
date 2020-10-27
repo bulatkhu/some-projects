@@ -63,6 +63,8 @@ const loggedInfo = {
 const AuthRequired = ({isAuth}) => {
   const {teacher, student, tutor} = loggedInfo
 
+  console.log(isAuth)
+
 
   return (
     <>

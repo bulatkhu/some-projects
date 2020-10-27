@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react'
 import './tabs.scss'
 import {connect} from 'react-redux'
-import {setActiveTab} from '../../../../redux/actions/coursesTabActionsFunc'
+import {setActiveTab} from '../../../../redux/actions/coursesTab/coursesTabActionsFunc'
 
 
 function capsFirstLetter(word) {

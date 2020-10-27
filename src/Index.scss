@@ -119,6 +119,50 @@ ul {
 
 }
 
+.disabled {
+  user-select: none;
+}
+
+.modal__overlay {
+  position: fixed;
+  top: -200%;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  visibility: hidden;
+  transition: all 0.3s;
+  background: rgba(0, 0, 0, 0.3);
+  overflow: auto;
+
+  &.modalActive {
+    top: 0;
+    visibility: visible;
+    overflow: auto;
+  }
+}
+
+.margin{
+
+  &__horizontal0 {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  &__button1 {
+    margin-bottom: 10px;
+  }
+
+  &__button2 {
+    margin-bottom: 20px;
+  }
+
+  &__button2-5 {
+    margin-bottom: 25px;
+  }
+
+}
+
 @media (max-width: 576px) {
   ._container {
     max-width: 540px;
