@@ -4,12 +4,10 @@ import {connect} from 'react-redux'
 import {hideModalReg, showModalLogin} from '../../../redux/actions/menu/menuActionsFuncs'
 import CircleForModals from '../CircleForModals/CircleForModals'
 import {Field, Form} from 'react-final-form'
-import axios from 'axios'
 import InputMask from 'react-input-mask'
 import {validatePassword, validateEmail, validatePhone} from '../../../scripts/validations/validators'
 import PhoneConfirmation from '../PhoneConfirmation/PhoneConfirmation'
-import {keyGenerate} from '../../../request/apiRequests'
-
+import {keyGenerate, register} from '../../../request/apiRequests'
 
 const eyeHandler = event => {
   event.stopPropagation()
@@ -53,7 +51,11 @@ const ModalRegister = props => {
     values.phone = formValues.phone.substring(1)
 
     try {
-      const response = await axios.post('https://api.ustaz.xyz/api/v1/user/register', values)
+      const response = await register(values)
+
+
+      console.log(response)
+
 
       if (+response.data.status === 1) {
         console.log(response.data)
@@ -82,7 +84,7 @@ const ModalRegister = props => {
       }
     } catch (e) {
       console.log('Error: ', JSON.stringify(e))
-      setError(e.response)
+      setError(e.response || e.message || e.error)
     }
 
 

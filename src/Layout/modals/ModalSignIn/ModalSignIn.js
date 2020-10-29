@@ -1,21 +1,22 @@
 import React, {useEffect, useRef, useState} from 'react'
 import {useHistory} from 'react-router-dom';
-import './ModalSignIn.scss'
-import axios from 'axios'
 import {connect} from 'react-redux'
+import {Form, Field} from 'react-final-form'
+import './ModalSignIn.scss'
 import {hideModalLogin, showModalLogin, showModalPass} from '../../../redux/actions/menu/menuActionsFuncs'
 import {checkIsAuth} from '../../../redux/actions/auth/authActionsFuncs'
 import {setUsersData} from '../../../redux/actions/user/userActionsFuncs'
 import CircleForModals from '../CircleForModals/CircleForModals'
-import {Form, Field} from 'react-final-form'
-// import {validateEmail} from '../../../../scripts/validations/validators'
+import {login} from '../../../request/apiRequests'
+import {validatePhone} from '../../../scripts/validations/validators'
+import InputMask from 'react-input-mask'
 
 
 const ModalSignIn = props => {
+  const history = useHistory()
   const refToPassInput = useRef(null)
   const [showPassword, setShowPassword] = useState(false)
   const [showError, setShowError] = useState({error: null, isError: false})
-  const history = useHistory()
 
 
   useEffect(() => {
@@ -27,54 +28,49 @@ const ModalSignIn = props => {
   }, [showPassword])
 
 
-  const onFormSubmit = values => {
-    const {username, password} = values
+  const onFormSubmit = async values => {
+    let {phone, password} = values
+    values.phone = phone.replace('+', '')
 
-    if (username.trim() && password.trim()) {
+    if (phone.trim() && password.trim()) {
 
       try {
-        axios
-          .post('https://api.ustaz.xyz/api/v1/user/login', { username, password })
-          .then(res => {
 
-            if (res.data.error) {
-              return setShowError({
-                error: res.data.error,
-                isError: true
-              })
-            }
+        const response = await login(values)
 
-            const {user} = res.data.data
-
-            if (+res.data.status === 1) {
-
-              props.setUserData(user)
-              localStorage.setItem('token', user.token)
-              setShowError({
-                error: null,
-                isError: false
-              })
-              props.onHideLoginModal()
-              props.isAuth(true)
-              history.push('/student')
-            } else {
-              setShowError({
-                error: res,
-                isError: true
-              })
-            }
+        if (response.data.error) {
+          return setShowError({
+            error: response.data.error,
+            isError: true
           })
-          .catch(err => {
+        }
 
-            if (err.response) {
-              setShowError({
-                error: err.response.data.error,
-                isError: true
-              })
-            }
+        const {user} = response.data.data
+
+        if (+response.data.status === 1) {
+
+          props.setUserData(user)
+          localStorage.setItem('token', user.token)
+          setShowError({
+            error: null,
+            isError: false
           })
+          props.onHideLoginModal()
+          props.isAuth(true)
+          history.push('/student')
+        } else {
+          setShowError({
+            error: response,
+            isError: true
+          })
+        }
       } catch (e) {
-        console.log(e)
+        if (e.response || e.message || e.error) {
+          setShowError({
+            error: e.response.data.error || e.response || e.message || e.error,
+            isError: true
+          })
+        }
       }
 
     }
@@ -121,17 +117,27 @@ const ModalSignIn = props => {
               <label htmlFor="phoneSignIn" className="SignInform__label SignInform__label__phone">phone</label>
 
               <Field
-                name="username"
+                name="phone"
                 required
-                defaultValue="name-full"
-                // validate={validateEmail}
+                parse={value => value.replace(/\(|\)|\s|-/g, '')}
+                validate={validatePhone}
+                defaultValue="+77712197400"
               >
-                {({input}) => <input
-                  className="SignInform__phone SignInform__input"
-                  id="phoneSignIn"
-                  type="text" placeholder="+7(7__)-___-__-__"
-                  {...input}
-                />}
+                {({input, meta}) => {
+                  // const onError =
+
+                  return <>
+                    <InputMask
+                      mask="+7 (999) - 999 - 99 - 99"
+                      placeholder="+7 (___) - ___ - __ - __"
+                      className={['SignInform__phone', 'SignInform__input', meta.error && meta.touched && 'regFormInput__error'].join(' ')}
+                      id="phoneSignIn" type="text"
+                      {...input}
+                    />
+                    {meta.error && meta.touched &&
+                    <span className="error" style={{display: 'block', margin: '-10px 0 10px 0'}}>Invalid phone number</span>}
+                  </>
+                }}
               </Field>
 
               <label
@@ -147,7 +153,7 @@ const ModalSignIn = props => {
                 <Field
                   name="password"
                   required
-                  defaultValue="password"
+                  defaultValue="12345Bulat"
                 >
                   {({input}) => (
                     <input

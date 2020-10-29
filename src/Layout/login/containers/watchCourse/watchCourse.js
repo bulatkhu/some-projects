@@ -1,10 +1,11 @@
-import React, {useRef, useState} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import './watchCourse.scoped.scss'
 import VideoPlayer from '../../../general/videoPlayer/videoPlayer'
 import Stars from '../../../general/stars/stars';
 import FlipBookComponent from '../../../general/flipBook/flipBookComp'
 import TestSlider from "../../components/testSlider/testSlider";
 import ConsiderResults from '../../../landing/auxiliary/considerResults'
+import {getQuizzes} from '../../../../request/apiRequests'
 
 const playersProps = [
   {
@@ -158,6 +159,16 @@ const initialSliderItems = [
 
 ]
 
+const onButtonClick = event => {
+  event.target.classList.toggle('active')
+  const panel = event.target.nextElementSibling
+  if (panel.style.maxHeight) {
+    panel.style.maxHeight = null
+  } else {
+    panel.style.maxHeight = panel.scrollHeight + 'px'
+  }
+}
+
 
 function Course() {
   const [testState, changeTestState] = useState(initialTestState)
@@ -165,15 +176,19 @@ function Course() {
   const refCoursesButtons = useRef(null)
 
 
-  const onButtonClick = event => {
-    event.target.classList.toggle('active')
-    const panel = event.target.nextElementSibling
-    if (panel.style.maxHeight) {
-      panel.style.maxHeight = null
-    } else {
-      panel.style.maxHeight = panel.scrollHeight + 'px'
-    }
-  }
+
+  useEffect(() => {
+
+    (async function() {
+
+      const quiz = await getQuizzes(12)
+      console.log('quiz', quiz)
+
+    })();
+
+  }, [])
+
+
 
   const showTestHandler = (info, element) => {
     const $buttons = refCoursesButtons.current.querySelectorAll('.course-buttons__btn')
@@ -250,6 +265,8 @@ function Course() {
           !testState.showResults
             ? !testState.startTest
                 ? <div className="course__column course-book__column">
+
+
                   {
                     !testState.showTest
                       ? <div className="course-book">
