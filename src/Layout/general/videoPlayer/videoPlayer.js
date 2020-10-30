@@ -3,13 +3,13 @@ import ReactPlayer from 'react-player'
 import './videoPlayer.scss'
 
 
-const VideoPlayer = props => {
+const VideoPlayer = ({className, url}) => {
 
 
   return (
     <ReactPlayer
-      className={['videoPlayer', props.className].join(' ')}
-      url={props.url || 'https://vimeo.com/259411563'}
+      className={['videoPlayer', className].join(' ')}
+      url={url || 'https://vimeo.com/259411563'}
       controls={true}
       width={'100%'}
       height={'100%'}

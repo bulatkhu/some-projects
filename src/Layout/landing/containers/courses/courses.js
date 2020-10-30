@@ -27,7 +27,7 @@ const Courses = props => {
   useMemo(async () => {
 
     try {
-      const response = await axios.get('https://api.ustaz.xyz/api/v1/index')
+      const response = await axios.get('/index')
       const courses = response.data.data.content
 
       const coursesArray = Object

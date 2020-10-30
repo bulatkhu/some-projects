@@ -10,6 +10,7 @@ import thing5 from '../../../images/main/things/small-things/thing5.png'
 import Comments from '../../login/components/comments/comments'
 import studentsIcon from '../../../images/general/teacher/students-icon.jpg'
 import {isEmpty} from '../../../scripts/isEmpty/isEmpty'
+import VideoPlayer from '../videoPlayer/videoPlayer'
 
 
 function getFromUserMeta(user, option) {
@@ -41,10 +42,7 @@ const SubjectWrapper = ({response, isLoaded}) => {
 
         }
       })
-
     }
-
-
   }
 
 
@@ -71,15 +69,15 @@ const SubjectWrapper = ({response, isLoaded}) => {
       setElements(() => [...itemsObject])
     }
 
-    console.log(response.product.comments)
+    console.log('response', response.meta.video)
   }, [response, isLoaded])
 
   const {user} = response.product || null
-  const biography =
-    getFromUserMeta(user, 'biography') ||
-    getFromUserMeta(user, 'short_biography')
+  const biography = getFromUserMeta(user, 'biography') ||
+                    getFromUserMeta(user, 'short_biography')
   const avatar = getFromUserMeta(user, 'avatar')
   const comments = response.product.comments
+  const videoLink = response.meta.video
 
   return (
     <>
@@ -91,7 +89,7 @@ const SubjectWrapper = ({response, isLoaded}) => {
           <div className="subject__titles">
             {/*<h1 className="subject__title">Математика</h1>*/}
             <h1 className="subject__title">{response.product.title}</h1>
-            <h2 className="subject__subTitle">Ұлттық Бірыңғай тестілеуге дайындыққа арналған. </h2>
+            <h2 className="subject__subTitle">{response.product.category.title}</h2>
           </div>
 
           <div className="subject__info subjectInfo">
@@ -157,53 +155,6 @@ const SubjectWrapper = ({response, isLoaded}) => {
             className="subject__textContent"
             dangerouslySetInnerHTML={{__html: response.product.content}}
           />
-
-
-          {/*<div className="subject__text">*/}
-
-          {/*  <h3 className="subject__textTitle">Курс туралы</h3>*/}
-
-          {/*  <div className="subject__mainText">*/}
-          {/*    <p>Всем привет и добро пожаловать в курс "Android разработка с нуля до Junior".</p>*/}
-
-          {/*    <p>*/}
-          {/*      Этот курс предназначен для людей, которые никогда не изучали языки программирования. Для того чтобы*/}
-          {/*      писать*/}
-          {/*      приложения, которые не просто хорошо выглядят, но и выполняют различные функции, необходимо знать язык*/}
-          {/*      Java, и первый раздел я полностью посвятил его изучению. Java это очень мощный язык, который*/}
-          {/*      используется*/}
-          {/*      в очень многих сферах в веб разработке, в разработке приложений под Андроид, в серверных приложениях, и*/}
-          {/*      считается довольно сложным для новичков, но не переживайте, я специально построил материал таким*/}
-          {/*      образом,*/}
-          {/*      чтобы он был понятен школьникам и студентам и людям различных профессий в т.ч нетехнических, у которых*/}
-          {/*      нет*/}
-          {/*      никакого опыта в программировании. Все что нужно от вас – это желание учиться и наличие компьютера.*/}
-          {/*      Лекции*/}
-          {/*      содержат домашние задания, чтобы вы не просто прослушали материал, но и закрепили его на практике. В*/}
-          {/*      первом разделе мы полностью изучим основы Java – программирования, а после займемся разработкой*/}
-          {/*      приложений.</p>*/}
-
-          {/*    <p>Мы с вами полностью пройдем весь путь от установки среды разработки до загрузки вашего приложения в*/}
-          {/*      Google*/}
-          {/*      Play. Первые наши приложения будут очень простые, потом с каждым уроком мы будем их усложнять, добавлять*/}
-          {/*      все больше новых элементов.</p>*/}
-
-
-          {/*  </div>*/}
-
-          {/*</div>*/}
-
-          {/*<div className="subject__text">*/}
-
-          {/*  <h3*/}
-          {/*    className="subject__textTitle"*/}
-          {/*  >Кімдерге арналған?</h3>*/}
-
-          {/*  <div className="subject__mainText">*/}
-          {/*    Талапкерлерге, мектеп оқушыларына, білімін шыңдағысы келетін ұстаздарға*/}
-          {/*  </div>*/}
-
-          {/*</div>*/}
 
           <div className="subject__text">
 
@@ -302,12 +253,16 @@ const SubjectWrapper = ({response, isLoaded}) => {
         <div className="subject__column">
           <div className="subjectVideo">
 
-            <a href="/" className="subjectVideo__img">
-                      <span>
-                        <img src={playButton} alt="play button"/>
-                      </span>
-              <img src={videoIcon} alt="video preview"/>
-            </a>
+            <VideoPlayer
+              url={'https://api.ustaz.xyz' + videoLink}
+            />
+
+            {/*<a href="/" className="subjectVideo__img">*/}
+            {/*          <span>*/}
+            {/*            <img src={playButton} alt="play button"/>*/}
+            {/*          </span>*/}
+            {/*  <img src={videoIcon} alt="video preview"/>*/}
+            {/*</a>*/}
 
             <div className="subjectVideo__price">{response.meta.price}т</div>
             <div className="subjectVideo__price buySubjectItems__oldPrice">{response.meta.post_price}т</div>

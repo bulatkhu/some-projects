@@ -37,3 +37,19 @@ export async function getQuizzes(quizId) {
 
   return await axios.get(`/quiz/${quizId}?token=${token}`)
 }
+
+export async function getCoursesFromIndex() {
+  try {
+    return await axios.get('/index')
+  } catch (e) {
+    return e.error || e.response || e.data.response || e.data.error
+  }
+}
+
+export async function getDetailCourse(id) {
+  try {
+    return await axios.get(`/getContent/${id}`)
+  } catch (e) {
+    return e.error || e.response || e.data.response || e.data.error
+  }
+}

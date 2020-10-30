@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react'
 import { withRouter } from 'react-router-dom'
 import './subject.scss'
-import axios from 'axios'
 import SubjectWrapper from './subjectWrapper'
 import Loader from '../component/loader/loader'
 import {isEmpty} from '../../../scripts/isEmpty/isEmpty'
 import LoaderContainer from '../container/loaderContainer/loaderContainer'
+import {getDetailCourse} from '../../../request/apiRequests'
 
 
 
@@ -20,8 +20,7 @@ const Subject = ({container, match}) => {
 
     if (id) {
       try {
-        axios
-          .get(`https://api.ustaz.xyz/api/v1/getContent/${id}`)
+        getDetailCourse(id)
           .then(res => {
             setResponse(res.data)
             setIsLoaded(true)
