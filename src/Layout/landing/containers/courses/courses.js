@@ -15,9 +15,9 @@ import './courses.scss'
 // import tabItem13 from '../../../../images/general/courses/tab-thing13.jpg'
 import ThingCard from '../../../landing/components/ThingCard/ThingCard'
 import Tabs from '../../../landing/components/Tabs/tabs'
-import axios from 'axios'
 import {connect} from 'react-redux'
 import {setActiveTab} from '../../../../redux/actions/coursesTab/coursesTabActionsFunc'
+import {getCoursesFromIndex} from "../../../../request/apiRequests";
 
 
 
@@ -27,7 +27,7 @@ const Courses = props => {
   useMemo(async () => {
 
     try {
-      const response = await axios.get('/index')
+      const response = await getCoursesFromIndex()
       const courses = response.data.data.content
 
       const coursesArray = Object

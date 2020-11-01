@@ -58,6 +58,12 @@ ul {
 
 .input {
 
+  &__noFocus {
+    &:focus {
+      outline: none;
+    }
+  }
+
   &__focusedBoxShadow {
     transition: all .3s;
 

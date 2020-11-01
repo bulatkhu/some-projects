@@ -12,10 +12,10 @@ const styles = {
 }
 
 
-const NoPhoto = ({text = 'no photo'}) => {
+const NoPhoto = ({text = 'no photo', style = styles}) => {
 
   return (
-    <div style={styles}>
+    <div style={style}>
       {text}
     </div>
   )

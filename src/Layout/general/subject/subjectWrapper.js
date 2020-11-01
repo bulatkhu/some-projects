@@ -1,7 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react'
 import Stars from '../stars/stars'
 import playButton from '../../../images/general/subject/play-button.svg'
-import videoIcon from '../../../images/general/subject/video-icon.png'
 import thing1 from '../../../images/main/things/small-things/thing1.png'
 import thing2 from '../../../images/main/things/small-things/thing2.png'
 import thing3 from '../../../images/main/things/small-things/thing3.png'
@@ -9,18 +8,9 @@ import thing4 from '../../../images/main/things/small-things/thing4.png'
 import thing5 from '../../../images/main/things/small-things/thing5.png'
 import Comments from '../../login/components/comments/comments'
 import studentsIcon from '../../../images/general/teacher/students-icon.jpg'
-import {isEmpty} from '../../../scripts/isEmpty/isEmpty'
 import VideoPlayer from '../videoPlayer/videoPlayer'
+import {getFromUserMeta} from '../../../scripts/dataHandler/dataHandler'
 
-
-function getFromUserMeta(user, option) {
-  const candidate = user.usermetas.find(item => item.option === option)
-  if (!isEmpty(candidate)) {
-    return candidate.value
-  } else {
-    return null
-  }
-}
 
 
 const SubjectWrapper = ({response, isLoaded}) => {

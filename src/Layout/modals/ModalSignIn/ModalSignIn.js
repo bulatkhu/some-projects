@@ -34,43 +34,28 @@ const ModalSignIn = props => {
 
     if (phone.trim() && password.trim()) {
 
-      try {
+      const response = await login(values)
 
-        const response = await login(values)
+      console.log(response)
 
-        if (response.data.error) {
-          return setShowError({
-            error: response.data.error,
-            isError: true
-          })
-        }
+      if (response.error) return setShowError({ error: response.data.error, isError: true })
 
+      if (+response.data.status === 1) {
         const {user} = response.data.data
-
-        if (+response.data.status === 1) {
-
-          props.setUserData(user)
-          localStorage.setItem('token', user.token)
-          setShowError({
-            error: null,
-            isError: false
-          })
-          props.onHideLoginModal()
-          props.isAuth(true)
-          history.push('/student')
-        } else {
-          setShowError({
-            error: response,
-            isError: true
-          })
-        }
-      } catch (e) {
-        if (e.response || e.message || e.error) {
-          setShowError({
-            error: e.response.data.error || e.response || e.message || e.error,
-            isError: true
-          })
-        }
+        props.setUserData(user)
+        localStorage.setItem('token', user.token)
+        setShowError({
+          error: null,
+          isError: false
+        })
+        props.onHideLoginModal()
+        props.isAuth(true)
+        history.push('/student')
+      } else {
+        setShowError({
+          error: response.data.error,
+          isError: true
+        })
       }
 
     }

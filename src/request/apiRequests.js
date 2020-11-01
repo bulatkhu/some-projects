@@ -7,40 +7,48 @@ export const configAccess = {
   }
 }
 
+
+const isForFirebase = true // otherwise add to package.json "proxy": "https://api.ustaz.xyz/api/v1"
+const baseUrl = 'https://api.ustaz.xyz/api/v1'
+
+
 export async function login(values) {
-  return axios.post('/user/login', { ...values }, { headers: { ...configAccess } })
+  return axios
+    .post(!isForFirebase ? '/user/login' : baseUrl + '/user/login', { ...values }, { headers: { ...configAccess } })
+    .then(res => ({...res, error: false}))
+    .catch(err => ({ error: true, errInfo: err}))
 }
 
 export async function register(values) {
-  return await axios.post('/user/register', { ...values }, { headers: { ...configAccess } })
+  return await axios.post(!isForFirebase ? '/user/register' : baseUrl + '/user/register', { ...values }, { headers: { ...configAccess } })
 }
 
 export async function keyGenerate(phone) {
-  return await axios.post('/user/keyGenerate', { phone }, { headers: { ...configAccess } })
+  return await axios.post(!isForFirebase ? '/user/keyGenerate' : baseUrl + '/user/keyGenerate', { phone }, { headers: { ...configAccess } })
 }
 
 export async function checkKey(values) {
-  return await axios.post('/user/checkKey', { ...values }, { headers: { ...configAccess } })
+  return await axios.post(!isForFirebase ? '/user/checkKey' : baseUrl + '/user/checkKey', { ...values }, { headers: { ...configAccess } })
 }
 
 export async function getQuizList() {
   const token = localStorage.getItem('token') || '' || false
   if (!token) return { error: 'Invalid auth token' }
 
-  return await axios.get(`/quizlist?token=${token}`)
+  return await axios.get(!isForFirebase ? `/quizlist?token=${token}` : baseUrl + `/quizlist?token=${token}`)
 }
 
 export async function getQuizzes(quizId) {
-  const token = localStorage.getItem('token') || '' || false
+  const token = localStorage.getItem('token')
   // const token = '' || false
   if (!token) return { error: 'Invalid auth token' }
 
-  return await axios.get(`/quiz/${quizId}?token=${token}`)
+  return await axios.get(!isForFirebase ? `/quiz/${quizId}?token=${token}` : baseUrl + `/quiz/${quizId}?token=${token}`)
 }
 
 export async function getCoursesFromIndex() {
   try {
-    return await axios.get('/index')
+    return await axios.get(!isForFirebase ? '/index' : baseUrl + '/index')
   } catch (e) {
     return e.error || e.response || e.data.response || e.data.error
   }
@@ -48,8 +56,58 @@ export async function getCoursesFromIndex() {
 
 export async function getDetailCourse(id) {
   try {
-    return await axios.get(`/getContent/${id}`)
+    return await axios.get(!isForFirebase ? `/getContent/${id}` : baseUrl + `/getContent/${id}`)
   } catch (e) {
     return e.error || e.response || e.data.response || e.data.error
   }
+}
+
+export async function getChatConversations(page = '1') {
+  const token = localStorage.getItem('token')
+  if (!token) {
+    return { error: 'invalid token' }
+  }
+
+  return await axios
+    .get(!isForFirebase
+      ? `/chat/getConversations?token=${token}&page=${page}`
+      : baseUrl + `/chat/getConversations?token=${token}&page=${page}`
+    )
+}
+
+export async function getChatUsers() {
+  return  await axios
+    .get(!isForFirebase ? '/user/lists' : baseUrl + '/user/lists')
+}
+
+export async function getMessagesByUserId(id) {
+  const token = localStorage.getItem('token')
+  if (!token) {
+    return { error: 'invalid token' }
+  }
+
+  return await axios
+    .get(!isForFirebase ? `/chat/getMessagesByUser?token=${token}&id=${id}` : baseUrl + `/chat/getMessagesByUser?token=${token}&id=${id}`)
+    .then(res => ({...res, error: false}))
+    .catch((error) => {
+      if(error.response){
+        return {...error.response, error: true}
+      }
+    })
+}
+
+export async function sendMessageById(message, id) {
+  const token = localStorage.getItem('token')
+  if (!token) {
+    return { error: 'invalid token' }
+  }
+
+  return await axios
+    .get(!isForFirebase ? `/chat/sendMessage?token=${token}&id=${id}&message=${message}` : baseUrl + `/chat/sendMessage?token=${token}&id=${id}&message=${message}`)
+    .then(res => ({...res, error: false}))
+    .catch((error) => {
+      if(error.response){
+        return {...error.response, error: true}
+      }
+    })
 }

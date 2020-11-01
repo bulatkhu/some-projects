@@ -55,6 +55,5 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {},
-  "proxy": "https://api.ustaz.xyz/api/v1"
+  "devDependencies": {}
 }
