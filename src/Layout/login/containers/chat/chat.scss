@@ -129,6 +129,7 @@
   }
 
   &__wrapper {
+    width: 100%;
   }
 
   &__human {
@@ -192,6 +193,14 @@
     @media (max-width: 576px) {
       font-size: 12px;
     }
+  }
+
+  &__viewed {
+    width: 20px;
+    height: 20px;
+    background: #FF3870;
+    margin-left: auto;
+    border-radius: 50%;
   }
 }
 

@@ -35,6 +35,7 @@ const Chat = () => {
       getChatUsers()
         .then(res => {
           const {users} = res.data
+          console.log('users', users)
           setUsers(users || [])
           setDialogueId(users[0].id)
           setParticsName(users[0].name)
@@ -146,6 +147,8 @@ const Chat = () => {
                             <div className="chatPeople__name">{item.name}</div>
                             <div className="chatPeople__subject">{item.username || item.subject}</div>
                           </div>
+
+                          {!item.viewed && <div className="chatPeople__viewed"/>}
                         </div>
 
                       </div>
