@@ -75,9 +75,9 @@ export async function getChatConversations(page = '1') {
     )
 }
 
-export async function getChatUsers() {
+export async function getChatMentors() {
   return  await axios
-    .get(!isForFirebase ? '/user/lists' : baseUrl + '/user/lists')
+    .get(!isForFirebase ? '/mentor/lists' : baseUrl + '/mentor/lists')
 }
 
 export async function getMessagesByUserId(id) {

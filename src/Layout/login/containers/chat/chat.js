@@ -8,7 +8,7 @@ import './chat.scss'
 // import tutor6 from '../../../../images/login/chat/tutor-name6.jpg'
 // import tutor7 from '../../../../images/login/chat/tutor-name7.jpg'
 import NoPhoto from '../../../../images/general/noPhoto/noPhoto'
-import {getChatUsers, getMessagesByUserId, sendMessageById} from '../../../../request/apiRequests'
+import {getChatMentors, getMessagesByUserId, sendMessageById} from '../../../../request/apiRequests'
 
 
 const noPhotoStyles = {
@@ -21,7 +21,7 @@ const noPhotoStyles = {
 }
 
 const Chat = () => {
-  const [users, setUsers] = useState([])
+  const [mentors, setMentors] = useState([])
   const [dialogueId, setDialogueId] = useState(null)
   const [filterUser, setFilterUser] = useState(null)
   const [diaMessage, setDiaMessage] = useState(null)
@@ -31,19 +31,19 @@ const Chat = () => {
 
   useEffect(() => {
 
-    if (!users.length) {
-      getChatUsers()
+    if (!mentors.length) {
+      getChatMentors()
         .then(res => {
-          const {users} = res.data
-          console.log('users', users)
-          setUsers(users || [])
-          setDialogueId(users[0].id)
-          setParticsName(users[0].name)
+          const {mentors} = res.data
+          console.log('mentors', mentors)
+          setMentors(mentors || [])
+          setDialogueId(mentors[0].id)
+          setParticsName(mentors[0].user.name)
         })
     }
 
-    if (users.length && dialogueId) {
-      setParticsName(users.find(item => item.id === dialogueId).name)
+    if (mentors.length && dialogueId) {
+      setParticsName(mentors.find(item => item.id === dialogueId).name)
     }
 
     if (dialogueId) {
@@ -57,7 +57,7 @@ const Chat = () => {
         })
     }
 
-  },[dialogueId, users])
+  },[dialogueId, mentors])
 
 
   const onSendMessage = event => {
@@ -106,11 +106,11 @@ const Chat = () => {
 
             <div className="chatPeople__row">
 
-              {users
+              {mentors
                 .filter(item => {
                   if (filterUser) {
 
-                    if (item.name.toLowerCase().includes(filterUser)) {
+                    if (item.user.name.toLowerCase().includes(filterUser)) {
                       return item
                     } else {
                       return null
@@ -122,7 +122,7 @@ const Chat = () => {
                 })
                 .map((item, index) => {
                   const current = item.id === dialogueId ? 'current' : null
-                  const avatar = item.usermetas.find(item => item.option === 'avatar') || false
+                  const avatar = item.user.usermetas.find(item => item.option === 'avatar') || false
 
 
                   return (
@@ -144,11 +144,11 @@ const Chat = () => {
                           </div>
 
                           <div className="chatPeople__description">
-                            <div className="chatPeople__name">{item.name}</div>
-                            <div className="chatPeople__subject">{item.username || item.subject}</div>
+                            <div className="chatPeople__name">{item.user.name}</div>
+                            <div className="chatPeople__subject">{item.user.username || item.user.subject}</div>
                           </div>
 
-                          {!item.viewed && <div className="chatPeople__viewed"/>}
+                          {item.is_seen && <div className="chatPeople__viewed"/>}
                         </div>
 
                       </div>
@@ -208,80 +208,6 @@ const Chat = () => {
                       </div>
                     )
                   })}
-
-              <>
-
-                {/*<div className="chatMsgBox__message">*/}
-                {/*  <div className="chatMsgBox__wrapper">*/}
-                {/*    <span className="chatMsgBox__text">Malesuada nam vitae dignissim.</span>*/}
-                {/*    <span className="chatMsgBox__time">15:05</span>*/}
-                {/*  </div>*/}
-                {/*</div>*/}
-
-                {/*<div className="chatMsgBox__message">*/}
-                {/*  <div className="chatMsgBox__wrapper">*/}
-                {/*    <span className="chatMsgBox__text">Quam nunc ut vitae. Lore</span>*/}
-                {/*    <span className="chatMsgBox__time">15:05</span>*/}
-                {/*  </div>*/}
-                {/*</div>*/}
-
-                {/*<div className="chatMsgBox__message">*/}
-                {/*  <div className="chatMsgBox__wrapper">*/}
-                {/*    <span className="chatMsgBox__text">Lorem upson</span>*/}
-                {/*    <span className="chatMsgBox__time">15:05</span>*/}
-                {/*  </div>*/}
-                {/*</div>*/}
-
-                {/*<div className="chatMsgBox__message chatMsgBox__ownMessage">*/}
-                {/*  <div className="chatMsgBox__wrapper">*/}
-                {/*    <span className="chatMsgBox__text">Malesuada nam vitae dignissim.</span>*/}
-                {/*    <span className="chatMsgBox__time">15:05</span>*/}
-                {/*  </div>*/}
-                {/*</div>*/}
-
-                {/*<div className="chatMsgBox__message chatMsgBox__ownMessage">*/}
-                {/*  <div className="chatMsgBox__wrapper">*/}
-                {/*    <span className="chatMsgBox__text">Quam nunc ut vitae. Lore</span>*/}
-                {/*    <span className="chatMsgBox__time">15:05</span>*/}
-                {/*  </div>*/}
-                {/*</div>*/}
-
-                {/*<div className="chatMsgBox__message chatMsgBox__ownMessage">*/}
-                {/*  <div className="chatMsgBox__wrapper">*/}
-                {/*    <span className="chatMsgBox__text">Lorem upson</span>*/}
-                {/*    <span className="chatMsgBox__time">15:05</span>*/}
-                {/*  </div>*/}
-                {/*</div>*/}
-
-                {/*<div className="chatMsgBox__message">*/}
-                {/*  <div className="chatMsgBox__wrapper">*/}
-                {/*    <span className="chatMsgBox__text">Malesuada nam vitae dignissim.</span>*/}
-                {/*    <span className="chatMsgBox__time">15:05</span>*/}
-                {/*  </div>*/}
-                {/*</div>*/}
-
-                {/*<div className="chatMsgBox__message">*/}
-                {/*  <div className="chatMsgBox__wrapper">*/}
-                {/*    <span className="chatMsgBox__text">Malesuada nam vitae dignissim.</span>*/}
-                {/*    <span className="chatMsgBox__time">15:05</span>*/}
-                {/*  </div>*/}
-                {/*</div>*/}
-
-                {/*<div className="chatMsgBox__message chatMsgBox__ownMessage">*/}
-                {/*  <div className="chatMsgBox__wrapper">*/}
-                {/*    <span className="chatMsgBox__text">Quam nunc ut vitae. Lore</span>*/}
-                {/*    <span className="chatMsgBox__time">15:05</span>*/}
-                {/*  </div>*/}
-                {/*</div>*/}
-
-                {/*<div className="chatMsgBox__message chatMsgBox__ownMessage">*/}
-                {/*  <div className="chatMsgBox__wrapper">*/}
-                {/*    <span className="chatMsgBox__text">Quam nunc ut vitae. Lore</span>*/}
-                {/*    <span className="chatMsgBox__time">15:05</span>*/}
-                {/*  </div>*/}
-                {/*</div>*/}
-
-              </>
 
             </div>
 

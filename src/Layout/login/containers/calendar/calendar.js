@@ -28,47 +28,89 @@ CHECK YOUR DEPENDENCIES BEFORE RUNNING
 
 class Calendar extends React.Component {
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      currentEvents: [
-        {
-          title: 'event1',
-          start: '2020-10-05'
-        },
-        {
-          title: 'event2',
-          start: '2020-10-05',
-          end: '2020-09-12'
-        },
-        {
-          title: 'event3',
-          start: '2020-01-09T12:30:00',
-          allDay: true // will make the time show
-        }
-      ],
-      initDragEvents: [
-        {title: 'Тест тапсыру', color: '#FF4141'},
-        {title: 'Сабақ қарау', color: '#9D43FF'},
-        {title: 'Үй тапсырмасын тексеру', color: '#00C0EF'},
-        {title: 'Кураторға хабарласу', color: '#FFB800'},
-        {title: 'Кітап оқу', color: '#00A65A'},
-      ]
-    }
-    this.refToBtn = React.createRef()
+  // constructor(props) {
+  //   super(props)
+  //   this.state = {
+  //     currentEvents: [
+  //       {
+  //         id: 0,
+  //         title: 'event1',
+  //         start: "2020-11-03",
+  //         color: '#FF4141'
+  //       },
+  //       {
+  //         id: 1,
+  //         title: 'event2',
+  //         start: '2020-11-03T12:00:00',
+  //         end: '2020-09-12',
+  //         color: '#FF4141'
+  //       },
+  //       {
+  //         id: 3,
+  //         title: 'event3',
+  //         start: '2020-11-03T24:00:00',
+  //         allDay: true, // will make the time show
+  //         color: '#FF4141'
+  //       }
+  //     ],
+  //     loading: true,
+  //     initDragEvents: [
+  //       {title: 'Тест тапсыру', color: '#FF4141'},
+  //       {title: 'Сабақ қарау', color: '#9D43FF'},
+  //       {title: 'Үй тапсырмасын тексеру', color: '#00C0EF'},
+  //       {title: 'Кураторға хабарласу', color: '#FFB800'},
+  //       {title: 'Кітап оқу', color: '#00A65A'},
+  //     ]
+  //   }
+  //   this.
+  // }
+
+  refToBtn = React.createRef()
+  refToExtEvents = React.createRef()
+  state = {
+    currentEvents: [
+      {
+        id: 0,
+        title: 'event1',
+        start: "2020-11-03",
+        color: '#FF4141'
+      },
+      {
+        id: 1,
+        title: 'event2',
+        start: '2020-11-03T12:00:00',
+        end: '2020-09-12',
+        color: '#FF4141'
+      },
+      {
+        id: 3,
+        title: 'event3',
+        start: '2020-11-03T24:00:00',
+        allDay: true, // will make the time show
+        color: '#FF4141'
+      }
+    ],
+    loading: true,
+    initDragEvents: [
+      {title: 'Тест тапсыру', color: '#FF4141'},
+      {title: 'Сабақ қарау', color: '#9D43FF'},
+      {title: 'Үй тапсырмасын тексеру', color: '#00C0EF'},
+      {title: 'Кураторға хабарласу', color: '#FFB800'},
+      {title: 'Кітап оқу', color: '#00A65A'},
+    ]
   }
-
-
 
   componentDidMount() {
-    const draggableEl = document.getElementById('external-events')
+    console.log('events:', INITIAL_EVENTS)
 
-    new Draggable(draggableEl, {
+    new Draggable(this.refToExtEvents.current, {
       itemSelector: '.calender__eventItem',
       eventData: eventEl => JSON.parse(eventEl.dataset.event)
-    });
+    })
 
   }
+
+
 
   render() {
     return (
@@ -98,12 +140,15 @@ class Calendar extends React.Component {
               }}
               droppable={true}
               allDaySlot={true}
+              lazyFetching={true}
               initialView='dayGridMonth'
               editable={true}
+              loading={false}
               selectable={true}
               selectMirror={true}
               eventBackgroundColor={'blue'}
               dayMaxEvents={true}
+              // initialEvents={INITIAL_EVENTS}
               events={INITIAL_EVENTS} // alternatively, use the `events` setting to fetch from a feed
               select={this.handleDateSelect}
               eventContent={renderEventContent} // custom render function
@@ -131,7 +176,7 @@ class Calendar extends React.Component {
 
         </div>
 
-        <div className='calender__eventContent calender__column' id='external-events'>
+        <div ref={this.refToExtEvents} className='calender__eventContent calender__column' id='external-events'>
 
           <h2 className='calender__eventTitle'>Тапсырмалар</h2>
 
@@ -214,6 +259,7 @@ class Calendar extends React.Component {
       const bg = window.getComputedStyle(this.refToBtn.current).backgroundColor
 
       this.setState(prev => ({
+        ...prev,
         initDragEvents: [
           ...prev.initDragEvents,
           {title: value, color: bg}
@@ -259,7 +305,7 @@ class Calendar extends React.Component {
 
   handleEvents = (events) => {
 
-    this.setState(prev => {
+    this.setState(() => {
 
         return {
           currentEvents: events
