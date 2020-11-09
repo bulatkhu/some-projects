@@ -7,7 +7,6 @@ import {INITIAL_EVENTS, createEventId} from './event-utils'
 import './calendar.css'
 
 
-
 /*
 
 !! IMPORTANT !!
@@ -24,6 +23,22 @@ CHECK YOUR DEPENDENCIES BEFORE RUNNING
 
 */
 
+
+function transformEvents(events) {
+  if (!events.length) return []
+
+  const array = events.map(({_def, _instance}) => {
+    return {
+      id: _def.defId,
+      title: _def.title,
+      allDay: _def.allDay,
+      start: _instance.range.start,
+      end: _instance.range.end,
+      color: _def.ui.backgroundColor
+    }
+  })
+  return array
+}
 
 
 class Calendar extends React.Component {
@@ -67,29 +82,10 @@ class Calendar extends React.Component {
 
   refToBtn = React.createRef()
   refToExtEvents = React.createRef()
+  refToCalendar = React.createRef()
   state = {
-    currentEvents: [
-      {
-        id: 0,
-        title: 'event1',
-        start: "2020-11-03",
-        color: '#FF4141'
-      },
-      {
-        id: 1,
-        title: 'event2',
-        start: '2020-11-03T12:00:00',
-        end: '2020-09-12',
-        color: '#FF4141'
-      },
-      {
-        id: 3,
-        title: 'event3',
-        start: '2020-11-03T24:00:00',
-        allDay: true, // will make the time show
-        color: '#FF4141'
-      }
-    ],
+    currentEvents: [],
+    events: [],
     loading: true,
     initDragEvents: [
       {title: 'Тест тапсыру', color: '#FF4141'},
@@ -101,68 +97,77 @@ class Calendar extends React.Component {
   }
 
   componentDidMount() {
-    console.log('events:', INITIAL_EVENTS)
+    // console.log('events:', INITIAL_EVENTS)
+    // console.log(this.refToCalendar.current.getApi())
 
     new Draggable(this.refToExtEvents.current, {
       itemSelector: '.calender__eventItem',
       eventData: eventEl => JSON.parse(eventEl.dataset.event)
     })
 
+
+    setTimeout(() => {
+      this.setState(() => ({events: [...INITIAL_EVENTS]}))
+    }, 5000)
   }
 
 
 
   render() {
+
     return (
       <div className='demo-app'>
-          {this.renderSidebar()}
-          <div className='demo-app-main'>
-            <FullCalendar
-              plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-              headerToolbar={{
-                left: 'prev,next',
-                center: 'title',
-                right: 'dayGridMonth,timeGridWeek,timeGridDay',
-              }}
-              views={{
-                dayGridMonth: {
-                  type: 'dayGridMonth',
-                  buttonText: 'Ай'
-                },
-                timeGridWeek: {
-                  type: 'timeGridWeek',
-                  buttonText: 'Апта'
-                },
-                timeGridDay: {
-                  type: 'timeGridDay',
-                  buttonText: 'Күн'
-                }
-              }}
-              droppable={true}
-              allDaySlot={true}
-              lazyFetching={true}
-              initialView='dayGridMonth'
-              editable={true}
-              loading={false}
-              selectable={true}
-              selectMirror={true}
-              eventBackgroundColor={'blue'}
-              dayMaxEvents={true}
-              // initialEvents={INITIAL_EVENTS}
-              events={INITIAL_EVENTS} // alternatively, use the `events` setting to fetch from a feed
-              select={this.handleDateSelect}
-              eventContent={renderEventContent} // custom render function
-              eventClick={this.handleEventClick}
-              eventsSet={this.handleEvents}
-              // called after events are initialized/added/changed/removed
-              /* you can update a remote database when these fire:
-              eventAdd={function(){}}
-              eventChange={function(){}}
-              eventRemove={function(){}}
-              */
-            />
-          </div>
+        {this.renderSidebar()}
+        <div className='demo-app-main'>
+          <FullCalendar
+            ref={this.refToCalendar}
+            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+            headerToolbar={{
+              left: 'prev,next',
+              center: 'title',
+              right: 'dayGridMonth,timeGridWeek,timeGridDay',
+            }}
+            views={{
+              dayGridMonth: {
+                type: 'dayGridMonth',
+                buttonText: 'Ай'
+              },
+              timeGridWeek: {
+                type: 'timeGridWeek',
+                buttonText: 'Апта'
+              },
+              timeGridDay: {
+                type: 'timeGridDay',
+                buttonText: 'Күн'
+              }
+            }}
+            droppable={true}
+            allDaySlot={true}
+            lazyFetching={true}
+            initialView='dayGridMonth'
+            editable={true}
+            loading={false}
+            selectable={true}
+            selectMirror={true}
+            eventBackgroundColor={'blue'}
+            dayMaxEvents={true}
+            // initialEvents={INITIAL_EVENTS}
+            events={this.state.events} // alternatively, use the `events` setting to fetch from a feed
+            select={this.handleDateSelect}
+            eventContent={renderEventContent} // custom render function
+            eventClick={this.handleEventClick}
+            eventsSet={this.handleEvents}
+            eventAdd={function () {
+            }}
+            // called after events are initialized/added/changed/removed
+            /* you can update a remote database when these fire:
+            eventAdd={function(){}}
+            eventChange={function(){}}
+            eventRemove={function(){}}
+            */
+          />
         </div>
+      </div>
     )
   }
 
@@ -236,10 +241,15 @@ class Calendar extends React.Component {
           <div className="calenderAdd__wrapper">
 
             <form action="/add-item" onSubmit={this.addColorItem}>
-              <input name="title" placeholder="Тапсырма атауы" type="text" className="calenderAdd__input"/>
+              <input
+                className="calenderAdd__input input__noFocus"
+                placeholder="Тапсырма атауы"
+                name="title"
+                type="text"
+              />
               <button
                 ref={this.refToBtn}
-                className="calenderAdd__button"
+                className="calenderAdd__button btn__shadowFromNull"
               >Қосу
               </button>
             </form>
@@ -303,16 +313,13 @@ class Calendar extends React.Component {
     }
   }
 
-  handleEvents = (events) => {
+  handleEvents = eventsData => {
+    const events = transformEvents(eventsData)
 
-    this.setState(() => {
-
-        return {
-          currentEvents: events
-        }
-      }
-    )
+    this.setState(() => ({currentEvents: events}))
+    console.log('events', events)
   }
+
 
 }
 
