@@ -1,18 +1,5 @@
 import React, { useMemo, useState } from 'react'
 import './courses.scss'
-// import tabItem1 from '../../../../images/general/courses/tab-thing1.jpg'
-// import tabItem2 from '../../../../images/general/courses/tab-thing2.jpg'
-// import tabItem3 from '../../../../images/general/courses/tab-thing3.jpg'
-// import tabItem4 from '../../../../images/general/courses/tab-thing4.jpg'
-// import tabItem5 from '../../../../images/general/courses/tab-thing5.jpg'
-// import tabItem6 from '../../../../images/general/courses/tab-thing6.jpg'
-// import tabItem7 from '../../../../images/general/courses/tab-thing7.jpg'
-// import tabItem8 from '../../../../images/general/courses/tab-thing8.jpg'
-// import tabItem9 from '../../../../images/general/courses/tab-thing9.jpg'
-// import tabItem10 from '../../../../images/general/courses/tab-thing10.jpg'
-// import tabItem11 from '../../../../images/general/courses/tab-thing11.jpg'
-// import tabItem12 from '../../../../images/general/courses/tab-thing12.jpg'
-// import tabItem13 from '../../../../images/general/courses/tab-thing13.jpg'
 import ThingCard from '../../../landing/components/ThingCard/ThingCard'
 import Tabs from '../../../landing/components/Tabs/tabs'
 import {connect} from 'react-redux'
@@ -51,11 +38,8 @@ const Courses = props => {
       <div className="courses__header">
         <h2 className="courses__title">Курстарымыз</h2>
 
-        {
-          courses.length
-            ? <Tabs useDefTabs={false} data={courses} />
-            : null
-        }
+        {courses.length &&
+            <Tabs useDefTabs={false} data={courses} />}
 
       </div>
 

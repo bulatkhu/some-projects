@@ -3,7 +3,8 @@ import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin, {Draggable} from '@fullcalendar/interaction'
-import {INITIAL_EVENTS, createEventId} from './event-utils'
+import {createEventId} from './event-utils'
+import {addCalendarTask, getCalendarTasks, removeCalendarTask} from '../../../../request/apiRequests'
 import './calendar.css'
 
 
@@ -24,62 +25,38 @@ CHECK YOUR DEPENDENCIES BEFORE RUNNING
 */
 
 
-function transformEvents(events) {
-  if (!events.length) return []
+function transformEvents(events, id) {
+  if (!events) return {}
 
-  const array = events.map(({_def, _instance}) => {
+  if (!Array.isArray(events)) {
+    const {_def, _instance, id} = events
+
     return {
-      id: _def.defId,
-      title: _def.title,
+      id: id,
+      task_name: _def.title,
       allDay: _def.allDay,
-      start: _instance.range.start,
-      end: _instance.range.end,
+      start: _instance.range.start.toISOString().slice(0,-2),
+      end: _instance.range.end.toISOString().slice(0,-2),
       color: _def.ui.backgroundColor
     }
-  })
-  return array
+  } else {
+    if (!events.length) return []
+
+    return events.map(({_def, _instance}) => {
+      return {
+        id: _def.publicId || id,
+        title: _def.title,
+        allDay: _def.allDay,
+        start: _instance.range.start,
+        end: _instance.range.end,
+        color: _def.ui.backgroundColor
+      }
+    })
+  }
 }
 
 
 class Calendar extends React.Component {
-
-  // constructor(props) {
-  //   super(props)
-  //   this.state = {
-  //     currentEvents: [
-  //       {
-  //         id: 0,
-  //         title: 'event1',
-  //         start: "2020-11-03",
-  //         color: '#FF4141'
-  //       },
-  //       {
-  //         id: 1,
-  //         title: 'event2',
-  //         start: '2020-11-03T12:00:00',
-  //         end: '2020-09-12',
-  //         color: '#FF4141'
-  //       },
-  //       {
-  //         id: 3,
-  //         title: 'event3',
-  //         start: '2020-11-03T24:00:00',
-  //         allDay: true, // will make the time show
-  //         color: '#FF4141'
-  //       }
-  //     ],
-  //     loading: true,
-  //     initDragEvents: [
-  //       {title: 'Тест тапсыру', color: '#FF4141'},
-  //       {title: 'Сабақ қарау', color: '#9D43FF'},
-  //       {title: 'Үй тапсырмасын тексеру', color: '#00C0EF'},
-  //       {title: 'Кураторға хабарласу', color: '#FFB800'},
-  //       {title: 'Кітап оқу', color: '#00A65A'},
-  //     ]
-  //   }
-  //   this.
-  // }
-
   refToBtn = React.createRef()
   refToExtEvents = React.createRef()
   refToCalendar = React.createRef()
@@ -87,7 +64,7 @@ class Calendar extends React.Component {
     currentEvents: [],
     events: [],
     loading: true,
-    initDragEvents: [
+    dragEvents: [
       {title: 'Тест тапсыру', color: '#FF4141'},
       {title: 'Сабақ қарау', color: '#9D43FF'},
       {title: 'Үй тапсырмасын тексеру', color: '#00C0EF'},
@@ -106,11 +83,16 @@ class Calendar extends React.Component {
     })
 
 
-    setTimeout(() => {
-      this.setState(() => ({events: [...INITIAL_EVENTS]}))
-    }, 5000)
+    getCalendarTasks()
+      .then(response => {
+        console.log('getTasks:', response.data.schedule)
+        if (response.error) return console.log(response)
+        if (response.data.schedule.length) {
+          const events = response.data.schedule.map(item => ({...item, title: item.task_name}))
+          this.setState(() => ({events: [...events]}))
+        }
+      })
   }
-
 
 
   render() {
@@ -157,7 +139,17 @@ class Calendar extends React.Component {
             eventContent={renderEventContent} // custom render function
             eventClick={this.handleEventClick}
             eventsSet={this.handleEvents}
-            eventAdd={function () {
+            eventReceive={info => {
+              console.log('eventReceive')
+              const maxIndex = Math.max.apply(Math, this.state.events.map(function(o) { return o.id }))
+              const event = transformEvents({...info.event, id: maxIndex + 1})
+              addCalendarTask(event)
+                .then(res => res.error && console.log(res))
+            }}
+            eventChange={info => {
+              console.log('eventChange')
+              addCalendarTask(transformEvents(info.event))
+                .then(res => res.error && console.log(res))
             }}
             // called after events are initialized/added/changed/removed
             /* you can update a remote database when these fire:
@@ -185,7 +177,7 @@ class Calendar extends React.Component {
 
           <h2 className='calender__eventTitle'>Тапсырмалар</h2>
 
-          {this.state.initDragEvents.map((item, index) => {
+          {this.state.dragEvents.map((item, index) => {
 
             return (
               <div key={index}
@@ -270,8 +262,8 @@ class Calendar extends React.Component {
 
       this.setState(prev => ({
         ...prev,
-        initDragEvents: [
-          ...prev.initDragEvents,
+        dragEvents: [
+          ...prev.dragEvents,
           {title: value, color: bg}
         ]
       }))
@@ -297,19 +289,41 @@ class Calendar extends React.Component {
     calendarApi.unselect() // clear date selection
 
     if (title) {
-      calendarApi.addEvent({
+      addCalendarTask({
         id: createEventId(),
-        title,
+        task_name: title,
         start: selectInfo.startStr,
         end: selectInfo.endStr,
-        allDay: selectInfo.allDay
+        allDay: selectInfo.allDay,
+        color: '#0000FF'
       })
+        .then(data => {
+          if (!data.error) {
+            return this.setState(prevState => ({
+              events: [...prevState.events, {
+                id: createEventId(),
+                title,
+                start: selectInfo.startStr,
+                end: selectInfo.endStr,
+                allDay: selectInfo.allDay
+              }]
+            }))
+          }
+          console.log('data', data)
+        })
     }
   }
 
   handleEventClick = (clickInfo) => {
+    console.log(clickInfo.event._def.publicId)
+
     if (window.confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
-      clickInfo.event.remove()
+      removeCalendarTask(clickInfo.event._def.publicId)
+        .then(data => {
+          if (!data.error) return clickInfo.event.remove()
+          console.log('error:', data)
+        })
+      // clickInfo.event.remove()
     }
   }
 
@@ -317,7 +331,7 @@ class Calendar extends React.Component {
     const events = transformEvents(eventsData)
 
     this.setState(() => ({currentEvents: events}))
-    console.log('events', events)
+    // console.log('events', events)
   }
 
 

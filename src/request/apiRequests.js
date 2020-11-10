@@ -11,6 +11,10 @@ export const configAccess = {
 const isForFirebase = true // otherwise add to package.json "proxy": "https://api.ustaz.xyz/api/v1"
 const baseUrl = 'https://api.ustaz.xyz/api/v1'
 
+function getToken() {
+  return localStorage.getItem('token')
+}
+
 
 export async function login(values) {
   return axios
@@ -97,7 +101,7 @@ export async function getMessagesByUserId(id) {
 }
 
 export async function sendMessageById(message, id) {
-  const token = localStorage.getItem('token')
+  const token = getToken()
   if (!token) {
     return { error: 'invalid token' }
   }
@@ -106,8 +110,50 @@ export async function sendMessageById(message, id) {
     .get(!isForFirebase ? `/chat/sendMessage?token=${token}&id=${id}&message=${message}` : baseUrl + `/chat/sendMessage?token=${token}&id=${id}&message=${message}`)
     .then(res => ({...res, error: false}))
     .catch((error) => {
-      if(error.response){
+      if(error.response) {
         return {...error.response, error: true}
+      }
+    })
+}
+
+export async function getCalendarTasks() {
+  const token = getToken()
+  if (!token) return { error: 'invalid token' }
+
+
+  return await axios.get(`https://api.ustaz.xyz/api/v1/user/getSchedule?token=${token}`)
+    .then(res => ({...res, error: false}))
+    .catch(err => {
+      if (err.response) {
+        return {...err.response, error: true}
+      }
+    })
+
+
+}
+
+export async function addCalendarTask(task) {
+  const token = getToken()
+  if (!token) return { error: 'invalid token' }
+
+  return await axios.post(`https://api.ustaz.xyz/api/v1/user/addTask?token=${token}`, task)
+    .then(res => ({...res, error: false}))
+    .catch(err => {
+      if (err.response) {
+        return {...err.response, error: true}
+      }
+    })
+}
+
+export async function removeCalendarTask(id) {
+  const token = getToken()
+  if (!token) return { error: 'invalid token' }
+
+  return await axios.get(`https://api.ustaz.xyz/api/v1/user/removeTask?token=${token}&id=${id}`)
+    .then(res => ({...res, error: false}))
+    .catch(err => {
+      if (err.response) {
+        return {...err.response, error: true}
       }
     })
 }
