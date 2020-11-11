@@ -100,14 +100,16 @@ export async function getMessagesByUserId(id) {
     })
 }
 
-export async function sendMessageById(message, id) {
+export async function sendMessageById(message, id, img = null) {
   const token = getToken()
   if (!token) {
     return { error: 'invalid token' }
   }
 
   return await axios
-    .get(!isForFirebase ? `/chat/sendMessage?token=${token}&id=${id}&message=${message}` : baseUrl + `/chat/sendMessage?token=${token}&id=${id}&message=${message}`)
+    .post(!isForFirebase ? `/chat/sendMessage?token=${token}&id=${id}&message=${message}` : baseUrl + `/chat/sendMessage?token=${token}&id=${id}&message=${message}`,
+      img ? { media: img } : null
+      )
     .then(res => ({...res, error: false}))
     .catch((error) => {
       if(error.response) {

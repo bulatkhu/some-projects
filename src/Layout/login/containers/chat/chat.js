@@ -11,6 +11,7 @@ import NoPhoto from '../../../../images/general/noPhoto/noPhoto'
 import {getChatMentors, getMessagesByUserId, sendMessageById} from '../../../../request/apiRequests'
 
 
+
 const noPhotoStyles = {
   background: '#696969',
   color: '#fff',
@@ -53,32 +54,45 @@ const Chat = () => {
 
           setDiaMessage(null)
           setDialogueList(res.data.data)
-
         })
     }
 
   },[dialogueId, mentors])
 
-
   const onSendMessage = event => {
     event.preventDefault()
     const value = event.target.message.value
-    if (!value.trim()) return
+    const img = event.target.media.files[0]
+
+    if (!value.trim() && !img.name) return
+    // console.log(img)
+    // console.log('Work')
+
+    const formData = new FormData()
+    formData.append('media', img, img.name)
+    // console.log('formData', formData)
+
+    console.log('get', formData.get('media'))
+
+    // axios.post('https://api.ustaz.xyz/api/v1/chat/sendMedia',{
+    //   token: 'E6Xvq5nQ8ZRzVkKbWXTjFHXu',
+    //   id: '100165',
+    //   media: formData
+    // }).then(res => console.log(res))
 
     event.target.message.value = ''
 
-    sendMessageById(value, dialogueId)
-      .then(res => {
-        if (res.error) return setDiaMessage(res.data.message)
-
-        if (res.status === 201) {
-          setDialogueList(prevState => ([...prevState, res.data]))
-          setDiaMessage(null)
-        }
-      })
+    // sendMessageById(value, dialogueId, img ? img : null)
+    //   .then(res => {
+    //     if (res.error) return setDiaMessage(res.data.message)
+    //
+    //     if (res.status === 201) {
+    //       setDialogueList(prevState => ([...prevState, res.data]))
+    //       setDiaMessage(null)
+    //     }
+    //   })
 
   }
-
 
   const selectCurDia = id => setDialogueId(+id)
 
@@ -215,7 +229,11 @@ const Chat = () => {
             <form onSubmit={onSendMessage} className="chatDisplay__form">
               <div className="chatDisplay__formWrapper">
                 <input name="message" placeholder="Input message" className="chatDisplay__input" type="text"/>
-                {/*<input className="chatDisplay__file" type="file" multiple/>*/}
+                <input
+                   name="media"
+                   className="chatDisplay__file"
+                   type="file"
+                />
                 <button className="chatDisplay__button" type="submit">Send</button>
               </div>
             </form>
