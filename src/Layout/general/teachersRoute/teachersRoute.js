@@ -1,35 +1,53 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
+import {Link} from 'react-router-dom'
+import {SITE_BASE_URL} from '../../../app.config'
+import {apiGetTeachers} from '../../../request/apiTeacher'
+import {capitalizeFirstLetter} from '../../../scripts/capitFirstLetter/capitFirstLetter'
+import {getFromUserMeta} from '../../../scripts/dataHandler/dataHandler'
+import Loader from '../component/loader/loader'
+import NoPhoto from '../../../images/general/noPhoto/noPhoto'
 import './teachersRoute.scss'
-import teacherIcon1 from '../../../images/general/teachersRoute/teacher-icon1.jpg'
-import teacherIcon2 from '../../../images/general/teachersRoute/teacher-icon2.jpg'
-import teacherIcon3 from '../../../images/general/teachersRoute/teacher-icon3.jpg'
-import teacherIcon4 from '../../../images/general/teachersRoute/teacher-icon4.jpg'
-import teacherIcon5 from '../../../images/general/teachersRoute/teacher-icon5.jpg'
 
-const initialTeachers = [
-  {name: 'Teacher Name', subject: 'Math Teacher', img: teacherIcon1},
-  {name: 'Teacher Name', subject: 'Math Teacher', img: teacherIcon2},
-  {name: 'Teacher Name', subject: 'Math Teacher', img: teacherIcon3},
-  {name: 'Teacher Name', subject: 'Math Teacher', img: teacherIcon4},
-  {name: 'Teacher Name', subject: 'Math Teacher', img: teacherIcon5},
-  {name: 'Teacher Name', subject: 'Math Teacher', img: teacherIcon1},
-  {name: 'Teacher Name', subject: 'Math Teacher', img: teacherIcon2},
-  {name: 'Teacher Name', subject: 'Math Teacher', img: teacherIcon3},
-  {name: 'Teacher Name', subject: 'Math Teacher', img: teacherIcon4},
-  {name: 'Teacher Name', subject: 'Math Teacher', img: teacherIcon5},
-  {name: 'Teacher Name', subject: 'Math Teacher', img: teacherIcon1},
-  {name: 'Teacher Name', subject: 'Math Teacher', img: teacherIcon2},
-  {name: 'Teacher Name', subject: 'Math Teacher', img: teacherIcon3},
-  {name: 'Teacher Name', subject: 'Math Teacher', img: teacherIcon4},
-  {name: 'Teacher Name', subject: 'Math Teacher', img: teacherIcon5},
-  {name: 'Teacher Name', subject: 'Math Teacher', img: teacherIcon1},
-  {name: 'Teacher Name', subject: 'Math Teacher', img: teacherIcon2},
-  {name: 'Teacher Name', subject: 'Math Teacher', img: teacherIcon3},
-  {name: 'Teacher Name', subject: 'Math Teacher', img: teacherIcon4},
-  {name: 'Teacher Name', subject: 'Math Teacher', img: teacherIcon5},
-]
+
+function TeacherLittleBox({id, img, user}) {
+  return (
+    <Link to={`/student/teacher/${id}`} className="teachersRoute__column teachersRouteCol">
+      <div className="teachersRouteCol__img">
+        {
+          img
+            ? <img src={SITE_BASE_URL + img} alt="teacher"/>
+            : <NoPhoto/>
+        }
+      </div>
+      <div className="teachersRouteCol__name">{capitalizeFirstLetter(user.name)}</div>
+      <div className="teachersRouteCol__subject">{capitalizeFirstLetter(user.username)}</div>
+    </Link>
+  )
+}
+
 
 const TeachersRoute = () => {
+  const [teachers, setTeachers] = useState([])
+  const [loading, setLoading] = useState(true)
+
+
+  useEffect(() => {
+
+    apiGetTeachers()
+      .then(res => {
+        if (res.error) {
+          setLoading(false)
+          return console.log('error:', res)
+        }
+
+        const {teachers} = res.data
+        console.log('success:', teachers)
+        setLoading(false)
+        setTeachers(teachers)
+      })
+
+  }, [])
+
 
   return (
     <section className="teachersRoute">
@@ -37,23 +55,26 @@ const TeachersRoute = () => {
       <div className="teachersRoute__container _container">
         <h1 className="teachersRoute__title">Ұстаздар</h1>
 
-        <div className="teachersRoute__content">
 
-          {initialTeachers.map((item, index) => {
-            return (
-              <div key={index} className="teachersRoute__column teachersRouteCol">
-                <div className="teachersRouteCol__img">
-                  <img src={item.img} alt="teacher"/>
-                </div>
-                <div className="teachersRouteCol__name">{item.name}</div>
-                <div className="teachersRouteCol__subject">Math Teacher</div>
-              </div>
-            )
-          })}
+        {loading
+          ? <Loader container/>
+          : <div className="teachersRoute__content">
+              {teachers.map(({id, user}, index) => {
+                const img = getFromUserMeta(user, 'avatar')
 
-        </div>
+                return (
+                  <TeacherLittleBox
+                    id={id}
+                    img={img}
+                    user={user}
+                    key={id + index}
+                  />
+                )
+              })}
+            </div>
+        }
       </div>
-      
+
     </section>
   )
 }

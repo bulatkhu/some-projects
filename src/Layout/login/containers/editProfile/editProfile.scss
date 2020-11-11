@@ -16,6 +16,10 @@
     }
   }
 
+  &__error {
+    margin-bottom: 20px;
+  }
+
   &__btn {
     font-size: 14px;
     line-height: 19px;
@@ -140,6 +144,13 @@
     @media (max-width: 576px) {
       margin-bottom: 12px;
     }
+  }
+
+  &__selector {
+    text-indent: 18px;
+    padding: 0;
+    outline: none;
+    color: #B9B9B9;
   }
 
   &__textHolder {

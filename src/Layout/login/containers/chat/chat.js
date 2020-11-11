@@ -28,6 +28,7 @@ const Chat = () => {
   const [diaMessage, setDiaMessage] = useState(null)
   const [dialogueList, setDialogueList] = useState([])
   const [particsName, setParticsName] = useState('')
+  const [showBigImage, setShowBigImage] = useState(null)
 
 
   useEffect(() => {
@@ -36,7 +37,7 @@ const Chat = () => {
       getChatMentors()
         .then(res => {
           const {mentors} = res.data
-          console.log('mentors', mentors)
+          // console.log('mentors', mentors)
           setMentors(mentors || [])
           setDialogueId(mentors[0].id)
           setParticsName(mentors[0].user.name)
@@ -54,6 +55,8 @@ const Chat = () => {
 
           setDiaMessage(null)
           setDialogueList(res.data.data)
+
+          console.log('messages:', res.data.data)
         })
     }
 
@@ -65,32 +68,23 @@ const Chat = () => {
     const img = event.target.media.files[0]
 
     if (!value.trim() && !img.name) return
-    // console.log(img)
-    // console.log('Work')
-
-    const formData = new FormData()
-    formData.append('media', img, img.name)
-    // console.log('formData', formData)
-
-    console.log('get', formData.get('media'))
-
-    // axios.post('https://api.ustaz.xyz/api/v1/chat/sendMedia',{
-    //   token: 'E6Xvq5nQ8ZRzVkKbWXTjFHXu',
-    //   id: '100165',
-    //   media: formData
-    // }).then(res => console.log(res))
-
     event.target.message.value = ''
 
-    // sendMessageById(value, dialogueId, img ? img : null)
-    //   .then(res => {
-    //     if (res.error) return setDiaMessage(res.data.message)
-    //
-    //     if (res.status === 201) {
-    //       setDialogueList(prevState => ([...prevState, res.data]))
-    //       setDiaMessage(null)
-    //     }
-    //   })
+    const formData = new FormData()
+    img && formData.append('media', img, img.name)
+    formData.append('id', dialogueId)
+    formData.append('message', value)
+
+
+    sendMessageById(formData)
+      .then(res => {
+        if (res.error) return setDiaMessage(res.data.message)
+
+        if (res.status === 200) {
+          setDialogueList(prevState => ([...prevState, {...res.data, isOwn: true}]))
+          setDiaMessage(null)
+        }
+      })
 
   }
 
@@ -100,6 +94,13 @@ const Chat = () => {
 
   return (
     <section className="chat">
+      {showBigImage && (
+        <div
+          onClick={() => setShowBigImage(null)}
+          className="chatBigImg__wrapper">
+          <img src={showBigImage} alt="" className="chatBigImg__img"/>
+        </div>
+      )}
       <div className="chat__content">
 
         <div className="chat__column">
@@ -210,13 +211,24 @@ const Chat = () => {
                     // const date = new Date(Date.parse(item.created_at.substr(11, 5)))
                     // const currentData = [+date.getMonth() + 1, date.getDay(), date.getHours(), date.getMinutes()].join('.')
                       //
-                    const isOwner = +item.sender.id !== dialogueId ? 'chatMsgBox__ownMessage' : null
+                    const isOwner = item.isOwn || +item.sender.id !== dialogueId ? 'chatMsgBox__ownMessage' : null
 
 
                     return (
                       <div className={['chatMsgBox__message', isOwner].join(' ')} key={index}>
                         <div className="chatMsgBox__wrapper">
-                          <span className="chatMsgBox__text">{item.body}</span>
+                          <span className="chatMsgBox__text">
+                            <span style={{display: 'block'}} className={[item.media && 'margin__button1'].join(' ')}>{item.body}</span>
+                            {item.media && (
+                              <span className="chatMsgBox__img">
+                                <img
+                                  onClick={() => setShowBigImage(`https://api.ustaz.xyz/${item.media}`)}
+                                  src={'https://api.ustaz.xyz/' + item.media}
+                                  alt="images"
+                                />
+                              </span>
+                            )}
+                          </span>
                           <span className="chatMsgBox__time">{item.created_at.substr(11, 5)}</span>
                         </div>
                       </div>

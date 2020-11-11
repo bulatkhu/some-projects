@@ -10,6 +10,7 @@ export function checkIsAuth(payload) {
 
 export function logoutAction() {
   localStorage.removeItem('token')
+  localStorage.removeItem('user')
 
   return {
     type: actions.LOGOUT,

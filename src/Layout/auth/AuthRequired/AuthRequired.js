@@ -94,7 +94,7 @@ const AuthRequired = ({isAuth}) => {
                 <Route exact path={student.links.watchCourse} component={WatchCourse}/>
 
 
-                <Route path="/student/teacher" component={TeacherPage}/>
+                <Route path="/student/teacher/:id" component={TeacherPage}/>
                 {/*<Route path="/student/subject" component={Subject}/>*/}
 
                 {/*<Route path="*" component={NotFound}/>*/}

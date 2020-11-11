@@ -10,10 +10,13 @@ import {
 import LogoutButton from '../auth/LogoutButton/LogoutButton'
 import {connect} from 'react-redux'
 
+const username = JSON.parse(localStorage.getItem('user')).user.name
 
-const Login = ({children, links, type, photo, coins, name, user}) => {
+
+const Login = ({children, links, type, photo, coins, user}) => {
   const [showMenu, setShowMenu] = useState(true)
   const {base} = links
+
 
 
   const toggleNavBar = event => {
@@ -248,7 +251,7 @@ const Login = ({children, links, type, photo, coins, name, user}) => {
           </div>
 
           <div className="loginProf__description loginProf__column">
-            <div className="loginProf__name">{name}</div>
+            <div className="loginProf__name">{username}</div>
 
             {
               coins

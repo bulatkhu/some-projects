@@ -35,14 +35,12 @@ const ModalSignIn = props => {
     if (phone.trim() && password.trim()) {
 
       const response = await login(values)
-
-      console.log(response)
-
       if (response.error) return setShowError({ error: response.data.error, isError: true })
 
       if (+response.data.status === 1) {
         const {user} = response.data.data
         props.setUserData(user)
+        localStorage.setItem('user', JSON.stringify(response.data.data))
         localStorage.setItem('token', user.token)
         setShowError({
           error: null,

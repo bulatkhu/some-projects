@@ -141,7 +141,7 @@ const EduCoin = () => {
 
         </div>
 
-        <button onClick={toggleModalEduCoin} className="educoin__button">Толығырақ</button>
+        <button onClick={toggleModalEduCoin} className="educoin__button btn__shadowFromNull">Толығырақ</button>
 
 
       </div>

@@ -169,6 +169,12 @@ ul {
 
 }
 
+.padding {
+  &_0 {
+    padding: 0 !important;
+  }
+}
+
 @media (max-width: 576px) {
   ._container {
     max-width: 540px;

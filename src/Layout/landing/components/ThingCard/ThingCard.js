@@ -3,6 +3,7 @@ import Stars from '../../../general/stars/stars'
 import './ThingCard.scss'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
+import {SITE_BASE_URL} from "../../../../app.config";
 
 const ThingCard = ({activeTab, course}) => {
   // const {title, img, rating = 2, curPrice, tab, important, activeTab = 'new'} = props
@@ -13,13 +14,14 @@ const ThingCard = ({activeTab, course}) => {
 
 
 
+
   return (
     <div className="bottom__column" data-courseid={id} data-item="true" data-forid={'title'}>
       <div className="bottom__item">
         <h3 className="bottom__item_title">{title}</h3>
 
         <div className="bottom__item_img">
-          { thumbnail ? <img src={'https://api.ustaz.xyz/' + thumbnail} alt="thing"/> : null }
+          { thumbnail ? <img src={`${SITE_BASE_URL}/${thumbnail}`} alt="thing"/> : null }
         </div>
 
         <Stars

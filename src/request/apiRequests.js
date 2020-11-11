@@ -100,16 +100,16 @@ export async function getMessagesByUserId(id) {
     })
 }
 
-export async function sendMessageById(message, id, img = null) {
+export async function sendMessageById(formData) {
   const token = getToken()
   if (!token) {
     return { error: 'invalid token' }
   }
+  formData.append('token', token)
 
   return await axios
-    .post(!isForFirebase ? `/chat/sendMessage?token=${token}&id=${id}&message=${message}` : baseUrl + `/chat/sendMessage?token=${token}&id=${id}&message=${message}`,
-      img ? { media: img } : null
-      )
+    .post(!isForFirebase ? `/chat/sendMessage` : baseUrl + `/chat/sendMessage`,
+      formData)
     .then(res => ({...res, error: false}))
     .catch((error) => {
       if(error.response) {
@@ -158,4 +158,19 @@ export async function removeCalendarTask(id) {
         return {...err.response, error: true}
       }
     })
+}
+
+export async function apiEditProfile(values) {
+  const token = getToken()
+  if (!token) return { error: 'invalid token' }
+
+
+  return await axios.post('https://api.ustaz.xyz/api/v1/user/editProfile', {...values, token})
+    .then(res => ({...res, error: false}))
+    .catch(err => {
+      if (err.response) {
+        return {...err.response, error: true}
+      }
+    })
+
 }
