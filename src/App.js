@@ -1,6 +1,6 @@
 import React, {useLayoutEffect} from 'react'
 import {Switch, Route, useLocation} from 'react-router-dom'
-import './App.scss'
+import {connect} from 'react-redux'
 import Menu from './Layout/landing/containers/menu/menu'
 import Footer from './Layout/landing/containers/footer/footer'
 import Landing from './Layout/landing/landing'
@@ -10,8 +10,9 @@ import Subject from './Layout/general/subject/subject'
 import TeachersRoute from './Layout/general/teachersRoute/teachersRoute'
 import Paying from './Layout/login/containers/paying/paying'
 import AuthRequired from './Layout/auth/AuthRequired/AuthRequired'
+import TeacherPage from './Layout/general/teacherPage/teacherPage'
+import './App.scss'
 
-import {connect} from 'react-redux'
 
 const menuLinks = [
   {name: 'Негізгі', to: '/'},
@@ -55,6 +56,8 @@ function App(props) {
           <Route exact path="/paying">
             <Paying/>
           </Route>
+          <Route path="/teacher/:id" component={TeacherPage}/>
+
 
           <AuthRequired isAuth={props.isAuth}/>
 

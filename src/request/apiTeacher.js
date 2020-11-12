@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {APP_BASE_URL} from "../app.config";
+import {APP_BASE_URL} from '../app.config'
 
 
 export async function apiGetTeachers() {

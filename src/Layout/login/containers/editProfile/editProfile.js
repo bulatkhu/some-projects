@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useRef, useState} from 'react'
 import './editProfile.scss'
 import {Field, Form} from 'react-final-form'
 import Select from 'react-select'
@@ -29,14 +29,20 @@ const selectorStyles = {
 }
 
 
-function formatFormValues(values) {
-  const formValues = {}
+function formatFormValues(fromFormValues) {
+  const values = fromFormValues
+  const formValues = new FormData()
   const keys = Object.keys(values)
   keys.forEach(item => {
     if (typeof values[item] === 'object') {
-      formValues[item] = values[item].value
+
+      if ((item === 'avatar' || item === 'profile_image') && values[item].length) {
+        formValues.append(item, values[item][0], values[item][0].name)
+      } else {
+        formValues.append(item, values[item].value)
+      }
     } else {
-      formValues[item] = values[item]
+      formValues.append(item, values[item])
     }
   })
 
@@ -46,6 +52,8 @@ function formatFormValues(values) {
 
 const EditProfile = ({type}) => {
   const [showMessage, setShowMessage] = useState(null)
+  const [photoDescr, setPhotoDescr] = useState(null)
+  const onClickAddAvatar = useRef(null)
 
   const onProfileEdited = values => {
     const formValues = formatFormValues(values)
@@ -71,8 +79,18 @@ const EditProfile = ({type}) => {
   if (type === 'student') {
     form = <>
       <div className="editProfile__buttons">
-        <button className="editProfile__btn editProfile__deletePhoto">Суретті өшіру</button>
-        <button className="editProfile__btn editProfile__addPhoto">Сурет жүктеу</button>
+        <div className="editProfileBtn__wrapper">
+        </div>
+        <div className="editProfileBtn__wrapper">
+        </div>
+        <button onClick={() => {
+          onClickAddAvatar.current.value = null
+          setPhotoDescr('Photo: no')
+        }} className="editProfile__btn editProfile__deletePhoto">Суретті өшіру</button>
+        <button onClick={() => onClickAddAvatar.current.click()}
+                className="editProfile__btn editProfile__addPhoto">Сурет жүктеу
+        </button>
+        <div className="success editProfileBtn__info">{photoDescr}</div>
       </div>
 
       {showMessage && (
@@ -89,6 +107,24 @@ const EditProfile = ({type}) => {
           <div className="editProfileForm__content">
 
             <div className="editProfileForm__column">
+              <Field name="avatar">
+                {({input: {value, onChange, ...input}}) => {
+                  const handleChange = ({target}) => {
+                    onChange(target.files)
+                    const description = target.files[0] ? target.files[0].name : 'no'
+                    setPhotoDescr(`Photo: ${description}`)
+                  }
+                  return (
+                    <input
+                      ref={onClickAddAvatar}
+                      onChange={handleChange}
+                      {...input}
+                      type="file"
+                      className="hidden"
+                    />
+                  )
+                }}
+              </Field>
               <Field name="name">
                 {({input}) => <input {...input} type="text" placeholder="Аты" className="editProfileForm__input"/>}
               </Field>
@@ -229,7 +265,6 @@ const EditProfile = ({type}) => {
     </section>
   )
 }
-
 
 
 export default EditProfile

@@ -1,4 +1,5 @@
 import * as actions from './authActions'
+import {deleteUsersData} from '../user/userActionsFuncs'
 
 
 export function checkIsAuth(payload) {
@@ -11,6 +12,7 @@ export function checkIsAuth(payload) {
 export function logoutAction() {
   localStorage.removeItem('token')
   localStorage.removeItem('user')
+  deleteUsersData()
 
   return {
     type: actions.LOGOUT,

@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import React, {useEffect, useState} from 'react'
+import {NavLink} from 'react-router-dom'
 import './login.scss'
 import eduCoin from '../../images/landing/educoin/eduCoin.svg'
 import {
@@ -9,14 +9,28 @@ import {
 } from '../../images/general/menuIcons/infoIcon'
 import LogoutButton from '../auth/LogoutButton/LogoutButton'
 import {connect} from 'react-redux'
+import {setUsersData} from '../../redux/actions/user/userActionsFuncs'
+import {SITE_BASE_URL} from "../../app.config";
+import NoPhoto from "../../images/general/noPhoto/noPhoto";
 
-const username = JSON.parse(localStorage.getItem('user')).user.name
 
-
-const Login = ({children, links, type, photo, coins, user}) => {
+const Login = ({children, links, type, photo, coins, user, setUserData, isAuth}) => {
   const [showMenu, setShowMenu] = useState(true)
+  const [username, setUsername] = useState('Student name')
   const {base} = links
 
+
+  useEffect(() => {
+    if (localStorage.getItem('user')) {
+      setUsername(JSON.parse(localStorage.getItem('user')).user.name)
+    }
+  }, [username])
+
+  useEffect(() => {
+    if (!user && isAuth) {
+      setUserData()
+    }
+  }, [user, isAuth, setUserData])
 
 
   const toggleNavBar = event => {
@@ -247,23 +261,30 @@ const Login = ({children, links, type, photo, coins, user}) => {
 
         <div className="loginNav__column loginNav__profile loginProf">
           <div className="loginProf__img loginProf__column">
-            <img src={photo} alt="avatar"/>
-          </div>
-
-          <div className="loginProf__description loginProf__column">
-            <div className="loginProf__name">{username}</div>
-
-            {
-              coins
-              ? <div className="loginProf__coins">
-                  <div className="loginProf__educoin">
-                    <img src={eduCoin} alt="eduCoin"/>
-                  </div>
-                  <span>{coins}</span>
-                </div>
-              : null
+            {user && user.localAvatar
+              ? <img src={SITE_BASE_URL + user.localAvatar} alt="avatar"/>
+              : <NoPhoto/>
             }
           </div>
+
+          {
+            user && (
+              <div className="loginProf__description loginProf__column">
+                <div className="loginProf__name">{user.name}</div>
+
+                {
+                  coins && (
+                    <div className="loginProf__coins">
+                      <div className="loginProf__educoin">
+                        <img src={eduCoin} alt="eduCoin"/>
+                      </div>
+                      <span>{user.credit}</span>
+                    </div>
+                  )
+                }
+              </div>
+            )
+          }
         </div>
 
         {linkList}
@@ -285,9 +306,16 @@ const Login = ({children, links, type, photo, coins, user}) => {
 
 function mapStateToProps(state) {
   return {
-    user: {...state.user}
+    isAuth: state.auth.isAuthenticated,
+    user: state.user.user ? state.user.user : null,
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    setUserData: () => dispatch(setUsersData())
   }
 }
 
 
-export default connect(mapStateToProps)(Login)
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

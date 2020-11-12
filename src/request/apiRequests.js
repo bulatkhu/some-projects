@@ -11,7 +11,7 @@ export const configAccess = {
 const isForFirebase = true // otherwise add to package.json "proxy": "https://api.ustaz.xyz/api/v1"
 const baseUrl = 'https://api.ustaz.xyz/api/v1'
 
-function getToken() {
+export function getToken() {
   return localStorage.getItem('token')
 }
 

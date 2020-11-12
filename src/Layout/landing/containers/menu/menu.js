@@ -6,20 +6,41 @@ import ModalSignIn from '../../../modals/ModalSignIn/ModalSignIn'
 import ModalRegister from '../../../modals/ModalRegister/ModalRegister'
 import {connect} from 'react-redux'
 import {showModalLogin, showModalReg} from '../../../../redux/actions/menu/menuActionsFuncs'
-import profilePhoto from '../../../../images/login/navbar/profilePhoto.jpg'
+// import profilePhoto from '../../../../images/login/navbar/profilePhoto.jpg'
 import {scrollBodyHandler} from '../../../../scripts/scrollController/scrollController'
 import ModalPortal from '../../../modals/ModalPortal/ModalPortal'
 import ModalPass from '../../../modals/ModalPass/ModalPass'
+import {setUsersData} from '../../../../redux/actions/user/userActionsFuncs'
+import {SITE_BASE_URL} from '../../../../app.config'
+import NoPhoto from '../../../../images/general/noPhoto/noPhoto'
+
+
+const noPhotoStyles = {
+  height: '100%',
+  width: '100%',
+  background: 'rgb(204, 204, 204)',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  position: 'absolute',
+  top: '0px',
+  left: '0px',
+  color: 'rgb(98, 98, 103)',
+}
 
 
 const Menu = props => {
-  const {links, menu} = props
+  const {links, menu, user, setUserData, isAuth} = props
   const [showMobileMenu, setShowMobileMenu] = useState(false)
 
-
+  useEffect(() => {
+    if (!user && isAuth) {
+      setUserData()
+    }
+  }, [user, isAuth, setUserData])
   useEffect(() => {
     if (menu.showRegisterModal || menu.showLoginModal ||
-        menu.showPassModal     || showMobileMenu) {
+      menu.showPassModal || showMobileMenu) {
       scrollBodyHandler.lock()
     } else {
       scrollBodyHandler.unLock()
@@ -78,15 +99,22 @@ const Menu = props => {
                 props.isAuth
 
                   ? <>
-                      <Link to="/student" className="login__avatar">
-                        <img src={profilePhoto} alt="Avatar"/>
-                      </Link>
-                    </>
+                    <Link to="/student" className="login__avatar">
+                      {
+                        user && user.localAvatar
+                          ? <img src={SITE_BASE_URL + user.localAvatar} alt="Avatar"/>
+                          : <NoPhoto style={{...noPhotoStyles, fontSize: '8px'}}/>
+                      }
+                    </Link>
+                  </>
 
                   : <>
-                      <button onClick={() => props.onShowLogin()} className="login__column login__card login__card__icon">Кіру</button>
-                      <button onClick={() => props.onShowRegister()} className="login__column login__button">Тіркелу</button>
-                    </>
+                    <button onClick={() => props.onShowLogin()}
+                            className="login__column login__card login__card__icon">Кіру
+                    </button>
+                    <button onClick={() => props.onShowRegister()} className="login__column login__button">Тіркелу
+                    </button>
+                  </>
               }
             </div>
           </div>
@@ -95,13 +123,13 @@ const Menu = props => {
 
       {
         !props.isAuth && !props.isSignIn
-        ?
+          ?
           <>
-            <ModalPortal><ModalSignIn   show={menu.showLoginModal}/></ModalPortal>
+            <ModalPortal><ModalSignIn show={menu.showLoginModal}/></ModalPortal>
             <ModalPortal><ModalRegister show={menu.showRegisterModal}/></ModalPortal>
-            <ModalPortal><ModalPass     show={menu.showPassModal}/></ModalPortal>
+            <ModalPortal><ModalPass show={menu.showPassModal}/></ModalPortal>
           </>
-        : null
+          : null
       }
     </div>
   )
@@ -111,7 +139,8 @@ const Menu = props => {
 const mapStateToProps = state => {
   return {
     menu: state.menu,
-    isAuth: state.auth.isAuthenticated
+    isAuth: state.auth.isAuthenticated,
+    user: state.user.user ? state.user.user : null
   }
 }
 
@@ -119,7 +148,8 @@ const mapDispatchToProps = dispatch => {
 
   return {
     onShowLogin: () => dispatch(showModalLogin()),
-    onShowRegister: () => dispatch(showModalReg())
+    onShowRegister: () => dispatch(showModalReg()),
+    setUserData: () => dispatch(setUsersData())
   }
 }
 

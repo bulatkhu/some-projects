@@ -1,6 +1,25 @@
 .editProfile {
   padding: 35px 0 20px 0;
 
+  .css-fhr2sr-placeholder {
+
+    @media (max-width: 576px) {
+      text-indent: 0;
+      top: 41%;
+      font-size: 11px;
+      padding: 6px 0;
+    }
+  }
+
+  .css-7ho6qw-control {
+
+    @media (max-width: 576px) {
+      max-height: 30px;
+      min-height: 30px;
+    }
+  }
+
+
   &__buttons {
 
     @media (max-width: 576px) {
@@ -76,6 +95,13 @@
     @media (max-width: 1200px) {
       width: 100%;
     }
+  }
+}
+
+.editProfileBtn {
+
+  &__info {
+    margin-top: 10px;
   }
 }
 
@@ -185,3 +211,4 @@
     text-align: center;
   }
 }
+

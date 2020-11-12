@@ -1,5 +1,5 @@
 import React from 'react'
-import {Route, Redirect} from 'react-router-dom'
+import {Route, Redirect, Switch} from 'react-router-dom'
 import Login from '../../login/login'
 import MyCourses from '../../login/containers/myCourses/myCourses'
 import Chat from '../../login/containers/chat/chat'
@@ -11,14 +11,15 @@ import BuySubject from '../../login/containers/buySubject/buySubject'
 import Lesson from '../../general/lesson/lesson'
 import Connect from '../../general/connect/connect'
 import WatchCourse from '../../login/containers/watchCourse/watchCourse'
-import TeacherPage from '../../general/teacherPage/teacherPage'
-// import Subject from '../../general/subject/subject'
 import TeacherCourses from '../../login/teacher/teacherCourses/teacherCourses'
 import TeacherList from '../../login/teacher/teacherList/teacherList'
 import TutorEducoin from '../../login/tutor/tutorEducoin/tutorEducoin'
 import TutorCalendar from '../../login/tutor/tutorCalendar/tutorCalendar'
+// import NotFound from '../../general/notFound/notFound'
 import studentPhoto from '../../../images/login/navbar/profilePhoto.jpg'
 import teacherPhoto from '../../../images/login/navbar/teacherPhoto.jpg'
+import EduCoinComponent from "../../login/containers/eduCoin/eduCoin";
+import NotFound from "../../general/notFound/notFound";
 
 
 const loggedInfo = {
@@ -34,6 +35,7 @@ const loggedInfo = {
       edit: '/student/edit',
       payment: '/student/payment',
       calendar: '/student/calendar',
+      eduCoin: '/student/eduCoin',
       buy: '/student/buy',
       lesson: '/student/lesson',
       connecting: '/student/connecting',
@@ -64,8 +66,6 @@ const AuthRequired = ({isAuth}) => {
   const {teacher, student, tutor} = loggedInfo
 
 
-
-
   return (
     <>
       {
@@ -80,24 +80,27 @@ const AuthRequired = ({isAuth}) => {
                 coins={student.coins}
                 links={student.links}
               >
-                <Route exact path={student.links.base} component={MyCourses}/>
-                <Route exact path={student.links.chat} component={Chat}/>
-                <Route exact path={student.links.promo} component={PromoCode}/>
-                <Route exact path={student.links.edit}>
-                  <EditProfile type={student.type}/>
-                </Route>
-                <Route exact path={student.links.payment} component={Payment}/>
-                <Route exact path={student.links.calendar} component={Calendar}/>
-                <Route exact path={student.links.buy} component={BuySubject}/>
-                <Route exact path={student.links.lesson} component={Lesson}/>
-                <Route exact path={student.links.connecting} component={Connect}/>
-                <Route exact path={student.links.watchCourse} component={WatchCourse}/>
+                <Switch>
+                  <Route exact path={student.links.base} component={MyCourses}/>
+                  <Route exact path={student.links.chat} component={Chat}/>
+                  <Route exact path={student.links.promo} component={PromoCode}/>
+                  <Route exact path={student.links.edit}>
+                    <EditProfile type={student.type}/>
+                  </Route>
+                  <Route exact path={student.links.payment} component={Payment}/>
+                  <Route exact path={student.links.eduCoin} component={EduCoinComponent}/>
+                  <Route exact path={student.links.calendar} component={Calendar}/>
+                  <Route exact path={student.links.buy} component={BuySubject}/>
+                  <Route exact path={student.links.lesson} component={Lesson}/>
+                  <Route exact path={student.links.connecting} component={Connect}/>
+                  <Route exact path={student.links.watchCourse} component={WatchCourse}/>
 
 
-                <Route path="/student/teacher/:id" component={TeacherPage}/>
-                {/*<Route path="/student/subject" component={Subject}/>*/}
+                  {/*<Route path="/student/teacher/:id" component={TeacherPage}/>*/}
+                  {/*<Route path="/student/subject" component={Subject}/>*/}
 
-                {/*<Route path="*" component={NotFound}/>*/}
+                  <Route component={NotFound}/>
+                </Switch>
               </Login>
             </Route>
 
