@@ -18,40 +18,59 @@ import videoIcon from '../../../images/general/teacher/video-img.jpg'
 // import tabItem10 from '../../../images/general/courses/tab-thing10.jpg'
 // import ThingCard from '../../landing/components/ThingCard/ThingCard'
 //
-// import studentsIcon from '../../../images/general/teacher/students-icon.jpg'
+import studentsIcon from '../../../images/general/teacher/students-icon.jpg'
 import Stars from '../stars/stars'
-import {apiGetTeacherById} from '../../../request/apiTeacher'
+import {apiGetTeacherById, apiGetTeacherComments} from '../../../request/apiTeacher'
 import Loader from '../component/loader/loader'
 import {SITE_BASE_URL} from '../../../app.config'
 import {getFromUserMeta} from '../../../scripts/dataHandler/dataHandler'
-// import Comments from '../../login/components/comments/comments'
+import NoPhoto from '../../../images/general/noPhoto/noPhoto'
+import AddComment from '../../login/components/addComment/addComment'
 
 
-// const boxThing = [
-//   {tab: 1, img: tabItem1, rating: '3,0', curPrice: '9999 ₸'},
-//   {tab: 1, img: tabItem2, rating: '5,0', curPrice: '9999 ₸'},
-//   {tab: 1, img: tabItem3, rating: '1,0', curPrice: '9999 ₸'},
-//   {tab: 1, img: tabItem4, rating: '2,0', curPrice: '9999 ₸'},
-//   {tab: 1, img: tabItem5, rating: '5,0', curPrice: '9999 ₸'},
-//   {tab: 1, img: tabItem6, rating: '3,0', curPrice: '9999 ₸'},
-//   {tab: 1, img: tabItem7, rating: '5,0', curPrice: '9999 ₸'},
-//   {tab: 1, img: tabItem8, rating: '4,0', curPrice: '9999 ₸'},
-//   {tab: 1, img: tabItem9, rating: '2,0', curPrice: '9999 ₸'},
-//   {tab: 1, img: tabItem10, rating: '4,0', curPrice: '9999 ₸'},
-// ]
-//
-// const commentsInfo = {
-//   comments: [
-//     { name: 'Бекзат Ералиев 1', icon: studentsIcon, stars: '3', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sit pulvinar quam at ut sed. Sociis ullamcorper fusce libero ultricies. Ante quis vulputate nunc dolor dolor. Quis blandit eu vel sapien pulvinar volutpat dolor. Ligula arcu facilisi quis cursus nibh urna mi. Cursus auctor fusce diam nullam tempor mauris.'},
-//     { name: 'Бекзат Ералиев 2', icon: studentsIcon, stars: '2', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sit pulvinar quam at ut sed. Sociis ullamcorper fusce libero ultricies. Ante quis vulputate nunc dolor dolor. Quis blandit eu vel sapien pulvinar volutpat dolor. Ligula arcu facilisi quis cursus nibh urna mi. Cursus auctor fusce diam nullam tempor mauris.'},
-//     { name: 'Бекзат Ералиев 3', icon: studentsIcon, stars: '1', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sit pulvinar quam at ut sed. Sociis ullamcorper fusce libero ultricies. Ante quis vulputate nunc dolor dolor. Quis blandit eu vel sapien pulvinar volutpat dolor. Ligula arcu facilisi quis cursus nibh urna mi. Cursus auctor fusce diam nullam tempor mauris.'},
-//   ],
-//   ownProfile: { icon: studentsIcon }
-// }
+const commentsInfo = [
+  {},
+  {},
+  {},
+]
+
+function OneComment() {
+
+  return (
+    <div className="bottomTeachPage__column">
+      <div className="bottomTeachPage__comment">
+        <div className="bottomTeachPage__img">
+          {
+            studentsIcon
+              ? <img src={studentsIcon} alt="student"/>
+              : <NoPhoto/>
+          }
+        </div>
+
+        <div className="bottomTeachPage__about">
+          <h4 className="bottomTeachPage__name">Student</h4>
+          <Stars
+            className="bottomTeachPage__stars"
+            rating={5}
+            classNameOfValue="bottomTeachPage__starsValue"
+          />
+
+          <p className="bottomTeachPage__text">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sit pulvinar quam at ut sed. Sociis ullamcorper fusce libero ultricies. Ante quis vulputate nunc dolor dolor. Quis blandit eu vel sapien pulvinar volutpat dolor. Ligula arcu facilisi quis cursus nibh urna mi.
+            Cursus auctor fusce diam nullam tempor mauris.
+          </p>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+
 
 const TeacherPage = ({match: {params: {id}}}) => {
   const [loading, setLoading] = useState(true)
   const [teacher, setTeacher] = useState(null)
+  const [commmentErr, setCommmentErr] = useState(null)
 
 
   useEffect(() => {
@@ -66,9 +85,18 @@ const TeacherPage = ({match: {params: {id}}}) => {
           const {teacher} = res.data
           setLoading(false)
           setTeacher(teacher)
-          console.log('success:', teacher)
+          // console.log('success:', teacher)
         })
 
+      apiGetTeacherComments(id)
+        .then(res => {
+          if (res.error) {
+            setCommmentErr(res.response.data.message)
+            return console.log('error:', res.response.data.message)
+          }
+
+          console.log('success:', res)
+        })
 
 
     }
@@ -201,18 +229,23 @@ const TeacherPage = ({match: {params: {id}}}) => {
 
               <div className="teacherPage__middle middleTeachPage">
 
-                <h3 className="middleTeachPage__title">All Courses by Stephane</h3>
+                <h3 className="middleTeachPage__title">Ұстаз туралы пікірлер</h3>
 
-                <div className="middleTeachPage__content">
+                <div className="bottomTeachPage__content">
 
-                  {/*{boxThing.map((item, index) => {*/}
-
-                  {/*  return (*/}
-                  {/*    <ThingCard key={index} item={item}/>*/}
-                  {/*  )*/}
-                  {/*})}*/}
+                  {
+                    commmentErr
+                      ? <div className="error__big text-center">Cannot get comments: {commmentErr}</div>
+                      : commentsInfo.map((item, index) => {
+                          return (
+                            <OneComment key={index}/>
+                          )
+                        })
+                  }
 
                 </div>
+
+                <AddComment/>
 
               </div>
 

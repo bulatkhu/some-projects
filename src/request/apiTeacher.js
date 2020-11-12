@@ -13,3 +13,9 @@ export async function apiGetTeacherById(id) {
     .then(res => ({...res, error: false}))
     .catch(res => ({...res, error: true}))
 }
+
+export async function apiGetTeacherComments(id) {
+  return axios.get(`${APP_BASE_URL}/teacher/comments`, {params: { id }})
+    .then(res => ({...res, error: false}))
+    .catch(res => ({...res, error: true}))
+}

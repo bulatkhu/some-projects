@@ -1,31 +1,11 @@
-import React, {useRef} from 'react'
+import React from 'react'
 import './comments.scss'
 import Stars from '../../../general/stars/stars'
 import NoPhoto from '../../../../images/general/noPhoto/noPhoto'
+import AddComment from '../addComment/addComment'
 
 
-const Comments = ({comments, profilePhoto}) => {
-  const starsInput = useRef(null)
-
-  const ratingHandler = event => {
-    if (event.target.dataset.value) {
-
-      if (event.target.classList.contains('active')) {
-        removeAllActiveStars(event.currentTarget)
-        event.target.classList.remove('active')
-        starsInput.current.value = 'null'
-      } else {
-        removeAllActiveStars(event.currentTarget)
-        event.target.classList.add('active')
-        starsInput.current.value = event.target.dataset.value
-      }
-    }
-  }
-
-  const removeAllActiveStars = target => {
-    const $stars = target.querySelectorAll('span')
-    $stars.forEach(item => item.classList.remove('active'))
-  }
+const Comments = ({comments}) => {
 
   return (
     <div className="teacherPage__bottom bottomTeachPage">
@@ -73,36 +53,7 @@ const Comments = ({comments, profilePhoto}) => {
 
       </div>
 
-      <form className="bottomTeachPage__addComment addComment">
-
-        <div className="addComment__image">
-          <img src={profilePhoto} alt="your profile"/>
-        </div>
-
-        <div className="addComment__inputWrapper">
-
-
-          <textarea className="addComment__input" placeholder="Make Comment..."/>
-
-          <div className="addComment__buttons">
-
-            <div className="rating__stars" onClick={ratingHandler}>
-              <input ref={starsInput} name="stars" type="text" defaultValue="null"/>
-
-              <span data-value="5">☆</span>
-              <span data-value="4">☆</span>
-              <span data-value="3">☆</span>
-              <span data-value="2">☆</span>
-              <span data-value="1">☆</span>
-            </div>
-
-            <button className="btn__shadowFromNull addComment__btn">Send</button>
-
-          </div>
-
-        </div>
-
-      </form>
+      <AddComment/>
 
     </div>
   )

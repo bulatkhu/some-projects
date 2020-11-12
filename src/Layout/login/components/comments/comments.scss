@@ -204,6 +204,7 @@
     height: 84px;
     border-radius: 50%;
     overflow: hidden;
+    position: relative;
 
     @media (max-width: 576px) {
       margin: auto;
