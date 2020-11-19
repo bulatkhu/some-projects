@@ -1,10 +1,10 @@
 import React, {useState} from 'react'
 import {Field, Form} from 'react-final-form'
-import Loader from '../../general/component/loader/loader'
 import {connect} from 'react-redux'
-import {hideModalReg, showModalLogin} from '../../../redux/actions/menu/menuActionsFuncs'
 import Countdown from 'react-countdown'
+import Loader from '../../general/component/loader/loader'
 import {checkKey, keyGenerate} from '../../../request/apiRequests'
+import {hideModalReg, showModalLogin} from '../../../redux/actions/menu/menuActionsFuncs'
 
 
 

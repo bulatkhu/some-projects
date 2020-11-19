@@ -1,5 +1,5 @@
-import React, {useLayoutEffect} from 'react'
-import {Switch, Route, useLocation} from 'react-router-dom'
+import React from 'react'
+import {Switch, Route} from 'react-router-dom'
 import {connect} from 'react-redux'
 import Menu from './Layout/landing/containers/menu/menu'
 import Footer from './Layout/landing/containers/footer/footer'
@@ -24,10 +24,10 @@ const menuLinks = [
 ]
 
 function App(props) {
-  const location = useLocation()
-  useLayoutEffect(() => {
-    window.scrollTo(0, 0)
-  }, [location.pathname])
+  // const location = useLocation()
+  // useLayoutEffect(() => {
+  //   window.scrollTo(0, 0)
+  // }, [location.pathname])
 
 
   return (

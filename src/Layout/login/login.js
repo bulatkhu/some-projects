@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useState} from 'react'
 import {NavLink} from 'react-router-dom'
 import './login.scss'
 import eduCoin from '../../images/landing/educoin/eduCoin.svg'
@@ -14,23 +14,11 @@ import {SITE_BASE_URL} from "../../app.config";
 import NoPhoto from "../../images/general/noPhoto/noPhoto";
 
 
-const Login = ({children, links, type, photo, coins, user, setUserData, isAuth}) => {
+const Login = ({children, links, type, coins, user}) => {
   const [showMenu, setShowMenu] = useState(true)
-  const [username, setUsername] = useState('Student name')
   const {base} = links
 
-
-  useEffect(() => {
-    if (localStorage.getItem('user')) {
-      setUsername(JSON.parse(localStorage.getItem('user')).user.name)
-    }
-  }, [username])
-
-  useEffect(() => {
-    if (!user && isAuth) {
-      setUserData()
-    }
-  }, [user, isAuth, setUserData])
+  console.log('user', user)
 
 
   const toggleNavBar = event => {

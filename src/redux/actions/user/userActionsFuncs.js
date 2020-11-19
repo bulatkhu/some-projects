@@ -13,6 +13,7 @@ export function setUsersData() {
       })
     }
 
+
     user.data.localAvatar = (
       getFromUserMeta(user.data,'avatar') ||
       getFromUserMeta(user.data,'profile_image')

@@ -1,8 +1,14 @@
 import React from 'react'
+import {connect} from 'react-redux'
 import './promoCode.scss'
 
+function onFormSubmit(event) {
+  event.preventDefault()
+  event.target.code.select()
+  document.execCommand("copy")
+}
 
-const PromoCode = () => {
+const PromoCode = ({user}) => {
 
 
   return (
@@ -15,13 +21,30 @@ const PromoCode = () => {
 
       <div className="promoCode__create promoCreate">
         <span className="promoCreate__text">Сіздің промокод : </span>
-        <form className="promoCreate__form">
-          <input defaultValue="4FT67H" type="text" className="promoCreate__input"/>
-          <button className="promoCreate__button">көшіру</button>
+        <form
+          onSubmit={event => onFormSubmit(event)}
+          className="promoCreate__form"
+        >
+          <input
+            name="code"
+            readOnly
+            className="promoCreate__input"
+            value={user ? user.code : 'null'}
+          />
+          <button className="btn__shadowFromNull promoCreate__button">көшіру</button>
         </form>
       </div>
     </section>
   )
 }
 
-export default PromoCode
+
+function mapStateToProps(state) {
+
+  return {
+    user: state.user.user
+  }
+}
+
+
+export default connect(mapStateToProps)(PromoCode)

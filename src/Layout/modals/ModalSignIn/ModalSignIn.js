@@ -39,13 +39,13 @@ const ModalSignIn = props => {
 
       if (+response.data.status === 1) {
         const {user} = response.data.data
-        props.setUserData(user)
-        localStorage.setItem('user', JSON.stringify(response.data.data))
-        localStorage.setItem('token', user.token)
         setShowError({
           error: null,
           isError: false
         })
+
+        localStorage.setItem('token', user.token)
+        props.setUserData(user)
         props.onHideLoginModal()
         props.isAuth(true)
         history.push('/student')
