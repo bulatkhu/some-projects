@@ -1,12 +1,15 @@
 import * as actions from './userActions'
 import {getUserData} from '../../../request/apiUser'
 import {getFromUserMeta} from '../../../scripts/dataHandler/dataHandler'
+import {logoutAction} from '../auth/authActionsFuncs'
 
 
 export function setUsersData() {
   return async dispatch => {
     const user = await getUserData()
     if (user.error) {
+      logoutAction()
+
       return dispatch({
         type: actions.SET_USERS_DATA,
         user: null

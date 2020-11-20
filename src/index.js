@@ -7,9 +7,7 @@ import App from './App'
 import './Index.scss'
 import {checkIsAuth} from './redux/actions/auth/authActionsFuncs'
 
-
-const token = !!localStorage.getItem('token')
-reduxStore.dispatch(checkIsAuth(token))
+reduxStore.dispatch(checkIsAuth())
 
 
 

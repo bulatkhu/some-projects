@@ -46,6 +46,7 @@ const ModalSignIn = props => {
 
         localStorage.setItem('token', user.token)
         props.setUserData(user)
+        console.log('user', user)
         props.onHideLoginModal()
         props.isAuth(true)
         history.push('/student')

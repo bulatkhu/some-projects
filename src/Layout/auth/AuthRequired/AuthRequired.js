@@ -18,8 +18,9 @@ import TutorCalendar from '../../login/tutor/tutorCalendar/tutorCalendar'
 // import NotFound from '../../general/notFound/notFound'
 import studentPhoto from '../../../images/login/navbar/profilePhoto.jpg'
 import teacherPhoto from '../../../images/login/navbar/teacherPhoto.jpg'
-import EduCoinComponent from "../../login/containers/eduCoin/eduCoin";
-import NotFound from "../../general/notFound/notFound";
+import EduCoinComponent from '../../login/containers/eduCoin/eduCoin';
+import NotFound from '../../general/notFound/notFound';
+import {connect} from 'react-redux'
 
 
 const loggedInfo = {
@@ -62,8 +63,122 @@ const loggedInfo = {
 }
 
 
-const AuthRequired = ({isAuth}) => {
+const AuthRequired = ({isAuth, user}) => {
   const {teacher, student, tutor} = loggedInfo
+
+  let RoutesToShow = () => {
+    if (user) {
+      if (user.type === 'teacher') {
+        return <Route path="/teacher">
+          <Login
+            links={teacher.links}
+          >
+            <Route exact path="/teacher">
+              <TeacherCourses/>
+            </Route>
+            <Route exact path={teacher.links.base + '/calendar'}>
+              <Calendar/>
+            </Route>
+            <Route exact path={teacher.links.base + '/list'}>
+              <TeacherList/>
+            </Route>
+            <Route exact path={teacher.links.base + '/chat'}>
+              <Chat/>
+            </Route>
+            <Route exact path={teacher.links.base + '/edit'}>
+              <EditProfile type={teacher.type}/>
+            </Route>
+            <Route exact path={teacher.links.base + '/connecting'}>
+              <Connect/>
+            </Route>
+          </Login>
+        </Route>
+      } else if (user.type === 'tutor') {
+        return <Route path="/tutor">
+          <Login
+            {...tutor}
+            photo={teacher.photo}
+            links={tutor.links}
+            type="tutor"
+          >
+            <Route path={tutor.links.base + '/list'}>
+              <TeacherList/>
+            </Route>
+            <Route path={tutor.links.base + '/chat'}>
+              <Chat/>
+            </Route>
+            <Route path={tutor.links.base + '/educoin'}>
+              <TutorEducoin/>
+            </Route>
+            <Route path={tutor.links.base + '/edit'}>
+              <EditProfile type={tutor.type}/>
+            </Route>
+            <Route path={tutor.links.base + '/calendar/:id?'}>
+              <TutorCalendar/>
+            </Route>
+          </Login>
+        </Route>
+      } else if (user.type === 'student') {
+        return <Route path="/student">
+          <Login
+            {...teacher}
+            links={student.links}
+          >
+            <Switch>
+              <Route exact path={student.links.base} component={MyCourses}/>
+              <Route exact path={student.links.chat} component={Chat}/>
+              <Route exact path={student.links.promo} component={PromoCode}/>
+              <Route exact path={student.links.edit}>
+                <EditProfile type={student.type}/>
+              </Route>
+              <Route exact path={student.links.payment} component={Payment}/>
+              <Route exact path={student.links.eduCoin} component={EduCoinComponent}/>
+              <Route exact path={student.links.calendar} component={Calendar}/>
+              <Route exact path={student.links.buy} component={BuySubject}/>
+              <Route exact path={student.links.lesson} component={Lesson}/>
+              <Route exact path={student.links.connecting} component={Connect}/>
+              <Route exact path={student.links.watchCourse} component={WatchCourse}/>
+
+
+              {/*<Route path="/student/teacher/:id" component={TeacherPage}/>*/}
+              {/*<Route path="/student/subject" component={Subject}/>*/}
+
+              <Route component={NotFound}/>
+            </Switch>
+          </Login>
+        </Route>
+      }
+    } else {
+      return <Route path="/student">
+        <Login
+          {...teacher}
+          links={student.links}
+        >
+          <Switch>
+            <Route exact path={student.links.base} component={MyCourses}/>
+            <Route exact path={student.links.chat} component={Chat}/>
+            <Route exact path={student.links.promo} component={PromoCode}/>
+            <Route exact path={student.links.edit}>
+              <EditProfile type={student.type}/>
+            </Route>
+            <Route exact path={student.links.payment} component={Payment}/>
+            <Route exact path={student.links.eduCoin} component={EduCoinComponent}/>
+            <Route exact path={student.links.calendar} component={Calendar}/>
+            <Route exact path={student.links.buy} component={BuySubject}/>
+            <Route exact path={student.links.lesson} component={Lesson}/>
+            <Route exact path={student.links.connecting} component={Connect}/>
+            <Route exact path={student.links.watchCourse} component={WatchCourse}/>
+
+
+            {/*<Route path="/student/teacher/:id" component={TeacherPage}/>*/}
+            {/*<Route path="/student/subject" component={Subject}/>*/}
+
+            <Route component={NotFound}/>
+          </Switch>
+        </Login>
+      </Route>
+    }
+  }
 
 
   return (
@@ -71,92 +186,8 @@ const AuthRequired = ({isAuth}) => {
       {
         isAuth
           ? <>
-            <Route path="/student">
-              <Login
-                {...teacher}
-                name={teacher.name}
-                photo={student.photo}
-                type="student"
-                coins={student.coins}
-                links={student.links}
-              >
-                <Switch>
-                  <Route exact path={student.links.base} component={MyCourses}/>
-                  <Route exact path={student.links.chat} component={Chat}/>
-                  <Route exact path={student.links.promo} component={PromoCode}/>
-                  <Route exact path={student.links.edit}>
-                    <EditProfile type={student.type}/>
-                  </Route>
-                  <Route exact path={student.links.payment} component={Payment}/>
-                  <Route exact path={student.links.eduCoin} component={EduCoinComponent}/>
-                  <Route exact path={student.links.calendar} component={Calendar}/>
-                  <Route exact path={student.links.buy} component={BuySubject}/>
-                  <Route exact path={student.links.lesson} component={Lesson}/>
-                  <Route exact path={student.links.connecting} component={Connect}/>
-                  <Route exact path={student.links.watchCourse} component={WatchCourse}/>
-
-
-                  {/*<Route path="/student/teacher/:id" component={TeacherPage}/>*/}
-                  {/*<Route path="/student/subject" component={Subject}/>*/}
-
-                  <Route component={NotFound}/>
-                </Switch>
-              </Login>
-            </Route>
-
-            <Route path="/teacher">
-              <Login
-                {...teacher}
-                photo={teacher.photo}
-                type="teacher"
-                links={teacher.links}
-              >
-                <Route exact path="/teacher">
-                  <TeacherCourses/>
-                </Route>
-                <Route exact path={teacher.links.base + '/calendar'}>
-                  <Calendar/>
-                </Route>
-                <Route exact path={teacher.links.base + '/list'}>
-                  <TeacherList/>
-                </Route>
-                <Route exact path={teacher.links.base + '/chat'}>
-                  <Chat/>
-                </Route>
-                <Route exact path={teacher.links.base + '/edit'}>
-                  <EditProfile type={teacher.type}/>
-                </Route>
-                <Route exact path={teacher.links.base + '/connecting'}>
-                  <Connect/>
-                </Route>
-              </Login>
-            </Route>
-
-            <Route path="/tutor">
-              <Login
-                {...tutor}
-                photo={teacher.photo}
-                links={tutor.links}
-                type="tutor"
-              >
-                <Route path={tutor.links.base + '/list'}>
-                  <TeacherList/>
-                </Route>
-                <Route path={tutor.links.base + '/chat'}>
-                  <Chat/>
-                </Route>
-                <Route path={tutor.links.base + '/educoin'}>
-                  <TutorEducoin/>
-                </Route>
-                <Route path={tutor.links.base + '/edit'}>
-                  <EditProfile type={tutor.type}/>
-                </Route>
-                <Route path={tutor.links.base + '/calendar/:id?'}>
-                  <TutorCalendar/>
-                </Route>
-              </Login>
-            </Route>
-          </>
+              <RoutesToShow/>
+            </>
           : <Redirect to="/"/>
       }
     </>
@@ -164,4 +195,11 @@ const AuthRequired = ({isAuth}) => {
 
 }
 
-export default AuthRequired
+const mapStateToProps = state => {
+  return {
+    isAuth: state.auth.isAuthenticated,
+    user: state.user.user
+  }
+}
+
+export default connect(mapStateToProps)(AuthRequired)

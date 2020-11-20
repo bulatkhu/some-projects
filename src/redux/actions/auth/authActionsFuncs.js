@@ -1,11 +1,13 @@
 import * as actions from './authActions'
 import {deleteUsersData} from '../user/userActionsFuncs'
+import {getToken} from '../../../request/apiRequests'
 
 
-export function checkIsAuth(payload) {
+export function checkIsAuth() {
+
   return {
     type: actions.IS_AUTHENTICATED,
-    payload
+    payload: !!getToken()
   }
 }
 
