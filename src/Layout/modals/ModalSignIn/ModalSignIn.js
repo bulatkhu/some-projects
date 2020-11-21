@@ -1,15 +1,15 @@
 import React, {useEffect, useRef, useState} from 'react'
-import {useHistory} from 'react-router-dom';
+import {useHistory} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {Form, Field} from 'react-final-form'
-import './ModalSignIn.scss'
-import {hideModalLogin, showModalLogin, showModalPass} from '../../../redux/actions/menu/menuActionsFuncs'
+import InputMask from 'react-input-mask'
 import {checkIsAuth} from '../../../redux/actions/auth/authActionsFuncs'
 import {setUsersData} from '../../../redux/actions/user/userActionsFuncs'
+import {validatePhone} from '../../../scripts/validations/validators'
 import CircleForModals from '../CircleForModals/CircleForModals'
 import {login} from '../../../request/apiRequests'
-import {validatePhone} from '../../../scripts/validations/validators'
-import InputMask from 'react-input-mask'
+import {hideModalLogin, showModalLogin, showModalPass} from '../../../redux/actions/menu/menuActionsFuncs'
+import './ModalSignIn.scss'
 
 
 const ModalSignIn = props => {
@@ -38,7 +38,7 @@ const ModalSignIn = props => {
       if (response.error) return setShowError({ error: response.data.error, isError: true })
 
       if (+response.data.status === 1) {
-        const {user} = response.data.data
+        const {user, type} = response.data.data
         setShowError({
           error: null,
           isError: false
@@ -49,7 +49,10 @@ const ModalSignIn = props => {
         console.log('user', user)
         props.onHideLoginModal()
         props.isAuth(true)
-        history.push('/student')
+
+        if (type) {
+          history.push(`/${type}`)
+        }
       } else {
         setShowError({
           error: response.data.error,

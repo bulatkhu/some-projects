@@ -96,10 +96,10 @@ const Menu = props => {
                 <option value="ru">RU</option>
               </select>
               {
-                props.isAuth
+                props.isAuth && user
 
                   ? <>
-                    <Link to="/student" className="login__avatar">
+                    <Link to={user.type || '/student'} className="login__avatar">
                       {
                         user && user.localAvatar
                           ? <img src={SITE_BASE_URL + user.localAvatar} alt="Avatar"/>

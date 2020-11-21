@@ -56,7 +56,7 @@ function App(props) {
           <Route exact path="/paying">
             <Paying/>
           </Route>
-          <Route path="/teacher/:id" component={TeacherPage}/>
+          <Route path="/teacher-page/:id" component={TeacherPage}/>
 
 
           <AuthRequired isAuth={props.isAuth}/>
