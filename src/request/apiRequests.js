@@ -80,8 +80,9 @@ export async function getChatConversations(page = '1') {
 }
 
 export async function getChatMentors() {
+  const token = getToken()
   return  await axios
-    .get(!isForFirebase ? '/mentor/lists' : baseUrl + '/mentor/lists')
+    .get(!isForFirebase ? '/mentor/lists' : baseUrl + '/mentor/lists', {params: {token}})
 }
 
 export async function getMessagesByUserId(id) {

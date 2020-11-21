@@ -7,6 +7,7 @@ import subjectIMG2 from '../../../../images/general/courses/tab-thing2.jpg'
 // import Stars from '../../../general/stars/stars'
 import kaspiBank from '../../../../images/landing/checkBoxes/bankKaspi.svg'
 import bankCard from '../../../../images/landing/checkBoxes/bankCard.svg'
+import roundAdd from '../../../../images/landing/checkBoxes/roundAdd.svg'
 import './checkOut.scoped.scss'
 
 function SubjectBox({title, img, id}) {
@@ -45,7 +46,13 @@ function CoursesOverplay() {
         Негізгі пәндерді қосу арқылы 5 990₸ эконом жасаңыз.
       </p>
 
-      <button className="subOverlay__btn">Қосу</button>
+      <button className="subOverlay__btn subOverlayBtn">
+
+        <span className="subOverlayBtn__img">
+          <img src={roundAdd} alt="roundAdd"/>
+        </span>
+        <span className="subOverlayBtn__text">Қосу</span>
+      </button>
     </div>
   )
 }

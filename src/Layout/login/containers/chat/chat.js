@@ -98,7 +98,7 @@ const Chat = () => {
         <div
           onClick={() => setShowBigImage(null)}
           className="chatBigImg__wrapper">
-          <img src={showBigImage} alt="" className="chatBigImg__img"/>
+          <img src={showBigImage} alt="big " className="chatBigImg__img"/>
         </div>
       )}
       <div className="chat__content">
