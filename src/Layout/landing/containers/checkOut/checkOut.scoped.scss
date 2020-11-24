@@ -5,15 +5,19 @@
   left: 50%;
   //transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-  width: 68%;
+  width: 80%;
   height: 95%;
   background: linear-gradient(180deg, #D0E6FF 0%, rgba(114, 178, 255, 0) 100%), #FFFFFF;
   border-radius: 10px;
   padding-bottom: 25px;
   box-sizing: border-box;
 
+  @media (max-width: 1200px) {
+    width: 95%;
+  }
+
   @media (max-width: 576px) {
-    width: 100%;
+    width: 98%;
   }
 
   &__body {
@@ -74,8 +78,8 @@
 
   &__content {
     display: grid;
-    grid-template-columns: 70% min(340px);
-    //padding-bottom: 30px;
+    grid-template-columns: 69% 30%;
+    justify-content: space-between;
 
     @media (max-width: 992px) {
       grid-template-columns: 100%;
@@ -162,7 +166,6 @@
 }
 
 .checkOut-side {
-  margin-left: 20px;
   margin-top: -20px;
   grid-column: 2;
   grid-row: 2/4;
@@ -413,6 +416,10 @@
   color: #626267;
   padding-top: 20px;
 
+  @media (max-width: 767px) {
+    width: 100%;
+  }
+
   &__info {
     margin-bottom: 15px;
 
@@ -435,6 +442,10 @@
     font-size: 26px;
     color: #626267;
 
+    @media (max-width: 767px) {
+      font-size: 15px;
+    }
+
     &:first-child {
       text-align: right;
     }
@@ -454,6 +465,15 @@
       color: #fff;
     }
   }
+
+  &__description {
+    margin-top: 40px;
+    font-size: 26px;
+
+    @media (max-width: 767px) {
+      font-size: 20px;
+    }
+  }
 }
 
 .resultsBlock {
@@ -461,6 +481,11 @@
   padding: 38px 41px;
   background: #fff;
   border-radius: 5px;
+
+  @media (max-width: 767px) {
+    padding: 10px;
+    font-size: 15px;
+  }
 
   &__wrapper {
     &:not(:last-child) {

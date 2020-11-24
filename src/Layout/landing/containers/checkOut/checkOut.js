@@ -343,7 +343,7 @@ const CheckOut = ({show, info, courses}) => {
                             <span className="results__column">{!showResults.card ? 'Kaspi.kz' : 'card'}</span></p>
                         </div>
 
-                        <p style={{marginTop: 40, fontSize: 26}} className="text-center">*Түбіртек “Төлемдер” бөлімінде сақталды.</p>
+                        <p className="text-center results__description">*Түбіртек “Төлемдер” бөлімінде сақталды.</p>
                       </div>
                     : <div className="results">
 
