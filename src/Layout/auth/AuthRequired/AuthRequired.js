@@ -54,10 +54,10 @@ const loggedInfo = {
   },
   tutor: {
     name: 'Tutor name',
-    type: 'tutor',
+    type: 'mentor',
     photo: teacherPhoto,
     links: {
-      base: '/tutor',
+      base: '/mentor',
     }
   }
 }
@@ -93,8 +93,8 @@ const AuthRequired = ({isAuth, user}) => {
             </Route>
           </Login>
         </Route>
-      } else if (user.type === 'tutor') {
-        return <Route path="/tutor">
+      } else if (user.type === 'mentor') {
+        return <Route path="/mentor">
           <Login
             {...tutor}
             photo={teacher.photo}

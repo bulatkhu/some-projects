@@ -5,7 +5,7 @@ import {Form, Field} from 'react-final-form'
 import InputMask from 'react-input-mask'
 import {checkIsAuth} from '../../../redux/actions/auth/authActionsFuncs'
 import {setUsersData} from '../../../redux/actions/user/userActionsFuncs'
-import {validatePhone} from '../../../scripts/validations/validators'
+import {validatePassword, validatePhone} from '../../../scripts/validations/validators'
 import CircleForModals from '../CircleForModals/CircleForModals'
 import {login} from '../../../request/apiRequests'
 import {hideModalLogin, showModalLogin, showModalPass} from '../../../redux/actions/menu/menuActionsFuncs'
@@ -39,6 +39,8 @@ const ModalSignIn = props => {
 
       if (+response.data.status === 1) {
         const {user, type} = response.data.data
+        console.log(response.data)
+
         setShowError({
           error: null,
           isError: false
@@ -138,15 +140,22 @@ const ModalSignIn = props => {
                 <Field
                   name="password"
                   required
+                  validate={validatePassword}
                   defaultValue="12345Bulat"
                 >
-                  {({input}) => (
-                    <input
-                      ref={refToPassInput} id="passSignIn"
-                      className="SignInform__password SignInform__input"
-                      type="password" placeholder="Құпиясөз"
-                      {...input}
-                    />
+                  {({input,meta}) => (
+                    <>
+                      <input
+                        ref={refToPassInput} id="passSignIn"
+                        className={['SignInform__password', 'SignInform__input',
+                          meta.error && meta.touched ? 'regFormInput__error' : null
+                        ].join(' ')} {...input}
+                        type="password" placeholder="Құпиясөз"
+                        {...input}
+                      />
+                      {meta.error && meta.touched &&
+                      <span className="regForm__error error">Invalid password</span>}
+                    </>
                   )}
                 </Field>
               </label>

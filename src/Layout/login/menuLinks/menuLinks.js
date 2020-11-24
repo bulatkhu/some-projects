@@ -48,7 +48,7 @@ const MenuLinks = ({base, type = 'student'}) => {
       return studentList
     } else if (type === 'teacher') {
       return teacherList
-    } else if (type === 'tutor') {
+    } else if (type === 'mentor') {
       return tutorList
     }
   }

@@ -68,7 +68,6 @@ const EditProfile = ({type}) => {
 
         console.log('success:', res.data.message)
         setShowMessage(res.data.message)
-
       })
 
   }
@@ -221,42 +220,43 @@ const EditProfile = ({type}) => {
         </form>
       )}/>
     </>
-  } else if (type === 'teacher' || type === 'tutor') {
-    form = <>
+  } else if (type === 'teacher' || type === 'mentor') {
+    form = (
+      <Form
+        onSubmit={onProfileEdited}
+        render={({handleSubmit}) => (<form onSubmit={handleSubmit} className="editProfile__form editProfileForm">
 
+          <div className="editProfileForm__content">
 
-      <form className="editProfile__form editProfileForm">
-
-        <div className="editProfileForm__content">
-
-          <div className="editProfileForm__column">
-            <input type="text" placeholder="Аты" className="editProfileForm__input"/>
-            <input type="text" placeholder="ЖОО" className="editProfileForm__input"/>
-            <input type="text" placeholder="E-mail" className="editProfileForm__input"/>
-            <input type="text" placeholder="Пәні" className="editProfileForm__input"/>
-          </div>
-          <div className="editProfileForm__column">
-            <input type="text" placeholder="Тегі" className="editProfileForm__input"/>
-            <input type="text" placeholder="Мамандық" className="editProfileForm__input"/>
-            <input type="text" placeholder="Тел. нөмірі" className="editProfileForm__input"/>
-            <div className="editProfile__buttons" style={{textAlign: 'right'}}>
-              <button className="editProfile__teacherBtn editProfile__btn editProfile__deletePhoto">Суретті өшіру
-              </button>
-              <button className="editProfile__teacherBtn editProfile__btn editProfile__addPhoto">Сурет жүктеу</button>
+            <div className="editProfileForm__column">
+              <input type="text" placeholder="Аты" className="editProfileForm__input"/>
+              <input type="text" placeholder="ЖОО" className="editProfileForm__input"/>
+              <input type="text" placeholder="E-mail" className="editProfileForm__input"/>
+              <input type="text" placeholder="Пәні" className="editProfileForm__input"/>
             </div>
+            <div className="editProfileForm__column">
+              <input type="text" placeholder="Тегі" className="editProfileForm__input"/>
+              <input type="text" placeholder="Мамандық" className="editProfileForm__input"/>
+              <input type="text" placeholder="Тел. нөмірі" className="editProfileForm__input"/>
+              <div className="editProfile__buttons" style={{textAlign: 'right'}}>
+                <button className="editProfile__teacherBtn editProfile__btn editProfile__deletePhoto">Суретті өшіру
+                </button>
+                <button className="editProfile__teacherBtn editProfile__btn editProfile__addPhoto">Сурет жүктеу</button>
+              </div>
+            </div>
+
           </div>
 
-        </div>
-
-        <textarea placeholder="Өзім туралы ..." className="editProfileForm__textHolder"/>
+          <textarea placeholder="Өзім туралы ..." className="editProfileForm__textHolder"/>
 
 
-        <div className="editProfileForm__wrapper">
-          <button className="editProfileForm__button">Сақтау</button>
-        </div>
+          <div className="editProfileForm__wrapper">
+            <button className="editProfileForm__button">Сақтау</button>
+          </div>
 
-      </form>
-    </>
+        </form>)}
+      />
+    )
   }
 
   return (

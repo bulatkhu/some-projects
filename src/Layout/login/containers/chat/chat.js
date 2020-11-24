@@ -1,14 +1,8 @@
 import React, {useEffect, useState} from 'react'
-import './chat.scss'
-// import tutor1 from '../../../../images/login/chat/tutor-name1.jpg'
-// import tutor2 from '../../../../images/login/chat/tutor-name2.jpg'
-// import tutor3 from '../../../../images/login/chat/tutor-name3.jpg'
-// import tutor4 from '../../../../images/login/chat/tutor-name4.jpg'
-// import tutor5 from '../../../../images/login/chat/tutor-name5.jpg'
-// import tutor6 from '../../../../images/login/chat/tutor-name6.jpg'
-// import tutor7 from '../../../../images/login/chat/tutor-name7.jpg'
 import NoPhoto from '../../../../images/general/noPhoto/noPhoto'
 import {getChatMentors, getMessagesByUserId, sendMessageById} from '../../../../request/apiRequests'
+import {connect} from 'react-redux'
+import './chat.scss'
 
 
 
@@ -21,31 +15,40 @@ const noPhotoStyles = {
   textAlign: 'center'
 }
 
-const Chat = () => {
-  const [mentors, setMentors] = useState([])
+const Chat = ({user}) => {
+  const [candidates, setCandidates] = useState([])
   const [dialogueId, setDialogueId] = useState(null)
   const [filterUser, setFilterUser] = useState(null)
   const [diaMessage, setDiaMessage] = useState(null)
   const [dialogueList, setDialogueList] = useState([])
   const [particsName, setParticsName] = useState('')
   const [showBigImage, setShowBigImage] = useState(null)
+  const [isCandidatesFetched, setIsCandidatesFetched] = useState(false)
 
 
   useEffect(() => {
 
-    if (!mentors.length) {
-      getChatMentors()
+    if (!candidates.length && user && !isCandidatesFetched) {
+      getChatMentors(user.type)
         .then(res => {
-          const {mentors} = res.data
-          // console.log('mentors', mentors)
-          setMentors(mentors || [])
-          setDialogueId(mentors[0].id)
-          setParticsName(mentors[0].user.name)
+          setIsCandidatesFetched(true)
+          const {mentors, teachers, students} = res.data
+          const candidates = mentors || students || teachers
+          console.log('res', res.data)
+          console.log('candidates', candidates)
+
+          if (candidates && candidates.length) {
+            setCandidates(candidates || [])
+            setDialogueId(candidates[0].id)
+            setParticsName(candidates[0].user.name)
+          } else {
+            setDiaMessage('No teachers, mentors or students was found')
+          }
         })
     }
 
-    if (mentors.length && dialogueId) {
-      setParticsName(mentors.find(item => item.id === dialogueId).name)
+    if (candidates.length && dialogueId) {
+      setParticsName(candidates.find(item => item.id === dialogueId).name)
     }
 
     if (dialogueId) {
@@ -60,7 +63,7 @@ const Chat = () => {
         })
     }
 
-  },[dialogueId, mentors])
+  },[dialogueId, candidates, user, isCandidatesFetched])
 
   const onSendMessage = event => {
     event.preventDefault()
@@ -89,7 +92,6 @@ const Chat = () => {
   }
 
   const selectCurDia = id => setDialogueId(+id)
-
 
 
   return (
@@ -121,7 +123,7 @@ const Chat = () => {
 
             <div className="chatPeople__row">
 
-              {mentors
+              {candidates
                 .filter(item => {
                   if (filterUser) {
 
@@ -163,7 +165,7 @@ const Chat = () => {
                             <div className="chatPeople__subject">{item.user.username || item.user.subject}</div>
                           </div>
 
-                          {item.is_seen && <div className="chatPeople__viewed"/>}
+                          {!!item.is_seen ? <div className="chatPeople__viewed"/> : null}
                         </div>
 
                       </div>
@@ -260,4 +262,13 @@ const Chat = () => {
   )
 }
 
-export default Chat
+
+function mapStateToProps(state) {
+
+  return {
+    user: state.user.user
+  }
+}
+
+
+export default connect(mapStateToProps)(Chat)

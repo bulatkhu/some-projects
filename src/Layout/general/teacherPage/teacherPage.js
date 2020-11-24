@@ -56,7 +56,9 @@ function OneComment() {
           />
 
           <p className="bottomTeachPage__text">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sit pulvinar quam at ut sed. Sociis ullamcorper fusce libero ultricies. Ante quis vulputate nunc dolor dolor. Quis blandit eu vel sapien pulvinar volutpat dolor. Ligula arcu facilisi quis cursus nibh urna mi.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sit pulvinar quam at ut sed. Sociis ullamcorper
+            fusce libero ultricies. Ante quis vulputate nunc dolor dolor. Quis blandit eu vel sapien pulvinar volutpat
+            dolor. Ligula arcu facilisi quis cursus nibh urna mi.
             Cursus auctor fusce diam nullam tempor mauris.
           </p>
         </div>
@@ -64,7 +66,6 @@ function OneComment() {
     </div>
   )
 }
-
 
 
 const TeacherPage = ({match: {params: {id}}}) => {
@@ -122,7 +123,12 @@ const TeacherPage = ({match: {params: {id}}}) => {
                       <div className="topTeachPage__profile">
 
                         <div className="topTeachPage__img">
-                          <img src={`${SITE_BASE_URL}${getFromUserMeta(teacher,'avatar')}`} alt="teacher"/>
+                          {
+                            getFromUserMeta(teacher, 'avatar')
+                              ? <img src={`${SITE_BASE_URL}${getFromUserMeta(teacher, 'avatar')}`} alt="teacher"/>
+                              : <NoPhoto/>
+                          }
+
                         </div>
 
                         <div className="topTeachPage__name">{teacher.username}</div>
@@ -237,10 +243,10 @@ const TeacherPage = ({match: {params: {id}}}) => {
                     commmentErr
                       ? <div className="error__big text-center">Cannot get comments: {commmentErr}</div>
                       : commentsInfo.map((item, index) => {
-                          return (
-                            <OneComment key={index}/>
-                          )
-                        })
+                        return (
+                          <OneComment key={index}/>
+                        )
+                      })
                   }
 
                 </div>

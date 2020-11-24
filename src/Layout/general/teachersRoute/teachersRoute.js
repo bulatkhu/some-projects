@@ -11,7 +11,7 @@ import './teachersRoute.scss'
 
 function TeacherLittleBox({id, img, user}) {
   return (
-    <Link to={`/teacher/${id}`} className="teachersRoute__column teachersRouteCol">
+    <Link to={`/teacher-page/${id}`} className="teachersRoute__column teachersRouteCol">
       <div className="teachersRouteCol__img">
         {
           img

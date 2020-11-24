@@ -1,9 +1,10 @@
-import React, {useState} from 'react'
-import './prices.scoped.scss'
+import React, {useEffect, useState} from 'react'
 import checkMark from '../../../../images/general/icons/checkMarkGreen.svg'
 import crossRed from '../../../../images/general/icons/crossRed.svg'
-import ModalPortal from "../../../modals/ModalPortal/ModalPortal";
-import CheckOut from "../checkOut/checkOut";
+import ModalPortal from '../../../modals/ModalPortal/ModalPortal'
+import CheckOut from '../checkOut/checkOut'
+import './prices.scoped.scss'
+import {getCoursesForPrices} from '../../../../request/apiPrices'
 
 const pricesData = [
   {title: 'Видеосабақтар', price1: true, price2: true, price3: true, price4: true},
@@ -13,28 +14,50 @@ const pricesData = [
   {title: 'Кураторлық', price1: false, price2: true, price3: true, price4: true},
   {title: 'Профориентология', price1: false, price2: true, price3: true, price4: true},
   {title: 'Барлық тақырып ', price1: false, price2: true, price3: true, price4: true},
-  {title: 'Бөліп төлеу мүмкіндігі', price1: false, price2: false, price3: true, price4: true},
+  {title: '7/24 қолжетімді', price1: true, price2: true, price3: true, price4: true},
 ]
 
 const Prices = () => {
-  const [showCheckOut, setShowCheckOut] = useState(true)
+  const [showCheckOut, setShowCheckOut] = useState({show: false, id: null, color: null, title: null})
+  const [courses, setCourses] = useState([])
 
+  useEffect(() => {
 
-  const onShowCheckOut = id => {
+    getCoursesForPrices()
+      .then(res => {
+        if (!res.error && +res.data.status === 1) {
+          const {data} = res.data
+          const arrayData = Object
+            .keys(data)
+            .map(item => {
+              data[item].id = +item
+              return data[item].map(item => {
+                item.title = item.content.title
+                const img = item.content.metas.find(item => item.option === 'cover' || item.option === 'thumbnail')
+                item.img = img.value ? img.value : null
+                delete item.content
+                return item
+              })
+            })
+          setCourses(arrayData)
+        }
+      })
 
-    setShowCheckOut(prev => !prev)
+  },[])
 
-  }
-
+  const onShowCheckOut = (id, color, title) => setShowCheckOut(() => ({show: true, id, color, title}))
 
 
   return (
     <section className="prices">
 
-      {
-        showCheckOut && (
+      { courses.length && (
           <ModalPortal>
-            <CheckOut show={setShowCheckOut}/>
+            <CheckOut
+              courses={courses[showCheckOut.id]}
+              info={showCheckOut}
+              show={setShowCheckOut}
+            />
           </ModalPortal>
         )
       }
@@ -107,14 +130,14 @@ const Prices = () => {
 
                 keys.forEach(item => {
                   if (itemOfPrice[item] === 'minus' ||
-                      itemOfPrice[item] === '-' ||
-                      itemOfPrice[item] === false
+                    itemOfPrice[item] === '-' ||
+                    itemOfPrice[item] === false
                   ) {
                     // itemOfPrice[item] = <div className="tableBottom__redMinus"><span/></div>
                     itemOfPrice[item] = <img src={crossRed} alt="cross"/>
                   } else if (
                     itemOfPrice[item] === 'plus' ||
-                    itemOfPrice[item] === '+'||
+                    itemOfPrice[item] === '+' ||
                     itemOfPrice[item] === true
                   ) {
                     // itemOfPrice[item] = <div className="tableBottom__greenCross"><span/><span/></div>
@@ -172,25 +195,25 @@ const Prices = () => {
                   <div className="topTableFirst__content">
 
                     <div className="topTableFirst__column">
-                      <button onClick={() => onShowCheckOut(1)} className="topTableFirst__button btn__shadowFromNull">
+                      <button onClick={() => console.log('first column')} className="topTableFirst__button btn__shadowFromNull">
                         <span className="topTableFirst__text">Таңдау</span>
                       </button>
                     </div>
 
                     <div className="topTableFirst__column">
-                      <button onClick={() => onShowCheckOut(2)} className="topTableFirst__button btn__shadowFromNull">
+                      <button onClick={() => onShowCheckOut(0,'#6CA04A','Негізгі пәндер')} className="topTableFirst__button btn__shadowFromNull">
                         <span className="topTableFirst__text">Таңдау</span>
                       </button>
                     </div>
 
                     <div className="topTableFirst__column">
-                      <button onClick={() => onShowCheckOut(3)} className="topTableFirst__button btn__shadowFromNull">
+                      <button onClick={() => onShowCheckOut(1,'#3EC1EB','Бейіндік пәндер')} className="topTableFirst__button btn__shadowFromNull">
                         <span className="topTableFirst__text">Таңдау</span>
                       </button>
                     </div>
 
                     <div className="topTableFirst__column">
-                      <button onClick={() => onShowCheckOut(4)} className="topTableFirst__button btn__shadowFromNull">
+                      <button onClick={() => onShowCheckOut(2,'#FD6CA3','COMBO')} className="topTableFirst__button btn__shadowFromNull">
                         <span className="topTableFirst__text">Таңдау</span>
                       </button>
                     </div>

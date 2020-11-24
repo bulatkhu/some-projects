@@ -5,15 +5,25 @@
   left: 50%;
   //transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-  width: 90%;
-  height: 90%;
+  width: 68%;
+  height: 95%;
   background: linear-gradient(180deg, #D0E6FF 0%, rgba(114, 178, 255, 0) 100%), #FFFFFF;
   border-radius: 10px;
+  padding-bottom: 25px;
+  box-sizing: border-box;
+
+  @media (max-width: 576px) {
+    width: 100%;
+  }
 
   &__body {
     padding: 0 30px 20px 30px;
     overflow: auto;
     height: 90%;
+
+    @media (max-width: 576px) {
+      padding: 0 5px 20px 5px;
+    }
   }
 
   &__wrapper {
@@ -64,8 +74,12 @@
 
   &__content {
     display: grid;
-    grid-template-columns: 70% 30%;
+    grid-template-columns: 70% min(340px);
+    //padding-bottom: 30px;
 
+    @media (max-width: 992px) {
+      grid-template-columns: 100%;
+    }
   }
 
   &__courseTitle {
@@ -92,7 +106,7 @@
     margin: auto;
     max-width: 567px;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     flex-wrap: wrap;
     position: relative;
 
@@ -125,10 +139,25 @@
   &__short {
     width: 30%;
     margin-right: 30px;
+
+    @media (max-width: 576px) {
+      margin-right: 0;
+    }
   }
 
   &__long {
     width: 60%;
+  }
+
+  &__input {
+    @media (max-width: 576px) {
+      display: block;
+      width: 100%;
+
+      &:first-child {
+        margin-bottom: 10px;
+      }
+    }
   }
 }
 
@@ -138,6 +167,13 @@
   grid-column: 2;
   grid-row: 2/4;
   height: 100%;
+
+  @media (max-width: 992px) {
+    grid-column: 1;
+    grid-row: 5;
+    height: 100%;
+    margin: 10px;
+  }
 
   &__btn {
     text-align: center;
@@ -181,7 +217,7 @@
 
   &__body {
     background-color: #fff;
-    height: 90%;
+    height: 100%;
     border-radius: 10px;
   }
 
@@ -236,6 +272,46 @@
     margin-bottom: 17px;
     display: block;
   }
+
+  &__input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+
+    &:checked ~ .checkOut-side__checkMark {
+      &::after {
+        background: #ff5773;
+      }
+    }
+  }
+
+  &__checkMark {
+    top: 0;
+    left: 0;
+    height: 26px;
+    width: 26px;
+    background: transparent;
+    border: 2px solid #FF5773;
+    box-sizing: border-box;
+    border-radius: 5px;
+    position: relative;
+    cursor: pointer;
+
+    &::after {
+      content: '';
+      position: absolute;
+      width: 60%;
+      height: 60%;
+      transition: .5s all;
+      background: transparent;
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+    }
+  }
 }
 
 .bank {
@@ -264,7 +340,7 @@
   background: rgba(107, 107, 107, 0.6);
   border: 1px solid #A7A7A7;
   box-sizing: border-box;
-  box-shadow: 0px 5px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 5px 4px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
   margin: -10px -10px 10px 10px;
   top: 20px;
@@ -306,5 +382,100 @@
     line-height: 28px;
 
     color: #FFFFFF;
+  }
+}
+
+.about {
+
+  &__row {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__column {
+    flex-basis: 48%;
+    &:first-child {
+      text-align: right;
+      font-size: 14px;
+      color: #626267;
+    }
+    &:last-child {
+      font-weight: bold;
+      font-size: 14px;
+      color: #626267;
+    }
+  }
+}
+
+.results {
+  width: 80%;
+  margin: auto;
+  color: #626267;
+  padding-top: 20px;
+
+  &__info {
+    margin-bottom: 15px;
+
+    &.textLeft {
+      p > span:first-child {
+        text-align: left;
+      }
+    }
+  }
+
+  &__content {
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+  }
+
+  &__column {
+    flex-basis: 48%;
+    font-weight: normal;
+    font-size: 26px;
+    color: #626267;
+
+    &:first-child {
+      text-align: right;
+    }
+
+    &:last-child {
+      font-weight: 500;
+    }
+  }
+
+  &__amount {
+    display: inline-block;
+
+    &.active {
+      padding: 3px 7px;
+      background: #ff5773;
+      border-radius: 5px;
+      color: #fff;
+    }
+  }
+}
+
+.resultsBlock {
+  font-size: 20px;
+  padding: 38px 41px;
+  background: #fff;
+  border-radius: 5px;
+
+  &__wrapper {
+    &:not(:last-child) {
+      margin-bottom: 30px;
+    }
+  }
+
+  &__title {
+    margin: 0 0 5px 0;
+  }
+
+  &__text {
+    margin: 0 0 5px 0;
+  }
+  &__link {
+
   }
 }

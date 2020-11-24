@@ -1,6 +1,6 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import Select from 'react-select'
-import {Link} from 'react-router-dom'
+import {Transition} from 'react-transition-group'
 import {scrollBodyHandler} from '../../../../scripts/scrollController/scrollController'
 import subjectIMG1 from '../../../../images/general/courses/tab-thing1.jpg'
 import subjectIMG2 from '../../../../images/general/courses/tab-thing2.jpg'
@@ -8,35 +8,8 @@ import subjectIMG2 from '../../../../images/general/courses/tab-thing2.jpg'
 import kaspiBank from '../../../../images/landing/checkBoxes/bankKaspi.svg'
 import bankCard from '../../../../images/landing/checkBoxes/bankCard.svg'
 import roundAdd from '../../../../images/landing/checkBoxes/roundAdd.svg'
+import ThingCard from '../../components/ThingCard/ThingCard'
 import './checkOut.scoped.scss'
-
-function SubjectBox({title, img, id}) {
-
-  return (
-    <div className="bottom__column" data-item="true" data-forid={'title'}>
-      <div className="bottom__item">
-        <h3 className="bottom__item_title">{title}</h3>
-
-        <div className="bottom__item_img">
-          {img ? <img src={img} alt="thing"/> : null}
-        </div>
-
-        {/*<Stars*/}
-        {/*  className="bottom__item_mark"*/}
-        {/*  classNameOfValue=""*/}
-        {/*  rating={5}*/}
-        {/*/>*/}
-        <div className="bottom__item_price item_price">
-          {/*<span className="item_price__current">{`${price} ${currency}`}</span>*/}
-        </div>
-        <Link to={"/subject/" + id} className="btn__shadowFromNull bottom__item_button item_button">
-          Толығырақ
-        </Link>
-      </div>
-    </div>
-
-  )
-}
 
 function CoursesOverplay() {
 
@@ -57,18 +30,93 @@ function CoursesOverplay() {
   )
 }
 
-const options = [
-  {label: 2021, value: 2021},
-  {label: 2020, value: 2020},
-  {label: 2019, value: 2019},
-  {label: 2018, value: 2018},
-  {label: 2017, value: 2017}
-]
+function genCoursesDescription(id) {
+
+  if (id === 0) {
+    return (
+      <div className="about">
+        <p className="about__row">
+          <span className="about__column">Курс: </span>
+          <span className="about__column">COMBO</span>
+        </p>
+        <p className="about__row">
+          <span className="about__column">Тілі: </span>
+          <span className="about__column">Қазақша</span>
+        </p>
+        <p className="about__row">
+          <span className="about__column">Бейіндік: </span>
+          <span className="about__column">Физика Математика</span>
+        </p>
+        <p className="about__row">
+          <span className="about__column">Негізгі:</span>
+          <span className="about__column">Оқу сауаттылығы
+          Математикалық сауаттылық Қазақстан тарихы</span>
+        </p>
+        <p className="about__row">
+          <span className="about__column">Жалпы сомма: </span>
+          <span className="about__column">44 990₸</span>
+        </p>
+      </div>
+    )
+  } else if (id === 1) {
+    return (
+      <div className="about">
+        <p className="about__row">
+          <span className="about__column">Курс: </span>
+          <span className="about__column">COMBO</span>
+        </p>
+        <p className="about__row">
+          <span className="about__column">Тілі: </span>
+          <span className="about__column">Қазақша</span>
+        </p>
+        <p className="about__row">
+          <span className="about__column">Бейіндік: </span>
+          <span className="about__column">Физика Математика</span>
+        </p>
+        <p className="about__row">
+          <span className="about__column">Негізгі:</span>
+          <span className="about__column">Оқу сауаттылығы
+          Математикалық сауаттылық Қазақстан тарихы</span>
+        </p>
+        <p className="about__row">
+          <span className="about__column">Жалпы сомма: </span>
+          <span className="about__column">44 990₸</span>
+        </p>
+      </div>
+    )
+  } else if (id === 2) {
+    return (
+      <div className="about">
+        <p className="about__row">
+          <span className="about__column">Курс: </span>
+          <span className="about__column">COMBO</span>
+        </p>
+        <p className="about__row">
+          <span className="about__column">Тілі: </span>
+          <span className="about__column">Қазақша</span>
+        </p>
+        <p className="about__row">
+          <span className="about__column">Бейіндік: </span>
+          <span className="about__column">Физика Математика</span>
+        </p>
+        <p className="about__row">
+          <span className="about__column">Негізгі:</span>
+          <span className="about__column">Оқу сауаттылығы
+          Математикалық сауаттылық Қазақстан тарихы</span>
+        </p>
+        <p className="about__row">
+          <span className="about__column">Жалпы сомма: </span>
+          <span className="about__column">44 990₸</span>
+        </p>
+      </div>
+    )
+  }
+}
 
 function CloseButton({show}) {
 
   return (
-    <span onClick={() => show(false)} className="close">
+    <span onClick={() => show({show: false, id: null})} className="close">
       <span className="close__relative">
         <span/>
         <span/>
@@ -77,136 +125,184 @@ function CloseButton({show}) {
   )
 }
 
+const options = [
+  {label: 2021, value: 2021},
+  {label: 2020, value: 2020},
+  {label: 2019, value: 2019},
+  {label: 2018, value: 2018},
+  {label: 2017, value: 2017}
+]
 
-const CheckOut = ({show}) => {
+const defaultStyle = {
+  transition: `opacity 500ms ease`,
+  opacity: 0,
+}
+
+const transitionStyles = {
+  entering: {opacity: 1},
+  entered: {opacity: 1},
+  exiting: {opacity: 0},
+  exited: {opacity: 0},
+}
+
+
+const CheckOut = ({show, info, courses}) => {
+  const [showResults, setShowResults] = useState({show: false, card: null})
   useEffect(() => {
-    scrollBodyHandler.lock()
+    if (info.show) {
+      scrollBodyHandler.lock()
+    }
 
-    return () => scrollBodyHandler.unLock()
+    return () => {
+      scrollBodyHandler.unLock()
+      setShowResults({show: false, card: null})
+    }
+  }, [info, courses])
 
-  })
+  const onFormSubmit = (event) => {
+    event.preventDefault()
+    const card = event.target.card.checked
 
+    setShowResults({show: true, card})
+
+    console.log('type', `
+       card: ${card},
+    `)
+  }
 
   return (
-    <div className="checkOut__wrapper">
-      <div className="checkOut">
-        <h1 className="checkOut__title">
-          <span>ТӨЛЕМ ЖАСАУ</span>
-          <CloseButton show={show}/>
-        </h1>
+    <Transition unmountOnExit in={info.show} timeout={500}>
+      {state => (
+        <div
+          style={{...defaultStyle, ...transitionStyles[state]}}
+          className="checkOut__wrapper">
 
-        <div className="checkOut__body">
-          <div className="checkOut__content">
-            <div className="checkOut__column">
-              <h2 className="checkOut__courseTitle">Пәндерді таңдаңыз</h2>
-            </div>
-            <div className="checkOut__column"/>
-            <div className="checkOut__column">
-              <div className="checkOut-select__wrapper checkOut-subject__content">
-                <div className="checkOut-select__short">
-                  <Select
-                    options={{options}}
-                    placeholder="Курс тілі"
-                  />
-                </div>
+          <div className="checkOut">
+            <h1 className="checkOut__title">
+              <span>ТӨЛЕМ ЖАСАУ</span>
+              <CloseButton show={show}/>
+            </h1>
 
-                <div className="checkOut-select__long">
-                  <Select
-                    options={{options}}
-                    placeholder="Курс тілі"
-                  />
-                </div>
-              </div>
-              <div className="checkOut-subject__content">
-                <CoursesOverplay/>
+            <div className="checkOut__body">
 
-                <SubjectBox id={0} img={subjectIMG1} title="ФИЗИКА"/>
-                <SubjectBox id={1} img={subjectIMG2} title="МАТЕМАТИКА"/>
-              </div>
+              {
+                !showResults.show
+                  ? <div className="checkOut__content">
+                    <div className="checkOut__column">
+                      <h2 className="checkOut__courseTitle">Пәндерді таңдаңыз</h2>
+                    </div>
+                    <div className="checkOut__column"/>
+                    <div className="checkOut__column">
+                      <div className="checkOut-select__wrapper checkOut-subject__content">
+                        <div className="checkOut-select__input checkOut-select__short">
+                          <Select
+                            options={options}
+                            placeholder="Курс тілі"
+                          />
+                        </div>
 
-            </div>
+                        <div className="checkOut-select__input checkOut-select__long">
+                          <Select
+                            options={options}
+                            placeholder="Бейіндік пән"
+                          />
+                        </div>
+                      </div>
+                      <div className="checkOut-subject__content">
+                        {
+                          info.id === 0
+                            ? <CoursesOverplay/>
+                            : null
+                        }
 
-            <div className="checkOut__column">
-              <h2 className="checkOut__subTitle">Негізгі пәндер</h2>
+                        <ThingCard course={{
+                          id: 0,
+                          img: subjectIMG1,
+                          title: 'ФИЗИКА',
+                        }}/>
+                        <ThingCard course={{
+                          id: 0,
+                          img: subjectIMG2,
+                          title: 'МАТЕМАТИКА',
+                        }}/>
 
-              <div className="checkOut-subject__content checkOut-subject__subContent">
+                      </div>
 
-                <CoursesOverplay/>
+                    </div>
 
-                <SubjectBox id={0} img={subjectIMG1} title="ОҚУ САУАТТЫЛЫҒЫ"/>
-                <SubjectBox id={1} img={subjectIMG2} title="МАТЕМАТИКАЛЫҚ САУАТТЫЛЫҚ"/>
-                <SubjectBox id={1} img={subjectIMG2} title="ҚАЗАҚСТАН ТАРИХЫ"/>
-              </div>
+                    <div className="checkOut__column">
+                      <h2 className="checkOut__subTitle">Негізгі пәндер</h2>
 
-            </div>
-            <form className="checkOut__column checkOut-side">
-              <div className="checkOut-side__body">
+                      <div className="checkOut-subject__content checkOut-subject__subContent">
 
-                <h2 className="checkOut-side__title">
-                  <span>COMBO</span>
-                  <span>5 пәнге/6 айға</span>
-                </h2>
+                        {
+                          info.id === 1
+                            ? <CoursesOverplay/>
+                            : null
+                        }
 
-                <div className="checkOut-side__wrapper">
 
-                  <div className="checkOut-side__checkBoxes">
-                    <h3 className="checkOut-side__checkTitle">Төлем тәсілі</h3>
+                        {courses &&
+                        courses.map((item, index) => (
+                          <ThingCard key={index} course={{
+                            id: item.content_id,
+                            img: item.img,
+                            title: item.title,
+                          }}/>
+                        ))
+                        }
+                      </div>
 
-                    <label className="checkOut-side__label" htmlFor="price1">
-                      <input
-                        name="price1"
-                        id="price1"
-                        type="checkbox"
-                      />
-                      <span className="checkOut-side__checkSubTitle">Бөліп төлеу 34 990₸</span>
-                      <span className="checkOut-side__boxRequired">
-                        <span>*</span>
-                        Келесі төлем (10 000₸) уақыты
-                        02.01.2021 – 09.01.2021
-                      </span>
-                    </label>
-                    <label className="checkOut-side__label" htmlFor="price2">
-                      <input
-                        name="price2"
-                        id="price2"
-                        type="checkbox"
-                      />
-                      <span className="checkOut-side__checkSubTitle">
-                        Толық төлеу 44 990₸
-                      </span>
-                    </label>
-                  </div>
+                    </div>
+                    <form onSubmit={onFormSubmit} className="checkOut__column checkOut-side">
+                      <div className="checkOut-side__body">
 
-                  <div className="checkOut-side__checkBoxes">
-                    <h3 className="checkOut-side__checkTitle">Төлем түрін таңдаңыз</h3>
+                        <h2 className="checkOut-side__title" style={{background: info.color}}>
+                          <span>{info.title}</span>
+                          <span>5 пәнге/6 айға</span>
+                        </h2>
 
-                    <label className="checkOut-side__label" htmlFor="price3">
+                        <div className="checkOut-side__wrapper">
+
+                          {genCoursesDescription(info.id)}
+
+                          <div className="checkOut-side__checkBoxes">
+                            <h3 className="checkOut-side__checkTitle">Төлем түрін таңдаңыз</h3>
+
+                            <label className="checkOut-side__label" htmlFor="kaspi">
                       <span className="bank">
                         <span className="bank__content">
                           <input
-                            name="price3"
-                            id="price3"
-                            type="checkbox"
+                            className="checkOut-side__input"
+                            name="kaspi"
+                            id="kaspi"
+                            type="radio"
+                            required
                           />
+                          <span className="checkOut-side__checkMark"/>
 
                           <span className="bank__img">
                             <img src={kaspiBank} alt="kaspi"/>
                           </span>
 
-                          <span className="bank__text">Kaspi </span>
+                          <span className="bank__text">Kaspi.kz  </span>
                         </span>
 
                       </span>
-                    </label>
-                    <label className="checkOut-side__label" htmlFor="price4">
+                            </label>
+                            <label className="checkOut-side__label" htmlFor="card">
 
                       <span className="bank">
                         <span className="bank__content">
                            <input
-                             name="price4"
-                             id="price4"
-                             type="checkbox"
+                             className="checkOut-side__input"
+                             name="kaspi"
+                             id="card"
+                             type="radio"
+                             required
                            />
+                         <span className="checkOut-side__checkMark"/>
+
 
                           <span className="bank__img">
                             <img src={bankCard} alt="card"/>
@@ -216,22 +312,87 @@ const CheckOut = ({show}) => {
                         </span>
 
                       </span>
-                    </label>
+                            </label>
+                          </div>
+
+                          <button className="checkOut-side__btn btn__shadowFromNull">
+                            <span>44 990 ₸</span>
+                            <span>Төлем жасау</span>
+                          </button>
+                        </div>
+
+                      </div>
+                    </form>
                   </div>
+                  : showResults.card
+                    ? <div className="results">
+                        <div className="results__info textLeft">
+                          <p className="results__content"><span className="results__column">Тапсырыс нөмірі: </span>
+                            <span className="results__column"><span className="results__amount">789 521</span></span></p>
+                          <p className="results__content"><span className="results__column">ҰБТ-ға дайындық курсы: </span>
+                            <span className="results__column">COMBO</span></p>
+                          <p className="results__content"><span className="results__column">Курс тілі: </span>
+                            <span className="results__column">Қазақша</span></p>
+                          <p className="results__content"><span className="results__column">Бейіндік пәндер: </span>
+                            <span className="results__column">Физика <br/> Математика</span></p>
+                          <p className="results__content"><span className="results__column">Негізгі пәндер: </span>
+                            <span className="results__column">Оқу сауаттылығы <br/> Математикалық сауаттылық  <br/> Қазақстан тарихы</span></p>
+                          <p className="results__content"><span className="results__column">Төленген сомма:</span>
+                            <span className="results__column">34 990₸</span></p>
+                          <p className="results__content"><span className="results__column">Төлем түрі: </span>
+                            <span className="results__column">{!showResults.card ? 'Kaspi.kz' : 'card'}</span></p>
+                        </div>
 
-                  <button className="checkOut-side__btn btn__shadowFromNull">
-                    <span>44 990 ₸</span>
-                    <span>Төлем жасау</span>
-                  </button>
-                </div>
+                        <p style={{marginTop: 40, fontSize: 26}} className="text-center">*Түбіртек “Төлемдер” бөлімінде сақталды.</p>
+                      </div>
+                    : <div className="results">
 
-              </div>
-            </form>
+                    <div className="results__info">
+                      <p className="results__content"><span className="results__column">Тапсырыс нөмірі: </span>
+                        <span className="results__column"><span className="results__amount active">789 521</span></span></p>
+                      <p className="results__content"><span className="results__column">ҰБТ-ға дайындық курсы: </span>
+                        <span className="results__column">COMBO</span></p>
+                      <p className="results__content"><span className="results__column">Курс тілі: </span>
+                        <span className="results__column">Қазақша</span></p>
+                      <p className="results__content"><span className="results__column">Бейіндік пәндер: </span>
+                        <span className="results__column">Физика <br/> Математика</span></p>
+                      <p className="results__content"><span className="results__column">Негізгі пәндер: </span>
+                        <span className="results__column">Оқу сауаттылығы <br/> Математикалық сауаттылық  <br/> Қазақстан тарихы</span></p>
+                      <p className="results__content"><span className="results__column">Оқу ақысы: </span>
+                        <span className="results__column">44 990₸</span></p>
+                      <p className="results__content"><span className="results__column">Төлем түрі: </span>
+                        <span className="results__column">{!showResults.card ? 'Kaspi.kz' : 'card'}</span></p>
+                    </div>
+
+                    <div className="results__block resultsBlock">
+
+                      <div className="resultsBlock__wrapper">
+                        <h3 className="resultsBlock__title">«Kaspi.kz» телефон қосымшасы арқылы төлем жасау.</h3>
+
+                        <p className="resultsBlock__text">1. Ұялы телефоныңыздан «Kaspi.kz» қосымшасына кіріңіз.</p>
+                        <p className="resultsBlock__text">2. «Платежи» бөліміне өтіп, іздеу жолағына «Educon» деп теріңіз.</p>
+                        <p className="resultsBlock__text">3. «Номер заказа» жолағына сізге берілген тапсырыс нөмірін енгізіп, «Продолжить» батырмасын басыңыз.</p>
+                      </div>
+
+                      <div className="resultsBlock__wrapper">
+                        <h3 className="resultsBlock__title">«Kaspi.kz» сайты арқылы төлем жасау. </h3>
+
+                        <p className="resultsBlock__text">1. <a  rel="noopener noreferrer"  target="_blank" style={{color: '#329DFF'}} href="https://kaspi.kz/">«Kaspi.kz»</a> сайтына кіріңіз.</p>
+                        <p className="resultsBlock__text">2. «Платежи» бөліміне өтіп, іздеу жолағына «Educon» деп теріңіз.</p>
+                        <p className="resultsBlock__text">3. «Номер заказа» жолағына сізге берілген тапсырыс нөмірін енгізіп, «Продолжить» батырмасын басыңыз.</p>
+                      </div>
+
+                    </div>
+
+                  </div>
+              }
+
+            </div>
+
           </div>
         </div>
-
-      </div>
-    </div>
+      )}
+    </Transition>
   )
 }
 

@@ -1,18 +1,17 @@
 import React, {useEffect, useState} from 'react'
 import {Link, withRouter} from 'react-router-dom'
-import './menu.scss'
+import {connect} from 'react-redux'
 import logo from '../../../../images/landing/header/logo.svg'
 import ModalSignIn from '../../../modals/ModalSignIn/ModalSignIn'
 import ModalRegister from '../../../modals/ModalRegister/ModalRegister'
-import {connect} from 'react-redux'
 import {showModalLogin, showModalReg} from '../../../../redux/actions/menu/menuActionsFuncs'
-// import profilePhoto from '../../../../images/login/navbar/profilePhoto.jpg'
 import {scrollBodyHandler} from '../../../../scripts/scrollController/scrollController'
 import ModalPortal from '../../../modals/ModalPortal/ModalPortal'
 import ModalPass from '../../../modals/ModalPass/ModalPass'
 import {setUsersData} from '../../../../redux/actions/user/userActionsFuncs'
 import {SITE_BASE_URL} from '../../../../app.config'
 import NoPhoto from '../../../../images/general/noPhoto/noPhoto'
+import './menu.scss'
 
 
 const noPhotoStyles = {
@@ -57,6 +56,13 @@ const Menu = props => {
     menuClasses.push('active')
   }
 
+
+  let urlForIMG = '/student'
+  if (user) {
+    urlForIMG = '/' + user.type
+  }
+
+
   return (
     <div className="menu__wrapper">
       <header className="menu">
@@ -99,7 +105,7 @@ const Menu = props => {
                 props.isAuth && user
 
                   ? <>
-                    <Link to={user.type || '/student'} className="login__avatar">
+                    <Link to={urlForIMG} className="login__avatar">
                       {
                         user && user.localAvatar
                           ? <img src={SITE_BASE_URL + user.localAvatar} alt="Avatar"/>
