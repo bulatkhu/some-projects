@@ -104,6 +104,14 @@ const TeacherPage = ({match: {params: {id}}}) => {
 
   }, [id])
 
+  useEffect(() => {
+
+    if (teacher) {
+      console.log(teacher)
+    }
+
+  }, [teacher])
+
 
   return (
     <section className="teacherPage">
@@ -180,48 +188,17 @@ const TeacherPage = ({match: {params: {id}}}) => {
                         <div className="teacherDescr__about">
                           <h3 className="teacherDescr__aboutTitle">About Me</h3>
 
-                          <p className="teacherDescr__aboutText">Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
-                            sed
-                            diam nonummy nibh euismod tincidunt ut
-                            laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci
-                            tation
-                            ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Nam liber tempor cum
-                            soluta
-                            nobis
-                            eleifend option congue nihil imperdiet doming id quod mazim placerat Malesuada risus pretium
-                            sagittis
-                            sit vel diam eu. Morbi consectetur sed ut etiam. Pretium arcu orci, faucibus quam. Porttitor
-                            risus,
-                            ultrices habitant etiam. Orci lectus pellentesque in pharetra id cras mauris, adipiscing.
-                            Porttitor
-                            lacinia quisque cum vulputate donec nullam blandit posuere malesuada. Blandit massa mattis
-                            feugiat
-                            fringilla viverra. Eget faucibus tellus dolor malesuada habitasse gravida donec dolor. Eros,
-                            faucibus
-                            turpis metus tellus eget id cursus fermentum placerat. Adipiscing morbi sit tempus id. Semper
-                            sed
-                            tellus
-                            tristique id cursus massa quam.
-                            Pharetra, placerat pellentesque in consequat sagittis aenean neque orci. Vestibulum amet enim
-                            ut
-                            pellentesque auctor gravida. Ac dictum posuere egestas ligula. Elit faucibus sit tellus
-                            viverra.
-                            Condimentum vestibulum massa aliquam nec in volutpat, tempor enim, quisque. Nisi egestas in
-                            feugiat
-                            interdum.</p>
+                          <p className="teacherDescr__aboutText">
+                            {getFromUserMeta(teacher, 'biography') || 'No info about this person'}
+                          </p>
                         </div>
 
                         <div className="teacherDescr__about">
-                          <h3 className="teacherDescr__aboutTitle">25 That Prevent Job Seekers From Overcoming
-                            Failure</h3>
+                          <h3 className="teacherDescr__aboutTitle">Short biography</h3>
 
-                          <p className="teacherDescr__aboutText">Phasellus enim magna, varius et commodo ut, ultricies
-                            vitae
-                            velit. Ut nulla tellus, eleifend euismod pellentesque vel, sagittis vel justo. In libero urna,
-                            venenatis sit amet ornare non, suscipit nec risus. Sed consequat justo non mauris pretium at
-                            tempor
-                            justo sodales. Quisque tincidunt laoreet malesuada. Cum sociis natoque penatibus et magnis dis
-                            parturient montes, nascetur.</p>
+                          <p className="teacherDescr__aboutText">
+                            {getFromUserMeta(teacher, 'short_biography') || 'No info about this person'}
+                          </p>
                         </div>
 
                       </div>

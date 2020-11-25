@@ -47,6 +47,10 @@
         flex-direction: column;
       }
     }
+
+    &:last-child {
+      flex-basis: 100%;
+    }
   }
 
   &__profile {

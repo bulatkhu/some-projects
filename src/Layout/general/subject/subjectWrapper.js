@@ -10,14 +10,22 @@ import Comments from '../../login/components/comments/comments'
 import studentsIcon from '../../../images/general/teacher/students-icon.jpg'
 import VideoPlayer from '../videoPlayer/videoPlayer'
 import {getFromUserMeta} from '../../../scripts/dataHandler/dataHandler'
+import NoPhoto from '../../../images/general/noPhoto/noPhoto'
 
+
+function getVideoFromRes(response) {
+  const linkToVideo = response.meta.video
+    ? response.meta.video
+    : response.parts[0].video || response.parts[0].upload_video
+
+  return linkToVideo
+}
 
 
 const SubjectWrapper = ({response, isLoaded}) => {
   const [elements, setElements] = useState([])
   const ItemsWrapper = useRef(null)
   const toggleItemHandler = event => {
-
     if (event.target.dataset.id) {
       elements.forEach(item => {
         if ((item.id === event.target.dataset.id)) {
@@ -34,6 +42,8 @@ const SubjectWrapper = ({response, isLoaded}) => {
       })
     }
   }
+
+  const linkToVideo = getVideoFromRes(response)
 
 
   useEffect(() => {
@@ -59,15 +69,14 @@ const SubjectWrapper = ({response, isLoaded}) => {
       setElements(() => [...itemsObject])
     }
 
-    console.log('response', response.meta.video)
+    console.log('response', response)
   }, [response, isLoaded])
 
   const {user} = response.product || null
   const biography = getFromUserMeta(user, 'biography') ||
-                    getFromUserMeta(user, 'short_biography')
+    getFromUserMeta(user, 'short_biography')
   const avatar = getFromUserMeta(user, 'avatar')
   const comments = response.product.comments
-  const videoLink = response.meta.video
 
   return (
     <>
@@ -244,15 +253,8 @@ const SubjectWrapper = ({response, isLoaded}) => {
           <div className="subjectVideo">
 
             <VideoPlayer
-              url={'https://api.ustaz.xyz' + videoLink}
+              url={linkToVideo}
             />
-
-            {/*<a href="/" className="subjectVideo__img">*/}
-            {/*          <span>*/}
-            {/*            <img src={playButton} alt="play button"/>*/}
-            {/*          </span>*/}
-            {/*  <img src={videoIcon} alt="video preview"/>*/}
-            {/*</a>*/}
 
             <div className="subjectVideo__price">{response.meta.price}т</div>
             <div className="subjectVideo__price buySubjectItems__oldPrice">{response.meta.post_price}т</div>
@@ -325,7 +327,11 @@ const SubjectWrapper = ({response, isLoaded}) => {
         <div className="subjectTeacher__top">
 
           <div className="subjectTeacher__img">
-            <img src={'http://api.ustaz.xyz/' + avatar} alt="this teacher"/>
+            {
+              avatar
+                ? <img src={'http://api.ustaz.xyz/' + avatar} alt="this teacher"/>
+                : <NoPhoto/>
+            }
           </div>
 
           <div className="subjectTeacher__description">

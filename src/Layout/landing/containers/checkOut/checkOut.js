@@ -164,10 +164,6 @@ const CheckOut = ({show, info, courses}) => {
     const card = event.target.card.checked
 
     setShowResults({show: true, card})
-
-    console.log('type', `
-       card: ${card},
-    `)
   }
 
   return (
