@@ -27,6 +27,8 @@ const SubjectWrapper = ({response, isLoaded}) => {
   const ItemsWrapper = useRef(null)
   const toggleItemHandler = event => {
     if (event.target.dataset.id) {
+      console.log('id', event.target.dataset.id)
+
       elements.forEach(item => {
         if ((item.id === event.target.dataset.id)) {
 
@@ -167,84 +169,46 @@ const SubjectWrapper = ({response, isLoaded}) => {
 
           <div onClick={toggleItemHandler} ref={ItemsWrapper} className="subject__bottom">
 
-
-            {response.parts.map((item, index) => (
-              <div key={item.id + index} data-id={item.id + index} className="subject__item subjectItem">
-
-                <div className="subjectItem__top subjectItemTop">
-
-                  <div data-id={item.id + index} className="subjectItemTop__overlay"/>
+            <div data-id="1" className="subject__item subjectItem active">
+              <div className="subjectItem__top subjectItemTop">
+                <div data-id={1} className="subjectItemTop__overlay"/>
 
                   <div className="subjectItemTop__left">
                     <span className="subjectItemTop__toggle"/>
 
-                    <span className="subjectItemTop__title">{item.title}</span>
+                    <span className="subjectItemTop__title">{response.product.title}</span>
                   </div>
 
                   <div className="subjectItemTop__right">
-                    <span className="subjectItemTop__lecture">2 лекции</span>
+                    <span className="subjectItemTop__lecture">{response.parts.length} лекция</span>
 
-                    <span className="subjectItemTop__duration">{item.duration} мин</span>
+                    <span className="subjectItemTop__duration">{response.Duration} мин</span>
                   </div>
-
-                </div>
-
-                <div className="subjectItem__bottom subjectItemButton">
-
-                  <div className="subjectItemButton__item">
-                    <div className="subjectItemButton__left">
-                      <div className="subjectItemButton__icon">
-                        <img src={playButton} alt="play"/>
-                      </div>
-                      <a href="/" className="subjectItemButton__title">Как проходить данный курс</a>
-                    </div>
-                    <div className="subjectItemButton__right">
-                      <a href="/" className="subjectItemButton__preview">Предпросмотр</a>
-                      <div className="subjectItemButton__duration">02:38</div>
-                    </div>
-                  </div>
-                  <div className="subjectItemButton__item">
-                    <div className="subjectItemButton__left">
-                      <a href="/" className="subjectItemButton__icon">
-                        <img src={playButton} alt="play"/>
-                      </a>
-                      <a href="/" className="subjectItemButton__title">Как проходить данный курс</a>
-                    </div>
-                    <div className="subjectItemButton__right">
-                      <a href="/" className="subjectItemButton__preview">Предпросмотр</a>
-                      <div className="subjectItemButton__duration">02:38</div>
-                    </div>
-                  </div>
-                  <div className="subjectItemButton__item">
-                    <div className="subjectItemButton__left">
-                      <div className="subjectItemButton__icon">
-                        <img src={playButton} alt="play"/>
-                      </div>
-                      <a href="/" className="subjectItemButton__title">Как проходить данный курс</a>
-                    </div>
-                    <div className="subjectItemButton__right">
-                      <a href="/" className="subjectItemButton__preview">Предпросмотр</a>
-                      <div className="subjectItemButton__duration">02:38</div>
-                    </div>
-                  </div>
-                  <div className="subjectItemButton__item">
-                    <div className="subjectItemButton__left">
-                      <a href="/" className="subjectItemButton__icon">
-                        <img src={playButton} alt="play"/>
-                      </a>
-                      <a href="/" className="subjectItemButton__title">Как проходить данный курс</a>
-                    </div>
-                    <div className="subjectItemButton__right">
-                      <a href="/" className="subjectItemButton__preview">Предпросмотр</a>
-                      <div className="subjectItemButton__duration">02:38</div>
-                    </div>
-                  </div>
-
-                </div>
 
               </div>
-            ))}
 
+              <div className="subjectItem__bottom subjectItemButton">
+
+                {response.parts.map((item, index) => (
+                  <div key={index} className="subjectItemButton__item">
+                    {/*<div*/}
+                    {/*  className="subject__textContent"*/}
+                    {/*  dangerouslySetInnerHTML={{__html: item.description}}*/}
+                    {/*/>*/}
+                    <div className="subjectItemButton__left">
+                      <div className="subjectItemButton__icon">
+                        <img src={playButton} alt="play"/>
+                      </div>
+                      <a href="/" className="subjectItemButton__title">{item.title}</a>
+                    </div>
+                    <div className="subjectItemButton__right">
+                      <a href="/" className="subjectItemButton__preview">Предпросмотр</a>
+                      <div className="subjectItemButton__duration">{item.duration} мин</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
 
           </div>
         </div>

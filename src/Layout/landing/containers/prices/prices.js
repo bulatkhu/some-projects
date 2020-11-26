@@ -19,6 +19,7 @@ const pricesData = [
 
 const Prices = () => {
   const [showCheckOut, setShowCheckOut] = useState({show: false, id: null, color: null, title: null})
+  // eslint-disable-next-line
   const [courses, setCourses] = useState([])
 
   useEffect(() => {
@@ -26,20 +27,21 @@ const Prices = () => {
     getCoursesForPrices()
       .then(res => {
         if (!res.error && +res.data.status === 1) {
+          // eslint-disable-next-line
           const {data} = res.data
-          const arrayData = Object
-            .keys(data)
-            .map(item => {
-              data[item].id = +item
-              return data[item].map(item => {
-                item.title = item.content.title
-                const img = item.content.metas.find(item => item.option === 'cover' || item.option === 'thumbnail')
-                item.img = img.value ? img.value : null
-                delete item.content
-                return item
-              })
-            })
-          setCourses(arrayData)
+          // const arrayData = Object
+          //   .keys(data)
+          //   .map(item => {
+          //     data[item].id = +item
+          //     return data[item].map(item => {
+          //       item.title = item.content.title
+          //       const img = item.content.metas.find(item => item.option === 'cover' || item.option === 'thumbnail')
+          //       item.img = img.value ? img.value : null
+          //       delete item.content
+          //       return item
+          //     })
+          //   })
+          // setCourses(arrayData)
         }
       })
 
