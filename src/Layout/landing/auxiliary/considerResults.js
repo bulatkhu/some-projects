@@ -2,20 +2,20 @@ import CanvasCircle from '../../login/components/CanvasCircle/CanvasCircle'
 import React from 'react'
 import './considerResults.scss'
 
-const ConsiderResults = ({results}) => {
-  let empty = 0, right = 0, wrong = 0
-
-  results.forEach(item => {
-
-    if (item.answer === null) {
-      empty++
-    } else if (item.answer === item.rightAnswer) {
-      right++
-    } else {
-      wrong++
-    }
-
-  })
+const ConsiderResults = ({results: { right, wrong, empty }}) => {
+  // let empty = 0, right = 0, wrong = 0
+  //
+  // results.forEach(item => {
+  //
+  //   if (!item.answer || !item.answer.length) {
+  //     empty++
+  //   } else if (item.answer === item.rightAnswer) {
+  //     right++
+  //   } else {
+  //     wrong++
+  //   }
+  //
+  // })
 
 
 

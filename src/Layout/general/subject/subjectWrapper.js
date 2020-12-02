@@ -1,22 +1,27 @@
 import React, {useEffect, useRef, useState} from 'react'
-import Stars from '../stars/stars'
+// import Stars from '../stars/stars'
 import playButton from '../../../images/general/subject/play-button.svg'
-import thing1 from '../../../images/main/things/small-things/thing1.png'
-import thing2 from '../../../images/main/things/small-things/thing2.png'
-import thing3 from '../../../images/main/things/small-things/thing3.png'
-import thing4 from '../../../images/main/things/small-things/thing4.png'
-import thing5 from '../../../images/main/things/small-things/thing5.png'
+// import thing1 from '../../../images/main/things/small-things/thing1.png'
+// import thing2 from '../../../images/main/things/small-things/thing2.png'
+// import thing3 from '../../../images/main/things/small-things/thing3.png'
+// import thing4 from '../../../images/main/things/small-things/thing4.png'
+// import thing5 from '../../../images/main/things/small-things/thing5.png'
 import Comments from '../../login/components/comments/comments'
-import studentsIcon from '../../../images/general/teacher/students-icon.jpg'
+// import studentsIcon from '../../../images/general/teacher/students-icon.jpg'
 import VideoPlayer from '../videoPlayer/videoPlayer'
 import {getFromUserMeta} from '../../../scripts/dataHandler/dataHandler'
 import NoPhoto from '../../../images/general/noPhoto/noPhoto'
+import {SITE_BASE_URL} from '../../../app.config'
 
 
 function getVideoFromRes(response) {
-  const linkToVideo = response.meta.video
+  let linkToVideo = response.meta.video
     ? response.meta.video
     : response.parts[0].video || response.parts[0].upload_video
+
+  if (!linkToVideo.toString().includes('http')) {
+    linkToVideo = SITE_BASE_URL + linkToVideo
+  }
 
   return linkToVideo
 }
@@ -27,8 +32,6 @@ const SubjectWrapper = ({response, isLoaded}) => {
   const ItemsWrapper = useRef(null)
   const toggleItemHandler = event => {
     if (event.target.dataset.id) {
-      console.log('id', event.target.dataset.id)
-
       elements.forEach(item => {
         if ((item.id === event.target.dataset.id)) {
 
@@ -95,54 +98,34 @@ const SubjectWrapper = ({response, isLoaded}) => {
 
           <div className="subject__info subjectInfo">
 
-            <div className="subjectInfo__rating">
-              <Stars className="subjectInfo__stars" rating={response.product.comments_count}/>
-
-              <span className="subjectInfo__students">(123 Student)</span>
-            </div>
-
             <div className="subjectInfo__person">
 
               <span className="subjectInfo__name">Ұстаз: {user.name}</span>
 
-              <span className="subjectInfo__language">Қазақша</span>
+              <span className="subjectInfo__language">{response.product.category.class}</span>
 
             </div>
 
-            <div className="subjectInfo__buttons">
+          </div>
 
-              <button className="btn__shadowFromNull subjectInfo__btn subjectInfo__wishlist">Wishlist</button>
-              <button className="btn__shadowFromNull subjectInfo__btn subjectInfo__part">Бөлісу</button>
-              <button className="btn__shadowFromNull subjectInfo__btn subjectInfo__present">Сыйға тарту</button>
+        </div>
+
+        <div className="subjectVideo">
+          <VideoPlayer
+            className="subjectVideo__video"
+            url={linkToVideo}
+          />
+        </div>
+
+        <div className="subject__column">
+
+          <div className="subjectTabs">
+
+            <div className="subjectTabs__header">
 
             </div>
 
-            <div className="subjectInfo__studying">
-              <h2 className="subjectInfo__studyingTitle">Не үйренесіз?</h2>
-
-              <div className="subjectInfo__labels">
-
-                <div className="subjectInfo__label">
-                  <span>Tristique eget in ac sed.</span>
-                  <span>Tristique eget in ac sed.</span>
-                </div>
-
-                <div className="subjectInfo__label">
-                  <span>Tristique eget in ac sed.</span>
-                  <span>Tristique eget in ac sed.</span>
-                </div>
-
-                <div className="subjectInfo__label">
-                  <span>Tristique eget in ac sed.</span>
-                  <span>Tristique eget in ac sed.</span>
-                </div>
-
-                <div className="subjectInfo__label">
-                  <span>Tristique eget in ac sed.</span>
-                  <span>Tristique eget in ac sed.</span>
-                </div>
-
-              </div>
+            <div className="subjectTabs__body">
 
             </div>
 
@@ -162,7 +145,7 @@ const SubjectWrapper = ({response, isLoaded}) => {
             <h3 className="subject__textTitle">Материалы курса</h3>
 
             <div className="subject__mainText">
-              • 104 лекций • Общая продолжительность {Math.floor(response.Duration / 60)} ч {response.Duration % 60} мин
+              • {response.parts.length} лекций • Общая продолжительность {Math.floor(response.Duration / 60)} ч {response.Duration % 60} мин
             </div>
 
           </div>
@@ -191,18 +174,22 @@ const SubjectWrapper = ({response, isLoaded}) => {
 
                 {response.parts.map((item, index) => (
                   <div key={index} className="subjectItemButton__item">
-                    {/*<div*/}
-                    {/*  className="subject__textContent"*/}
-                    {/*  dangerouslySetInnerHTML={{__html: item.description}}*/}
-                    {/*/>*/}
                     <div className="subjectItemButton__left">
-                      <div className="subjectItemButton__icon">
-                        <img src={playButton} alt="play"/>
-                      </div>
-                      <a href="/" className="subjectItemButton__title">{item.title}</a>
+                      <a rel="noopener noreferrer" target="_blank"
+                         href={
+                           item.upload_video.includes('http')
+                             ? item.upload_video
+                             : SITE_BASE_URL + item.upload_video
+                         }
+                      >
+                        <div className="subjectItemButton__icon">
+                          <img src={playButton} alt="play"/>
+                        </div>
+                      </a>
+                      <p className="subjectItemButton__title">{item.title}</p>
                     </div>
                     <div className="subjectItemButton__right">
-                      <a href="/" className="subjectItemButton__preview">Предпросмотр</a>
+                      {/*<a rel="noopener noreferrer" target="_blank" href={item.upload_video} className="subjectItemButton__preview">{item.title}</a>*/}
                       <div className="subjectItemButton__duration">{item.duration} мин</div>
                     </div>
                   </div>
@@ -213,76 +200,6 @@ const SubjectWrapper = ({response, isLoaded}) => {
           </div>
         </div>
 
-        <div className="subject__column">
-          <div className="subjectVideo">
-
-            <VideoPlayer
-              url={linkToVideo}
-            />
-
-            <div className="subjectVideo__price">{response.meta.price}т</div>
-            <div className="subjectVideo__price buySubjectItems__oldPrice">{response.meta.post_price}т</div>
-
-            <div className="subjectVideo__text">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget ullamcorper ornare potenti sed netus laoreet
-              tortor. Id dolor ullamcorper in eget imperdiet.
-            </div>
-
-            <button className="btn__shadowFromNull subjectVideo__btn">Buy Now</button>
-
-
-          </div>
-        </div>
-        <div className="subject__column">
-          <div className="subjectThings">
-
-            <div className="subjectThings__wrapper">
-
-
-              <div className="subjectThings__item subjectThings__img">
-                <img src={thing1} alt="thing"/>
-              </div>
-
-              <div className="subjectThings__item subjectThings__img">
-                <img src={thing2} alt="thing"/>
-              </div>
-
-              <div className="subjectThings__item subjectThings__img">
-                <img src={thing3} alt="thing"/>
-              </div>
-
-              <div className="subjectThings__item subjectThings__img">
-                <img src={thing4} alt="thing"/>
-              </div>
-
-              <div className="subjectThings__item subjectThings__img">
-                <img src={thing5} alt="thing"/>
-              </div>
-
-              <div className="subjectThings__item subjectThings__price">
-
-                <div className="subjectThings__bottom">
-                  <div className="subjectThings__current">
-                    <span className="subjectThings__equal">=</span>
-                    <span>999999 ₸</span>
-                  </div>
-                  <div className="subjectThings__old">
-                    <span>9999 ₸</span></div>
-                </div>
-
-              </div>
-
-            </div>
-
-            <div className="subjectThings__wrapBottom">
-
-              <button className="btn__shadowFromNull subjectThings__btn">Buy</button>
-
-            </div>
-
-
-          </div>
-        </div>
 
       </div>
 
@@ -311,7 +228,7 @@ const SubjectWrapper = ({response, isLoaded}) => {
 
       </div>
 
-      <Comments comments={comments} profilePhoto={studentsIcon}/>
+      <Comments comments={comments} />
 
     </>
   )

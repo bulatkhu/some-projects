@@ -15,7 +15,6 @@ import TeacherCourses from '../../login/teacher/teacherCourses/teacherCourses'
 import TeacherList from '../../login/teacher/teacherList/teacherList'
 import TutorEducoin from '../../login/tutor/tutorEducoin/tutorEducoin'
 import TutorCalendar from '../../login/tutor/tutorCalendar/tutorCalendar'
-// import NotFound from '../../general/notFound/notFound'
 import studentPhoto from '../../../images/login/navbar/profilePhoto.jpg'
 import teacherPhoto from '../../../images/login/navbar/teacherPhoto.jpg'
 import EduCoinComponent from '../../login/containers/eduCoin/eduCoin';
@@ -153,6 +152,7 @@ const renderTeachersRoutes = ({teacher}) => {
 
 const AuthRequired = ({isAuth, user}) => {
   const {teacher, student, tutor} = loggedInfo
+
 
   let RoutesToShow = () => {
     if (user) {

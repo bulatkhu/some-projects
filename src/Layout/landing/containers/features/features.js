@@ -9,36 +9,44 @@ import feature6 from '../../../../../src/images/landing/features/feature6.svg'
 import feature7 from '../../../../../src/images/landing/features/feature7.svg'
 import feature8 from '../../../../../src/images/landing/features/feature8.svg'
 import feature9 from '../../../../../src/images/landing/features/feature9.svg'
-import feature10 from '../../../../../src/images/landing/features/feature10.svg'
-import feature11 from '../../../../../src/images/landing/features/feature11.svg'
-import feature12 from '../../../../../src/images/landing/features/feature12.svg'
-import feature13 from '../../../../../src/images/landing/features/feature13.svg'
-import feature14 from '../../../../../src/images/landing/features/feature14.svg'
-import feature15 from '../../../../../src/images/landing/features/feature15.svg'
-import FeatureBox from '../../../landing/components/FeatureBox/FeatureBox'
-
-const FeatureBoxes = [
-  {title: 'ҰБТ', text: 'ҰБТ-ға дайындыққа арналған білім беру жүйемізді көру үшін басыңыз.'},
-  {title: 'НЗМ', text: 'НЗМ-ға дайындыққа арналған білім беру жүйемізді көру үшін басыңыз.'},
-  {title: 'БИЛ', text: 'БИЛ-ға дайындыққа арналған білім беру жүйемізді көру үшін басыңыз.'},
-]
 
 const FeatureItems = [
-  {text: 'Ең мықты ұстаздар', img: feature1},
-  {text: '24/7 Көмек', img: feature2},
-  {text: 'Өзіміздің оқулықтар', img: feature3},
-  {text: 'Онлайн кураторлық', img: feature4},
-  {text: 'Авторлық методика', img: feature5},
-  {text: 'Тегін деңгей анықау сынағы', img: feature6},
-  {text: 'Сапалы видео сабақтар', img: feature7},
-  {text: 'EduCoin', img: feature8},
-  {text: 'Live вебинар', img: feature9},
-  {text: 'Жеке кабинетр', img: feature10},
-  {text: 'Жүйелі бағдарлама', img: feature11},
-  {text: 'Профориентология', img: feature12},
-  {text: 'Тест анализ', img: feature13},
-  {text: 'Тақырыптық тесттер', img: feature14},
-  {text: 'Айлық байқау сынақтары', img: feature15},
+  {
+    text: '15 жылдық тәжірибесі бар, өз мамандығының шебері, Қазақстан бойынша атақты және үздік мұғалімдер сабақ жүргізеді. Ұстаздарымыз қосымша оқу құралдарының авторлары және редакторлары.',
+    title: 'Ұстаздар', img: feature1
+  },
+  {
+    text: 'Заманауи құралдармен жабдықталған студияларымызда түсірілген. Бұл видео сабақтар оқушыларға кез келген жерде және қалаған уақытта (7/24) қолжетімді.',
+    title: 'Видео сабақтар', img: feature2
+  },
+  {
+    text: 'Білікті кураторлар оқушылардың қай пәннен, қай тараудан, қай тақырыптан тіпті үлгерім деңгейін порталымыз арқылы анықтап, оқушының нәтижеге жетуі үшін бағыт-бағдар береді.',
+    title: 'Онлайн кураторлық', img: feature3
+  },
+  {
+    text: '«EduCon» басылымдары − ұжымдық жұмыстың өнімі. Оқулықтар шынайы емтиханның негізінде құрастырылып, талапкерлердің көзайымына айналып үлгерген.',
+    title: 'Оқу құралдары', img: feature4
+  },
+  {
+    text: 'Тікелей эфирдегі сабақ арқылы курсты үйіңізге дейін алып келеміз, осылайша сіз мұғаліміңізді көре аласыз және сұрақтарыңызды бірден қоя аласыз.',
+    title: 'Live вебинар', img: feature5
+  },
+  {
+    text: 'Әр видеосабақтан кейін сол сабақты бекіту мақсатында тек сол тақырып бойынша тест тапсырмалары беріледі. Тақырыптың қаншалықты меңгерілгенін анық көруге болады.',
+    title: 'Тақырыптық тесттер', img: feature6
+  },
+  {
+    text: 'Ындаландыру арқылы білім беру  жүйесі. Платформамызда білім алудың әрбір сәтін қызықты әрі тиімді ететін білім берудің заманауи методикасы.',
+    title: 'EduCoin', img: feature7
+  },
+  {
+    text: 'Кәсіби профориентолог мамандарымыз оқушылардың қабілеттері мен дағдыларын анықтап, мамандықты саналы таңдау жасауына көмектесіп, әрқашан психологиялық қолдау көрсетеді. ',
+    title: 'Профориентология', img: feature8
+  },
+  {
+    text: 'Порталдағы барлық тест тапсырмаларын ұстаздар видео арқылы түсіндірме жасаған. Қателесіп кеткен сұрақты видео шешімі арқылы дұрыс жауабын көруге, тест арқылы білім алуға болады.',
+    title: 'Тест видео шешімдері', img: feature9
+  },
 ]
 
 const Features = () => {
@@ -47,18 +55,20 @@ const Features = () => {
     <section className="features">
 
       <div className="features__container _container">
-        <div className="features__content">
-          {FeatureBoxes.map((item, index) => (
-            <FeatureBox
-              key={index}
-              icon={item.icon}
-              title={item.title}
-              text={item.text}
-            />
-          ))}
-        </div>
+        {/*<div className="features__content">*/}
+        {/*  {FeatureBoxes.map((item, index) => (*/}
+        {/*    <FeatureBox*/}
+        {/*      key={index}*/}
+        {/*      icon={item.icon}*/}
+        {/*      title={item.title}*/}
+        {/*      text={item.text}*/}
+        {/*    />*/}
+        {/*  ))}*/}
+        {/*</div>*/}
 
-        <h3 className="features__title">Біздің артықшылықтарымыз</h3>
+        <h3 className="features__title">
+          <span>Неліктен EduCon.online?</span>
+        </h3>
 
         <div className="features__secContent secContent">
 
@@ -69,6 +79,10 @@ const Features = () => {
                 <div className="secContent__img">
                   <img src={item.img} alt="feature 1"/>
                 </div>
+
+                <h3 className="secContent__title">
+                  {item.title}
+                </h3>
 
                 <p className="secContent__text">
                   {item.text}

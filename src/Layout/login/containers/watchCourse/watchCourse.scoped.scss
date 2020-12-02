@@ -277,6 +277,12 @@
       background: #FF5773;
       color: #fff;
     }
+
+    &:disabled {
+      color: #fff;
+      background: #beb5b5;
+      border-color: transparent;
+    }
   }
 }
 
@@ -415,7 +421,7 @@
   text-align: center;
 
   &__wrapper {
-    padding: 40px;
+    padding: 40px 10px;
     text-align: center;
     background: #FFFFFF;
     border: 4px solid #FF5773;
@@ -457,12 +463,13 @@
 .courseTesting {
 
   &__navWrapper {
-    max-width: 90%;
+    width: 90%;
     display: inline-block;
 
     @media (max-width: 576px) {
-      max-width: 80%;
+      width: 80%;
     }
+
   }
 
   &__wrapper {
@@ -514,6 +521,23 @@
     color: #FF5773;
     transition: all .3s ease-in;
 
+    margin-bottom: 5px;
+
+    &:before {
+      content: '';
+      transition: all .9s ease-in-out;
+      z-index: 1;
+      position: absolute;
+      bottom: -5px;
+      width: 100%;
+      border-radius: 12px;
+      height: 4px ;
+      background: transparent;
+      color: transparent;
+      border-color: transparent;
+    }
+
+
 
     &.active {
       background: #ff5773;
@@ -536,6 +560,16 @@
       background: #FF4141;
       color: #fff;
       border-color: #FF4141;
+    }
+
+    &.resultActive {
+      position: relative;
+
+      &:before {
+        background: #3ec1eb;
+        color: #fff;
+        border-color: #3ec1eb;
+      }
     }
   }
 
@@ -586,6 +620,8 @@
     box-sizing: border-box;
 
     display: inline-block;
+    width: 100%;
+    max-width: 99%;
     background: #FFFFFF;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
     border-radius: 20px;

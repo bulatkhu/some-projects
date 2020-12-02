@@ -9,6 +9,7 @@ const navSliderSettings = {
   infinite: false,
   slidesToScroll: 1,
   button: false,
+  centerMode: true,
   responsive: [
     {
       breakpoint: 1200,
@@ -46,19 +47,26 @@ const mainSliderSettings = {
 }
 
 
+const areAnswerEqual = (answers, rightAnswer) => {
+
+  // console.info('index', index)
+  // console.info('answers', answers)
+  // console.info('rightAnswer', rightAnswer)
+  // console.info('\n')
+
+  return JSON.stringify(answers) === JSON.stringify(rightAnswer)
+}
+
 
 const TestSlider = ({showResults, testItems, setTestItems}) => {
   const [currentSlide, setCurrentSlide] = useState(0)
   navSliderSettings.slidesToShow = testItems.length > 18 ? 18 : testItems.length
-
-
 
   const navSlider = useRef(null)
   const mainSlider = useRef(null)
   const navSliderWrapper = useRef(null)
 
   useEffect(() => {
-
     if (currentSlide || currentSlide === 0) {
       mainSlider.current.slickGoTo(currentSlide)
       navSlider.current.slickGoTo(currentSlide)
@@ -93,13 +101,35 @@ const TestSlider = ({showResults, testItems, setTestItems}) => {
     if (event.target.dataset.answerid) {
       const answerInfo = JSON.parse(event.target.dataset.answerid)
       const curAnswer = testItems[answerInfo.questionId]
-      curAnswer.answer = answerInfo.answerId
+      const haveSameAnswer = curAnswer.answer.includes(answerInfo.answerId)
+
+
+      if (!curAnswer.answer || !curAnswer.answer.length) {
+        curAnswer.answer = []
+      } else if (curAnswer.answer.length > 2 && !haveSameAnswer) {
+        curAnswer.answer.shift()
+      }
+
+      if (!haveSameAnswer) {
+
+        if (curAnswer.multiple) {
+          curAnswer.answer = [...curAnswer.answer, answerInfo.answerId].sort((a, b) => a - b)
+        } else {
+          curAnswer.answer = [answerInfo.answerId]
+        }
+
+      } else {
+        const idOfDeleteAnswer = curAnswer.answer.findIndex(item => item === answerInfo.answerId)
+        curAnswer.answer.splice(idOfDeleteAnswer,1)
+      }
+
+
       setTestItems(prev => {
 
         prev[answerInfo.questionId] = curAnswer
 
         return [
-          ...prev,
+          ...prev
         ]
       })
     }
@@ -109,22 +139,6 @@ const TestSlider = ({showResults, testItems, setTestItems}) => {
 
   return (
     <div className="course__column">
-
-      {
-        showResults
-          ?  <div className="course__resultsInfo resultsInfo">
-            <h1 className="resultsInfo__title">Тест нәтижесі</h1>
-            <ul className="resultsInfo__list">
-              <li className="resultsInfo__item"><span>Сұрақ саны:</span> <span>20</span></li>
-              <li className="resultsInfo__item"><span>Дұрысы:</span> <span>20</span></li>
-              <li className="resultsInfo__item"><span>Дұрысы:</span> <span>20</span></li>
-              <li className="resultsInfo__item"><span>Белгіленбеген:</span> <span>20</span></li>
-              <li className="resultsInfo__item"><span>Тестке кеткен уақыт:</span> <span>20</span></li>
-            </ul>
-          </div>
-          :  null
-      }
-
 
       <div className="course__testing courseTesting">
 
@@ -148,13 +162,19 @@ const TestSlider = ({showResults, testItems, setTestItems}) => {
                 const number = index + 1
                 const cls = ['courseTesting__point']
 
+
+
                 if (showResults) {
-                  if (item.answer === null) {
+                  if (!item.answer || !item.answer.length) {
                     cls.push('empty')
-                  } else if (item.answer === item.rightAnswer) {
+                  } else if (areAnswerEqual(item.answer, item.rightAnswers)) {
                     cls.push('right')
                   } else {
                     cls.push('false')
+                  }
+
+                  if (index === +currentSlide) {
+                    cls.push('resultActive')
                   }
                 } else {
                   if (index === +currentSlide) {
@@ -203,9 +223,9 @@ const TestSlider = ({showResults, testItems, setTestItems}) => {
 
 
             if (showResults) {
-              if (item1.answer !== null) {
+              if (item1.answer.length) {
 
-                item1.answer === item1.rightAnswer
+                areAnswerEqual(item1.answer, item1.rightAnswers)
                   ? btn = <button className="btn__noFocus btn__shadowFromNull slideItem__btn slideItem__btnRight">Дұрыс</button>
                   : btn = <button className="btn__noFocus btn__shadowFromNull slideItem__btn slideItem__btnError">Қате</button>
               } else {
@@ -230,8 +250,6 @@ const TestSlider = ({showResults, testItems, setTestItems}) => {
                       {item1.questions.map((item, indexOfItem) => {
                         const cls = ['slideItem__variant']
 
-
-
                         if (showResults) {
                           cls.push('slideItem__otherHover')
 
@@ -242,16 +260,23 @@ const TestSlider = ({showResults, testItems, setTestItems}) => {
                               cls.push('false')
                             }
                           }
-                        } else if (item1.answer !== null && indexOfItem === item1.answer) {
-                          cls.push('active')
+                        } else {
+                          if (item1.answer.includes(+indexOfItem)) {
+                            cls.push('active')
+                          }
+
                         }
 
                         return (
                           <li key={indexOfItem}>
-                                        <span
-                                          data-answerid={JSON.stringify({answerId: indexOfItem, questionId: indexOfQuestion })}
-                                          className={cls.join(' ')}
-                                        >{item}</span>
+                            <span
+                              data-answerid={JSON.stringify({
+                                answerId: indexOfItem,
+                                questionId: indexOfQuestion,
+                                multiple: item1.multiple
+                              })}
+                              className={cls.join(' ')}
+                            >{item}</span>
                           </li>
                         )
                       })}
@@ -261,10 +286,9 @@ const TestSlider = ({showResults, testItems, setTestItems}) => {
                   {
                     showResults
                      ? <div className="slideItem__buttons">
-                        {btn}
-
-                        <button className="btn__noFocus btn__shadowFromNull slideItem__btn">Видео</button>
-                      </div>
+                          {btn}
+                          <button className="btn__noFocus btn__shadowFromNull slideItem__btn">Видео</button>
+                        </div>
                     : null
                   }
 

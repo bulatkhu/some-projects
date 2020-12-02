@@ -108,7 +108,7 @@ const ModalSignIn = props => {
                 required
                 parse={value => value.replace(/\(|\)|\s|-/g, '')}
                 validate={validatePhone}
-                defaultValue="+77712197400"
+                // defaultValue="+77712197400"
               >
                 {({input, meta}) => {
                   // const onError =
@@ -141,7 +141,7 @@ const ModalSignIn = props => {
                   name="password"
                   required
                   validate={validatePassword}
-                  defaultValue="12345Bulat"
+                  // defaultValue="12345Bulat"
                 >
                   {({input,meta}) => (
                     <>

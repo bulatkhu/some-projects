@@ -1,11 +1,13 @@
-import React, {useEffect, useRef, useState} from 'react'
-import './watchCourse.scoped.scss'
+import React, {useCallback, useEffect, useRef, useState} from 'react'
+import Countdown from 'react-countdown'
 import VideoPlayer from '../../../general/videoPlayer/videoPlayer'
-import Stars from '../../../general/stars/stars';
+import Stars from '../../../general/stars/stars'
 import FlipBookComponent from '../../../general/flipBook/flipBookComp'
-import TestSlider from "../../components/testSlider/testSlider";
+import TestSlider from "../../components/testSlider/testSlider"
 import ConsiderResults from '../../../landing/auxiliary/considerResults'
-import {getQuizzes} from '../../../../request/apiRequests'
+import {getQuizById, takeQuizById} from '../../../../request/apiQuizzes'
+import Loader from '../../../general/component/loader/loader'
+import './watchCourse.scoped.scss'
 
 const playersProps = [
   {
@@ -42,122 +44,9 @@ const playersProps = [
 const initialTestState = {
   showTest: false,
   startTest: false,
-  time: 15,
+  time: 14,
   showResults: false,
 }
-const initialSliderItems = [
-  {
-    text: null,
-    questions: [ 'Lorem Upson', 'Lorem Upson', 'Lorem Upson', 'Lorem Upson' ],
-    rightAnswer: 0,
-    answer: null
-  },
-  {
-    text: null,
-    questions: [ 'Lorem Upson', 'Lorem Upson', 'Lorem Upson', 'Lorem Upson', 'Lorem Upson', 'Lorem Upson', 'Lorem Upson', 'Lorem Upson', ],
-    rightAnswer: 2,
-    answer: null
-  },
-  {
-    text: null,
-    questions: [ 'Lorem Upson', 'Lorem Upson', 'Lorem Upson', 'Lorem Upson' ],
-    rightAnswer: 3,
-    answer: null
-  },
-  {
-    text: null,
-    questions: [ 'Lorem Upson', 'Lorem Upson', 'Lorem Upson', 'Lorem Upson', 'Lorem Upson', 'Lorem Upson' ],
-    rightAnswer: 5,
-    answer: null
-  },
-  {
-    text: null,
-    questions: [ 'Lorem Upson', 'Lorem Upson', 'Lorem Upson' ],
-    rightAnswer: 1,
-    answer: null
-  },{
-    text: null,
-    questions: [ 'Lorem Upson', 'Lorem Upson', 'Lorem Upson', 'Lorem Upson' ],
-    rightAnswer: 0,
-    answer: null
-  },
-  {
-    text: null,
-    questions: [ 'Lorem Upson', 'Lorem Upson', 'Lorem Upson', 'Lorem Upson', 'Lorem Upson', 'Lorem Upson', 'Lorem Upson', 'Lorem Upson', ],
-    rightAnswer: 2,
-    answer: null
-  },{
-    text: null,
-    questions: [ 'Lorem Upson', 'Lorem Upson', 'Lorem Upson', 'Lorem Upson' ],
-    rightAnswer: 0,
-    answer: null
-  },
-  {
-    text: null,
-    questions: [ 'Lorem Upson', 'Lorem Upson', 'Lorem Upson', 'Lorem Upson', 'Lorem Upson', 'Lorem Upson', 'Lorem Upson', 'Lorem Upson', ],
-    rightAnswer: 2,
-    answer: null
-  },
-  {
-    text: null,
-    questions: [ 'Lorem Upson', 'Lorem Upson', 'Lorem Upson', 'Lorem Upson' ],
-    rightAnswer: 3,
-    answer: null
-  },
-  {
-    text: null,
-    questions: [ 'Lorem Upson', 'Lorem Upson', 'Lorem Upson', 'Lorem Upson', 'Lorem Upson', 'Lorem Upson' ],
-    rightAnswer: 5,
-    answer: null
-  },
-  {
-    text: null,
-    questions: [ 'Lorem Upson', 'Lorem Upson', 'Lorem Upson' ],
-    rightAnswer: 1,
-    answer: null
-  },{
-    text: null,
-    questions: [ 'Lorem Upson', 'Lorem Upson', 'Lorem Upson', 'Lorem Upson' ],
-    rightAnswer: 0,
-    answer: null
-  },
-  {
-    text: null,
-    questions: [ 'Lorem Upson', 'Lorem Upson', 'Lorem Upson', 'Lorem Upson', 'Lorem Upson', 'Lorem Upson', 'Lorem Upson', 'Lorem Upson', ],
-    rightAnswer: 2,
-    answer: null
-  },{
-    text: null,
-    questions: [ 'Lorem Upson', 'Lorem Upson', 'Lorem Upson', 'Lorem Upson' ],
-    rightAnswer: 0,
-    answer: null
-  },
-  {
-    text: null,
-    questions: [ 'Lorem Upson', 'Lorem Upson', 'Lorem Upson', 'Lorem Upson', 'Lorem Upson', 'Lorem Upson', 'Lorem Upson', 'Lorem Upson', ],
-    rightAnswer: 2,
-    answer: null
-  },
-  {
-    text: null,
-    questions: [ 'Lorem Upson', 'Lorem Upson', 'Lorem Upson', 'Lorem Upson' ],
-    rightAnswer: 3,
-    answer: null
-  },
-  {
-    text: null,
-    questions: [ 'Lorem Upson', 'Lorem Upson', 'Lorem Upson', 'Lorem Upson' ],
-    rightAnswer: 3,
-    answer: null
-  },
-  {
-    text: null,
-    questions: [ 'Lorem Upson', 'Lorem Upson', 'Lorem Upson', 'Lorem Upson' ],
-    rightAnswer: 3,
-    answer: null
-  },
-
-]
 
 const onButtonClick = event => {
   event.target.classList.toggle('active')
@@ -170,24 +59,98 @@ const onButtonClick = event => {
 }
 
 
+function testToResults(results) {
+  const newResults = results
+    .map(item => ({
+      id: item.questionId,
+      options: item.answer
+    }))
+  return {
+    questions: newResults
+  }
+}
+
+function countdownRenderer(rerenderData) {
+  const { completed, formatted: { minutes, seconds } } = rerenderData
+
+  if (completed) {
+    // Render a completed state
+    return <span>Time is over.</span>
+  } else {
+    // Render a countdown
+    return <>{minutes}:{seconds}</>
+  }
+}
+
+const CountdownComponent  = React.memo(function ({handleTest, time}) {
+
+  return (
+    <Countdown
+      date={Date.now() + 60 * 1000 * time}
+      renderer={countdownRenderer}
+      onComplete={() => handleTest('showResults')}
+    />
+  )
+})
+
+
 function Course() {
-  const [testState, changeTestState] = useState(initialTestState)
-  const [testItems, setTestItems] = useState(initialSliderItems)
   const refCoursesButtons = useRef(null)
-
-
+  const finishButton = useRef(null)
+  const [testState, changeTestState] = useState(initialTestState)
+  const [testItems, setTestItems] = useState(null)
+  const [testResults, setTestResults] = useState({response: null, circleData: null})
 
   useEffect(() => {
+    let mounted = true
 
-    (async function() {
 
-      const quiz = await getQuizzes(12)
-      console.log('quiz', quiz)
 
-    })();
+      if ((!testItems || !testItems.length) && mounted) {
+        try {
 
-  }, [])
+          getQuizById()
+            .then(res => {
+              const {questions, duration} = res.data
 
+              console.log('res data', res.data)
+
+              const newTestItems = questions.map(item => {
+                return {
+                  multiple: !!item.is_multiple,
+                  text: item.question,
+                  questionId: item.id,
+                  questions: item.options.map(option => {
+                    return option.option_text
+                  }),
+                  answer: [],
+                  rightAnswers: item.options
+                    .map((option, index) => {
+                      if (!!option.correct) {
+                        return index
+                      }
+                      return null
+                    })
+                    .filter(answer => !!answer)
+                }
+              })
+              setTestItems(newTestItems)
+              changeTestState(prev => ({...prev, time: +duration || 14}))
+            })
+
+        } catch (e) {
+          console.error('error', e)
+        }
+
+      }
+
+
+
+
+    return () => {
+      mounted = false
+    }
+  }, [testItems])
 
 
   const showTestHandler = (info, element) => {
@@ -196,7 +159,6 @@ function Course() {
     changeTestState(prevState => ({
       ...prevState, showTest: info
     }))
-
     element.target.classList.add('active')
   }
 
@@ -210,8 +172,29 @@ function Course() {
         ...prev,
         showResults: true
       }))
+
+      console.info('testItems', testItems)
+
+      takeQuizById({results:  testToResults(testItems)})
+        .then(response => {
+          const {correct_answers, total_attempt, empty} = response.data
+          setTestResults({
+            circleData: {
+              empty,
+              right: correct_answers,
+              wrong: total_attempt - correct_answers - empty
+            },
+            response: response.data
+          })
+          console.info('new results', response.data)
+        })
     }
   }
+
+  const timeIsOver = useCallback(() => {
+    finishButton.current.click()
+  }, [])
+
 
   return (
     <section className="course">
@@ -242,14 +225,16 @@ function Course() {
               <div className="course-panel__column">
 
                 <div ref={refCoursesButtons} className="course-buttons">
-                  <div
+                  <button
                     onClick={ev => showTestHandler(false, ev)}
-                    className="course-buttons__btn active"
-                  >Сабақ</div>
-                  <div
+                    disabled={!!testState.showTest && !testState.showResults}
+                    className="course-buttons__btn active btn__noFocus"
+                  >Сабақ</button>
+                  <button
                     onClick={ev => showTestHandler(true, ev)}
-                    className="course-buttons__btn"
-                  >Тест</div>
+                    disabled={!!testState.showTest && !testState.showResults}
+                    className="course-buttons__btn btn__noFocus"
+                  >Тест</button>
                 </div>
 
               </div>
@@ -262,9 +247,11 @@ function Course() {
 
         {
 
-          !testState.showResults
-            ? !testState.startTest
-                ? <div className="course__column course-book__column">
+          testItems && testItems.length
+            ? (
+              !testState.showResults
+                ? !testState.startTest
+                  ? <div className="course__column course-book__column">
 
 
                   {
@@ -327,8 +314,30 @@ function Course() {
 
 
                 </div>
-                : <TestSlider testItems={testItems} setTestItems={setTestItems} showResults={false}/>
-            : <TestSlider testItems={testItems} setTestItems={setTestItems} showResults={true}/>
+                  : <TestSlider testItems={testItems} setTestItems={setTestItems} showResults={false}/>
+                : <>
+                    {
+                      testResults.response ? (
+                        <div className="course__resultsInfo resultsInfo">
+                          <h1 className="resultsInfo__title">Тест нәтижесі</h1>
+                          <ul className="resultsInfo__list">
+                            <li className="resultsInfo__item"><span>Сұрақ саны:</span>
+                              <span>{testResults.response.total_attempt}</span></li>
+                            <li className="resultsInfo__item"><span>Дұрысы:</span>
+                              <span>{testResults.response.correct_answers}</span></li>
+                            {/*<li className="resultsInfo__item"><span>Дұрысы:</span> <span>20</span></li>*/}
+                            <li className="resultsInfo__item"><span>Белгіленбеген:</span>
+                              <span>{testResults.response.empty}</span></li>
+                            <li className="resultsInfo__item"><span>Тестке кеткен уақыт:</span> <span>{testState.time}</span></li>
+                          </ul>
+                        </div>
+                      ) : <Loader/>
+                    }
+                    <TestSlider testItems={testItems} setTestItems={setTestItems} showResults={true}/>
+                  </>
+              )
+            : <Loader/>
+
         }
 
 
@@ -380,24 +389,36 @@ function Course() {
               ? testState.startTest
                 ? <div className="course__timer courseTimer">
 
-                  <div className="courseTimer__wrapper">
-                    <div className="courseTimer__time">
-                      14:44:44
-                    </div>
-                  </div>
+                    <div className="courseTimer__wrapper">
+                      <div className="courseTimer__time">
+                        <CountdownComponent
+                          handleTest={timeIsOver}
+                          time={testState.time}
+                        />
 
-                  <button
-                    onClick={() => handleTest('showResults')}
-                    className="btn__noFocus btn__shadow courseTimer__button"
-                  >
-                    Аяқтау
-                  </button>
+                        {/*<Countdown*/}
+                        {/*  date={Date.now() + 60 * 1000 * testState.time}*/}
+                        {/*  renderer={countdownRerender}*/}
+                        {/*  onComplete={() => handleTest('showResults')}*/}
+                        {/*/>*/}
+                      </div>
+                    </div>
+
+                    <button
+                      ref={finishButton}
+                      onClick={() => handleTest('showResults')}
+                      className="btn__noFocus btn__shadow courseTimer__button"
+                    >
+                      Аяқтау
+                    </button>
 
                 </div>
                 : ''
-              : <div className="course-results courseResults">
-                  <ConsiderResults results={testItems}/>
-                </div>
+              : testResults.circleData
+                ? <div className="course-results courseResults">
+                    <ConsiderResults results={testResults.circleData}/>
+                  </div>
+                : <Loader/>
           }
         </div>
 

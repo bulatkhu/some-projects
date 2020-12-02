@@ -1,9 +1,9 @@
 import React from 'react'
 import logoEducon from '../../../../images/landing/footer/footer-logo.svg'
-import './footer.scss'
-import telegramIcon from '../../../../images/general/teacher/telegram-svg.svg'
-import whatsappIcon from '../../../../images/general/teacher/whatsapp-svg.svg'
-import instagramIcon from '../../../../images/general/teacher/instagram-svg.svg'
+import facebookIcon from '../../../../images/landing/footer/facebook-icon.svg'
+import youtubeIcon from '../../../../images/landing/footer/youtube-icon.svg'
+import instagramIcon from '../../../../images/landing/footer/instagram-icon.svg'
+import './footer.scoped.scss'
 
 
 const Footer = () => {
@@ -15,43 +15,49 @@ const Footer = () => {
         <div className="footer__content">
           <div className="footer__column columnFoot columnFoot__top">
             <div className="columnFoot__logo"><img src={logoEducon} alt="logo educon"/></div>
-            <p className="columnFoot__confidentiality">
-              Бұл сайттың мазмұны мен оның қосымшалары және материалдары құпия болып табылады. Сайтта жарияланған барлық
-              материалдар мен жазбалар EDUCON.ONLINE платформасына тиесілі.
-            </p>
+            <ul className="columnFoot__firstColumn firstColumn">
+              <li className="firstColumn__item">
+                <span>Алматы қаласы; 4-микрорайон, 74А</span>
+              </li>
+              <li className="firstColumn__item">
+                <a
+                  className="firstColumn__icon firstColumn__phone"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                  href="tel:+77073446060">+77073446060</a>
+              </li>
+              <li className="firstColumn__item">
+                <a
+                  className="firstColumn__icon firstColumn__whatsapp"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                  href="https://wa.me/+77072300555">+77072300555</a>
+              </li>
+              <li className="firstColumn__item">
+                <a
+                  className="firstColumn__icon firstColumn__email"
+                  rel="noopener noreferrer"
+                  href="mailto:online.educon@gmail.com">online.educon@gmail.com</a>
+              </li>
+            </ul>
           </div>
           <div className="footer__column columnFoot">
             <div className="columnFoot__content">
-              <h5 className="columnFoot__title">Біз Туралы</h5>
+              <h5 className="columnFoot__title">
+                Бізге жазылыңыз
+              </h5>
               <ul className="columnFoot__list">
-                <li className="columnFoot__link"><a href="/">Біз туралы</a></li>
-                <li className="columnFoot__link"><a href="/">Нұсқаулық</a></li>
-                <li className="columnFoot__link"><a href="/">&nbsp;</a></li>
                 <li className="columnFoot__link columnFoot__socMedia">
-                  <a href="/">
-                    <img src={whatsappIcon} alt="link"/>
-                  </a>
-                  <a href="/">
-                    <img src={telegramIcon} alt="link"/>
-                  </a>
                   <a href="/">
                     <img src={instagramIcon} alt="link"/>
                   </a>
+                  <a href="/">
+                    <img src={youtubeIcon} alt="link"/>
+                  </a>
+                  <a href="/">
+                    <img src={facebookIcon} alt="link"/>
+                  </a>
                 </li>
-                {/*<li className="columnFoot__link"><a href="/">Жаңалықтар</a></li>*/}
-              </ul>
-            </div>
-          </div>
-          <div className="footer__column columnFoot">
-
-            <div className="columnFoot__content">
-              <h5 className="columnFoot__title">Анықтама</h5>
-              <ul className="columnFoot__list">
-                <li className="columnFoot__link"><a href="/">Қолдану саясаты </a></li>
-                <li className="columnFoot__link"><a href="/">Көмек үшін</a></li>
-                <li className="columnFoot__link"><a href="/">Байланыс</a></li>
-                <li className="columnFoot__link"><a href="/">Серіктестік</a></li>
-                {/*<li className="columnFoot__link"><a href="/">Құқықтар</a></li>*/}
               </ul>
             </div>
           </div>
@@ -59,11 +65,11 @@ const Footer = () => {
             <div className="columnFoot__content">
               <h5 className="columnFoot__title">Сілтемелер</h5>
               <ul className="columnFoot__list">
-                <li className="columnFoot__link"><a href="/">Негізгі бет</a></li>
-                <li className="columnFoot__link"><a href="/">Ұстаздар</a></li>
-                <li className="columnFoot__link"><a href="/">Курстар</a></li>
-                <li className="columnFoot__link"><a href="/">Материалдар</a></li>
-                <li className="columnFoot__link"><a href="/">Блог</a></li>
+                <li className="columnFoot__link"><a href="/">Басты бет</a></li>
+                <li className="columnFoot__link"><a href="/">Неліктен EduCon</a></li>
+                <li className="columnFoot__link"><a href="/">Курстарымыз</a></li>
+                <li className="columnFoot__link"><a href="/">Үзінділіер</a></li>
+                <li className="columnFoot__link"><a href="/">Оқу ақысы</a></li>
               </ul>
             </div>
           </div>
@@ -72,14 +78,15 @@ const Footer = () => {
               <h5 className="columnFoot__title columnFoot__title__none">&nbsp;</h5>
               <ul className="columnFoot__list">
                 <li className="columnFoot__link"><a href="/">EduCoin</a></li>
-                <li className="columnFoot__link"><a href="/">Кіру</a></li>
+                <li className="columnFoot__link"><a href="/">EduCoin рейтинг</a></li>
+                <li className="columnFoot__link"><a href="/">Серіктестеріміз</a></li>
               </ul>
             </div>
           </div>
         </div>
-        <div className="footer__rights">
-          <p>EDUCONLINE © 2020 Барлық құқықтар қорғалған</p>
-        </div>
+      </div>
+      <div className="footer__rights">
+        <p>EduCon.online © 2020 Барлық құқықтар қорғалған</p>
       </div>
     </footer>
   )

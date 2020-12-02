@@ -1,6 +1,5 @@
 import React, {useState} from 'react'
 import {connect} from 'react-redux'
-import {setUsersData} from '../../redux/actions/user/userActionsFuncs'
 import {SITE_BASE_URL} from '../../app.config'
 import MenuLinks from './menuLinks/menuLinks'
 import NoPhoto from '../../images/general/noPhoto/noPhoto'
@@ -80,11 +79,5 @@ function mapStateToProps(state) {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    setUserData: () => dispatch(setUsersData())
-  }
-}
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login)
+export default connect(mapStateToProps)(Login)

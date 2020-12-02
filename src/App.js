@@ -12,6 +12,7 @@ import Paying from './Layout/login/containers/paying/paying'
 import AuthRequired from './Layout/auth/AuthRequired/AuthRequired'
 import TeacherPage from './Layout/general/teacherPage/teacherPage'
 import './App.scss'
+import EducoinPage from './Layout/general/educoinPage/educoinPage'
 
 
 const menuLinks = [
@@ -20,7 +21,7 @@ const menuLinks = [
   {name: 'Курстар', to: '/'},
   {name: 'Материалдар', to: '/materials'},
   {name: 'Блог', to: '/'},
-  {name: 'EduCoin', to: '/'},
+  {name: 'EduCoin', to: '/educoin-page'},
 ]
 
 function App(props) {
@@ -57,6 +58,9 @@ function App(props) {
             <Paying/>
           </Route>
           <Route path="/teacher-page/:id" component={TeacherPage}/>
+          <Route path="/educoin-page">
+            <EducoinPage/>
+          </Route>
 
 
           <AuthRequired isAuth={props.isAuth}/>

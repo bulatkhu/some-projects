@@ -3,8 +3,8 @@ import checkMark from '../../../../images/general/icons/checkMarkGreen.svg'
 import crossRed from '../../../../images/general/icons/crossRed.svg'
 import ModalPortal from '../../../modals/ModalPortal/ModalPortal'
 import CheckOut from '../checkOut/checkOut'
-import './prices.scoped.scss'
 import {getCoursesForPrices} from '../../../../request/apiPrices'
+import './prices.scoped.scss'
 
 const pricesData = [
   {title: 'Видеосабақтар', price1: true, price2: true, price3: true, price4: true},
@@ -18,45 +18,33 @@ const pricesData = [
 ]
 
 const Prices = () => {
-  const [showCheckOut, setShowCheckOut] = useState({show: false, id: null, color: null, title: null})
-  // eslint-disable-next-line
-  const [courses, setCourses] = useState([])
+  const [showCheckOut, setShowCheckOut] = useState({show: false, type: null})
+  const [courses, setCourses] = useState({})
 
   useEffect(() => {
 
     getCoursesForPrices()
       .then(res => {
         if (!res.error && +res.data.status === 1) {
-          // eslint-disable-next-line
           const {data} = res.data
-          // const arrayData = Object
-          //   .keys(data)
-          //   .map(item => {
-          //     data[item].id = +item
-          //     return data[item].map(item => {
-          //       item.title = item.content.title
-          //       const img = item.content.metas.find(item => item.option === 'cover' || item.option === 'thumbnail')
-          //       item.img = img.value ? img.value : null
-          //       delete item.content
-          //       return item
-          //     })
-          //   })
-          // setCourses(arrayData)
+          setCourses(data)
         }
       })
 
   },[])
 
-  const onShowCheckOut = (id, color, title) => setShowCheckOut(() => ({show: true, id, color, title}))
+  const onShowCheckOut = type => setShowCheckOut({show: true, type: type})
 
 
   return (
     <section className="prices">
 
-      { courses.length && (
+      { courses && (
           <ModalPortal>
             <CheckOut
-              courses={courses[showCheckOut.id]}
+              combinations={courses.combinations}
+              rowCourses={courses.main}
+              type={showCheckOut.type}
               info={showCheckOut}
               show={setShowCheckOut}
             />
@@ -203,19 +191,19 @@ const Prices = () => {
                     </div>
 
                     <div className="topTableFirst__column">
-                      <button onClick={() => onShowCheckOut(0,'#6CA04A','Негізгі пәндер')} className="topTableFirst__button btn__shadowFromNull">
+                      <button onClick={() => onShowCheckOut('main')} className="topTableFirst__button btn__shadowFromNull">
                         <span className="topTableFirst__text">Таңдау</span>
                       </button>
                     </div>
 
                     <div className="topTableFirst__column">
-                      <button onClick={() => onShowCheckOut(1,'#3EC1EB','Бейіндік пәндер')} className="topTableFirst__button btn__shadowFromNull">
+                      <button onClick={() => onShowCheckOut('optional')} className="topTableFirst__button btn__shadowFromNull">
                         <span className="topTableFirst__text">Таңдау</span>
                       </button>
                     </div>
 
                     <div className="topTableFirst__column">
-                      <button onClick={() => onShowCheckOut(2,'#FD6CA3','COMBO')} className="topTableFirst__button btn__shadowFromNull">
+                      <button onClick={() => onShowCheckOut('combo')} className="topTableFirst__button btn__shadowFromNull">
                         <span className="topTableFirst__text">Таңдау</span>
                       </button>
                     </div>

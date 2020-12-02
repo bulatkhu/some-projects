@@ -1,0 +1,90 @@
+.educoinPage {
+  background-color: #F0F5FB;
+  padding: 40px 0;
+  height: 100%;
+  color: #626267;
+
+
+  &__container {
+
+
+  }
+
+  &__rules {
+
+  }
+
+  &__wrapper {
+    position: relative;
+    margin-top: 35px;
+    padding: 60px;
+    background: #FFFFFF;
+    border-radius: 20px;
+  }
+
+  &__coin {
+  }
+}
+
+.rules {
+
+
+  &__title {
+    font-size: 36px;
+  }
+
+  &__text {
+    font-size: 24px;
+  }
+
+  &__title, &__text {
+    margin: 0;
+  }
+
+  &__item {
+    margin-bottom: 47px;
+  }
+
+}
+
+.warnings {
+  font-size: 24px;
+  line-height: 28px;
+  color: #FF5773;
+}
+
+.coin {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  background: #FFFFFF;
+  border-radius: 20px;
+  padding: 18px 50px;
+  margin: 0;
+  transform: translate(-50%, -50%);
+  font-weight: 500;
+  font-size: 36px;
+
+  &__titleIcon, &__icon {
+    display: inline-block;
+    padding-right: 35px;
+    background-position: center right;
+    background-repeat: no-repeat;
+    background-image: url("../../../images/general/educoinPage/educoin-icon.svg");
+  }
+
+  &__titleIcon {
+    padding-right: 35px;
+    background-size: 31px;
+  }
+
+  &__icon {
+    color: #ff5773;
+    padding-right: 23px;
+    background-size: 19px;
+  }
+
+  &__colorRed {
+    color: #ff5773;
+  }
+}

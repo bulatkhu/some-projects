@@ -73,18 +73,13 @@ const ModalRegister = props => {
         console.log('data from modalReg:', data)
 
         setPhoneData(data)
-
-        // setTimeout(() => {
-        //   props.onHideRegModal()
-        //   props.onShowLoginModal()
-        // }, 3000)
       } else {
         console.log(response.data.error)
         setError(response.data.error)
       }
     } catch (e) {
       console.log('Error: ', JSON.stringify(e))
-      setError(e.response || e.message || e.error)
+      setError(e.message)
     }
 
 
@@ -143,7 +138,7 @@ const ModalRegister = props => {
                         <Field
                           required
                           name="name"
-                          defaultValue="Bulat Khudainazarov"
+                          // defaultValue="Bulat Khudainazarov"
                         >
                           {({input}) => (
                             <div className="regForm__labelWrap">
@@ -163,7 +158,7 @@ const ModalRegister = props => {
                         <Field
                           required
                           name="username"
-                          defaultValue="bulat4321"
+                          // defaultValue="bulat4321"
                         >
                           {({input}) => (
                             <div className="regForm__labelWrap">
@@ -187,7 +182,7 @@ const ModalRegister = props => {
                         <Field
                           name="email"
                           required
-                          defaultValue="hudainazarov.b@yandex.ru"
+                          // defaultValue="hudainazarov.b@yandex.ru"
                           validate={validateEmail}
                         >
                           {({input, meta}) => (
@@ -218,7 +213,7 @@ const ModalRegister = props => {
                           label="phone"
                           parse={value => value.replace(/\(|\)|\s|-/g, '')}
                           validate={validatePhone}
-                          defaultValue="+79093457088"
+                          // defaultValue="+79093457088"
                           required
                         >
                           {({input, meta}) => (
@@ -249,7 +244,7 @@ const ModalRegister = props => {
                             <Field
                               name="password"
                               validate={validatePassword}
-                              defaultValue="12345Bulat"
+                              // defaultValue="12345Bulat"
                             >
                               {({input, meta}) => (
                                 <label className="regForm__label margin0" htmlFor="password">
@@ -269,7 +264,7 @@ const ModalRegister = props => {
                           <div className="regForm__passEye">
                             <Field
                               name="re_password"
-                              defaultValue="12345Bulat"
+                              // defaultValue="12345Bulat"
                             >
                               {({input, meta}) => (
                                 <label className="regForm__label margin0" htmlFor="rePassword">

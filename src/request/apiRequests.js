@@ -42,14 +42,6 @@ export async function getQuizList() {
   return await axios.get(!isForFirebase ? `/quizlist?token=${token}` : APP_BASE_URL + `/quizlist?token=${token}`)
 }
 
-export async function getQuizzes(quizId) {
-  const token = localStorage.getItem('token')
-  // const token = '' || false
-  if (!token) return { error: 'Invalid auth token' }
-
-  return await axios.get(!isForFirebase ? `/quiz/${quizId}?token=${token}` : APP_BASE_URL + `/quiz/${quizId}?token=${token}`)
-}
-
 export async function getCoursesFromIndex() {
   try {
     return await axios.get(!isForFirebase ? '/index' : APP_BASE_URL + '/index')

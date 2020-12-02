@@ -1,7 +1,7 @@
 .subject {
   padding: 92px 0 40px 0;
   color: #626267;
-  background: #F0F5FB;
+  background: linear-gradient(180deg, #D0E6FF 0%, rgba(114, 178, 255, 0) 100%), #FFFFFF;
 
   @media (max-width: 992px) {
     padding: 20px 0 40px 0;
@@ -18,13 +18,9 @@
   }
 
   &__content {
-    display: grid;
-    grid-template-columns: 1fr 374px;
-    column-gap: 40px;
     margin: 0 0 130px 0;
 
     @media (max-width: 992px) {
-      grid-template-columns: 1fr;
       margin: 0 0 100px 0;
     }
 
@@ -64,7 +60,7 @@
   }
 
   &__titles {
-    margin: 0 0 50px 0;
+    margin: 0 0 16px 0;
 
     @media (max-width: 576px) {
       margin: 0 0 20px 0;
@@ -75,7 +71,7 @@
     font-weight: bold;
     font-size: 36px;
     line-height: 42px;
-    margin: 0 0 6px 0;
+    margin: 0 0 26px 0;
 
     @media (max-width: 767px) {
       font-size: 30px;
@@ -86,7 +82,7 @@
   }
 
   &__subTitle {
-    margin: 0;
+    margin: 0 0 16px 0;
     @media (max-width: 767px) {
       font-size: 20px;
     }
@@ -130,21 +126,6 @@
 
 .subjectInfo {
 
-  &__rating {
-    display: flex;
-    align-items: center;
-    margin: 0 0 10px 0;
-  }
-
-  &__stars {
-    display: inline-block;
-    min-width: auto;
-    margin: 0 10px 0 0;
-  }
-
-  &__students {
-  }
-
   &__person {
     font-weight: normal;
     font-size: 18px;
@@ -165,93 +146,6 @@
     background: url("../../../images/general/subject/globe.png") left center no-repeat;
     @media (max-width: 576px) {
       display: block;
-    }
-  }
-
-  &__buttons {
-    margin-bottom: 26px;
-  }
-
-  &__btn {
-    padding: 10px 20px;
-    box-sizing: border-box;
-    font-weight: normal;
-    font-size: 14px;
-    line-height: 16px;
-    color: #FFFFFF;
-    background-color: #FF5773;
-    border-radius: 7px;
-    border: none;
-    margin: 0 6px 6px 0;
-  }
-
-  &__wishlist {
-    padding-left: 26px;
-    background: #FF5773 url("../../../images/general/subject/heart.png") 9px center no-repeat;
-  }
-
-  &__part {
-    padding-right: 30px;
-    background: #FF5773 url("../../../images/general/subject/arrow.png") 90% center no-repeat;
-  }
-
-  &__present {
-    padding-left: 40px;
-    background: #FF5773 url("../../../images/general/subject/present.png") 19px center no-repeat;
-  }
-
-  &__studying {
-    padding: 22px 33px;
-    background: #FFFFFF;
-    border-radius: 11px;
-
-    @media (max-width: 576px) {
-      padding: 10px 15px;
-    }
-  }
-
-  &__studyingTitle {
-    margin: 0 0 22px 0;
-    font-weight: 500;
-    font-size: 24px;
-    line-height: 28px;
-  }
-
-  &__labels {
-    padding: 0 0 0 15px;
-
-    @media (max-width: 576px) {
-      padding: 0;
-      overflow: auto;
-    }
-  }
-
-  &__label {
-    display: flex;
-    justify-content: space-between;
-    margin: 0 0 12px 0;
-
-    span {
-
-      @media (max-width: 576px) {
-        font-size: 12px;
-      }
-
-      &:last-child {
-        position: relative;
-
-        &:before {
-          content: '';
-          width: 5px;
-          height: 5px;
-          border-radius: 50%;
-          background-color: #FF5773;
-          position: absolute;
-          top: 50%;
-          transform: translateY(-1px);
-          left: -10px;
-        }
-      }
     }
   }
 }
@@ -427,174 +321,18 @@
 
 .subjectVideo {
   background: #FFFFFF;
+  position: relative;
   border-radius: 18px;
-  text-align: center;
-  padding: 20px;
-
-  &__img {
-    display: inline-block;
-    position: relative;
-    margin: 0 0 20px 0;
-
-    span {
-      position: absolute;
-      width: 70px;
-      height: 70px;
-      top: 50%;
-      right: 50%;
-      transform: translate(50%, -50%);
-    }
-
-    img {
-      width: 100%;
-      height: 100%;
-    }
-  }
-
-  &__price {
-    font-weight: bold;
-    font-size: 30px;
-    line-height: 35px;
-    color: #FF5773;
-    margin: 0 0 18px 0;
-  }
-
-  &__text {
-    font-weight: normal;
-    font-size: 13px;
-    line-height: 15px;
-    text-align: center;
-    color: #626267;
-    margin: 0 auto 20px auto;
-    max-width: 240px;
-  }
-
-  &__btn {
-    background: #FF5773;
-    border-radius: 38px;
-    font-weight: normal;
-    font-size: 18px;
-    line-height: 21px;
-    color: #FFFFFF;
-    padding: 11px 10px;
-    border: none;
-    min-width: 50%;
-  }
-}
-
-.subjectThings {
-  padding: 31px 20px;
   box-sizing: border-box;
-  flex-direction: column;
-  //max-width: 90%;
-  background: #FFF;
-  border-radius: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  height: 100%;
+  text-align: center;
+  padding: 20px 20px 50%;
+  margin-bottom: 46px;
 
-  &__wrapper {
-    width: 100%;
-    max-width: 700px;
-    display: flex;
-    justify-content: center;
-    margin: 0 -10px 20px -10px;
-    flex-wrap: wrap;
-  }
-
-  &__item {
-    margin: 0 10px 18px 10px;
-    display: inline-block;
-    flex: 0 1 auto;
-    border-radius: 20px;
-    width: 165px;
-    height: 165px;
-    overflow: hidden;
-  }
-
-  &__img {
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
-
-    img {
-      width: 100%;
-      height: 100%;
-    }
-  }
-
-  &__bottom {
+  &__video {
     position: absolute;
-    bottom: 0;
-    //transform: translateY(-50%);
-
-  }
-
-  &__price {
-    position: relative;
-    padding: 0 0 0 10px;
-    box-sizing: border-box;
-    overflow: auto !important;
-
-    font-weight: bold;
-    line-height: 42px;
-    color: #FF5773;
-  }
-
-  &__equal {
-    @media (max-width: 470px) {
-      position: absolute;
-      top: -50px;
-      right: 50%;
-      transform: translateX(50%);
-    }
-  }
-
-  &__current {
-    position: relative;
-    font-size: 30px;
-  }
-
-  &__old {
-    font-size: 25px;
-    display: inline-block;
-    padding: 0 0 0 20px;
-
-    span {
-      position: relative;
-      display: inline-block;
-
-      &::before {
-        content: '';
-        position: absolute;
-        top: 56%;
-        left: 50%;
-
-        width: 110%;
-        height: 2px;
-        transform: rotate(2deg) translateX(-50%);
-        background: #BE3249;
-      }
-
-    }
-
-  }
-
-  &__wrapBottom {
-    text-align: right;
-    min-width: 100%;
-  }
-
-  &__btn {
-    font-weight: normal;
-    font-size: 18px;
-    line-height: 21px;
-    color: #FFFFFF;
-    padding: 7px 10px;
-    box-sizing: border-box;
-    min-width: 127px;
-    background: #FF5773;
-    border-radius: 27px;
-    border: none;
-
+    width: calc(100% - 40px) !important;
+    height: calc(100% - 40px) !important;
   }
 }
 
@@ -656,5 +394,16 @@
       font-size: 15px;
       text-indent: 0;
     }
+  }
+}
+
+.subjectTabs {
+
+  &__header {
+
+  }
+
+  &__body {
+
   }
 }
