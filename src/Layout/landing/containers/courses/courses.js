@@ -1,10 +1,10 @@
 import React, { useMemo, useState } from 'react'
-import './courses.scss'
+import {connect} from 'react-redux'
 import ThingCard from '../../../landing/components/ThingCard/ThingCard'
 import Tabs from '../../../landing/components/Tabs/tabs'
-import {connect} from 'react-redux'
 import {setActiveTab} from '../../../../redux/actions/coursesTab/coursesTabActionsFunc'
-import {getCoursesFromIndex} from "../../../../request/apiRequests";
+import {getCoursesFromIndex} from '../../../../request/apiRequests'
+import './courses.scss'
 
 
 

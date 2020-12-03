@@ -1,7 +1,8 @@
 import React, {useEffect, useRef, useState} from 'react'
-import './testSlider.scss'
-import '../../containers/watchCourse/watchCourse.scoped.scss'
 import Slider from 'react-slick'
+import MathJax from 'react-mathjax2'
+import '../../containers/watchCourse/watchCourse.scoped.scss'
+import './testSlider.scss'
 
 
 const navSliderSettings = {
@@ -48,13 +49,26 @@ const mainSliderSettings = {
 
 
 const areAnswerEqual = (answers, rightAnswer) => {
-
-  // console.info('index', index)
-  // console.info('answers', answers)
-  // console.info('rightAnswer', rightAnswer)
-  // console.info('\n')
-
   return JSON.stringify(answers) === JSON.stringify(rightAnswer)
+}
+
+
+const textToMathJax = text => {
+  return (
+    <MathJax.Context
+      input='tex'
+      script="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=AM_HTMLorMML"
+      options={{
+        asciimath2jax: {
+          useMathMLspacing: true,
+          delimiters: [["$$","$$"], ['$','$'], ['\\(', '\\)']],
+          preview: "none",
+        }
+      }}
+    >
+      <MathJax.Text text={ text }/>
+    </MathJax.Context>
+  )
 }
 
 
@@ -240,7 +254,9 @@ const TestSlider = ({showResults, testItems, setTestItems}) => {
               <div key={indexOfQuestion} className="courseTesting__itemWrapper slideItem__wrapper">
                 <div className="courseTesting__slideItem slideItem">
                   {item1.text
-                    ? <p className="slideItem__text">{item1.text}</p>
+                    ? <div className="slideItem__text">
+                        {textToMathJax(item1.text)}
+                      </div>
                     : <p className="slideItem__text">Ut non neque, ut fusce. In quis lectus ipsum nisl. Id feugiat
                       pellentesque tristique pellentesque tellus in ni</p>
                   }
@@ -276,7 +292,7 @@ const TestSlider = ({showResults, testItems, setTestItems}) => {
                                 multiple: item1.multiple
                               })}
                               className={cls.join(' ')}
-                            >{item}</span>
+                            >{textToMathJax(item)}</span>
                           </li>
                         )
                       })}

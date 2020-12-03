@@ -4,8 +4,8 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {SITE_BASE_URL} from '../../../../app.config'
 import NoPhoto from '../../../../images/general/noPhoto/noPhoto'
-import './ThingCard.scss'
 import '../../../landing/containers/checkOut/checkOut.scoped.scss'
+import './ThingCard.scss'
 
 const stylesForNoPhoto = {
   height: '100%',

@@ -8,6 +8,7 @@ import ConsiderResults from '../../../landing/auxiliary/considerResults'
 import {getQuizById, takeQuizById} from '../../../../request/apiQuizzes'
 import Loader from '../../../general/component/loader/loader'
 import './watchCourse.scoped.scss'
+// import useScript from "../../../../hooks/useScript";
 
 const playersProps = [
   {
@@ -101,6 +102,10 @@ function Course() {
   const [testItems, setTestItems] = useState(null)
   const [testResults, setTestResults] = useState({response: null, circleData: null})
 
+  // useScript('https://polyfill.io/v3/polyfill.min.js?features=es6')
+  // useScript('https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js')
+
+
   useEffect(() => {
     let mounted = true
 
@@ -109,7 +114,7 @@ function Course() {
       if ((!testItems || !testItems.length) && mounted) {
         try {
 
-          getQuizById()
+          getQuizById(13)
             .then(res => {
               const {questions, duration} = res.data
 
@@ -175,7 +180,7 @@ function Course() {
 
       console.info('testItems', testItems)
 
-      takeQuizById({results:  testToResults(testItems)})
+      takeQuizById({results:  testToResults(testItems),id: 13})
         .then(response => {
           const {correct_answers, total_attempt, empty} = response.data
           setTestResults({

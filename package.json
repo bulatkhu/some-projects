@@ -22,6 +22,7 @@
     "react-dom": "^16.13.1",
     "react-final-form": "^6.5.1",
     "react-input-mask": "^2.0.4",
+    "react-mathjax2": "0.0.2",
     "react-pageflip": "^1.0.0",
     "react-player": "^2.6.1",
     "react-redux": "^7.2.1",

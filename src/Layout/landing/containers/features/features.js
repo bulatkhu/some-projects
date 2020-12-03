@@ -1,5 +1,4 @@
 import React from 'react'
-import './features.scss'
 import feature1 from '../../../../../src/images/landing/features/feature1.svg'
 import feature2 from '../../../../../src/images/landing/features/feature2.svg'
 import feature3 from '../../../../../src/images/landing/features/feature3.svg'
@@ -9,6 +8,7 @@ import feature6 from '../../../../../src/images/landing/features/feature6.svg'
 import feature7 from '../../../../../src/images/landing/features/feature7.svg'
 import feature8 from '../../../../../src/images/landing/features/feature8.svg'
 import feature9 from '../../../../../src/images/landing/features/feature9.svg'
+import './features.scss'
 
 const FeatureItems = [
   {

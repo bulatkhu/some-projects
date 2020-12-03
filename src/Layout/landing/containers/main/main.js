@@ -34,14 +34,14 @@ const Main = () => {
         <div className="main__content">
           <div className="main__column body">
             <h1 className="body__title">
-              Болашаққа деген нық қадамды бүгіннен баста
+              Болашаққа нық қадамды бүгіннен баста.
             </h1>
             <p className="body__text">
-              Курс бастағандағы деңгейіңді анықтап, әрбір жетістігіңді бақылап отыр.
+              Қашықтан білім беру арқылы біз әрқашан сенің жаныңдамыз.
             </p>
             <div className="body__icon">
               <button className="body__icon__button">
-                <span>Деңгей анықтау</span>
+                <span>Өтінім қалдыру</span>
               </button>
             </div>
           </div>

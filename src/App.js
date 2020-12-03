@@ -1,5 +1,5 @@
-import React from 'react'
-import {Switch, Route} from 'react-router-dom'
+import React, {useState, useLayoutEffect} from 'react'
+import {Switch, Route, useLocation} from 'react-router-dom'
 import {connect} from 'react-redux'
 import Menu from './Layout/landing/containers/menu/menu'
 import Footer from './Layout/landing/containers/footer/footer'
@@ -11,8 +11,9 @@ import TeachersRoute from './Layout/general/teachersRoute/teachersRoute'
 import Paying from './Layout/login/containers/paying/paying'
 import AuthRequired from './Layout/auth/AuthRequired/AuthRequired'
 import TeacherPage from './Layout/general/teacherPage/teacherPage'
-import './App.scss'
 import EducoinPage from './Layout/general/educoinPage/educoinPage'
+import './App.scss'
+import HeaderMenu from "./Layout/landing/containers/headerMenu/headerMenu";
 
 
 const menuLinks = [
@@ -25,20 +26,34 @@ const menuLinks = [
 ]
 
 function App(props) {
-  // const location = useLocation()
-  // useLayoutEffect(() => {
-  //   window.scrollTo(0, 0)
-  // }, [location.pathname])
+  const [headerHideMenu, setHeaderHideMenu] = useState(null)
+  // const [mainFixedMenu, setMainFixedMenu] = useState(false)
+
+  const location = useLocation()
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0)
+  }, [location.pathname])
+
+  window.onscroll = () => {
+    if (window.pageYOffset > 28) {
+      setHeaderHideMenu(true)
+
+    } else {
+      setHeaderHideMenu(false)
+    }
+  }
 
 
   return (
-    <div className="App">
-      <Menu links={menuLinks} isSignIn={false}/>
+    <div className="app">
+
+      <div className="app__menubar">
+        <HeaderMenu isHide={headerHideMenu}/>
+        <Menu links={menuLinks} isSignIn={false}/>
+      </div>
 
 
       <div className="app__wrapper">
-
-
         <Switch>
 
           <Route exact path="/">
