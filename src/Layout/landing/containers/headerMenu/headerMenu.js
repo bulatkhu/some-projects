@@ -6,14 +6,14 @@ const duration = 300;
 
 const defaultStyle = {
   transition: `all ${duration}ms ease-in-out`,
-  opacity: 0,
+  display: 'none'
 }
 
 const transitionStyles = {
-  entering: { opacity: 1, },
-  entered:  { opacity: 1, },
-  exiting:  { opacity: 0.5, },
-  exited:  { opacity: 0, height: 0, visibility: 'none'},
+  entering: { display: 'block' },
+  entered:  { display: 'block' },
+  exiting:  { display: 'none' },
+  exited:  { display: 'none' },
 }
 
 // ['headerMenu', isHide ? 'hide' : null].join(' ')

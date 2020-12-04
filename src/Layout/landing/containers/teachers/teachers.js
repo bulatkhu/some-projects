@@ -1,56 +1,64 @@
-import React from 'react'
-import photo1 from '../../../../images/landing/teachers/teacher-photo1.jpg'
-import photo2 from '../../../../images/landing/teachers/teacher-photo2.jpg'
-import photo3 from '../../../../images/landing/teachers/teacher-photo3.jpg'
+import React, {useRef} from 'react'
 import Slider from 'react-slick'
-import "slick-carousel/slick/slick.css"
-import './teachers.scss'
+import photo1 from '../../../../images/landing/teachers/teacher-photo1.jpg'
+import 'slick-carousel/slick/slick.css'
+import './teachers.scoped.scss'
+
+
+const teacherList = [
+  {img: photo1, name: 'Абзал Тойғанбаев', subject: 'Математика'},
+  {img: photo1, name: 'Абзал Тойғанбаев', subject: 'Математика'},
+  {img: photo1, name: 'Абзал Тойғанбаев', subject: 'Математика'},
+  {img: photo1, name: 'Абзал Тойғанбаев', subject: 'Математика'},
+  {img: photo1, name: 'Абзал Тойғанбаев', subject: 'Математика'},
+]
+
+const settings = {
+  swipeToSlide: 'true',
+  focusOnSelect: 'true',
+  className: 'center',
+  lazyLoad: true,
+  button: false,
+  speed: 500,
+  slidesToShow: 4,
+  slidesToScroll: 1,
+  initialSlide: 0,
+  responsive: [
+    {
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 1,
+        lazyLoad: true,
+      }
+    },
+    {
+      breakpoint: 750,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        centerPadding: '50px',
+        className: 'center',
+        centerMode: true,
+        initialSlide: 0,
+        lazyLoad: true,
+      }
+    },
+    {
+      breakpoint: 480,
+      settings: {
+        slidesToShow: 1,
+        lazyLoad: true,
+        slidesToScroll: 1
+      }
+    }
+  ]
+}
+
 
 const Teachers = () => {
+  const refToSlider = useRef(null)
 
-  const settings = {
-    swipeToSlide: 'true',
-    focusOnSelect: 'true',
-    centerPadding: '30px',
-    className: 'center',
-    centerMode: true,
-    lazyLoad: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    initialSlide: 0,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-          lazyLoad: true,
-        }
-      },
-      {
-        breakpoint: 750,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          centerPadding: '50px',
-          className: 'center',
-          centerMode: true,
-          initialSlide: 0,
-          lazyLoad: true,
-        }
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          lazyLoad: true,
-          slidesToScroll: 1
-        }
-      }
-    ]
-  }
 
   return (
     <section className="teachers">
@@ -60,64 +68,36 @@ const Teachers = () => {
       <div className="teachers__container _container">
 
         <div className="teachers__slider slider">
-          <Slider {...settings}>
-            <div className="slider__item">
-              <div className="slider__item__wrapper">
-                <img src={photo1} alt="teacher"/>
-              </div>
-              <h4 className="slider__item__name">Teacher Name</h4>
-            </div>
-            <div className="slider__item">
-              <div className="slider__item__wrapper">
-                <img src={photo2} alt="teacher"/>
-              </div>
-              <h4 className="slider__item__name">Teacher Name</h4>
-            </div>
-            <div className="slider__item">
-              <div className="slider__item__wrapper">
-                <img src={photo3} alt="teacher"/>
-              </div>
-              <h4 className="slider__item__name">Teacher Name</h4>
-            </div>
 
-            <div className="slider__item">
-              <div className="slider__item__wrapper">
-                <img src={photo1} alt="teacher"/>
-              </div>
-              <h4 className="slider__item__name">Teacher Name</h4>
-            </div>
-            <div className="slider__item">
-              <div className="slider__item__wrapper">
-                <img src={photo2} alt="teacher"/>
-              </div>
-              <h4 className="slider__item__name">Teacher Name</h4>
-            </div>
-            <div className="slider__item">
-              <div className="slider__item__wrapper">
-                <img src={photo3} alt="teacher"/>
-              </div>
-              <h4 className="slider__item__name">Teacher Name</h4>
-            </div>
+          <button
+            onClick={() => refToSlider.current.slickPrev()}
+            className="teachers__btn btn btn__prev btn__noFocus"
+          >prev</button>
 
-            <div className="slider__item">
-              <div className="slider__item__wrapper">
-                <img src={photo1} alt="teacher"/>
-              </div>
-              <h4 className="slider__item__name">Teacher Name</h4>
-            </div>
-            <div className="slider__item">
-              <div className="slider__item__wrapper">
-                <img src={photo2} alt="teacher"/>
-              </div>
-              <h4 className="slider__item__name">Teacher Name</h4>
-            </div>
-            <div className="slider__item">
-              <div className="slider__item__wrapper">
-                <img src={photo3} alt="teacher"/>
-              </div>
-              <h4 className="slider__item__name">Teacher Name</h4>
-            </div>
+          <Slider ref={refToSlider} {...settings}>
+            {teacherList.map((item, index) => {
+
+              return (
+                <div key={index} className="slider__item">
+                  <div className="slider__wrapper">
+                    <div className="slider__img">
+                      <img src={item.img} alt="teacher"/>
+                    </div>
+                    <h4 className="slider__name">{item.name}</h4>
+
+                    <p className="slider__subject">{item.subject}</p>
+                  </div>
+                </div>
+              )
+            })}
+
           </Slider>
+
+          <button
+            onClick={() => refToSlider.current.slickNext()}
+            className="teachers__btn btn btn__next btn__noFocus"
+          >next</button>
+
         </div>
 
       </div>

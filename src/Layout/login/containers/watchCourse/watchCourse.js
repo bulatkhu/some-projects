@@ -75,10 +75,8 @@ function countdownRenderer(rerenderData) {
   const { completed, formatted: { minutes, seconds } } = rerenderData
 
   if (completed) {
-    // Render a completed state
     return <span>Time is over.</span>
   } else {
-    // Render a countdown
     return <>{minutes}:{seconds}</>
   }
 }
@@ -101,9 +99,6 @@ function Course() {
   const [testState, changeTestState] = useState(initialTestState)
   const [testItems, setTestItems] = useState(null)
   const [testResults, setTestResults] = useState({response: null, circleData: null})
-
-  // useScript('https://polyfill.io/v3/polyfill.min.js?features=es6')
-  // useScript('https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js')
 
 
   useEffect(() => {
@@ -400,12 +395,6 @@ function Course() {
                           handleTest={timeIsOver}
                           time={testState.time}
                         />
-
-                        {/*<Countdown*/}
-                        {/*  date={Date.now() + 60 * 1000 * testState.time}*/}
-                        {/*  renderer={countdownRerender}*/}
-                        {/*  onComplete={() => handleTest('showResults')}*/}
-                        {/*/>*/}
                       </div>
                     </div>
 

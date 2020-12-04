@@ -6,24 +6,28 @@ import Teachers from './containers/teachers/teachers'
 import EduCoin from './containers/educoin/educoin'
 import Rating from './containers/rating/rating'
 import Progress from './containers/progress/progress'
-import Literacy from './containers/literacy/literacy'
+// import Literacy from './containers/literacy/literacy'
 import Prices from './containers/prices/prices'
 import SocialLinks from './containers/socialLinks/socialLinks'
 
-const Landing = () => {
+const Landing = ({showArrow}) => {
 
   return (
     <>
       <Main/>
       <Features/>
       <Courses/>
-      <Teachers/>
+      {/*<Literacy/>*/}
+      <Prices/>
       <EduCoin/>
       <Rating/>
+      <Teachers/>
       <Progress/>
-      <Literacy/>
-      <Prices/>
-      <SocialLinks/>
+      {
+        showArrow
+          ? <SocialLinks/>
+          : null
+      }
     </>
   )
 }

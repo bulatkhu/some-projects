@@ -56,7 +56,7 @@ const areAnswerEqual = (answers, rightAnswer) => {
 const textToMathJax = text => {
   return (
     <MathJax.Context
-      input='tex'
+      input='ascii'
       script="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=AM_HTMLorMML"
       options={{
         asciimath2jax: {

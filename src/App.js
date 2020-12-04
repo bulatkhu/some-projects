@@ -12,8 +12,8 @@ import Paying from './Layout/login/containers/paying/paying'
 import AuthRequired from './Layout/auth/AuthRequired/AuthRequired'
 import TeacherPage from './Layout/general/teacherPage/teacherPage'
 import EducoinPage from './Layout/general/educoinPage/educoinPage'
+import HeaderMenu from './Layout/landing/containers/headerMenu/headerMenu'
 import './App.scss'
-import HeaderMenu from "./Layout/landing/containers/headerMenu/headerMenu";
 
 
 const menuLinks = [
@@ -27,6 +27,7 @@ const menuLinks = [
 
 function App(props) {
   const [headerHideMenu, setHeaderHideMenu] = useState(null)
+  const [isShowArrowUp, setIsShowArrowUp] = useState(false)
   // const [mainFixedMenu, setMainFixedMenu] = useState(false)
 
   const location = useLocation()
@@ -37,15 +38,20 @@ function App(props) {
   window.onscroll = () => {
     if (window.pageYOffset > 28) {
       setHeaderHideMenu(true)
-
     } else {
       setHeaderHideMenu(false)
+    }
+
+    if (window.pageYOffset > 300) {
+      setIsShowArrowUp(true)
+    } else {
+      setIsShowArrowUp(false)
     }
   }
 
 
   return (
-    <div className="app">
+    <div className={`app ${headerHideMenu ? 'minPadding' : 'padding'}`}>
 
       <div className="app__menubar">
         <HeaderMenu isHide={headerHideMenu}/>
@@ -57,7 +63,7 @@ function App(props) {
         <Switch>
 
           <Route exact path="/">
-            <Landing/>
+            <Landing showArrow={isShowArrowUp}/>
           </Route>
 
           <Route exact path="/teachers">

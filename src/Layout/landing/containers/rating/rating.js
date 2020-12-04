@@ -3,11 +3,6 @@ import './rating.scss'
 // import Tabs from '../../../landing/components/Tabs/tabs'
 import TableItem from '../../../landing/components/TableItem/TableItem'
 
-const ratingTabs = [
-  {title: 'ҰБТ', id: 1},
-  {title: 'НЗМ', id: 2},
-  {title: 'БИЛ', id: 3}
-]
 
 const tableItems = [
   {rating: 1, name: 'Student name', country: 'Almaty', school: 'School Name', coins: '99999'},
@@ -41,28 +36,6 @@ const Rating = () => {
       <div className="rating__container _container">
         <h3 className="rating__title">EduCoin рейтинг</h3>
 
-        <div className="ratingTabs__wrapper tabs">
-
-          {ratingTabs.map((item, index) => {
-            const tabClass = ['tabs__item']
-
-            if (index === 0) {
-              tabClass.push('active-tab')
-            }
-
-            return (
-              <div
-                className={tabClass.join(' ')}
-                data-tab="true"
-                data-tabid={item.title}
-                key={index}
-              >
-                {item.title}
-              </div>
-            )
-          })}
-
-        </div>
         <table className="rating__table rateTable">
           <thead className="rateTable__head">
           <tr className="rateTable__title rateTitle">

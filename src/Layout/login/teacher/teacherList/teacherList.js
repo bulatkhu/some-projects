@@ -1,20 +1,33 @@
 import React, {useEffect, useState} from 'react'
-import './teacherList.scoped.scss'
+import {connect} from 'react-redux'
 import {ChatIcon} from '../../../../images/general/menuIcons/infoIcon'
-import {Link} from 'react-router-dom'
+import {getChatMentors} from '../../../../request/apiRequests'
+import Loader from '../../../general/component/loader/loader'
+import './teacherList.scoped.scss'
 
 const listContent = [
   {
-    place: 1,
+    place: null,
     name: 'Name Name sd',
-    date: '15.01.2020',
-    courses: 2,
-    review: 13,
-    testResult: 10,
-    coins: 100000,
-    chat: 1,
-    status: 'онлайн'
+    date: null,
+    courses: null,
+    review: null,
+    testResult: null,
+    coins: null,
+    chat: null,
+    status: null
   },
+  // {
+  //   place: 1,
+  //   name: 'Name Name sd',
+  //   date: '15.01.2020',
+  //   courses: 2,
+  //   review: 13,
+  //   testResult: 10,
+  //   coins: 100000,
+  //   chat: 1,
+  //   status: 'онлайн'
+  // },
   {
     place: 2,
     name: 'Name Name a',
@@ -215,13 +228,53 @@ const counterState = {
   sortStatus: { touched: false, sort: false }
 }
 
-const TeacherList = () => {
+const TeacherList = ({type}) => {
   // eslint-disable-next-line no-unused-vars
   const [students, setStudents] = useState(listContent)
   const [secondList, setSecondList] = useState(listContent)
   const [counter, setCounter] = useState(counterState)
   const [inputValue, setInputValue] = useState(null)
   const [showMore, setShowMore] = useState(false)
+  const [isLoaded, setIsLoaded] = useState(false)
+
+
+  useEffect(() => {
+    try {
+
+     if (type) {
+
+       getChatMentors(type)
+         .then(res => {
+           const {students} = res.data
+
+           const newStudents = students.map(item => {
+             const student = {...item, ...item.user}
+             delete item.user
+             return student
+           })
+
+           // console.log('students', newStudents)
+
+           setStudents(newStudents)
+           setSecondList(newStudents)
+
+
+
+           setIsLoaded(true)
+         })
+         .catch(err => {
+           setIsLoaded(true)
+           throw new Error(err)
+         })
+
+
+     }
+
+
+    } catch (e) {
+      console.error('error mentor / teacher list', e)
+    }
+  },[type])
 
   const formatDate = (date) => {
     const newDate = date.split('.')
@@ -308,7 +361,6 @@ const TeacherList = () => {
 
   const onShowMoreHandler = () => setShowMore(prev => !prev)
 
-
   const onFilterList = (ev, info) => {
     ev.stopPropagation()
     ev.preventDefault()
@@ -388,6 +440,16 @@ const TeacherList = () => {
       return searchItem
     }
   })
+
+  if (!isLoaded) {
+    return (
+      <section className="list">
+
+        <Loader container/>
+
+      </section>
+    )
+  }
 
   return (
     <section className="list">
@@ -513,29 +575,26 @@ const TeacherList = () => {
 
           {
             filteredList.length
-              ? filteredList.slice(0,-1).map((item, index) => {
-
-              return (
-                <tr key={index} className="table__row">
-                  <td className="table__item">{item.place}</td>
-                  <td className="table__item">{item.name}</td>
-                  <td className="table__item">{item.date}</td>
-                  <td className="table__item">{item.courses}</td>
-                  <td className="table__item">{item.review}%</td>
-                  <td className="table__item">{item.testResult} балл</td>
-                  <td className="table__item">{item.coins} <span className="item__coin"/></td>
-                  <td className="table__item">
-                    <Link to={'/teacher/chat?' + item.place}>
-                      <span className="item__chat">
-                        <ChatIcon/>
-                        <span className="item__chatNumber">{item.chat}</span>
-                      </span>
-                    </Link>
-                  </td>
-                  <td className="table__item">{item.status}</td>
-                </tr>
-              )
-            })
+              ? filteredList.map((item, index) => {
+                  return (
+                    <tr key={index} className="table__row">
+                      <td className="table__item">{item.id}</td>
+                      <td className="table__item">{item.username}</td>
+                      <td className="table__item">{item.courseStartDate}</td>
+                      <td className="table__item">{item.coursesCount}</td>
+                      <td className="table__item">{item.review || 0}%</td>
+                      <td className="table__item">{item.lastQuizResult} балл</td>
+                      <td className="table__item">{item.credit} <span className="item__coin"/></td>
+                      <td className="table__item">
+                        <span className="item__chat">
+                            <ChatIcon/>
+                            <span className="item__chatNumber">{item.income}</span>
+                          </span>
+                      </td>
+                      <td className="table__item">{item.updated_at}</td>
+                    </tr>
+                  )
+                })
               : <tr>
                   <td/>
                   <td/>
@@ -554,19 +613,33 @@ const TeacherList = () => {
 
       </div>
 
-      <div className="rating__showMore">
-        <button
-          onClick={onShowMoreHandler}
-          className={['showMore__btn', 'btn', showMore ? 'btn__showed' : null].join(' ')}
-        >
-          Show More
-          <span className="btn__arrow"/>
-        </button>
-      </div>
+      {
+        secondList.length > 15
+          ? (
+            <div className="rating__showMore">
+              <button
+                onClick={onShowMoreHandler}
+                className={['showMore__btn', 'btn', showMore ? 'btn__showed' : null].join(' ')}
+              >
+                Show More
+                <span className="btn__arrow"/>
+              </button>
+            </div>
+          )
+          : null
+      }
 
     </section>
   )
 }
 
 
-export default TeacherList
+function mapStateToProps(state) {
+
+  return {
+    type: state.user.user.type
+  }
+}
+
+
+export default connect(mapStateToProps)(TeacherList)
