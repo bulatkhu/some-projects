@@ -1,6 +1,11 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import './headerMenu.scoped.scss'
 import { Transition } from 'react-transition-group'
+import {showModalLogin, showModalReg} from '../../../../redux/actions/menu/menuActionsFuncs'
+import {setUsersData} from '../../../../redux/actions/user/userActionsFuncs'
+import {connect} from 'react-redux'
+import {scrollBodyHandler} from '../../../../scripts/scrollController/scrollController'
+import {Link} from 'react-router-dom'
 
 const duration = 300;
 
@@ -18,10 +23,27 @@ const transitionStyles = {
 
 // ['headerMenu', isHide ? 'hide' : null].join(' ')
 
-const HeaderMenu = ({isHide}) => {
+const HeaderMenu = ({isHide, onShowLogin, onShowRegister, setUserData, menu, isAuth, user}) => {
+
+
+  // useEffect(() => {
+  //   if (!user && isAuth) {
+  //     setUserData()
+  //   }
+  //
+  //   // eslint-disable-next-line
+  // }, [user, isAuth])
+  // useEffect(() => {
+  //   if (menu.showRegisterModal || menu.showLoginModal || menu.showPassModal) {
+  //     scrollBodyHandler.lock()
+  //   } else {
+  //     scrollBodyHandler.unLock()
+  //   }
+  // }, [menu])
+
 
   return (
-    <Transition in={!isHide} timeout={duration}>
+    <Transition in={isHide} timeout={duration}>
       {state => (
         <section style={{
           ...defaultStyle,
@@ -56,8 +78,19 @@ const HeaderMenu = ({isHide}) => {
 
                   <div className="headerMenu__buttons headerMenu-btns headerMenu-btns__interface">
 
-                    <button className="headerMenu-btns__signIn">Кіру</button>
-                    <button className="headerMenu-btns__login">Тіркелу</button>
+
+
+                    {isAuth && user
+                      ? <Link to={user.type || '/student'}>
+                          <div>
+                            Photo
+                          </div>
+                        </Link>
+                      : <>
+                          <button onClick={() => onShowLogin()} className="headerMenu-btns__signIn">Кіру</button>
+                          <button onClick={() => onShowRegister()} className="headerMenu-btns__login">Тіркелу</button>
+                        </>
+                    }
 
                   </div>
 
@@ -72,4 +105,22 @@ const HeaderMenu = ({isHide}) => {
   )
 }
 
-export default HeaderMenu
+const mapStateToProps = state => {
+  return {
+    menu: state.menu,
+    isAuth: state.auth.isAuthenticated,
+    user: state.user.user ? state.user.user : null
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+
+  return {
+    onShowLogin: () => dispatch(showModalLogin()),
+    onShowRegister: () => dispatch(showModalReg()),
+    setUserData: () => dispatch(setUsersData())
+  }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderMenu)

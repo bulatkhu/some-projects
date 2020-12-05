@@ -55,17 +55,6 @@ const Features = () => {
     <section className="features">
 
       <div className="features__container _container">
-        {/*<div className="features__content">*/}
-        {/*  {FeatureBoxes.map((item, index) => (*/}
-        {/*    <FeatureBox*/}
-        {/*      key={index}*/}
-        {/*      icon={item.icon}*/}
-        {/*      title={item.title}*/}
-        {/*      text={item.text}*/}
-        {/*    />*/}
-        {/*  ))}*/}
-        {/*</div>*/}
-
         <h3 className="features__title">
           <span>Неліктен EduCon.online?</span>
         </h3>

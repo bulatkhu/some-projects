@@ -1,4 +1,4 @@
-import React, {useState, useLayoutEffect} from 'react'
+import React, {useState, useLayoutEffect, useEffect} from 'react'
 import {Switch, Route, useLocation} from 'react-router-dom'
 import {connect} from 'react-redux'
 import Menu from './Layout/landing/containers/menu/menu'
@@ -26,20 +26,26 @@ const menuLinks = [
 ]
 
 function App(props) {
-  const [headerHideMenu, setHeaderHideMenu] = useState(null)
+  const [isShowHeaderMenu, setIsShowHeaderMenu] = useState(true)
   const [isShowArrowUp, setIsShowArrowUp] = useState(false)
-  // const [mainFixedMenu, setMainFixedMenu] = useState(false)
 
-  const location = useLocation()
-  useLayoutEffect(() => {
-    window.scrollTo(0, 0)
-  }, [location.pathname])
+  useEffect(() => {
+
+    console.log(isShowHeaderMenu)
+
+  },[isShowHeaderMenu])
 
   window.onscroll = () => {
+
+    console.log('scroll', window.pageYOffset)
+
     if (window.pageYOffset > 28) {
-      setHeaderHideMenu(true)
+
+      console.log('window.pageYOffset > 28')
+
+      setIsShowHeaderMenu(true)
     } else {
-      setHeaderHideMenu(false)
+      setIsShowHeaderMenu(false)
     }
 
     if (window.pageYOffset > 300) {
@@ -51,10 +57,10 @@ function App(props) {
 
 
   return (
-    <div className={`app ${headerHideMenu ? 'minPadding' : 'padding'}`}>
+    <div className={`app ${isShowHeaderMenu ? 'padding' : 'minPadding'}`}>
 
       <div className="app__menubar">
-        <HeaderMenu isHide={headerHideMenu}/>
+        <HeaderMenu isHide={isShowHeaderMenu}/>
         <Menu links={menuLinks} isSignIn={false}/>
       </div>
 
