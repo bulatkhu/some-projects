@@ -8,8 +8,6 @@ import LoaderContainer from '../container/loaderContainer/loaderContainer'
 import {getDetailCourse} from '../../../request/apiRequests'
 
 
-
-
 const Subject = ({container, match}) => {
   const [response, setResponse] = useState({})
   const [isLoaded, setIsLoaded] = useState(false)

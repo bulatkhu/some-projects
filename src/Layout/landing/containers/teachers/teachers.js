@@ -1,8 +1,12 @@
-import React, {useRef} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import Slider from 'react-slick'
 import photo1 from '../../../../images/landing/teachers/teacher-photo1.jpg'
 import 'slick-carousel/slick/slick.css'
 import './teachers.scoped.scss'
+import {apiGetTeachers} from '../../../../request/apiTeacher'
+import {getFromUserMeta} from '../../../../scripts/dataHandler/dataHandler'
+import {SITE_BASE_URL} from '../../../../app.config'
+import NoPhoto from '../../../../images/general/noPhoto/noPhoto'
 
 
 const teacherList = [
@@ -55,9 +59,37 @@ const settings = {
   ]
 }
 
+const teachersToShowList = teachers => {
+  return teachers.map(({id, user}) => {
+    const avatar = getFromUserMeta(user, 'avatar')
+    const img = avatar ? SITE_BASE_URL + avatar : null
+    return {
+      id: id,
+      name: user.username,
+      img,
+      subject: user.subject
+    }
+  })
+}
 
 const Teachers = () => {
   const refToSlider = useRef(null)
+  const [teachers, setTeachers] = useState(teacherList)
+
+  useEffect(() => {
+
+    apiGetTeachers()
+      .then(res => {
+        if (!res.error && res.data.teachers.length) {
+
+          // console.log('res of teachers', res.data.teachers)
+          // console.log('res of teachers showList', teachersToShowList(res.data.teachers))
+          setTeachers(teachersToShowList(res.data.teachers))
+
+        }
+      })
+
+  }, [])
 
 
   return (
@@ -72,20 +104,29 @@ const Teachers = () => {
           <button
             onClick={() => refToSlider.current.slickPrev()}
             className="teachers__btn btn btn__prev btn__noFocus"
-          >prev</button>
+          >prev
+          </button>
 
           <Slider ref={refToSlider} {...settings}>
-            {teacherList.map((item, index) => {
+            {teachers.map((item, index) => {
 
               return (
                 <div key={index} className="slider__item">
                   <div className="slider__wrapper">
                     <div className="slider__img">
-                      <img src={item.img} alt="teacher"/>
+                      {
+                        item.img
+                          ? <img src={item.img} alt="teacher"/>
+                          : <NoPhoto/>
+                      }
                     </div>
                     <h4 className="slider__name">{item.name}</h4>
 
-                    <p className="slider__subject">{item.subject}</p>
+                    {
+                      item.subject
+                        ? <p className="slider__subject">{item.subject}</p>
+                        : null
+                    }
                   </div>
                 </div>
               )
@@ -96,7 +137,8 @@ const Teachers = () => {
           <button
             onClick={() => refToSlider.current.slickNext()}
             className="teachers__btn btn btn__next btn__noFocus"
-          >next</button>
+          >next
+          </button>
 
         </div>
 

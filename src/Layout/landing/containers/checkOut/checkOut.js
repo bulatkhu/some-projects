@@ -2,19 +2,14 @@ import React, {useEffect, useState} from 'react'
 import Select from 'react-select'
 import {Transition} from 'react-transition-group'
 import {scrollBodyHandler} from '../../../../scripts/scrollController/scrollController'
-// import subjectIMG1 from '../../../../images/general/courses/tab-thing1.jpg'
-// import subjectIMG2 from '../../../../images/general/courses/tab-thing2.jpg'
-// import Stars from '../../../general/stars/stars'
 import kaspiBank from '../../../../images/landing/checkBoxes/bankKaspi.svg'
 import bankCard from '../../../../images/landing/checkBoxes/bankCard.svg'
 import roundAdd from '../../../../images/landing/checkBoxes/roundAdd.svg'
-// import ThingCard from '../../components/ThingCard/ThingCard'
-// import {isEmpty} from '../../../../scripts/isEmpty/isEmpty'
-import './checkOut.scoped.scss'
 import {createPayment} from '../../../../request/apiPayment'
 import {SITE_BASE_URL} from '../../../../app.config'
 import ThingCard from '../../components/ThingCard/ThingCard'
 import Payment from '../payment/payment'
+import './checkOut.scoped.scss'
 
 function CoursesOverplay({text, onClick}) {
 
@@ -45,7 +40,7 @@ function combinationsToOption(combination) {
 
       return {
         relationId: course.relation_id,
-        id: course.id,
+        id: course.content_id,
         title: course.content.title,
         img
       }
@@ -173,6 +168,13 @@ const CheckOut = ({type, show, info, courses}) => {
     }
   },[currentCourses])
 
+  useEffect(() => {
+
+    console.log('currentCoursesSelect', currentCoursesSelect)
+
+
+  },[currentCoursesSelect])
+
 
   useEffect(() => {
 
@@ -201,8 +203,6 @@ const CheckOut = ({type, show, info, courses}) => {
 
     createPayment(data)
       .then(res => {
-
-        console.log('create payment', res)
 
         if (+res.data.status === 1) {
 
@@ -327,7 +327,7 @@ const CheckOut = ({type, show, info, courses}) => {
                             currentCoursesSelect.courses.map((item, key) => (
                               <ThingCard key={key} course={{
                                 title: item.label || item.title,
-                                id: item.content_id,
+                                id: item.id,
                                 img: item.img
                               }}/>
                             ))

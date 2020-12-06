@@ -397,13 +397,44 @@
   }
 }
 
-.subjectTabs {
+.subject-tab {
+  color: #626267;
+  border-radius: 10px;
+  background-color: #E0E0E0;
 
   &__header {
+    border-radius: 10px 10px 0 0;
+    overflow: hidden;
+    background-color: #fff;
+  }
 
+  &__headerItem {
+    background-color: transparent;
+    padding: 10px 28px;
+    transition: all .3s;
+    border: none;
+    font-size: 18px;
+    line-height: 21px;
+    color: #626267;
+
+    &.active {
+      background-color: #E0E0E0;
+      border-radius: 10px 10px 0 0;
+    }
   }
 
   &__body {
+    padding: 27px 47px;
+    position: relative;
+  }
+
+  &__content {
 
   }
 }
+
+
+
+
+
+

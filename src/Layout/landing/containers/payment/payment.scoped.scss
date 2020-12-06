@@ -82,7 +82,20 @@
     margin-right: 26px;
   }
 
+  &__process {
+    min-width: 22px;
+    width: 22px;
+    min-height: 22px;
+    height: 22px;
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    background: #fff url("../../../../images/landing/payment/process-icon.svg") center no-repeat;
+  }
+
   &__status {
+    position: relative;
     display: inline-block;
     padding: 3px 43px 3px 14px;
     border-radius: 5px;
@@ -90,9 +103,31 @@
     line-height: 150%;
     text-align: center;
     color: #FF5773;
-    background: #fff url("../../../../images/landing/payment/process-icon.svg") 94% center no-repeat;
     border: none;
+    background-color: #fff;
 
+    &.process {
+
+      .results-price__process {
+        top: 20%;
+        animation: processAnimation 1s infinite;
+      }
+    }
+
+    &.active {
+
+      color: #04CC00;
+
+    }
+  }
+}
+
+@keyframes processAnimation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(365deg);
   }
 }
 

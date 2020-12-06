@@ -10,10 +10,16 @@ export async function createPayment(data) {
     return {
       data: {
         status: 401,
-        error: 'Invalid token, please log in'
+        error: 'Курс сатып алу үшін тіркеліп сайтқа кіріңіз'
       }
     }
   }
 
   return axios.post(`${APP_BASE_URL}/payment/create`, { ...data, token })
+}
+
+
+export async function checkPayment(id) {
+
+  return axios.get(`${APP_BASE_URL}/getTransaction/${ id }`)
 }

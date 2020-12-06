@@ -1,5 +1,4 @@
 import React from 'react'
-// import Stars from '../../../general/stars/stars'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {SITE_BASE_URL} from '../../../../app.config'
@@ -58,16 +57,7 @@ const ThingCard = ({activeTab, course}) => {
               : <NoPhoto style={stylesForNoPhoto}/>
           }
         </div>
-
-        {/*<Stars*/}
-        {/*  className="bottom__item_mark"*/}
-        {/*  classNameOfValue=""*/}
-        {/*  rating={5}*/}
-        {/*/>*/}
-        {/*<div className="bottom__item_price item_price">*/}
-        {/*  <span className="item_price__current">{`${price} ${currency}`}</span>*/}
-        {/*</div>*/}
-        <Link to={"/subject/" + id} className="btn__shadowFromNull bottom__item_button item_button">
+        <Link to={"/subject/" + id} target="_blank" className="btn__shadowFromNull bottom__item_button item_button">
           Толығырақ
         </Link>
       </div>

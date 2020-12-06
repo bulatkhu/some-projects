@@ -1,36 +1,52 @@
 import React, {useEffect, useState} from 'react'
+import {checkPayment} from '../../../../request/apiPayment'
 import './payment.scoped.scss'
 
 
-
 const Payment = ({type, data}) => {
-  const [dataState, setDataState] = useState(data)
-
-  useEffect(() => {
-
-    console.log('dataState', dataState)
-
-  },[dataState])
-
-
-  console.log('link', data.link)
-  console.log('data', data)
   const {id, order_type, transaction: {price, bank, post__feedback}} = data.transaction
-  //
-  // console.log('order_type', order_type)
-
+  const [feedbackState, setFeedbackState] = useState(post__feedback)
+  const [reqInProcess, setReqInProcess] = useState(false)
   const courses = data.transaction.content_group.map(item => item.content.title).join(', ')
+  let orderTypeToShow = order_type
+  let bankToShow = bank
 
+  if (order_type.toLowerCase() === 'main') {
+    orderTypeToShow = 'Негізгі пәндер'
+  } else if (order_type.toLowerCase() === 'profs') {
+    orderTypeToShow = 'Бейіндік пәндер'
+  } else if (order_type.toLowerCase() === 'combo') {
+    orderTypeToShow = 'COMBO'
+  }
 
-  const sendRequest = () => {
-
-    console.log('send request, with data', data, type)
-
+  if (bank === 'credit') {
+    bankToShow = 'Банк картасы'
+  } else if (bank === 'kaspi') {
+    bankToShow = 'Kaspi.kz'
   }
 
 
+  useEffect(() => {
 
-  console.log('courses', courses)
+    console.log('feedback', feedbackState)
+
+  }, [feedbackState])
+
+  const sendRequest = () => {
+    setReqInProcess(true)
+
+    checkPayment(id)
+      .then(res => {
+        if (+res.data.status === 1) {
+          const {data: {post_feedback}} = res.data
+          setTimeout(() => {
+            setReqInProcess(false)
+            setFeedbackState(post_feedback)
+          }, 1000)
+        }
+      })
+
+  }
 
   if (bank === 'credit') {
     return (
@@ -39,7 +55,7 @@ const Payment = ({type, data}) => {
           <p className="results__content"><span className="results__column">Тапсырыс нөмірі: </span>
             <span className="results__column"><span className="results__amount">{id}</span></span></p>
           <p className="results__content"><span className="results__column">ҰБТ-ға дайындық курсы: </span>
-            <span className="results__column">{order_type}</span></p>
+            <span className="results__column">{orderTypeToShow}</span></p>
 
 
           <p className="results__content"><span className="results__column">Курс тілі: </span>
@@ -66,18 +82,18 @@ const Payment = ({type, data}) => {
           <p className="results__content"><span className="results__column">Төленген сомма:</span>
             <span className="results__column">{price}₸</span></p>
           <p className="results__content"><span className="results__column">Төлем түрі: </span>
-            <span className="results__column">{type}</span></p>
+            <span className="results__column">{bankToShow}</span></p>
         </div>
 
-        <p className="text-center results__description">*Түбіртек “Төлемдер” бөлімінде сақталды.</p>
+        {/*<p className="text-center results__description">*Түбіртек “Төлемдер” бөлімінде сақталды.</p>*/}
         <div className="text-center">
-          <a target="_blank" rel="noopener noreferrer" href={data.link} className="results__button">Pay</a>
+          <a target="_blank" rel="noopener noreferrer" href={data.link} className="results__button">Төлеу</a>
         </div>
       </div>
     )
   } else if (bank === 'kaspi') {
 
-    return  (
+    return (
       <div className="results">
 
         <div className="results__info">
@@ -85,7 +101,7 @@ const Payment = ({type, data}) => {
             <span className="results__column"><span className="results__amount active">{id}</span></span>
           </p>
           <p className="results__content"><span className="results__column">ҰБТ-ға дайындық курсы: </span>
-            <span className="results__column">{order_type}</span></p>
+            <span className="results__column">{orderTypeToShow}</span></p>
           <p className="results__content"><span className="results__column">Курс тілі: </span>
             <span className="results__column">{data.lang}</span></p>
           {
@@ -108,10 +124,22 @@ const Payment = ({type, data}) => {
           <p className="results__content"><span className="results__column">Оқу ақысы: </span>
             <span className="results__column results-price">
               <span className="results-price__numbers">{price}₸</span>
-              <button onClick={sendRequest} className={`results-price__status btn__shadowFromNull ${post__feedback ? 'active' : null}`}>Төлем жасалынбады</button>
+              <button
+                onClick={sendRequest}
+                className={
+                  [
+                    'results-price__status',
+                    'btn__shadowFromNull',
+                    +feedbackState === 1 ? 'active' : null,
+                    reqInProcess ? 'process' : null
+                  ].join(' ')
+                }
+              >{+feedbackState === 1 ? 'Төлем сәтті жасалды' : 'Төлем жасалынбады'}
+                <span className="results-price__process"/>
+              </button>
             </span></p>
           <p className="results__content"><span className="results__column">Төлем түрі: </span>
-            <span className="results__column">{type}</span></p>
+            <span className="results__column">{bankToShow}</span></p>
         </div>
 
         <div className="results__block resultsBlock">

@@ -1,23 +1,9 @@
 import React, {useEffect, useState} from 'react'
-import './teacherPage.scss'
 // import teacherIcon from '../../../images/general/teacher/teacher-icon.jpg'
 import telegramIcon from '../../../images/general/teacher/telegram-svg.svg'
 import instagramIcon from '../../../images/general/teacher/instagram-svg.svg'
 import whatsappIcon from '../../../images/general/teacher/whatsapp-svg.svg'
-
 import videoIcon from '../../../images/general/teacher/video-img.jpg'
-// import tabItem1 from '../../../images/general/courses/tab-thing1.jpg'
-// import tabItem2 from '../../../images/general/courses/tab-thing2.jpg'
-// import tabItem3 from '../../../images/general/courses/tab-thing3.jpg'
-// import tabItem4 from '../../../images/general/courses/tab-thing4.jpg'
-// import tabItem5 from '../../../images/general/courses/tab-thing5.jpg'
-// import tabItem6 from '../../../images/general/courses/tab-thing6.jpg'
-// import tabItem7 from '../../../images/general/courses/tab-thing7.jpg'
-// import tabItem8 from '../../../images/general/courses/tab-thing8.jpg'
-// import tabItem9 from '../../../images/general/courses/tab-thing9.jpg'
-// import tabItem10 from '../../../images/general/courses/tab-thing10.jpg'
-// import ThingCard from '../../landing/components/ThingCard/ThingCard'
-//
 import studentsIcon from '../../../images/general/teacher/students-icon.jpg'
 import Stars from '../stars/stars'
 import {apiGetTeacherById, apiGetTeacherComments} from '../../../request/apiTeacher'
@@ -26,6 +12,7 @@ import {SITE_BASE_URL} from '../../../app.config'
 import {getFromUserMeta} from '../../../scripts/dataHandler/dataHandler'
 import NoPhoto from '../../../images/general/noPhoto/noPhoto'
 import AddComment from '../../login/components/addComment/addComment'
+import './teacherPage.scss'
 
 
 const commentsInfo = [
@@ -85,8 +72,7 @@ const TeacherPage = ({match: {params: {id}}}) => {
           }
           const {teacher} = res.data
           setLoading(false)
-          setTeacher(teacher)
-          // console.log('success:', teacher)
+          setTeacher(teacher[0].user)
         })
 
       apiGetTeacherComments(id)
@@ -172,8 +158,6 @@ const TeacherPage = ({match: {params: {id}}}) => {
 
                         <div className="teacherDescr__top">
                           <h1 className="teacherDescr__name">{teacher.username}</h1>
-
-                          {/*<h2 className="teacherDescr__qualification">A certified instructor From Bootcamp</h2>*/}
                           <h2 className="teacherDescr__qualification">E-mail: {teacher.email}</h2>
 
                           <div className="teacherDescr__wrapper">
