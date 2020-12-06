@@ -112,10 +112,11 @@ function Course() {
           getQuizById(13)
             .then(res => {
               const {questions, duration} = res.data
+              const rightQuestions = questions && questions.length ? questions : res.data[0]
 
               console.log('res data', res.data)
 
-              const newTestItems = questions.map(item => {
+              const newTestItems = rightQuestions.map(item => {
                 return {
                   multiple: !!item.is_multiple,
                   text: item.question,

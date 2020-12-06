@@ -1,5 +1,5 @@
-import React, {useState, useLayoutEffect, useEffect} from 'react'
-import {Switch, Route, useLocation} from 'react-router-dom'
+import React, {useState} from 'react'
+import {Switch, Route} from 'react-router-dom'
 import {connect} from 'react-redux'
 import Menu from './Layout/landing/containers/menu/menu'
 import Footer from './Layout/landing/containers/footer/footer'
@@ -17,35 +17,24 @@ import './App.scss'
 
 
 const menuLinks = [
-  {name: 'Негізгі', to: '/'},
-  {name: 'Ұстаздар', to: '/teachers'},
-  {name: 'Курстар', to: '/'},
-  {name: 'Материалдар', to: '/materials'},
-  {name: 'Блог', to: '/'},
-  {name: 'EduCoin', to: '/educoin-page'},
+  {name: 'Басты бет', to: '/'},
+  {name: 'Неліктен EduCon', to: '/'},
+  {name: 'Курстарымыз', to: '/'},
+  {name: 'Үзінділер', to: '/'},
+  {name: 'Оқу ақысы', to: '/teachers'},
+  {name: 'Басқалары', to: '/materials'},
+  {name: 'Байланыс', to: '/'},
 ]
 
 function App(props) {
   const [isShowHeaderMenu, setIsShowHeaderMenu] = useState(true)
   const [isShowArrowUp, setIsShowArrowUp] = useState(false)
 
-  useEffect(() => {
-
-    console.log(isShowHeaderMenu)
-
-  },[isShowHeaderMenu])
-
   window.onscroll = () => {
-
-    console.log('scroll', window.pageYOffset)
-
     if (window.pageYOffset > 28) {
-
-      console.log('window.pageYOffset > 28')
-
-      setIsShowHeaderMenu(true)
-    } else {
       setIsShowHeaderMenu(false)
+    } else {
+      setIsShowHeaderMenu(true)
     }
 
     if (window.pageYOffset > 300) {

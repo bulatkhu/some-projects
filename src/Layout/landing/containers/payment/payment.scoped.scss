@@ -1,0 +1,126 @@
+.results {
+  width: 80%;
+  margin: auto;
+  color: #626267;
+  padding-top: 20px;
+
+  @media (max-width: 767px) {
+    width: 100%;
+  }
+
+  &__info {
+    margin-bottom: 15px;
+
+    &.textLeft {
+      p > span:first-child {
+        text-align: left;
+      }
+    }
+  }
+
+  &__content {
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+  }
+
+  &__button {
+    font-size: 20px;
+    padding: 10px 20px;
+    background: #FF3870;
+    color: #fff;
+    border: none;
+    display: inline-block;
+    border-radius: 5px;
+    min-width: 130px;
+    margin: auto;
+  }
+
+  &__column {
+    flex-basis: 48%;
+    font-weight: normal;
+    font-size: 26px;
+    color: #626267;
+
+    @media (max-width: 767px) {
+      font-size: 15px;
+    }
+
+    &:first-child {
+      text-align: right;
+    }
+
+    &:last-child {
+      font-weight: 500;
+    }
+  }
+
+  &__amount {
+    display: inline-block;
+
+    &.active {
+      padding: 3px 7px;
+      background: #ff5773;
+      border-radius: 5px;
+      color: #fff;
+    }
+  }
+
+  &__description {
+    margin-top: 40px;
+    font-size: 26px;
+
+    @media (max-width: 767px) {
+      font-size: 20px;
+    }
+  }
+}
+
+.results-price {
+
+  &__numbers {
+    margin-right: 26px;
+  }
+
+  &__status {
+    display: inline-block;
+    padding: 3px 43px 3px 14px;
+    border-radius: 5px;
+    font-size: 20px;
+    line-height: 150%;
+    text-align: center;
+    color: #FF5773;
+    background: #fff url("../../../../images/landing/payment/process-icon.svg") 94% center no-repeat;
+    border: none;
+
+  }
+}
+
+.resultsBlock {
+  font-size: 20px;
+  padding: 38px 41px;
+  background: #fff;
+  border-radius: 5px;
+
+  @media (max-width: 767px) {
+    padding: 10px;
+    font-size: 15px;
+  }
+
+  &__wrapper {
+    &:not(:last-child) {
+      margin-bottom: 30px;
+    }
+  }
+
+  &__title {
+    margin: 0 0 5px 0;
+  }
+
+  &__text {
+    margin: 0 0 5px 0;
+  }
+  &__link {
+
+  }
+}

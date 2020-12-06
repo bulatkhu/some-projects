@@ -29,6 +29,7 @@ function TeacherLittleBox({id, img, user}) {
 const TeachersRoute = () => {
   const [teachers, setTeachers] = useState([])
   const [loading, setLoading] = useState(true)
+  const [isError, setError] = useState(false)
 
 
   useEffect(() => {
@@ -37,12 +38,14 @@ const TeachersRoute = () => {
       .then(res => {
         if (res.error) {
           setLoading(false)
-          return console.log('error:', res)
+          setError(res.response.data.message)
+          return console.log('error:', res.response.data.message)
         }
 
         const {teachers} = res.data
         console.log('success:', teachers)
         setLoading(false)
+        setError(false)
         setTeachers(teachers)
       })
 
@@ -55,10 +58,11 @@ const TeachersRoute = () => {
       <div className="teachersRoute__container _container">
         <h1 className="teachersRoute__title">Ұстаздар</h1>
 
-
         {loading
           ? <Loader container/>
-          : <div className="teachersRoute__content">
+          : isError
+            ? <div style={{minHeight: '20vh', color: 'red', fontSize: 20}}>Error: {isError}</div>
+            : <div className="teachersRoute__content">
               {teachers.map(({id, user}, index) => {
                 const img = getFromUserMeta(user, 'avatar')
 

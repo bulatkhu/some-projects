@@ -9,34 +9,13 @@ import {scrollBodyHandler} from '../../../../scripts/scrollController/scrollCont
 import ModalPortal from '../../../modals/ModalPortal/ModalPortal'
 import ModalPass from '../../../modals/ModalPass/ModalPass'
 import {setUsersData} from '../../../../redux/actions/user/userActionsFuncs'
-import {SITE_BASE_URL} from '../../../../app.config'
-import NoPhoto from '../../../../images/general/noPhoto/noPhoto'
 import './menu.scss'
 
 
-const noPhotoStyles = {
-  height: '100%',
-  width: '100%',
-  background: 'rgb(204, 204, 204)',
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  position: 'absolute',
-  top: '0px',
-  left: '0px',
-  color: 'rgb(98, 98, 103)',
-}
-
-
 const Menu = props => {
-  const {links, menu, user, setUserData, isAuth} = props
+  const {links, menu} = props
   const [showMobileMenu, setShowMobileMenu] = useState(false)
 
-  useEffect(() => {
-    if (!user && isAuth) {
-      setUserData()
-    }
-  }, [user, isAuth, setUserData])
   useEffect(() => {
     if (menu.showRegisterModal || menu.showLoginModal ||
       menu.showPassModal || showMobileMenu) {
@@ -55,13 +34,6 @@ const Menu = props => {
   if (showMobileMenu) {
     menuClasses.push('active')
   }
-
-
-  let urlForIMG = '/student'
-  if (user) {
-    urlForIMG = '/' + user.type
-  }
-
 
   return (
     <div className="menu__wrapper">
@@ -95,33 +67,6 @@ const Menu = props => {
                   )}
                 </ul>
               </nav>
-            </div>
-            <div className="menu__login login">
-              <select className="login__column login__lang">
-                <option value="kz">KZ</option>
-                <option value="ru">RU</option>
-              </select>
-              {
-                props.isAuth && user
-
-                  ? <>
-                    <Link to={urlForIMG} className="login__avatar">
-                      {
-                        user && user.localAvatar
-                          ? <img src={SITE_BASE_URL + user.localAvatar} alt="Avatar"/>
-                          : <NoPhoto style={{...noPhotoStyles, fontSize: '8px'}}/>
-                      }
-                    </Link>
-                  </>
-
-                  : <>
-                    <button onClick={() => props.onShowLogin()}
-                            className="login__column login__card login__card__icon">Кіру
-                    </button>
-                    <button onClick={() => props.onShowRegister()} className="login__column login__button">Тіркелу
-                    </button>
-                  </>
-              }
             </div>
           </div>
         </div>

@@ -7,7 +7,12 @@ export async function createPayment(data) {
   const token = getToken()
 
   if (!token) {
-    return 'invalid token'
+    return {
+      data: {
+        status: 401,
+        error: 'Invalid token, please log in'
+      }
+    }
   }
 
   return axios.post(`${APP_BASE_URL}/payment/create`, { ...data, token })

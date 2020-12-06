@@ -42,8 +42,7 @@ const Prices = () => {
       { courses && (
           <ModalPortal>
             <CheckOut
-              combinations={courses.combinations}
-              rowCourses={courses.main}
+              courses={courses}
               type={showCheckOut.type}
               info={showCheckOut}
               show={setShowCheckOut}
@@ -197,7 +196,7 @@ const Prices = () => {
                     </div>
 
                     <div className="topTableFirst__column">
-                      <button onClick={() => onShowCheckOut('optional')} className="topTableFirst__button btn__shadowFromNull">
+                      <button onClick={() => onShowCheckOut('profs')} className="topTableFirst__button btn__shadowFromNull">
                         <span className="topTableFirst__text">Таңдау</span>
                       </button>
                     </div>

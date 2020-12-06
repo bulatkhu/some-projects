@@ -8,17 +8,20 @@ import {scrollBodyHandler} from '../../../../scripts/scrollController/scrollCont
 import kaspiBank from '../../../../images/landing/checkBoxes/bankKaspi.svg'
 import bankCard from '../../../../images/landing/checkBoxes/bankCard.svg'
 import roundAdd from '../../../../images/landing/checkBoxes/roundAdd.svg'
-import ThingCard from '../../components/ThingCard/ThingCard'
-import {isEmpty} from '../../../../scripts/isEmpty/isEmpty'
+// import ThingCard from '../../components/ThingCard/ThingCard'
+// import {isEmpty} from '../../../../scripts/isEmpty/isEmpty'
 import './checkOut.scoped.scss'
 import {createPayment} from '../../../../request/apiPayment'
+import {SITE_BASE_URL} from '../../../../app.config'
+import ThingCard from '../../components/ThingCard/ThingCard'
+import Payment from '../payment/payment'
 
-function CoursesOverplay() {
+function CoursesOverplay({text, onClick}) {
 
   return (
-    <div className="checkOut-subject__overlay subOverlay">
+    <div onClick={onClick} className="checkOut-subject__overlay subOverlay">
       <p className="subOverlay__text">
-        Негізгі пәндерді қосу арқылы 5 990₸ эконом жасаңыз.
+        {text}
       </p>
 
       <button className="subOverlay__btn subOverlayBtn">
@@ -32,118 +35,62 @@ function CoursesOverplay() {
   )
 }
 
-function genCoursesDescription(type) {
+function combinationsToOption(combination) {
 
-  if (type === 'combo') {
-    return (
-      <div className="about">
-        <p className="about__row">
-          <span className="about__column">Курс: </span>
-          <span className="about__column">COMBO</span>
-          <input className="hidden" readOnly type="text" name="type" value={type}/>
-        </p>
-        <p className="about__row">
-          <span className="about__column">Тілі: </span>
-          <span className="about__column">Қазақша</span>
-        </p>
-        <p className="about__row">
-          <span className="about__column">Бейіндік: </span>
-          <span className="about__column">Физика Математика</span>
-        </p>
-        <p className="about__row">
-          <span className="about__column">Негізгі:</span>
-          <span className="about__column">Оқу сауаттылығы
-          Математикалық сауаттылық Қазақстан тарихы</span>
-        </p>
-        <p className="about__row">
-          <span className="about__column">Жалпы сомма: </span>
-          <span className="about__column">44 990₸</span>
-          <input className="hidden" readOnly type="text" name="price" value="44990"/>
-        </p>
-      </div>
-    )
-  } else if (type === 'main') {
-    return (
-      <div className="about">
-        <p className="about__row">
-          <span className="about__column">Курс: </span>
-          <span className="about__column">Негізгі пәндер</span>
-          <input className="hidden" readOnly type="text" name="type" value={type}/>
-        </p>
-        <p className="about__row">
-          <span className="about__column">Тілі: </span>
-          <span className="about__column">Қазақша</span>
-        </p>
-        <p className="about__row">
-          <span className="about__column">Бейіндік: </span>
-          <span className="about__column">Физика Математика</span>
-        </p>
-        <p className="about__row">
-          <span className="about__column">Негізгі:</span>
-          <span className="about__column">Оқу сауаттылығы
-          Математикалық сауаттылық Қазақстан тарихы</span>
-        </p>
-        <p className="about__row">
-          <span className="about__column">Жалпы сомма: </span>
-          <span className="about__column">22 990₸</span>
-          <input className="hidden" readOnly type="text" name="price" value="22990"/>
-        </p>
-      </div>
-    )
-  } else if (type === 'optional') {
-    return (
-      <div className="about">
-        <p className="about__row">
-          <span className="about__column">Курс: </span>
-          <span className="about__column">Бейіндік пәндер</span>
-          <input className="hidden" readOnly type="text" name="type" value="profs"/>
-        </p>
-        <p className="about__row">
-          <span className="about__column">Тілі: </span>
-          <span className="about__column">Қазақша</span>
-        </p>
-        <p className="about__row">
-          <span className="about__column">Бейіндік: </span>
-          <span className="about__column">Физика Математика</span>
-        </p>
-        <p className="about__row">
-          <span className="about__column">Негізгі:</span>
-          <span className="about__column">Оқу сауаттылығы
-          Математикалық сауаттылық Қазақстан тарихы</span>
-        </p>
-        <p className="about__row">
-          <span className="about__column">Жалпы сомма: </span>
-          <span className="about__column">27 990₸</span>
-          <input className="hidden" readOnly type="text" name="price" value="27990"/>
-        </p>
-      </div>
-    )
-  }
+  const options = Object.keys(combination).map(item => ({
+    label: `${combination[item][0].content.title} - ${combination[item][1].content.title}`,
+    option: item,
+    courses: combination[item].map(course => {
+      const img = course.content.category.image ? SITE_BASE_URL + course.content.category.image : null
+
+      return {
+        relationId: course.relation_id,
+        id: course.id,
+        title: course.content.title,
+        img
+      }
+    })
+  }))
+
+  return options
+}
+
+function genCoursesDescription({type, lang, main, selectCourses, price, title}) {
+  const textSelectCourses = selectCourses.label.toString().split(' - ').join(', ')
+  const textMainCourses = main.map(item => item.content.title).join(', ')
 
   return (
     <div className="about">
       <p className="about__row">
         <span className="about__column">Курс: </span>
-        <span className="about__column">COMBO</span>
-        <input className="hidden" readOnly type="text" name="type" value={type}/>
+        <span className="about__column">{title}</span>
+        {type ? <input className="hidden" readOnly type="text" name="type" value={type}/> : null}
       </p>
       <p className="about__row">
         <span className="about__column">Тілі: </span>
-        <span className="about__column">Қазақша</span>
+        <span className="about__column">{lang === 'ru' ? 'Орысша' : 'Қазақша'}</span>
+        <input className="hidden" readOnly type="text" name="lang" value={lang === 'ru' ? 'Орысша' : 'Қазақша'}/>
       </p>
-      <p className="about__row">
-        <span className="about__column">Бейіндік: </span>
-        <span className="about__column">Физика Математика</span>
-      </p>
-      <p className="about__row">
-        <span className="about__column">Негізгі:</span>
-        <span className="about__column">Оқу сауаттылығы
-          Математикалық сауаттылық Қазақстан тарихы</span>
-      </p>
+      {
+        type !== 'main' ? (
+          <p className="about__row">
+            <span className="about__column">Бейіндік: </span>
+            <span className="about__column">{textSelectCourses}</span>
+          </p>
+        ) : null
+      }
+      {
+        type !== 'profs' ? (
+          <p className="about__row">
+            <span className="about__column">Негізгі:</span>
+            <span className="about__column">{textMainCourses}</span>
+          </p>
+        ) : null
+      }
       <p className="about__row">
         <span className="about__column">Жалпы сомма: </span>
-        <span className="about__column">44 990₸</span>
-        <input className="hidden" readOnly type="text" name="price" value="44990"/>
+        <span className="about__column">{price}₸</span>
+        <input className="hidden" readOnly type="text" name="price" value={price}/>
       </p>
     </div>
   )
@@ -161,14 +108,6 @@ function CloseButton({show}) {
   )
 }
 
-const options = [
-  {label: 2021, value: 2021},
-  {label: 2020, value: 2020},
-  {label: 2019, value: 2019},
-  {label: 2018, value: 2018},
-  {label: 2017, value: 2017}
-]
-
 const defaultStyle = {
   transition: `opacity 500ms ease`,
   opacity: 0,
@@ -181,11 +120,21 @@ const transitionStyles = {
   exited: {opacity: 0},
 }
 
+const selectsLangs = [
+  {label: 'kz', option: 'kz'},
+  {label: 'ru', option: 'ru'},
+]
 
-const CheckOut = ({type, show, info, rowCourses, combinations}) => {
-  const [showResults, setShowResults] = useState({show: false, card: null})
-  const [combinationsLabel, setCombinationsLabel] = useState([])
-  const [selectedOption, setSelectedOption] = useState([])
+
+const CheckOut = ({type, show, info, courses}) => {
+  const [typeState, setTypeState] = useState(null)
+  const [showResults, setShowResults] = useState({show: false, card: null, data: null})
+  const [langOption, setLangOption] = useState(selectsLangs[0])
+  const [currentCourses, setCurrentCourses] = useState(courses[selectsLangs[0]])
+  const [coursesSelect, setCoursesSelect] = useState(null)
+  const [currentCoursesSelect, setCurrentCoursesSelect] = useState({label: 'default', option: 'default', courses: null})
+  const [isError, setIsError] = useState(null)
+
 
   useEffect(() => {
 
@@ -195,45 +144,57 @@ const CheckOut = ({type, show, info, rowCourses, combinations}) => {
 
     return () => {
       scrollBodyHandler.unLock()
-      setShowResults({show: false, card: null})
-      setSelectedOption(null)
+      setShowResults({show: false, card: null, data: null})
     }
-  }, [info, rowCourses])
+  },[info])
 
   useEffect(() => {
 
-    if (combinations) {
-
-      const options = Object
-        .keys(combinations)
-        .map(item => {
-          const label = `${combinations[item][0].content.title} - ${combinations[item][1].content.title}`
-          const option = combinations[item][0].relation_id
-          return {option, label, courses: [{...combinations[item][0]}, {...combinations[item][1]}]}
-        })
-
-      setCombinationsLabel(options)
+    if (type) {
+      setTypeState(type)
     }
 
-  }, [combinations])
+  },[type])
+
 
   useEffect(() => {
-    if (selectedOption && combinationsLabel) {
+    if (courses) {
+      setCurrentCourses(courses[langOption.option])
+    }
+  },[langOption, courses])
 
-      // console.info('selectedOption', selectedOption)
-      // console.info('combinationsLabel', combinationsLabel)
-      // console.info('\n')
+
+  useEffect(() => {
+    if (currentCourses) {
+      const courses = combinationsToOption(currentCourses.combinations)
+
+      setCoursesSelect(courses)
 
     }
+  },[currentCourses])
 
-  }, [selectedOption, combinationsLabel])
+
+  useEffect(() => {
+
+    if (coursesSelect) {
+
+      setCurrentCoursesSelect({
+        courses: coursesSelect[0].courses,
+        label: coursesSelect[0].label,
+        option: coursesSelect[0].option
+      })
+    }
+
+  },[coursesSelect])
+
 
   const onFormSubmit = (event) => {
     event.preventDefault()
-    const bank = event.target.card.checked ? 'card' : 'kaspi'
+    const bank = event.target.card.checked ? 'credit' : 'kaspi'
     const sum = event.target.price.value
     const order_type = event.target.type.value
     const relationId = event.target.relationId.value
+    const lang = event.target.lang.value
 
 
     const data = { bank, sum, order_type, relation_id: relationId }
@@ -241,21 +202,29 @@ const CheckOut = ({type, show, info, rowCourses, combinations}) => {
     createPayment(data)
       .then(res => {
 
-        console.info('res', res)
+        console.log('create payment', res)
 
+        if (+res.data.status === 1) {
+
+          setShowResults({show: true, card: bank, data: {...res.data.data, lang}})
+          setIsError(null)
+
+        } else if (res.data.status === 401) {
+          setIsError(res.data.error)
+        } else {
+
+          setIsError(res.data.error)
+        }
       })
-
-
-    // console.log('sum', sum)
-    // console.log('bank', bank)
-    // console.log('orderType', order_type)
-    // console.log('relationId', relationId)
-
-    setShowResults({show: true, card: bank})
   }
 
-  const onSelectChange = selectedOption => {
-    setSelectedOption(selectedOption.courses)
+  const onLangSelectChange = option => {
+    setLangOption(option)
+    setCurrentCourses(courses[option.option])
+  }
+
+  const onCourseSelect = option => {
+    setCurrentCoursesSelect(option)
   }
 
   let formInfo = {
@@ -265,19 +234,19 @@ const CheckOut = ({type, show, info, rowCourses, combinations}) => {
     price: '0'
   }
 
-  if (type === 'main') {
+  if (typeState === 'main') {
     formInfo.title = 'Негізгі пәндер'
     formInfo.subTitle = '3 пәнге/6 айға'
     formInfo.color = '#6CA04A'
     formInfo.price = 22990
   }
-  if (type === 'optional') {
+  if (typeState === 'profs') {
     formInfo.title = 'Бейіндік пәндер'
     formInfo.subTitle = '2 пәнге/6 айға'
     formInfo.color = '#3EC1EB'
     formInfo.price = 27990
   }
-  if (type === 'combo') {
+  if (typeState === 'combo') {
     formInfo.title = 'COMBO'
     formInfo.subTitle = '5 пәнге/6 айға'
     formInfo.color = '#FD6CA3'
@@ -285,11 +254,15 @@ const CheckOut = ({type, show, info, rowCourses, combinations}) => {
   }
 
   const relationId = () => {
-    if (!selectedOption) {
-      return combinationsLabel[0].courses[0].relation_id
-    } else if (combinationsLabel.length) {
-      return selectedOption[0].relation_id
+    const mainRelId = currentCourses.main[0].relation_id
+    const combinationRelId = currentCoursesSelect.courses[0].relationId
+
+    if (typeState === 'main') {
+      return mainRelId
+    } else if (typeState === 'profs' || typeState === 'combo') {
+      return combinationRelId
     }
+
     return 0
   }
 
@@ -319,56 +292,46 @@ const CheckOut = ({type, show, info, rowCourses, combinations}) => {
                       <div className="checkOut-select__wrapper checkOut-subject__content">
                         <div className="checkOut-select__input checkOut-select__short">
                           <Select
-                            options={options}
+                            value={langOption}
+                            options={selectsLangs}
                             placeholder="Курс тілі"
+                            onChange={onLangSelectChange}
                           />
                         </div>
 
                         <div className="checkOut-select__input checkOut-select__long">
                           <Select
-                            value={combinationsLabel[0]}
-                            options={combinationsLabel}
-                            onChange={onSelectChange}
+                            value={currentCoursesSelect}
+                            options={coursesSelect}
+                            onChange={onCourseSelect}
+                            isDisabled={typeState === 'main'}
                             placeholder="Бейіндік пән"
                           />
                         </div>
                       </div>
                       <div className="checkOut-subject__content">
                         {
-                          type === 'main' && (!isEmpty(selectedOption) || !isEmpty(combinations))
-                            ? <CoursesOverplay/>
+                          typeState === 'main'
+                            ? <CoursesOverplay
+                                onClick={() => {
+                                  setTypeState('combo')
+                                  console.log('go to combo')
+                                }}
+                                text="Бейіндік пәндерді қосу арқылы 5 990₸ эконом жасаңыз. "
+                              />
                             : null
                         }
 
                         {
-                          !isEmpty(combinations) && isEmpty(selectedOption) && (
-                            combinations[Object
-                              .keys(combinations)
-                              .find((item, index) => {
-                                if (index === 0) {
-                                  return item
-                                }
-                                return null
-                              })].map((item, index) => (
-                              <ThingCard key={index} course={{
+                          currentCoursesSelect.courses ? (
+                            currentCoursesSelect.courses.map((item, key) => (
+                              <ThingCard key={key} course={{
+                                title: item.label || item.title,
                                 id: item.content_id,
-                                img: item.img,
-                                title: item.title || item.content.title,
+                                img: item.img
                               }}/>
                             ))
-                          )
-                        }
-
-                        {
-                          !isEmpty(selectedOption) && (
-                            selectedOption.map((item, index) => (
-                              <ThingCard key={index} course={{
-                                id: item.content_id,
-                                img: item.img,
-                                title: item.title || item.content.title,
-                              }}/>
-                            ))
-                          )
+                          ) : null
                         }
 
                       </div>
@@ -381,20 +344,28 @@ const CheckOut = ({type, show, info, rowCourses, combinations}) => {
                       <div className="checkOut-subject__content checkOut-subject__subContent">
 
                         {
-                          type === 'optional' && !isEmpty(rowCourses)
-                            ? <CoursesOverplay/>
+                          typeState === 'profs'
+                            ? <CoursesOverplay
+                                onClick={() => setTypeState('combo')}
+                                text="Негізгі пәндерді қосу арқылы 5 990₸ эконом жасаңыз. "
+                              />
                             : null
                         }
 
 
-                        {!isEmpty(rowCourses) &&
-                        rowCourses.map((item, index) => (
-                          <ThingCard key={index} course={{
-                            id: item.content_id,
-                            img: item.img,
-                            title: item.title || item.content.title,
-                          }}/>
-                        ))}
+                        {
+                          currentCourses ? currentCourses.main.map((item, index) => {
+
+                            return (
+                              <ThingCard key={index} course={{
+                                title: item.content.title,
+                                img: item.content.category.image,
+                                id: item.content_id
+                              }}/>
+                            )
+                          }) : null
+                        }
+
                       </div>
 
                     </div>
@@ -408,7 +379,14 @@ const CheckOut = ({type, show, info, rowCourses, combinations}) => {
 
                         <div className="checkOut-side__wrapper">
 
-                          {genCoursesDescription(type)}
+                          {genCoursesDescription({
+                            type: typeState,
+                            main: currentCourses.main,
+                            selectCourses: currentCoursesSelect,
+                            lang: langOption.label,
+                            price: formInfo.price,
+                            title: formInfo.title
+                          })}
 
                           <input
                             value={relationId()}
@@ -467,8 +445,14 @@ const CheckOut = ({type, show, info, rowCourses, combinations}) => {
                             </label>
                           </div>
 
+                          {
+                            isError ? (
+                              <div className="error__big text-center">{isError}</div>
+                            ) : null
+                          }
+
                           <button className="checkOut-side__btn btn__shadowFromNull">
-                            <span>44 990 ₸</span>
+                            <span>{formInfo.price} ₸</span>
                             <span>Төлем жасау</span>
                           </button>
                         </div>
@@ -476,77 +460,9 @@ const CheckOut = ({type, show, info, rowCourses, combinations}) => {
                       </div>
                     </form>
                   </div>
-                  : showResults.card
-                    ? <div className="results">
-                        <div className="results__info textLeft">
-                          <p className="results__content"><span className="results__column">Тапсырыс нөмірі: </span>
-                            <span className="results__column"><span className="results__amount">789 521</span></span></p>
-                          <p className="results__content"><span className="results__column">ҰБТ-ға дайындық курсы: </span>
-                            <span className="results__column">COMBO</span></p>
-                          <p className="results__content"><span className="results__column">Курс тілі: </span>
-                            <span className="results__column">Қазақша</span></p>
-                          <p className="results__content"><span className="results__column">Бейіндік пәндер: </span>
-                            <span className="results__column">Физика <br/> Математика</span></p>
-                          <p className="results__content"><span className="results__column">Негізгі пәндер: </span>
-                            <span className="results__column">Оқу сауаттылығы <br/> Математикалық сауаттылық  <br/> Қазақстан тарихы</span>
-                          </p>
-                          <p className="results__content"><span className="results__column">Төленген сомма:</span>
-                            <span className="results__column">34 990₸</span></p>
-                          <p className="results__content"><span className="results__column">Төлем түрі: </span>
-                            <span className="results__column">{!showResults.card ? 'Kaspi.kz' : 'card'}</span></p>
-                        </div>
-
-                        <p className="text-center results__description">*Түбіртек “Төлемдер” бөлімінде сақталды.</p>
-                      </div>
-                    : <div className="results">
-
-                        <div className="results__info">
-                          <p className="results__content"><span className="results__column">Тапсырыс нөмірі: </span>
-                            <span className="results__column"><span className="results__amount active">789 521</span></span>
-                          </p>
-                          <p className="results__content"><span className="results__column">ҰБТ-ға дайындық курсы: </span>
-                            <span className="results__column">COMBO</span></p>
-                          <p className="results__content"><span className="results__column">Курс тілі: </span>
-                            <span className="results__column">Қазақша</span></p>
-                          <p className="results__content"><span className="results__column">Бейіндік пәндер: </span>
-                            <span className="results__column">Физика <br/> Математика</span></p>
-                          <p className="results__content"><span className="results__column">Негізгі пәндер: </span>
-                            <span className="results__column">Оқу сауаттылығы <br/> Математикалық сауаттылық  <br/> Қазақстан тарихы</span>
-                          </p>
-                          <p className="results__content"><span className="results__column">Оқу ақысы: </span>
-                            <span className="results__column">44 990₸</span></p>
-                          <p className="results__content"><span className="results__column">Төлем түрі: </span>
-                            <span className="results__column">{!showResults.card ? 'Kaspi.kz' : 'card'}</span></p>
-                        </div>
-
-                        <div className="results__block resultsBlock">
-
-                          <div className="resultsBlock__wrapper">
-                            <h3 className="resultsBlock__title">«Kaspi.kz» телефон қосымшасы арқылы төлем жасау.</h3>
-
-                            <p className="resultsBlock__text">1. Ұялы телефоныңыздан «Kaspi.kz» қосымшасына кіріңіз.</p>
-                            <p className="resultsBlock__text">2. «Платежи» бөліміне өтіп, іздеу жолағына «Educon» деп
-                              теріңіз.</p>
-                            <p className="resultsBlock__text">3. «Номер заказа» жолағына сізге берілген тапсырыс нөмірін
-                              енгізіп, «Продолжить» батырмасын басыңыз.</p>
-                          </div>
-
-                          <div className="resultsBlock__wrapper">
-                            <h3 className="resultsBlock__title">«Kaspi.kz» сайты арқылы төлем жасау. </h3>
-
-                            <p className="resultsBlock__text">1. <a rel="noopener noreferrer" target="_blank"
-                                                                    style={{color: '#329DFF'}}
-                                                                    href="https://kaspi.kz/">«Kaspi.kz»</a> сайтына кіріңіз.
-                            </p>
-                            <p className="resultsBlock__text">2. «Платежи» бөліміне өтіп, іздеу жолағына «Educon» деп
-                              теріңіз.</p>
-                            <p className="resultsBlock__text">3. «Номер заказа» жолағына сізге берілген тапсырыс нөмірін
-                              енгізіп, «Продолжить» батырмасын басыңыз.</p>
-                          </div>
-
-                        </div>
-
-                      </div>
+                  : showResults.card === 'kaspi'
+                    ? <Payment data={showResults.data} type="kaspi"/>
+                    : <Payment data={showResults.data} type="credit"/>
               }
 
             </div>
