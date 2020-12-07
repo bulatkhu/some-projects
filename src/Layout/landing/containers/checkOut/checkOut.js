@@ -421,7 +421,6 @@ const CheckOut = ({type, show, info, courses}) => {
                               </span>
                             </label>
                             <label className="checkOut-side__label" htmlFor="card">
-
                              <span className="bank">
                         <span className="bank__content">
                            <input

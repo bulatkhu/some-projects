@@ -17,7 +17,7 @@ const pricesData = [
   {title: '7/24 қолжетімді', price1: true, price2: true, price3: true, price4: true},
 ]
 
-const Prices = () => {
+const Prices = ({classPrices = true}) => {
   const [showCheckOut, setShowCheckOut] = useState({show: false, type: null})
   const [courses, setCourses] = useState({})
 
@@ -37,7 +37,7 @@ const Prices = () => {
 
 
   return (
-    <section className="prices">
+    <section className={[classPrices ? 'prices' : null]}>
 
       { courses && (
           <ModalPortal>

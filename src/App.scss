@@ -30,12 +30,17 @@
       padding-top: 120px;
     }
 
-    @media (max-width: 800px) {
+    @media (max-width: 828px) {
       padding-top: 171px;
     }
 
     @media (max-width: 767px) {
       padding-top: 153px;
+    }
+
+
+    @media (max-width: 610px) {
+      padding-top: 170px;
     }
 
     @media (max-width: 576px) {
@@ -58,10 +63,6 @@
     width: 100%;
     background-color: #407BBF;
   }
-}
-
-
-body {
 }
 
 body {

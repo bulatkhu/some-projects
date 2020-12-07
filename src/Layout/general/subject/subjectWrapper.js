@@ -1,18 +1,10 @@
 import React, {useEffect, useRef, useState} from 'react'
-// import Stars from '../stars/stars'
-import playButton from '../../../images/general/subject/play-button.svg'
-// import thing1 from '../../../images/main/things/small-things/thing1.png'
-// import thing2 from '../../../images/main/things/small-things/thing2.png'
-// import thing3 from '../../../images/main/things/small-things/thing3.png'
-// import thing4 from '../../../images/main/things/small-things/thing4.png'
-// import thing5 from '../../../images/main/things/small-things/thing5.png'
 import Comments from '../../login/components/comments/comments'
-// import studentsIcon from '../../../images/general/teacher/students-icon.jpg'
 import VideoPlayer from '../videoPlayer/videoPlayer'
-import {getFromUserMeta} from '../../../scripts/dataHandler/dataHandler'
-// import NoPhoto from '../../../images/general/noPhoto/noPhoto'
 import {SITE_BASE_URL} from '../../../app.config'
 import {Transition} from 'react-transition-group'
+import SubjectPart from "./subjectPart";
+import Prices from "../../landing/containers/prices/prices";
 
 const duration = 300;
 
@@ -31,38 +23,18 @@ const transitionStyles = {
 }
 
 function transformPartsToShowParts(resParts) {
-
-  const newKeys = []
-  resParts.map((item) => item.group_name).forEach(part => {
-    if (newKeys.includes(part)) return
-    newKeys.push(part)
-  })
-
-  const newParts = newKeys.map(key => {
-
-    return {
-      name: key,
-      courses: resParts.find(part => part.group_name === key)
-    }
-
-  })
-
-  console.log('parts', newParts)
-
-  return resParts
+  return Object.keys(resParts).map(item => ({
+    name: item,
+    courses: resParts[item]
+  }))
 }
 
 function getVideoFromRes(response) {
+  if (!response.meta) return null
   let linkToVideo = response.meta.video
-    ? response.meta.video
-    : response.parts.length
-      ? response.parts[0].video || response.parts[0].upload_video
-      : null
-
   if (!linkToVideo) {
     return linkToVideo
   }
-
   if (!linkToVideo.toString().includes('http')) {
     linkToVideo = SITE_BASE_URL + linkToVideo
   }
@@ -106,9 +78,6 @@ const SubjectWrapper = ({response, isLoaded}) => {
     }
   }
 
-  const linkToVideo = getVideoFromRes(response)
-
-  const parts = transformPartsToShowParts(response.parts)
 
 
   useEffect(() => {
@@ -137,200 +106,139 @@ const SubjectWrapper = ({response, isLoaded}) => {
     console.log('response', response)
   }, [response, isLoaded])
 
+  const linkToVideo = getVideoFromRes(response)
+
+  const parts = transformPartsToShowParts(response.parts)
+
   const {user} = response.product || null
-  // const biography = getFromUserMeta(user, 'biography') ||
-  //   getFromUserMeta(user, 'short_biography')
-  // const avatar = getFromUserMeta(user, 'avatar')
   const comments = response.product.comments
 
 
   return (
-    <>
+    <div className="subject__content">
 
-      <div className="subject__content">
+      <div className="subject__column">
 
-        <div className="subject__column">
+        <div className="subject__titles">
+          <h1 className="subject__title">{response.product.title}</h1>
+          <h2 className="subject__subTitle">{response.product.category.title}</h2>
+        </div>
 
-          <div className="subject__titles">
-            <h1 className="subject__title">{response.product.title}</h1>
-            <h2 className="subject__subTitle">{response.product.category.title}</h2>
-          </div>
+        <div className="subject__info subjectInfo">
 
-          <div className="subject__info subjectInfo">
+          <div className="subjectInfo__person">
 
-            <div className="subjectInfo__person">
+            <span className="subjectInfo__name">Ұстаз: {user.name}</span>
 
-              <span className="subjectInfo__name">Ұстаз: {user.name}</span>
-
-              <span className="subjectInfo__language">{response.product.category.class}</span>
-
-            </div>
+            <span className="subjectInfo__language">{response.product.category.class}</span>
 
           </div>
 
         </div>
-
-        {
-          linkToVideo
-            ? <div className="subjectVideo">
-              <VideoPlayer
-                className="subjectVideo__video"
-                url={linkToVideo}
-              />
-            </div>
-            : null
-        }
-
-        <div className="subject__column">
-
-          <div className="subject-tab">
-
-            <div className="subject-tab__header">
-              <button
-                onClick={() => setContentToShow(1)}
-                className={['subject-tab__headerItem', 'btn__noFocus', contentToShow === 1 ? 'active' : null].join(' ')}
-              >Тақырыптар
-              </button>
-              <button
-                onClick={() => setContentToShow(2)}
-                className={['subject-tab__headerItem', 'btn__noFocus', contentToShow === 2 ? 'active' : null].join(' ')}
-              >Курс туралы
-              </button>
-              <button
-                onClick={() => setContentToShow(3)}
-                className={['subject-tab__headerItem', 'btn__noFocus', contentToShow === 3 ? 'active' : null].join(' ')}
-              >Пікірлер
-              </button>
-            </div>
-            <div className="subject-tab__body">
-
-              {
-                transitionWrapper({
-                  show: contentToShow === 1 ? true : false,
-                  content: (
-                    <div onClick={toggleItemHandler} ref={ItemsWrapper} className="subject__bottom">
-                      <div data-id="1" className="subject__item subjectItem active">
-                        <div className="subjectItem__top subjectItemTop">
-                          <div data-id={1} className="subjectItemTop__overlay"/>
-
-                          <div className="subjectItemTop__left">
-                            <span className="subjectItemTop__toggle"/>
-
-                            <span className="subjectItemTop__title">{response.product.title}</span>
-                          </div>
-
-                          <div className="subjectItemTop__right">
-                            <span className="subjectItemTop__lecture">{response.parts.length} лекция</span>
-
-                            <span className="subjectItemTop__duration">{response.Duration} мин</span>
-                          </div>
-
-                        </div>
-
-                        <div className="subjectItem__bottom subjectItemButton">
-
-                          {response.parts.map((item, index) => (
-                            <div key={index} className="subjectItemButton__item">
-                              <div className="subjectItemButton__left">
-                                <a rel="noopener noreferrer" target="_blank"
-                                   href={
-                                     item.upload_video.includes('http')
-                                       ? item.upload_video
-                                       : SITE_BASE_URL + item.upload_video
-                                   }
-                                >
-                                  <div className="subjectItemButton__icon">
-                                    <img src={playButton} alt="play"/>
-                                  </div>
-                                </a>
-                                <p className="subjectItemButton__title">{item.title} {item.group_name}</p>
-                              </div>
-                              <div className="subjectItemButton__right">
-                                {/*<a rel="noopener noreferrer" target="_blank" href={item.upload_video} className="subjectItemButton__preview">{item.title}</a>*/}
-                                <div className="subjectItemButton__duration">{item.duration} мин</div>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  )
-                })
-              }
-
-              {
-                transitionWrapper({
-                  show: contentToShow === 2 ? true : false,
-                  content: (
-                    <div className="subject__column">
-
-                      <div
-                        className="subject__textContent"
-                        dangerouslySetInnerHTML={{__html: response.product.content}}
-                      />
-
-                      <div className="subject__text">
-
-                        <h3 className="subject__textTitle">Материалы курса</h3>
-
-                        <div className="subject__mainText">
-                          • {response.parts.length} лекций • Общая
-                          продолжительность {Math.floor(response.Duration / 60)} ч {response.Duration % 60} мин
-                        </div>
-
-                      </div>
-
-
-                    </div>
-                  )
-                })
-              }
-
-              {
-                transitionWrapper({
-                  show: contentToShow === 3 ? true : false,
-                  content: (
-                    <Comments comments={comments}/>
-                  )
-                })
-              }
-
-            </div>
-
-          </div>
-
-        </div>
-
 
       </div>
 
-      {/*<div className="subject__teacher subjectTeacher">*/}
+      {
+        linkToVideo
+          ? <div className="subjectVideo">
+            <VideoPlayer
+              className="subjectVideo__video"
+              url={linkToVideo}
+            />
+          </div>
+          : null
+      }
 
-      {/*  <div className="subjectTeacher__top">*/}
+      <div className="subject__column">
 
-      {/*    <div className="subjectTeacher__img">*/}
-      {/*      {*/}
-      {/*        avatar*/}
-      {/*          ? <img src={'http://api.ustaz.xyz/' + avatar} alt="this teacher"/>*/}
-      {/*          : <NoPhoto/>*/}
-      {/*      }*/}
-      {/*    </div>*/}
+        <div className="subject-tab">
 
-      {/*    <div className="subjectTeacher__description">*/}
-      {/*      <div className="subjectTeacher__name">{user.name}</div>*/}
-      {/*      <div className="subjectTeacher__subject">{user.email}</div>*/}
-      {/*    </div>*/}
+          <div className="subject-tab__header">
+            <button
+              onClick={() => setContentToShow(1)}
+              className={['subject-tab__headerItem', 'btn__noFocus', contentToShow === 1 ? 'active' : null].join(' ')}
+            >Тақырыптар
+            </button>
+            <button
+              onClick={() => setContentToShow(2)}
+              className={['subject-tab__headerItem', 'btn__noFocus', contentToShow === 2 ? 'active' : null].join(' ')}
+            >Курс туралы
+            </button>
+            <button
+              onClick={() => setContentToShow(3)}
+              className={['subject-tab__headerItem', 'btn__noFocus', contentToShow === 3 ? 'active' : null].join(' ')}
+            >Пікірлер
+            </button>
+          </div>
+          <div className="subject-tab__body">
 
-      {/*  </div>*/}
+            {
+              transitionWrapper({
+                show: contentToShow === 1,
+                content: (
+                  <div onClick={toggleItemHandler} ref={ItemsWrapper} className="subject__bottom">
+                    {
+                      parts.length
+                        ? parts.map((part, id) => (
+                          <SubjectPart key={id} id={id} courses={part.courses} name={part.name}/>
+                        ))
+                        : <p className="error">Course does not have parts</p>
+                    }
+                  </div>
+                )
+              })
+            }
 
-      {/*  <div className="subjectTeacher__bottom">*/}
-      {/*    <p className="subjectTeacher__text">{biography}</p>*/}
-      {/*  </div>*/}
+            {
+              transitionWrapper({
+                show: contentToShow === 2,
+                content: (
+                  <div className="subject__column">
 
-      {/*</div>*/}
+                    <div
+                      className="subject__textContent"
+                      dangerouslySetInnerHTML={{__html: response.product.content}}
+                    />
+
+                    <div className="subject__text">
+
+                      <h3 className="subject__textTitle">Материалы курса</h3>
+
+                      <div className="subject__mainText">
+                        • {response.parts.length} лекций • Общая
+                        продолжительность {Math.floor(response.Duration / 60)} ч {response.Duration % 60} мин
+                      </div>
+
+                    </div>
 
 
-    </>
+                  </div>
+                )
+              })
+            }
+
+            {
+              transitionWrapper({
+                show: contentToShow === 3,
+                content: (
+                  <Comments comments={comments}/>
+                )
+              })
+            }
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div className="subject__column">
+        <Prices classPrices={false}/>
+      </div>
+
+
+    </div>
   )
 }
 
