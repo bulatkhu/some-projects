@@ -1,4 +1,5 @@
 import React from 'react'
+import eduCoinStatistic from '../../../images/general/educoinPage/educoin-info.svg'
 import './educoinPage.scoped.scss'
 
 
@@ -9,6 +10,11 @@ const EducoinPage = () => {
     <div className="educoinPage">
       <div className="educoinPage__container _container">
 
+        <div className="educoinPage__statistic">
+
+          <img src={eduCoinStatistic} alt="statistic"/>
+
+        </div>
 
         <div className="educoinPage__wrapper">
 

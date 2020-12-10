@@ -141,11 +141,11 @@ const SubjectWrapper = ({response, isLoaded}) => {
       {
         linkToVideo
           ? <div className="subjectVideo">
-            <VideoPlayer
-              className="subjectVideo__video"
-              url={linkToVideo}
-            />
-          </div>
+              <VideoPlayer
+                className="subjectVideo__video"
+                url={linkToVideo}
+              />
+            </div>
           : null
       }
 

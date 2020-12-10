@@ -10,6 +10,7 @@ import {SITE_BASE_URL} from '../../../../app.config'
 import ThingCard from '../../components/ThingCard/ThingCard'
 import Payment from '../payment/payment'
 import './checkOut.scoped.scss'
+import {isEmpty} from '../../../../scripts/isEmpty/isEmpty'
 
 function CoursesOverplay({text, onClick}) {
 
@@ -160,11 +161,9 @@ const CheckOut = ({type, show, info, courses}) => {
 
 
   useEffect(() => {
-    if (currentCourses) {
+    if (!isEmpty(currentCourses)) {
       const courses = combinationsToOption(currentCourses.combinations)
-
       setCoursesSelect(courses)
-
     }
   },[currentCourses])
 
@@ -178,7 +177,7 @@ const CheckOut = ({type, show, info, courses}) => {
 
   useEffect(() => {
 
-    if (coursesSelect) {
+    if (coursesSelect && coursesSelect.length) {
 
       setCurrentCoursesSelect({
         courses: coursesSelect[0].courses,
@@ -254,6 +253,9 @@ const CheckOut = ({type, show, info, courses}) => {
   }
 
   const relationId = () => {
+    if (!currentCourses.main || !currentCourses.main[0]) return 0
+    if (!currentCourses.courses || !currentCourses.courses[0]) return 0
+
     const mainRelId = currentCourses.main[0].relation_id
     const combinationRelId = currentCoursesSelect.courses[0].relationId
 
@@ -338,37 +340,45 @@ const CheckOut = ({type, show, info, courses}) => {
 
                     </div>
 
-                    <div className="checkOut__column">
-                      <h2 className="checkOut__subTitle">Негізгі пәндер</h2>
+                    {
+                      currentCourses && !isEmpty(currentCourses.main)
+                        ? (
+                          <div className="checkOut__column">
+                            <h2 className="checkOut__subTitle">Негізгі пәндер</h2>
 
-                      <div className="checkOut-subject__content checkOut-subject__subContent">
+                            <div className="checkOut-subject__content checkOut-subject__subContent">
 
-                        {
-                          typeState === 'profs'
-                            ? <CoursesOverplay
-                                onClick={() => setTypeState('combo')}
-                                text="Негізгі пәндерді қосу арқылы 5 990₸ эконом жасаңыз. "
-                              />
-                            : null
-                        }
+                              {
+                                typeState === 'profs'
+                                  ? <CoursesOverplay
+                                    onClick={() => setTypeState('combo')}
+                                    text="Негізгі пәндерді қосу арқылы 5 990₸ эконом жасаңыз. "
+                                  />
+                                  : null
+                              }
 
 
-                        {
-                          currentCourses ? currentCourses.main.map((item, index) => {
+                              {
+                                currentCourses ? currentCourses.main.map((item, index) => {
+                                  return (
+                                    <ThingCard key={index} course={{
+                                      title: item.content.title,
+                                      img: item.content.category.image,
+                                      id: item.content_id
+                                    }}/>
+                                  )
+                                })            : null
+                              }
 
-                            return (
-                              <ThingCard key={index} course={{
-                                title: item.content.title,
-                                img: item.content.category.image,
-                                id: item.content_id
-                              }}/>
-                            )
-                          }) : null
-                        }
+                            </div>
 
-                      </div>
+                          </div>
+                        )
+                        : null
+                    }
 
-                    </div>
+
+
                     <form onSubmit={onFormSubmit} className="checkOut__column checkOut-side">
                       <div className="checkOut-side__body">
 
@@ -446,7 +456,7 @@ const CheckOut = ({type, show, info, courses}) => {
 
                           {
                             isError ? (
-                              <div className="error__big text-center">{isError}</div>
+                              <div className="error__middle text-center margin__button2">{isError}</div>
                             ) : null
                           }
 

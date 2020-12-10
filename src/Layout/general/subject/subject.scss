@@ -98,8 +98,6 @@
   }
 
   &__text {
-    margin-top: 20px;
-    margin-bottom: 60px;
   }
 
   &__textTitle {
@@ -426,6 +424,10 @@
   &__body {
     padding: 27px 47px;
     position: relative;
+
+    @media (max-width: 1200px) {
+      padding: 20px;
+    }
   }
 
   &__content {

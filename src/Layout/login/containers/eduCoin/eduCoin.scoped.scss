@@ -1,5 +1,7 @@
 .statistic {
   padding: 60px 20px;
+  max-width: 90vh;
+  margin: auto;
 
   @media (max-width: 576px) {
     padding: 40px 0;

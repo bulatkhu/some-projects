@@ -31,7 +31,7 @@ function App(props) {
   const [isShowArrowUp, setIsShowArrowUp] = useState(false)
 
   window.onscroll = () => {
-    if (window.pageYOffset > 28) {
+    if (window.pageYOffset > 45) {
       setIsShowHeaderMenu(false)
     } else {
       setIsShowHeaderMenu(true)
@@ -74,9 +74,7 @@ function App(props) {
             <Paying/>
           </Route>
           <Route path="/teacher-page/:id" component={TeacherPage}/>
-          <Route path="/educoin-page">
-            <EducoinPage/>
-          </Route>
+          <Route path="/educoin-page" component={EducoinPage}/>
 
 
           <AuthRequired isAuth={props.isAuth}/>

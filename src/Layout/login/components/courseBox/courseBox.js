@@ -1,22 +1,26 @@
 import React from 'react'
+import './coursesBox.scoped.scss'
+import {Link} from 'react-router-dom'
+import NoPhoto from '../../../../images/general/noPhoto/noPhoto'
 
-
-const CourseBox = ({courseImg, filling, text}) => {
+const CourseBox = ({courseImg, title, link}) => {
 
 
   return (
-    <div className="myCourses__column">
-      <div className="myCourses__img">
-        <img src={courseImg} alt="course"/>
-      </div>
-
-      <div className="myCourses__progress progressWrapper">
-        <div className="progressWrapper__num">{filling}</div>
-        <div className="progressWrapper__line">
-          <div className="progressWrapper__filling" style={{width: filling}}/>
+    <div className="coursesBox__column">
+      <div className="coursesBox__wrapper">
+        <h3 className="coursesBox__title">{title}</h3>
+        <div className="coursesBox__img">
+          {
+            courseImg
+              ? <img src={courseImg} alt="course"/>
+              : <NoPhoto/>
+          }
         </div>
+        <Link to={link || '/'} className="coursesBox__text">
+          жалғастыру
+        </Link>
       </div>
-      <div className="myCourses__text">{text}</div>
     </div>
   )
 }

@@ -93,24 +93,26 @@ const CountdownComponent  = React.memo(function ({handleTest, time}) {
 })
 
 
-function Course() {
+function Course({match: { params: { id }}}) {
   const refCoursesButtons = useRef(null)
   const finishButton = useRef(null)
   const [testState, changeTestState] = useState(initialTestState)
   const [testItems, setTestItems] = useState(null)
   const [testResults, setTestResults] = useState({response: null, circleData: null})
+  const [error, setError] = useState(null)
 
 
   useEffect(() => {
     let mounted = true
 
-
-
       if ((!testItems || !testItems.length) && mounted) {
-        try {
+        getQuizById(id)
+          .then(res => {
 
-          getQuizById(13)
-            .then(res => {
+            console.log('res', res)
+
+            if (res.status === 200) {
+
               const {questions, duration} = res.data
               const rightQuestions = questions && questions.length ? questions : res.data[0]
 
@@ -137,11 +139,18 @@ function Course() {
               })
               setTestItems(newTestItems)
               changeTestState(prev => ({...prev, time: +duration || 14}))
-            })
 
-        } catch (e) {
-          console.error('error', e)
-        }
+            } else {
+
+              setError(`Request error:, ${res.data.message}`)
+
+            }
+          }).catch(err => {
+
+            console.log('error', JSON.parse(JSON.stringify(err)).message)
+            setError(`Error: ${err.message}`)
+
+          })
 
       }
 
@@ -151,7 +160,7 @@ function Course() {
     return () => {
       mounted = false
     }
-  }, [testItems])
+  }, [testItems, id])
 
 
   const showTestHandler = (info, element) => {
@@ -248,74 +257,78 @@ function Course() {
 
         {
 
+          error
+            ? <p className="error__big text-center">{error}</p>
+            :
+
           testItems && testItems.length
             ? (
               !testState.showResults
                 ? !testState.startTest
-                  ? <div className="course__column course-book__column">
+                    ? <div className="course__column course-book__column">
 
 
-                  {
-                    !testState.showTest
-                      ? <div className="course-book">
+                    {
+                      !testState.showTest
+                        ? <div className="course-book">
 
-                        <h2 className="course-book__title">
-                          Теориялық бөлім
-                        </h2>
+                          <h2 className="course-book__title">
+                            Теориялық бөлім
+                          </h2>
 
-                        <FlipBookComponent/>
+                          <FlipBookComponent/>
 
-                      </div>
-                      : <div className="course-start">
+                        </div>
+                        : <div className="course-start">
 
-                        <h2 className="course-start__title course-book__title">Тақырып бойынша арнайы тесттер</h2>
+                          <h2 className="course-start__title course-book__title">Тақырып бойынша арнайы тесттер</h2>
 
-                        <p className="course-start__text">Сізге берілетін тесттер сіздің осы тақырыпты қаншалықты
-                          меңгергеніңізді көрсетеді. Нәтижеге көңіліңіз
-                          толмаса, сабақты қайта көруді ұсынамыз.
-                          Тестті аяқтағаннан кейін, қатемен жұмыс жасау үшін әр тесттің видео шешімі бар. Әр тесттің дұрыс
-                          жауабы
-                          үшін EduCoin беріледі. Тест тапсыру</p>
+                          <p className="course-start__text">Сізге берілетін тесттер сіздің осы тақырыпты қаншалықты
+                            меңгергеніңізді көрсетеді. Нәтижеге көңіліңіз
+                            толмаса, сабақты қайта көруді ұсынамыз.
+                            Тестті аяқтағаннан кейін, қатемен жұмыс жасау үшін әр тесттің видео шешімі бар. Әр тесттің дұрыс
+                            жауабы
+                            үшін EduCoin беріледі. Тест тапсыру</p>
 
-                        <p className="course-start__text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lectus
-                          aliquet sed enim, iaculis. Sed consequat
-                          a gravida viverra vivamus laoreet cursus. Enim morbi pulvinar lobortis lacus diam nibh. Feugiat purus
-                          lorem sed aliquam vestibulum nec. </p>
+                          <p className="course-start__text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lectus
+                            aliquet sed enim, iaculis. Sed consequat
+                            a gravida viverra vivamus laoreet cursus. Enim morbi pulvinar lobortis lacus diam nibh. Feugiat purus
+                            lorem sed aliquam vestibulum nec. </p>
 
-                        <div className="course-start__btnWrap">
-                          <button onClick={() => handleTest('start')}
-                                  className="btn__shadowFromNull courseQuestFrom__button course-start__button">Бастау
-                          </button>
+                          <div className="course-start__btnWrap">
+                            <button onClick={() => handleTest('start')}
+                                    className="btn__shadowFromNull courseQuestFrom__button course-start__button">Бастау
+                            </button>
+                          </div>
+
+
+                        </div>
+                    }
+
+                    <div className="course__question courseQuestion">
+                      <h2 className="courseQuestion__title course-book__title">Сабақ бойынша сұрақ қою</h2>
+
+                      <form className="courseQuestion__form courseQuestFrom">
+
+                        <textarea className="courseQuestFrom__input" placeholder="Сұрағыңызды жазыңыз..."/>
+
+                        <div className="courseQuestFrom__wrapper">
+
+                          <label htmlFor="attachFile">
+                            <input name="file" id="attachFile" className="courseQuestFrom__file" multiple type="file"/>
+                            <span className="courseQuestFrom__button">Foto or File</span>
+                          </label>
+
+                          <button className="btn__shadowFromNull courseQuestFrom__button">Send</button>
+
                         </div>
 
+                      </form>
+                    </div>
 
-                      </div>
-                  }
 
-                  <div className="course__question courseQuestion">
-                    <h2 className="courseQuestion__title course-book__title">Сабақ бойынша сұрақ қою</h2>
-
-                    <form className="courseQuestion__form courseQuestFrom">
-
-                      <textarea className="courseQuestFrom__input" placeholder="Сұрағыңызды жазыңыз..."/>
-
-                      <div className="courseQuestFrom__wrapper">
-
-                        <label htmlFor="attachFile">
-                          <input name="file" id="attachFile" className="courseQuestFrom__file" multiple type="file"/>
-                          <span className="courseQuestFrom__button">Foto or File</span>
-                        </label>
-
-                        <button className="btn__shadowFromNull courseQuestFrom__button">Send</button>
-
-                      </div>
-
-                    </form>
                   </div>
-
-
-                </div>
-                  : <TestSlider testItems={testItems} setTestItems={setTestItems} showResults={false}/>
+                    : <TestSlider testItems={testItems} setTestItems={setTestItems} showResults={false}/>
                 : <>
                     {
                       testResults.response ? (

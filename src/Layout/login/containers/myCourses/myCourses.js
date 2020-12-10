@@ -1,22 +1,11 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import './myCourses.scss'
-import courseImg from '../../../../images/login/myCourses/courseImg.jpg'
 import thingItem1 from '../../../../images/login/myCourses/courseItem.jpg'
 import thingItem2 from '../../../../images/login/myCourses/courseItem2.jpg'
 import thingItem3 from '../../../../images/login/myCourses/courseItem3.jpg'
 import thingItem4 from '../../../../images/login/myCourses/courseItem4.jpg'
 import CourseBox from '../../components/courseBox/courseBox'
-
-const courseItems = [
-  {courseImg, filling: '67%', text: 'жалғастыру'},
-  {courseImg, filling: '90%', text: 'жалғастыру'},
-  {courseImg, filling: '30%', text: 'жалғастыру'},
-  {courseImg, filling: '20%', text: 'жалғастыру'},
-  {courseImg, filling: '10%', text: 'жалғастыру'},
-  {courseImg, filling: '70%', text: 'жалғастыру'},
-  {courseImg, filling: '10%', text: 'жалғастыру'},
-  {courseImg, filling: '10%', text: 'жалғастыру'},
-]
+import {apiGetStudentsCourses} from '../../../../request/student/apiStudent'
 
 const webinarItems = [
   {text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', link: '/', img: thingItem1, date: '20 agust 2020', progress: '0%'},
@@ -25,7 +14,38 @@ const webinarItems = [
   {text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', link: '/', img: thingItem4, date: '20 agust 2020', progress: '0%'},
 ]
 
+function reqToShowCourses(courses) {
+  return courses.map(item => {
+    const img = item.metas && item.metas.length ? item.metas
+      .find(data => data.option === 'cover')
+      .value : null
+
+    return {
+      title: item.title,
+      courseImg: img,
+      link: '/subject/' + item.id
+    }
+  })
+}
+
+
 const MyCourses = () => {
+  const [courses, setCourses] = useState([])
+
+  useEffect(() => {
+
+    apiGetStudentsCourses()
+      .then(res => {
+        if (res.status === 200) {
+
+          console.log(res.data)
+
+          setCourses(reqToShowCourses(res.data.courses))
+        }
+      })
+
+  },[])
+
 
   return (
     <section className="myCourses">
@@ -36,7 +56,7 @@ const MyCourses = () => {
 
         <div className="myCourses__content">
 
-          {courseItems.map((item, index) => {
+          {courses.map((item, index) => {
             return <CourseBox key={index} {...item}/>
           })}
 

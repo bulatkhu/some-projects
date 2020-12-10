@@ -336,6 +336,15 @@
     padding: 15px;
     border-radius: 10px;
     border: none;
+
+    &:disabled {
+      background: #ccc !important;
+
+      &:hover {
+        cursor: not-allowed;
+        box-shadow: none;
+      }
+    }
   }
 
   &__wrapper {

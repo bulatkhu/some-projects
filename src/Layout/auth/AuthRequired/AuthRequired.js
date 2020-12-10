@@ -39,7 +39,7 @@ const loggedInfo = {
       buy: '/student/buy',
       lesson: '/student/lesson',
       connecting: '/student/connecting',
-      watchCourse: '/student/watchCourse',
+      watchCourse: '/student/watchCourse/:id',
     }
   },
   teacher: {

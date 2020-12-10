@@ -45,7 +45,7 @@ const Login = ({children, links, user}) => {
                   <div className="loginProf__educoin">
                     <img src={eduCoin} alt="eduCoin"/>
                   </div>
-                  <span>{user.credit}</span>
+                  <span>{user.rate_point}</span>
                 </div>
               </div>
             )

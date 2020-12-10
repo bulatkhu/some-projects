@@ -4,14 +4,14 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 1260px;
+  width: 1280px;
   max-width: 95%;
   height: 95%;
   background: linear-gradient(180deg, #D0E6FF 0%, rgba(114, 178, 255, 0) 100%), #FFFFFF;
   border-radius: 10px;
-  padding-bottom: 25px;
   box-sizing: border-box;
   box-shadow: 0 0 12px #000;
+  overflow: hidden;
 
   @media (max-width: 1200px) {
     max-width: 95%;
@@ -22,9 +22,9 @@
   }
 
   &__body {
-    padding: 0 30px 20px 30px;
+    padding: 0 30px 10px 30px;
     overflow: auto;
-    height: 90%;
+    height: calc(100% - 51px);
 
     @media (max-width: 576px) {
       padding: 0 5px 20px 5px;
@@ -229,7 +229,7 @@
     margin: 0 20px;
     height: 85%;
     box-sizing: border-box;
-    padding: 0;
+    padding: 15px 0;
 
     display: flex;
     flex-direction: column;
@@ -237,7 +237,7 @@
   }
 
   &__checkBoxes {
-    //padding: 62px 0;
+    margin-bottom: 20px;
   }
 
   &__checkTitle {

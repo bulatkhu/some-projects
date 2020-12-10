@@ -9,18 +9,19 @@ import {Link} from 'react-router-dom'
 import {SITE_BASE_URL} from "../../../../app.config";
 import NoPhoto from "../../../../images/general/noPhoto/noPhoto";
 
-const duration = 300;
+const duration = 500;
 
 const defaultStyle = {
   transition: `all ${duration}ms ease-in-out`,
-  display: 'none'
+  overflow: 'hidden',
+  maxHeight: '0'
 }
 
 const transitionStyles = {
-  entering: { display: 'block' },
-  entered:  { display: 'block' },
-  exiting:  { display: 'none' },
-  exited:  { display: 'none' },
+  entering: { maxHeight: '200px' },
+  entered:  { maxHeight: '200px' },
+  exiting:  { maxHeight: '0' },
+  exited:  { maxHeight: '0' },
 }
 
 const noPhotoStyles = {

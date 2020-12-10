@@ -20,6 +20,7 @@ const pricesData = [
 const Prices = ({classPrices = true}) => {
   const [showCheckOut, setShowCheckOut] = useState({show: false, type: null})
   const [courses, setCourses] = useState({})
+  const [error, setError] = useState(null)
 
   useEffect(() => {
 
@@ -27,13 +28,32 @@ const Prices = ({classPrices = true}) => {
       .then(res => {
         if (!res.error && +res.data.status === 1) {
           const {data} = res.data
-          setCourses(data)
+
+          console.log(data)
+
+          if (
+            !data.kz.combinations ||
+            !data.kz.main ||
+            !data.ru.combinations ||
+            !data.ru.main
+          ) {
+            setError('we do not have yet any courses')
+          } else {
+            setCourses(data)
+          }
+
         }
       })
 
   },[])
 
-  const onShowCheckOut = type => setShowCheckOut({show: true, type: type})
+  const onShowCheckOut = type => {
+    if (!error) {
+      setShowCheckOut({show: true, type: type})
+    } else {
+
+    }
+  }
 
 
   return (
@@ -55,6 +75,12 @@ const Prices = ({classPrices = true}) => {
         <h3 className="prices__title">
           <span>Оқу ақысы</span>
         </h3>
+
+        {
+          error ? (
+            <p className="error__big text-center">{error}</p>
+          ) : null
+        }
 
         <div className="prices__table priceTable">
 
@@ -184,25 +210,25 @@ const Prices = ({classPrices = true}) => {
                   <div className="topTableFirst__content">
 
                     <div className="topTableFirst__column">
-                      <button onClick={() => console.log('first column')} className="topTableFirst__button btn__shadowFromNull">
+                      <button disabled={error} onClick={() => console.log('first column')} className="topTableFirst__button btn__shadowFromNull">
                         <span className="topTableFirst__text">Таңдау</span>
                       </button>
                     </div>
 
                     <div className="topTableFirst__column">
-                      <button onClick={() => onShowCheckOut('main')} className="topTableFirst__button btn__shadowFromNull">
+                      <button disabled={error} onClick={() => onShowCheckOut('main')} className="topTableFirst__button btn__shadowFromNull">
                         <span className="topTableFirst__text">Таңдау</span>
                       </button>
                     </div>
 
                     <div className="topTableFirst__column">
-                      <button onClick={() => onShowCheckOut('profs')} className="topTableFirst__button btn__shadowFromNull">
+                      <button disabled={error} onClick={() => onShowCheckOut('profs')} className="topTableFirst__button btn__shadowFromNull">
                         <span className="topTableFirst__text">Таңдау</span>
                       </button>
                     </div>
 
                     <div className="topTableFirst__column">
-                      <button onClick={() => onShowCheckOut('combo')} className="topTableFirst__button btn__shadowFromNull">
+                      <button disabled={error} onClick={() => onShowCheckOut('combo')} className="topTableFirst__button btn__shadowFromNull">
                         <span className="topTableFirst__text">Таңдау</span>
                       </button>
                     </div>

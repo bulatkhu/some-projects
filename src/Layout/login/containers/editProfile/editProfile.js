@@ -1,8 +1,8 @@
 import React, {useRef, useState} from 'react'
-import './editProfile.scss'
 import {Field, Form} from 'react-final-form'
 import Select from 'react-select'
-import {apiEditProfile} from "../../../../request/apiRequests";
+import {apiEditProfile} from '../../../../request/apiRequests'
+import './editProfile.scss'
 
 
 const options = [
@@ -46,6 +46,13 @@ function formatFormValues(fromFormValues) {
     }
   })
 
+  for (let item of formValues) {
+
+    console.log('item', item)
+
+  }
+
+
   return formValues
 }
 
@@ -86,8 +93,9 @@ const EditProfile = ({type}) => {
           onClickAddAvatar.current.value = null
           setPhotoDescr('Photo: no')
         }} className="editProfile__btn editProfile__deletePhoto">Суретті өшіру</button>
-        <button onClick={() => onClickAddAvatar.current.click()}
-                className="editProfile__btn editProfile__addPhoto">Сурет жүктеу
+        <button
+          onClick={() => onClickAddAvatar.current.click()}
+          className="editProfile__btn editProfile__addPhoto">Сурет жүктеу
         </button>
         <div className="success editProfileBtn__info">{photoDescr}</div>
       </div>

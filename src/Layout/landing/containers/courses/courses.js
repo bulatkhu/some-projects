@@ -1,29 +1,32 @@
 import React, { useMemo, useState } from 'react'
-import {connect} from 'react-redux'
 import ThingCard from '../../../landing/components/ThingCard/ThingCard'
-import Tabs from '../../../landing/components/Tabs/tabs'
-import {setActiveTab} from '../../../../redux/actions/coursesTab/coursesTabActionsFunc'
 import {getCoursesFromIndex} from '../../../../request/apiRequests'
 import './courses.scss'
 
 
-
-const Courses = props => {
-  const [courses, setCourses] = useState([])
+const Courses = () => {
+  const [courses, setCourses] = useState(null)
+  const [activeTab, setActiveTab] = useState(null)
 
   useMemo(async () => {
 
     try {
       const response = await getCoursesFromIndex()
-      const courses = response.data.data.content
 
-      const coursesArray = Object
-        .keys(courses)
-        .map(item => ({title: item, courses: courses[item]}))
-        .filter(course => course.title === 'new' || course.title === 'popular' || course.title === 'vip'
-          || course.title === 'sell')
+      if (response.status === 200) {
+        const courses = {}
 
-      setCourses(() => coursesArray)
+        response.data.forEach(course => {
+          if (courses[course.category.title]) {
+            courses[course.category.title].push(course)
+          } else {
+            courses[course.category.title] = [course]
+          }
+        })
+
+        setActiveTab(Object.keys(courses)[0])
+        setCourses(courses)
+      }
     } catch (e) {
       console.log('error', e)
     }
@@ -38,17 +41,34 @@ const Courses = props => {
       <div className="courses__header">
         <h2 className="courses__title">Курстарымыз</h2>
 
-        {courses.length &&
-            <Tabs useDefTabs={false} data={courses} />}
+        <div className="tabs">
+          {
+            courses ? (
+              Object.keys(courses).map((title, index) => {
+                return (
+                  <button
+                    key={index}
+                    onClick={() => setActiveTab(title)}
+                    className={['tabs__item', 'btn__noFocus', activeTab === title ? 'active-tab' : null].join(' ')}
+                  >
+                    {title}
+                  </button>
+                )
+              })
+            ) : <div>No courses</div>
+          }
+        </div>
 
       </div>
 
       <div className="courses__bottom bottom">
         <div className="bottom__container _container">
           <div className="bottom__content">
-            {courses.filter(item => item.title === props.activeTab).map((item) => {
-              return item.courses.map((item1, index1) => <ThingCard key={index1} course={item1} />)
-            })}
+            {
+              courses && courses[activeTab].length ? (
+                courses[activeTab].map((item1, index1) => <ThingCard key={index1} course={item1}/>)
+              ) : null
+            }
           </div>
         </div>
       </div>
@@ -57,18 +77,6 @@ const Courses = props => {
   )
 }
 
-function mapStateToProps(state) {
-  return {
-    activeTab: state.courseTab.activeTab
-  }
-}
 
 
-function mapDispatchToProps(dispatch) {
-  return {
-    selectTab: tab => dispatch(setActiveTab(tab))
-  }
-}
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(Courses)
+export default Courses
