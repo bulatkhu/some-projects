@@ -29,8 +29,6 @@ const Prices = ({classPrices = true}) => {
         if (!res.error && +res.data.status === 1) {
           const {data} = res.data
 
-          console.log(data)
-
           if (
             !data.kz.combinations ||
             !data.kz.main ||

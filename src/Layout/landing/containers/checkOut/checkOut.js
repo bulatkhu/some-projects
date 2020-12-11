@@ -169,14 +169,6 @@ const CheckOut = ({type, show, info, courses}) => {
 
   useEffect(() => {
 
-    console.log('currentCoursesSelect', currentCoursesSelect)
-
-
-  },[currentCoursesSelect])
-
-
-  useEffect(() => {
-
     if (coursesSelect && coursesSelect.length) {
 
       setCurrentCoursesSelect({
@@ -317,7 +309,6 @@ const CheckOut = ({type, show, info, courses}) => {
                             ? <CoursesOverplay
                                 onClick={() => {
                                   setTypeState('combo')
-                                  console.log('go to combo')
                                 }}
                                 text="Бейіндік пәндерді қосу арқылы 5 990₸ эконом жасаңыз. "
                               />

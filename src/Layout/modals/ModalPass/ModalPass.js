@@ -1,12 +1,13 @@
-import React, {useEffect, useState} from 'react'
-import './ModalPass.scoped.scss'
+import React, {useState} from 'react'
+import InputMask from 'react-input-mask'
+import {Field, Form} from 'react-final-form'
+import {connect} from 'react-redux'
 import LittleBtn from '../LittleBtn/LittleBtn'
 import ModalInfo from './ModelInfo'
 import {validatePassword, validatePhone} from '../../../scripts/validations/validators'
 import {hideModalPass} from '../../../redux/actions/menu/menuActionsFuncs'
-import InputMask from 'react-input-mask'
-import {Field, Form} from 'react-final-form'
-import {connect} from 'react-redux'
+import {ApiCheckKeyForPassword, ApiResetPassword, keyGenerate} from '../../../request/apiRequests'
+import './ModalPass.scoped.scss'
 
 
 const switchEye = event => {
@@ -24,33 +25,55 @@ const ModalPass = ({show, hidePassModal}) => {
   const overlayClass = ['modalPass__overlay', 'modal__overlay', show ? 'modalActive' : null].join(' ')
   const [isInfoShown, setIsInfoShown] = useState(false)
   const [stepsCount, setStepsCount] = useState(0)
+  const [infoFromServer, setInfoFromServer] = useState(null)
   const [formData, setFormData] = useState({ password: null, phone: null, code: null })
 
-
-  useEffect(() => {
-
-    console.log(formData)
-
-  }, [formData])
-
-
-  const onResetPassSubmit = values => {
-    setStepsCount(1)
-    setFormData(prev => ({ ...prev, phone: values.phone }))
-    // console.log(values)
+  const onResetPassSubmit = async values => {
+    const phone = values.phone.replace('+', '')
+    setFormData(prev => ({ ...prev, phone: phone }))
+    keyGenerate(phone)
+      .then(res => {
+        setInfoFromServer(res.message || res.data )
+        setStepsCount(1)
+      })
+      .catch(e => {
+        setInfoFromServer(e.message)
+      })
   }
 
 
   const onSendCodeSubmit = values => {
-    setStepsCount(2)
     setFormData(prev => ({ ...prev, code: values.code }))
-    // console.log(values)
+
+    ApiCheckKeyForPassword({ phone: formData.phone, code: values.code })
+      .then(res => {
+        if (res.data.success === 1) {
+          setInfoFromServer(res.data.msg)
+          setStepsCount(2)
+        } else {
+          setInfoFromServer(res.data.msg)
+        }
+      })
+      .catch(err => {
+        setInfoFromServer(err.message)
+      })
   }
 
 
   const onChangePassSubmit = values => {
     setFormData(prev => ({  ...prev, password: values.password }))
-    // console.log(values)
+    ApiResetPassword({ phone: formData.phone, password: values.password })
+      .then(res => {
+        if (res.data.success === 1) {
+          setInfoFromServer(res.data.msg)
+          setTimeout(() => hideModalPass(),2000)
+        } else {
+          setInfoFromServer(res.data.msg)
+        }
+      })
+      .catch(err => {
+        setInfoFromServer(err.message)
+      })
   }
 
   return (
@@ -61,6 +84,8 @@ const ModalPass = ({show, hidePassModal}) => {
 
       <div className="modalPass">
 
+        <p className="error__middle">{infoFromServer}</p>
+
         {
           stepsCount === 0 && <Form
             onSubmit={onResetPassSubmit}
@@ -70,7 +95,6 @@ const ModalPass = ({show, hidePassModal}) => {
                 onSubmit={handleSubmit}
               >
                 <h1 className="modalPass__title">Құпиясөзді қалпына келтіру</h1>
-
                 <Field
                   required
                   name="phone"

@@ -28,8 +28,6 @@ const Courses = () => {
           }
         })
 
-        console.log('course', courses)
-
         setActiveTab(Object.keys(courses)[0])
         setCourses(courses)
       }

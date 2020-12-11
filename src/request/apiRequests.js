@@ -28,6 +28,14 @@ export async function keyGenerate(phone) {
   return await axios.post(APP_BASE_URL + '/user/keyGenerate', { phone }, { headers: { ...configAccess } })
 }
 
+export async function ApiCheckKeyForPassword({ phone, code }) {
+  return await axios.get(APP_BASE_URL + '/user/checkKeyForPassword', { params: { phone, code } })
+}
+
+export async function ApiResetPassword({ phone, password }) {
+  return await axios.get(APP_BASE_URL + '/user/resetPassword', { params: { phone, password } })
+}
+
 export async function checkKey(values) {
   return await axios.post(APP_BASE_URL + '/user/checkKey', { ...values }, { headers: { ...configAccess } })
 }
