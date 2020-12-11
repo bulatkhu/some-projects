@@ -8,7 +8,7 @@ import LoaderContainer from '../container/loaderContainer/loaderContainer'
 import {getDetailCourse} from '../../../request/apiRequests'
 
 
-const Subject = ({container, match}) => {
+const Subject = ({container, match, details = true, bg = true}) => {
   const [response, setResponse] = useState({})
   const [isLoaded, setIsLoaded] = useState(false)
   const [error, setError] = useState({bool: false, msg: ''})
@@ -43,7 +43,7 @@ const Subject = ({container, match}) => {
 
 
   return (
-    <section className="subject">
+    <section className={['subject', bg ? 'subject__bg' : null].join(' ')}>
 
       <div
         className={['subject__container', container ? '_container' : null].join(' ')}
@@ -52,7 +52,7 @@ const Subject = ({container, match}) => {
 
         {
           isLoaded && !isEmpty(response)
-            ? <SubjectWrapper response={response} isLoaded={isLoaded} />
+            ? <SubjectWrapper details={details} response={response} isLoaded={isLoaded} />
 
             : error.bool
               ? <LoaderContainer>

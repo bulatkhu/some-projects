@@ -12,17 +12,23 @@ const Courses = () => {
 
     try {
       const response = await getCoursesFromIndex()
-
       if (response.status === 200) {
         const courses = {}
 
         response.data.forEach(course => {
+          const {metas} = course
+          course.img = (metas && metas)
+            ? metas.find(meta => meta.option === 'cover').value
+            : null
+
           if (courses[course.category.title]) {
             courses[course.category.title].push(course)
           } else {
             courses[course.category.title] = [course]
           }
         })
+
+        console.log('course', courses)
 
         setActiveTab(Object.keys(courses)[0])
         setCourses(courses)

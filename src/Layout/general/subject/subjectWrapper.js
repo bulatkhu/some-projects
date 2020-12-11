@@ -56,7 +56,7 @@ const transitionWrapper = ({show, content}) => (
 );
 
 
-const SubjectWrapper = ({response, isLoaded}) => {
+const SubjectWrapper = ({response, isLoaded, details}) => {
   const ItemsWrapper = useRef(null)
   const [elements, setElements] = useState([])
   const [contentToShow, setContentToShow] = useState(1)
@@ -180,7 +180,7 @@ const SubjectWrapper = ({response, isLoaded}) => {
                     {
                       parts.length
                         ? parts.map((part, id) => (
-                          <SubjectPart key={id} id={id} courses={part.courses} name={part.name}/>
+                          <SubjectPart details={details} key={id} id={id} courses={part.courses} name={part.name}/>
                         ))
                         : <p className="error">Course does not have parts</p>
                     }
@@ -193,25 +193,27 @@ const SubjectWrapper = ({response, isLoaded}) => {
               transitionWrapper({
                 show: contentToShow === 2,
                 content: (
-                  <div className="subject__column">
+                  <div className="subject-tab__secondContent">
+                    <div className="subject__column">
 
-                    <div
-                      className="subject__textContent"
-                      dangerouslySetInnerHTML={{__html: response.product.content}}
-                    />
+                      <div
+                        className="subject__textContent"
+                        dangerouslySetInnerHTML={{__html: response.product.content}}
+                      />
 
-                    <div className="subject__text">
+                      <div className="subject__text">
 
-                      <h3 className="subject__textTitle">Материалы курса</h3>
+                        <h3 className="subject__textTitle">Материалы курса</h3>
 
-                      <div className="subject__mainText">
-                        • {response.parts.length} лекций • Общая
-                        продолжительность {Math.floor(response.Duration / 60)} ч {response.Duration % 60} мин
+                        <div className="subject__mainText">
+                          • {response.parts.length} лекций • Общая
+                          продолжительность {Math.floor(response.Duration / 60)} ч {response.Duration % 60} мин
+                        </div>
+
                       </div>
 
+
                     </div>
-
-
                   </div>
                 )
               })

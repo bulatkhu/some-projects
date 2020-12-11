@@ -23,7 +23,7 @@ function reqToShowCourses(courses) {
     return {
       title: item.title,
       courseImg: img,
-      link: '/subject/' + item.id
+      link: '/student/subject/' + item.id
     }
   })
 }

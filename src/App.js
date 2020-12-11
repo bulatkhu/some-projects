@@ -68,7 +68,7 @@ function App(props) {
             <Materials/>
           </Route>
           <Route exact path="/subject/:id?">
-            <Subject container/>
+            <Subject container details={false}/>
           </Route>
           <Route exact path="/paying">
             <Paying/>

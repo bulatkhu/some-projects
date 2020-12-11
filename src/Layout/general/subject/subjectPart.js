@@ -1,10 +1,11 @@
 import React from 'react'
 import {SITE_BASE_URL} from '../../../app.config'
 import playButton from '../../../images/general/subject/play-button.svg'
+import lockICon from '../../../images/general/subject/locked-icon.svg'
 
 
 
-const SubjectPart = ({name, id, courses}) => {
+const SubjectPart = ({name, id, courses, details}) => {
   let duration = 0
   courses.forEach(item => duration = duration + +item.duration)
 
@@ -32,17 +33,40 @@ const SubjectPart = ({name, id, courses}) => {
         {courses.map((item, index) => (
           <div key={index} className="subjectItemButton__item">
             <div className="subjectItemButton__left">
-              <a rel="noopener noreferrer" target="_blank"
-                 href={
-                   item.upload_video.includes('http')
-                     ? item.upload_video
-                     : SITE_BASE_URL + item.upload_video
-                 }
-              >
-                <div className="subjectItemButton__icon">
-                  <img src={playButton} alt="play"/>
-                </div>
-              </a>
+              {
+                details ? (
+                  <a rel="noopener noreferrer" target="_blank"
+                     href={
+                       item.upload_video.includes('http')
+                         ? item.upload_video
+                         : SITE_BASE_URL + item.upload_video
+                     }
+                  >
+                    <div className="subjectItemButton__icon">
+                      <img src={playButton} alt="play"/>
+                    </div>
+                  </a>
+                ) : (
+                  <div className="subjectItemButton__icon">
+                    <img src={lockICon} alt="locked"/>
+                  </div>
+                )
+              }
+              {/*<a rel="noopener noreferrer" target="_blank"*/}
+              {/*   href={*/}
+              {/*     item.upload_video.includes('http')*/}
+              {/*       ? item.upload_video*/}
+              {/*       : SITE_BASE_URL + item.upload_video*/}
+              {/*   }*/}
+              {/*>*/}
+              {/*  <div className="subjectItemButton__icon">*/}
+              {/*    {*/}
+              {/*      details*/}
+              {/*        ? <img src={playButton} alt="play"/>*/}
+              {/*        : <img src={lockICon} alt="locked"/>*/}
+              {/*    }*/}
+              {/*  </div>*/}
+              {/*</a>*/}
               <p className="subjectItemButton__title">{item.title}</p>
             </div>
             <div className="subjectItemButton__right">

@@ -20,6 +20,7 @@ import teacherPhoto from '../../../images/login/navbar/teacherPhoto.jpg'
 import EduCoinComponent from '../../login/containers/eduCoin/eduCoin';
 import NotFound from '../../general/notFound/notFound';
 import {connect} from 'react-redux'
+import Subject from '../../general/subject/subject'
 
 
 const loggedInfo = {
@@ -40,6 +41,7 @@ const loggedInfo = {
       lesson: '/student/lesson',
       connecting: '/student/connecting',
       watchCourse: '/student/watchCourse/:id',
+      subject: '/student/subject/:id?'
     }
   },
   teacher: {
@@ -84,6 +86,9 @@ const renderStudentsRoutes = ({teacher, student}) => {
           <Route exact path={student.links.lesson} component={Lesson}/>
           <Route exact path={student.links.connecting} component={Connect}/>
           <Route exact path={student.links.watchCourse} component={WatchCourse}/>
+          <Route exact path={student.links.subject}>
+            <Subject container bg={false} details={true}/>
+          </Route>
           <Route component={NotFound}/>
         </Switch>
       </Login>
