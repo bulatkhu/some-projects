@@ -1,47 +1,16 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react'
 import Countdown from 'react-countdown'
+import {Link} from 'react-router-dom'
 import VideoPlayer from '../../../general/videoPlayer/videoPlayer'
 import Stars from '../../../general/stars/stars'
-import FlipBookComponent from '../../../general/flipBook/flipBookComp'
-import TestSlider from "../../components/testSlider/testSlider"
+// import FlipBookComponent from '../../../general/flipBook/flipBookComp'
+import TestSlider from '../../components/testSlider/testSlider'
 import ConsiderResults from '../../../landing/auxiliary/considerResults'
 import {getQuizById, takeQuizById} from '../../../../request/apiQuizzes'
 import Loader from '../../../general/component/loader/loader'
 import './watchCourse.scoped.scss'
 // import useScript from "../../../../hooks/useScript";
 
-const playersProps = [
-  {
-    title: 'Функция',
-    players: [
-      {text: 'Ac massa turpis quisque.', time: '02:25', progress: 37, link: '/'},
-      {text: 'Ac massa turpis quisque.', time: '02:25', progress: 50, link: '/'},
-      {text: 'Ac massa turpis quisque.', time: '02:25', progress: 21, link: '/'},
-    ]
-  },
-  {
-    title: 'Термодинамика',
-    players: [
-      {text: 'Ac massa turpis quisque.', time: '02:25', progress: 1, link: '/'}
-    ]
-  },
-  {
-    title: 'Сандық сипаттамалар',
-    players: [
-      {text: 'Ac massa turpis quisque.', time: '02:25', progress: 14, link: '/'},
-      {text: 'Ac massa turpis quisque.', time: '02:25', progress: 28, link: '/'},
-      {text: 'Ac massa turpis quisque.', time: '02:25', progress: 99, link: '/'},
-      {text: 'Ac massa turpis quisque.', time: '02:25', progress: 99, link: '/'},
-    ]
-  },
-  {
-    title: 'Тригонометрия',
-    players: [
-      {text: 'Ac massa turpis quisque.', time: '02:25', progress: 12, link: '/'},
-      {text: 'Ac massa turpis quisque.', time: '02:25', progress: 32, link: '/'},
-    ]
-  }
-]
 const initialTestState = {
   showTest: false,
   startTest: false,
@@ -81,6 +50,22 @@ function countdownRenderer(rerenderData) {
   }
 }
 
+function partsToSideParts(parts) {
+  if (!parts) return []
+
+  return Object.keys(parts).map(part => {
+    return {
+      title: part,
+      players: parts[part]
+        .map(part => ({
+          link: `/student/detail-course/${part.content_id}/${part.id}`,
+          ...part
+        }))
+    }
+  })
+}
+
+
 const CountdownComponent  = React.memo(function ({handleTest, time}) {
 
   return (
@@ -93,74 +78,70 @@ const CountdownComponent  = React.memo(function ({handleTest, time}) {
 })
 
 
-function Course({match: { params: { id }}}) {
+function Course({match: { params }}) {
+  const { id, contentId } = params
   const refCoursesButtons = useRef(null)
   const finishButton = useRef(null)
   const [testState, changeTestState] = useState(initialTestState)
   const [testItems, setTestItems] = useState(null)
   const [testResults, setTestResults] = useState({response: null, circleData: null})
+  const [sideParts, setSideParts] = useState([])
+  const [linkToVideo, setLinkToVideo] = useState(null)
+  const [currentLesson, setCurrentLesson] = useState(null)
   const [error, setError] = useState(null)
+
+  // console.log('params', contentId, id)
 
 
   useEffect(() => {
-    let mounted = true
 
-      if ((!testItems || !testItems.length) && mounted) {
-        getQuizById(id)
-          .then(res => {
+    if (!testItems || !testItems.length) {
+      getQuizById({ contentId, id })
+        .then(res => {
+          console.log('response', res)
+          setLinkToVideo(res.currentLesson.upload_video)
+          setSideParts(partsToSideParts(res.parts))
 
-            console.log('res', res)
+          if (!res.error) {
+            if (!res.quiz) return setError(`Error, this course does't have any quizzes`)
+            setCurrentLesson(res.currentLesson)
+            const {questions, duration} = res.quiz
+            const newTestItems = questions.map(item => {
+              return {
+                multiple: !!item.is_multiple,
+                text: item.question,
+                questionId: item.id,
+                questions: item.options.map(option => {
+                  return option.option_text
+                }),
+                answer: [],
+                rightAnswers: item.options
+                  .map((option, index) => {
+                    if (!!option.correct) {
+                      return index
+                    }
+                    return null
+                  })
+                  .filter(answer => !!answer)
+              }
+            })
+            setTestItems(newTestItems)
+            changeTestState(prev => ({...prev, time: +duration || 14}))
+          } else {
+            setError(`Request error:, ${res.message}`)
+          }
+        })
+        .catch(err => {
 
-            if (res.status === 200) {
-
-              const {questions, duration} = res.data
-              const rightQuestions = questions && questions.length ? questions : res.data[0]
-
-              console.log('res data', res.data)
-
-              const newTestItems = rightQuestions.map(item => {
-                return {
-                  multiple: !!item.is_multiple,
-                  text: item.question,
-                  questionId: item.id,
-                  questions: item.options.map(option => {
-                    return option.option_text
-                  }),
-                  answer: [],
-                  rightAnswers: item.options
-                    .map((option, index) => {
-                      if (!!option.correct) {
-                        return index
-                      }
-                      return null
-                    })
-                    .filter(answer => !!answer)
-                }
-              })
-              setTestItems(newTestItems)
-              changeTestState(prev => ({...prev, time: +duration || 14}))
-
-            } else {
-
-              setError(`Request error:, ${res.data.message}`)
-
-            }
-          }).catch(err => {
-
-            console.log('error', JSON.parse(JSON.stringify(err)).message)
-            setError(`Error: ${err.message}`)
-
-          })
-
-      }
+          console.log('error', JSON.parse(JSON.stringify(err)))
+          setError(`Error: ${err.message}`)
 
 
+        })
 
-
-    return () => {
-      mounted = false
     }
-  }, [testItems, id])
+
+  }, [testItems, id, contentId])
 
 
   const showTestHandler = (info, element) => {
@@ -182,10 +163,7 @@ function Course({match: { params: { id }}}) {
         ...prev,
         showResults: true
       }))
-
-      console.info('testItems', testItems)
-
-      takeQuizById({results:  testToResults(testItems),id: 13})
+      takeQuizById({results:  testToResults(testItems),id: currentLesson.quiz.id})
         .then(response => {
           const {correct_answers, total_attempt, empty} = response.data
           setTestResults({
@@ -214,13 +192,20 @@ function Course({match: { params: { id }}}) {
 
         <div className="course__column">
 
-          <div className="course-video">
-            <div className="lesson__playerWrapper">
-              <VideoPlayer
-                className="lesson__video"
-              />
-            </div>
-          </div>
+          {
+            linkToVideo
+              ? (
+                <div className="course-video">
+                  <div className="lesson__playerWrapper">
+                    <VideoPlayer
+                      url={linkToVideo}
+                      className="lesson__video"
+                    />
+                  </div>
+                </div>
+              )
+              : null
+          }
 
           <div className="course-panel">
             <div className="course-panel__content">
@@ -237,12 +222,12 @@ function Course({match: { params: { id }}}) {
                 <div ref={refCoursesButtons} className="course-buttons">
                   <button
                     onClick={ev => showTestHandler(false, ev)}
-                    disabled={!!testState.showTest && !testState.showResults}
+                    disabled={(!!testState.showTest && !testState.showResults) || error}
                     className="course-buttons__btn active btn__noFocus"
                   >Сабақ</button>
                   <button
                     onClick={ev => showTestHandler(true, ev)}
-                    disabled={!!testState.showTest && !testState.showResults}
+                    disabled={(!!testState.showTest && !testState.showResults) || error}
                     className="course-buttons__btn btn__noFocus"
                   >Тест</button>
                 </div>
@@ -270,15 +255,7 @@ function Course({match: { params: { id }}}) {
 
                     {
                       !testState.showTest
-                        ? <div className="course-book">
-
-                          <h2 className="course-book__title">
-                            Теориялық бөлім
-                          </h2>
-
-                          <FlipBookComponent/>
-
-                        </div>
+                        ? null
                         : <div className="course-start">
 
                           <h2 className="course-start__title course-book__title">Тақырып бойынша арнайы тесттер</h2>
@@ -362,7 +339,7 @@ function Course({match: { params: { id }}}) {
               <h1 className="accordion__title">Мазмұны</h1>
             </div>
 
-            {playersProps.map((item, key) => {
+            {sideParts.map((item, key) => {
 
               return (
                 <div key={key + item.title} className="accordion__wrapper">
@@ -372,10 +349,10 @@ function Course({match: { params: { id }}}) {
                   <div className="accordion__bottom accorBot">
                     {item.players.map((item1, key1) => (
                       <div key={key1} className="accorBot__wrapper">
-                        <a href={item1.link} className="accorBot__icon">&nbsp;</a>
+                        <Link to={item1.link} className="accorBot__icon">&nbsp;</Link>
                         <div className="accorBot__content">
 
-                          <div className="accorBot__text">{item1.text}</div>
+                          <div className="accorBot__text">{item1.title}</div>
                           <div className="accorBot-progress clearFix">
                             <div className="accorBot-progress__line">
                               <span style={{width: item1.progress + '%'}}/>

@@ -1,7 +1,7 @@
-import React, {useRef} from 'react'
+import React, {useRef, useState} from 'react'
 import {connect} from 'react-redux'
-import {SITE_BASE_URL} from '../../../../app.config'
 import NoPhoto from '../../../../images/general/noPhoto/noPhoto'
+import {apiCreateCommentCourse} from '../../../../request/apiComments'
 
 
 const removeAllActiveStars = target => {
@@ -10,8 +10,54 @@ const removeAllActiveStars = target => {
 }
 
 
-const AddComment = ({user, isAuth}) => {
+const AddComment = ({user, isAuth, id}) => {
   const starsInput = useRef(null)
+  const [commentInfo, setCommentInfo] = useState({ show: false, success: false, text: null })
+
+  const onAddComment = event => {
+    event.preventDefault()
+    const comment = event.target.comment.value
+    if (comment.trim()) {
+
+
+      console.log('id', id)
+
+
+      apiCreateCommentCourse({
+        content_id: id, comment
+      })
+        .then(res => {
+          if (res.data.success === 1) {
+
+            setCommentInfo({
+              show: true,
+              success: true,
+              text: 'Comment added'
+            })
+          } else {
+            setCommentInfo({
+              show: true,
+              success: false,
+              text: res.data.msg
+            })
+          }
+        })
+        .catch(err => {
+
+          setCommentInfo({
+            show: true,
+            success: false,
+            text: err.message
+          })
+
+          console.log('err', err)
+        })
+
+      // console.log('id', id)
+      // console.log('comment', event.target.comment.value)
+
+    }
+  }
 
   const ratingHandler = event => {
     if (event.target.dataset.value) {
@@ -35,40 +81,51 @@ const AddComment = ({user, isAuth}) => {
   }
 
   return (
-    <form className="bottomTeachPage__addComment addComment">
+    <>
+      {
+        commentInfo.show
+          ? (
+            <p className="success">{commentInfo.text}</p>
+          )
+          : (
+            <p className="error">{commentInfo.text}</p>
+          )
+      }
+      <form onSubmit={onAddComment} className="bottomTeachPage__addComment addComment">
 
-      <div className="addComment__image">
-        {
-          user && user.localAvatar
-            ? <img src={`${SITE_BASE_URL + user.localAvatar}`} alt="your profile"/>
-            : <NoPhoto/>
-        }
-      </div>
+        <div className="addComment__image">
+          {
+            user && user.localAvatar
+              ? <img src={`${user.localAvatar}`} alt="your profile"/>
+              : <NoPhoto/>
+          }
+        </div>
 
-      <div className="addComment__inputWrapper">
+        <div className="addComment__inputWrapper">
 
 
-        <textarea className="addComment__input" placeholder="Make Comment..."/>
+          <textarea name="comment" className="addComment__input" placeholder="Make Comment..."/>
 
-        <div className="addComment__buttons">
+          <div className="addComment__buttons">
 
-          <div className="rating__stars" onClick={ratingHandler}>
-            <input ref={starsInput} name="stars" type="text" defaultValue="null"/>
+            <div className="rating__stars" onClick={ratingHandler}>
+              <input ref={starsInput} name="stars" type="text" defaultValue="null"/>
 
-            <span data-value="5">☆</span>
-            <span data-value="4">☆</span>
-            <span data-value="3">☆</span>
-            <span data-value="2">☆</span>
-            <span data-value="1">☆</span>
+              <span data-value="5">☆</span>
+              <span data-value="4">☆</span>
+              <span data-value="3">☆</span>
+              <span data-value="2">☆</span>
+              <span data-value="1">☆</span>
+            </div>
+
+            <button className="btn__shadowFromNull addComment__btn">Send</button>
+
           </div>
-
-          <button className="btn__shadowFromNull addComment__btn">Send</button>
 
         </div>
 
-      </div>
-
-    </form>
+      </form>
+    </>
   )
 }
 

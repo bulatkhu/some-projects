@@ -8,8 +8,6 @@ import Loader from '../../../general/component/loader/loader'
 import 'slick-carousel/slick/slick.css'
 import './teachersSlider.scoped.scss'
 
-
-
 const settings = {
   swipeToSlide: 'true',
   focusOnSelect: 'true',

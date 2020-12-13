@@ -25,13 +25,23 @@ const ThingCard = ({activeTab, course}) => {
 
   let image = null
   if (thumbnail) {
-    if (thumbnail.toString().includes('static/media') || thumbnail.toString().includes(SITE_BASE_URL)) {
+    if (
+      thumbnail.toString().includes('static/media') ||
+      thumbnail.toString().includes(SITE_BASE_URL) ||
+      thumbnail.toString().includes('http://') ||
+      thumbnail.toString().includes('https://')
+    ) {
       image = thumbnail
     } else {
       image = `${SITE_BASE_URL}/${thumbnail}`
     }
   } else if (img) {
-    if (img.toString().includes('static/media') || img.toString().includes(SITE_BASE_URL)) {
+    if (
+      img.toString().includes('static/media') ||
+      img.toString().includes(SITE_BASE_URL) ||
+      img.toString().includes('http://') ||
+      img.toString().includes('https://')
+    ) {
       image = img
     } else {
       image = `${SITE_BASE_URL}/${img}`

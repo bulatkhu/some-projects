@@ -1,0 +1,101 @@
+.test {
+  padding: 40px 0;
+
+  &__title {
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 33px;
+    color: #626267;
+    margin-bottom: 40px;
+  }
+
+  &__wrapper {
+    padding: 20px 22px;
+    background-color: #fff;
+    border-radius: 10px;
+
+    @media (max-width: 767px) {
+      padding: 10px;
+    }
+
+    @media (max-width: 576px) {
+      padding: 5px;
+    }
+  }
+
+  &__select {
+    max-width: 230px;
+    margin-bottom: 25px;
+
+    @media (max-width: 576px) {
+      max-width: 100%;
+    }
+
+    //background: #FFFFFF;
+    //border: 1px solid #DADADA;
+    //box-sizing: border-box;
+    //border-radius: 25px;
+  }
+
+  &__tableWrapper {
+    @media (max-width: 576px) {
+      overflow-x: auto;
+    }
+  }
+
+  &__table {
+    width: 100%;
+    border-spacing: 0 34px;
+  }
+}
+
+.testTable {
+
+  @media (max-width: 576px) {
+    min-width: 400px;
+  }
+
+  thead, tbody {
+    tr {
+      th, td {
+        &:first-child {
+          width: 55%;
+
+          @media (max-width: 767px) {
+            width: auto;
+          }
+        }
+        &:not(:first-child) {
+          text-align: center;
+        }
+      }
+    }
+  }
+
+  &__rowTitle {
+    text-align: left;
+    font-size: 14px;
+    line-height: 16px;
+    color: #FF5773;
+    font-style: normal;
+    font-weight: normal;
+  }
+
+  &__cellTitle {
+    border-bottom: 1px solid #DADADA;
+  }
+
+  &__row {
+    border-bottom: 1px solid #DADADA;
+    margin-bottom: 24px;
+  }
+
+  &__cell {
+    border-bottom: 1px solid #DADADA;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 16px;
+    color: #626267;
+  }
+}

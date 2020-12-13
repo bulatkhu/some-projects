@@ -2,6 +2,7 @@ import * as actions from './userActions'
 import {getUserData} from '../../../request/apiUser'
 import {getFromUserMeta} from '../../../scripts/dataHandler/dataHandler'
 import {logoutAction} from '../auth/authActionsFuncs'
+import {SITE_BASE_URL} from '../../../app.config'
 
 
 export function setUsersData() {
@@ -16,11 +17,10 @@ export function setUsersData() {
       })
     }
 
-
-    user.data.localAvatar = (
-      getFromUserMeta(user.data,'avatar') ||
-      getFromUserMeta(user.data,'profile_image')
-    )
+    const avatar = getFromUserMeta(user.data,'avatar') || getFromUserMeta(user.data,'profile_image')
+    user.data.localAvatar = avatar.toString().includes('http') || avatar.toString().includes('https')
+      ? avatar
+      : `${SITE_BASE_URL}/${avatar}`
     dispatch({
       type: actions.SET_USERS_DATA,
       user: user.data

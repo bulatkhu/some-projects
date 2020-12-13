@@ -6,7 +6,6 @@ import {setUsersData} from '../../../../redux/actions/user/userActionsFuncs'
 import {connect} from 'react-redux'
 import {scrollBodyHandler} from '../../../../scripts/scrollController/scrollController'
 import {Link} from 'react-router-dom'
-import {SITE_BASE_URL} from "../../../../app.config";
 import NoPhoto from "../../../../images/general/noPhoto/noPhoto";
 
 const duration = 500;
@@ -99,7 +98,7 @@ const HeaderMenu = ({isHide, onShowLogin, onShowRegister, setUserData, menu, isA
                           <div className="headerMenu-login__img">
                             {
                               user && user.localAvatar
-                                ? <img src={SITE_BASE_URL + user.localAvatar} alt="Avatar"/>
+                                ? <img src={user.localAvatar} alt="Avatar"/>
                                 : <NoPhoto style={{...noPhotoStyles, fontSize: '8px'}}/>
                             }
                           </div>

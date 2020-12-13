@@ -1,5 +1,4 @@
 import React from 'react'
-import {SITE_BASE_URL} from '../../../app.config'
 import playButton from '../../../images/general/subject/play-button.svg'
 import lockICon from '../../../images/general/subject/locked-icon.svg'
 
@@ -35,23 +34,28 @@ const SubjectPart = ({name, id, courses, details}) => {
             <div className="subjectItemButton__left">
               {
                 details ? (
-                  <a rel="noopener noreferrer" target="_blank"
-                     href={
-                       item.upload_video.includes('http')
-                         ? item.upload_video
-                         : SITE_BASE_URL + item.upload_video
-                     }
-                  >
-                    <div className="subjectItemButton__icon">
-                      <img src={playButton} alt="play"/>
-                    </div>
-                  </a>
+                    <>
+                      <div className="subjectItemButton__icon">
+                        <img src={playButton} alt="play"/>
+                      </div>
+                      <a
+                        rel="noopener noreferrer"
+                        target="_blank"
+                        href={`/student/detail-course/${item.content_id}/${item.id}`}
+                      >
+                        <p className="subjectItemButton__title">{item.title}</p>
+                      </a>
+                    </>
                 ) : (
-                  <div className="subjectItemButton__icon">
-                    <img src={lockICon} alt="locked"/>
-                  </div>
+                  <>
+                    <div className="subjectItemButton__icon">
+                      <img src={lockICon} alt="locked"/>
+                    </div>
+                    <p className="subjectItemButton__title">{item.title}</p>
+                  </>
                 )
               }
+
               {/*<a rel="noopener noreferrer" target="_blank"*/}
               {/*   href={*/}
               {/*     item.upload_video.includes('http')*/}
@@ -59,15 +63,8 @@ const SubjectPart = ({name, id, courses, details}) => {
               {/*       : SITE_BASE_URL + item.upload_video*/}
               {/*   }*/}
               {/*>*/}
-              {/*  <div className="subjectItemButton__icon">*/}
-              {/*    {*/}
-              {/*      details*/}
-              {/*        ? <img src={playButton} alt="play"/>*/}
-              {/*        : <img src={lockICon} alt="locked"/>*/}
-              {/*    }*/}
-              {/*  </div>*/}
+              {/*  <p className="subjectItemButton__title">{item.title}</p>*/}
               {/*</a>*/}
-              <p className="subjectItemButton__title">{item.title}</p>
             </div>
             <div className="subjectItemButton__right">
               {/*<a rel="noopener noreferrer" target="_blank" href={item.upload_video} className="subjectItemButton__preview">{item.title}</a>*/}

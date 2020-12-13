@@ -5,6 +5,7 @@ import {SITE_BASE_URL} from '../../../app.config'
 import {Transition} from 'react-transition-group'
 import SubjectPart from "./subjectPart";
 import Prices from "../../landing/containers/prices/prices";
+import AddComment from '../../login/components/addComment/addComment'
 
 const duration = 300;
 
@@ -223,7 +224,10 @@ const SubjectWrapper = ({response, isLoaded, details}) => {
               transitionWrapper({
                 show: contentToShow === 3,
                 content: (
-                  <Comments comments={comments}/>
+                  <>
+                    <AddComment id={response ? response.product.id : null} />
+                    <Comments comments={comments}/>
+                  </>
                 )
               })
             }

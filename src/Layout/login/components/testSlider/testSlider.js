@@ -73,6 +73,8 @@ const textToMathJax = text => {
 
 
 const TestSlider = ({showResults, testItems, setTestItems}) => {
+  console.log('test items', testItems)
+
   const [currentSlide, setCurrentSlide] = useState(0)
   navSliderSettings.slidesToShow = testItems.length > 18 ? 18 : testItems.length
 

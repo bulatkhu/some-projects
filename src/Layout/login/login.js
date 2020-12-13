@@ -1,6 +1,5 @@
 import React, {useState} from 'react'
 import {connect} from 'react-redux'
-import {SITE_BASE_URL} from '../../app.config'
 import MenuLinks from './menuLinks/menuLinks'
 import NoPhoto from '../../images/general/noPhoto/noPhoto'
 import eduCoin from '../../images/landing/educoin/eduCoin.svg'
@@ -32,7 +31,7 @@ const Login = ({children, links, user}) => {
         <div className="loginNav__column loginNav__profile loginProf">
           <div className="loginProf__img loginProf__column">
             {user && user.localAvatar
-              ? <img src={SITE_BASE_URL + user.localAvatar} alt="avatar"/>
+              ? <img src={user.localAvatar} alt="avatar"/>
               : <NoPhoto/>
             }
           </div>

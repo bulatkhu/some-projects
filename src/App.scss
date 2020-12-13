@@ -90,6 +90,14 @@ body {
 // Slick default settings
 
 /* Arrows */
+
+.teachers__slider {
+  .slick-prev,
+  .slick-next {
+    display: none !important;
+  }
+}
+
 .slick-prev,
 .slick-next
 {

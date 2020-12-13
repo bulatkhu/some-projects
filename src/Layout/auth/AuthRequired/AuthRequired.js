@@ -21,6 +21,7 @@ import EduCoinComponent from '../../login/containers/eduCoin/eduCoin';
 import NotFound from '../../general/notFound/notFound';
 import {connect} from 'react-redux'
 import Subject from '../../general/subject/subject'
+import TestComponent from '../../login/containers/testComponent/testComponent'
 
 
 const loggedInfo = {
@@ -32,6 +33,7 @@ const loggedInfo = {
     links: {
       base: '/student',
       chat: '/student/chat',
+      tests: '/student/tests',
       promo: '/student/promo',
       edit: '/student/edit',
       payment: '/student/payment',
@@ -40,7 +42,7 @@ const loggedInfo = {
       buy: '/student/buy',
       lesson: '/student/lesson',
       connecting: '/student/connecting',
-      watchCourse: '/student/watchCourse/:id',
+      watchCourse: '/student/detail-course/:contentId/:id',
       subject: '/student/subject/:id?'
     }
   },
@@ -79,6 +81,7 @@ const renderStudentsRoutes = ({teacher, student}) => {
           <Route exact path={student.links.edit}>
             <EditProfile type={student.type}/>
           </Route>
+          <Route exact path={student.links.tests} component={TestComponent}/>
           <Route exact path={student.links.payment} component={Payment}/>
           <Route exact path={student.links.eduCoin} component={EduCoinComponent}/>
           <Route exact path={student.links.calendar} component={Calendar}/>
