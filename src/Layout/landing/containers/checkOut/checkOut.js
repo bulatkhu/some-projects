@@ -161,6 +161,8 @@ const CheckOut = ({type, show, info, courses}) => {
 
 
   useEffect(() => {
+    console.log('current courses', currentCourses)
+
     if (!isEmpty(currentCourses)) {
       const courses = combinationsToOption(currentCourses.combinations)
       setCoursesSelect(courses)
@@ -180,6 +182,12 @@ const CheckOut = ({type, show, info, courses}) => {
 
   },[coursesSelect])
 
+  useEffect(() => {
+
+    console.log('typeState', typeState)
+
+  },[typeState])
+
 
   const onFormSubmit = (event) => {
     event.preventDefault()
@@ -188,8 +196,6 @@ const CheckOut = ({type, show, info, courses}) => {
     const order_type = event.target.type.value
     const relationId = event.target.relationId.value
     const lang = event.target.lang.value
-
-
     const data = { bank, sum, order_type, relation_id: relationId }
 
     createPayment(data)
@@ -245,11 +251,16 @@ const CheckOut = ({type, show, info, courses}) => {
   }
 
   const relationId = () => {
-    if (!currentCourses.main || !currentCourses.main[0]) return 0
-    if (!currentCourses.courses || !currentCourses.courses[0]) return 0
+    if (!currentCourses.main && !currentCourses.main[0]) return  setIsError('we do not have main courses')
+    if (!currentCoursesSelect.courses &&
+      !currentCoursesSelect.courses[0]) return  setIsError('we do not have your choose courses')
 
-    const mainRelId = currentCourses.main[0].relation_id
-    const combinationRelId = currentCoursesSelect.courses[0].relationId
+    const mainRelId = currentCourses.main[0]
+      ? currentCourses.main[0].relation_id
+      : null
+    const combinationRelId = currentCoursesSelect.courses[0]
+      ? currentCoursesSelect.courses[0].relationId
+      : null
 
     if (typeState === 'main') {
       return mainRelId
@@ -259,6 +270,8 @@ const CheckOut = ({type, show, info, courses}) => {
 
     return 0
   }
+
+  // console.log('relationId', relationId())
 
   return (
     <Transition unmountOnExit in={info.show} timeout={500}>
