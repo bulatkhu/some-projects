@@ -202,18 +202,6 @@ const SubjectWrapper = ({response, isLoaded, details}) => {
                         dangerouslySetInnerHTML={{__html: response.product.content}}
                       />
 
-                      <div className="subject__text">
-
-                        <h3 className="subject__textTitle">Материалы курса</h3>
-
-                        <div className="subject__mainText">
-                          • {response.parts.length} лекций • Общая
-                          продолжительность {Math.floor(response.Duration / 60)} ч {response.Duration % 60} мин
-                        </div>
-
-                      </div>
-
-
                     </div>
                   </div>
                 )

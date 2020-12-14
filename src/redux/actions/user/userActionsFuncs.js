@@ -18,9 +18,16 @@ export function setUsersData() {
     }
 
     const avatar = getFromUserMeta(user.data,'avatar') || getFromUserMeta(user.data,'profile_image')
-    user.data.localAvatar = avatar.toString().includes('http') || avatar.toString().includes('https')
-      ? avatar
-      : `${SITE_BASE_URL}/${avatar}`
+
+    user.data.localAvatar = null
+
+    if (avatar) {
+      user.data.localAvatar = avatar.toString().includes('http') || avatar.toString().includes('https')
+        ? avatar
+        : `${SITE_BASE_URL}/${avatar}`
+    }
+
+
     dispatch({
       type: actions.SET_USERS_DATA,
       user: user.data

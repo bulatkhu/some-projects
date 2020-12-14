@@ -6,7 +6,6 @@ import kaspiBank from '../../../../images/landing/checkBoxes/bankKaspi.svg'
 import bankCard from '../../../../images/landing/checkBoxes/bankCard.svg'
 import roundAdd from '../../../../images/landing/checkBoxes/roundAdd.svg'
 import {createPayment} from '../../../../request/apiPayment'
-import {SITE_BASE_URL} from '../../../../app.config'
 import ThingCard from '../../components/ThingCard/ThingCard'
 import Payment from '../payment/payment'
 import './checkOut.scoped.scss'
@@ -33,22 +32,23 @@ function CoursesOverplay({text, onClick}) {
 
 function combinationsToOption(combination) {
 
-  const options = Object.keys(combination).map(item => ({
+  return Object.keys(combination).map(item => ({
     label: `${combination[item][0].content.title} - ${combination[item][1].content.title}`,
     option: item,
     courses: combination[item].map(course => {
-      const img = course.content.category.image ? SITE_BASE_URL + course.content.category.image : null
+      let cover = course.content.metas.find(meta => meta.option === 'cover') || null
+      if (cover) {
+        cover = cover.value
+      }
 
       return {
         relationId: course.relation_id,
         id: course.content_id,
         title: course.content.title,
-        img
+        img: cover
       }
     })
   }))
-
-  return options
 }
 
 function genCoursesDescription({type, lang, main, selectCourses, price, title}) {
@@ -364,14 +364,20 @@ const CheckOut = ({type, show, info, courses}) => {
 
                               {
                                 currentCourses ? currentCourses.main.map((item, index) => {
+                                  let cover = item.content.metas.find(meta => meta.option === 'cover') || null
+
+                                  if (cover) {
+                                    cover = cover.value
+                                  }
+
                                   return (
                                     <ThingCard key={index} course={{
                                       title: item.content.title,
-                                      img: item.content.category.image,
+                                      img: cover,
                                       id: item.content_id
                                     }}/>
                                   )
-                                })            : null
+                                }) : null
                               }
 
                             </div>

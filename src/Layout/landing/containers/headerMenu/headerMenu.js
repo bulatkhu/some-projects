@@ -1,12 +1,12 @@
 import React, {useEffect} from 'react'
-import './headerMenu.scoped.scss'
+import {connect} from 'react-redux'
 import { Transition } from 'react-transition-group'
+import {Link} from 'react-router-dom'
 import {showModalLogin, showModalReg} from '../../../../redux/actions/menu/menuActionsFuncs'
 import {setUsersData} from '../../../../redux/actions/user/userActionsFuncs'
-import {connect} from 'react-redux'
 import {scrollBodyHandler} from '../../../../scripts/scrollController/scrollController'
-import {Link} from 'react-router-dom'
-import NoPhoto from "../../../../images/general/noPhoto/noPhoto";
+import NoPhoto from '../../../../images/general/noPhoto/noPhoto'
+import './headerMenu.scoped.scss'
 
 const duration = 500;
 
