@@ -172,17 +172,9 @@ export async function removeCalendarTask(id) {
     })
 }
 
-export async function apiEditProfile(values) {
+export async function apiEditProfile(formData) {
   const token = getToken()
   if (!token) return { error: 'invalid token' }
 
-
-  return await axios.post(APP_BASE_URL + '/editProfile', {...values, token})
-    .then(res => ({...res, error: false}))
-    .catch(err => {
-      if (err.response) {
-        return {...err.response, error: true}
-      }
-    })
-
+  return await axios.post(`${APP_BASE_URL}/user/editProfile?token=${token}`, formData)
 }

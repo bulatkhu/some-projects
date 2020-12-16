@@ -1,7 +1,9 @@
 import React, {useRef, useState} from 'react'
 import {Field, Form} from 'react-final-form'
 import Select from 'react-select'
+import {connect} from 'react-redux'
 import {apiEditProfile} from '../../../../request/apiRequests'
+import {setUsersData} from '../../../../redux/actions/user/userActionsFuncs'
 import './editProfile.scss'
 
 
@@ -37,6 +39,8 @@ function formatFormValues(fromFormValues) {
     if (typeof values[item] === 'object') {
 
       if ((item === 'avatar' || item === 'profile_image') && values[item].length) {
+        console.log(item, values[item])
+
         formValues.append(item, values[item][0], values[item][0].name)
       } else {
         formValues.append(item, values[item].value)
@@ -46,18 +50,12 @@ function formatFormValues(fromFormValues) {
     }
   })
 
-  for (let item of formValues) {
-
-    console.log('item', item)
-
-  }
-
 
   return formValues
 }
 
 
-const EditProfile = ({type}) => {
+const EditProfile = ({type, updateUserData}) => {
   const [showMessage, setShowMessage] = useState(null)
   const [photoDescr, setPhotoDescr] = useState(null)
   const onClickAddAvatar = useRef(null)
@@ -67,14 +65,15 @@ const EditProfile = ({type}) => {
 
     apiEditProfile(formValues)
       .then(res => {
-        if (res.error) {
-          console.log('error:', res)
-          setShowMessage(res.data.message)
-          return
-        }
-
         console.log('success:', res.data.message)
-        setShowMessage(res.data.message)
+        setShowMessage(res.data.message || 'Success')
+        setTimeout(() => {
+          updateUserData()
+        },500)
+      })
+      .catch(err => {
+        console.log('error:', err)
+        setShowMessage(err.message || 'Something went wrong')
       })
 
   }
@@ -85,10 +84,6 @@ const EditProfile = ({type}) => {
   if (type === 'student') {
     form = <>
       <div className="editProfile__buttons">
-        <div className="editProfileBtn__wrapper">
-        </div>
-        <div className="editProfileBtn__wrapper">
-        </div>
         <button onClick={() => {
           onClickAddAvatar.current.value = null
           setPhotoDescr('Photo: no')
@@ -275,4 +270,13 @@ const EditProfile = ({type}) => {
 }
 
 
-export default EditProfile
+const mapDispatchToProps = dispatch => {
+
+  return {
+    updateUserData: () => dispatch(setUsersData())
+  }
+}
+
+
+
+export default connect(null, mapDispatchToProps)(EditProfile)

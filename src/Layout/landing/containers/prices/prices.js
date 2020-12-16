@@ -105,7 +105,7 @@ const Prices = ({classPrices = true}) => {
                         <span className="topTableFirst__text">Негізгі пәндер</span>
                       </div>
                       <div className="topTableFirst__prices">
-                        <div className="topTableFirst__oldPrice">45 000₸</div>
+                        <div className="topTableFirst__oldPrice">115 000₸</div>
                         <div className="topTableFirst__currentPrice">22 990₸</div>
                       </div>
                     </div>
@@ -115,7 +115,7 @@ const Prices = ({classPrices = true}) => {
                         <span className="topTableFirst__text">Бейіндік пәндер</span>
                       </div>
                       <div className="topTableFirst__prices">
-                        <div className="topTableFirst__oldPrice">60 000₸</div>
+                        <div className="topTableFirst__oldPrice">140 000₸ </div>
                         <div className="topTableFirst__currentPrice">27 990₸</div>
                       </div>
                     </div>
@@ -125,7 +125,7 @@ const Prices = ({classPrices = true}) => {
                         <span className="topTableFirst__text">COMBO</span>
                       </div>
                       <div className="topTableFirst__prices">
-                        <div className="topTableFirst__oldPrice">100 000₸</div>
+                        <div className="topTableFirst__oldPrice">225 000₸</div>
                         <div className="topTableFirst__currentPrice">44 990₸</div>
                       </div>
                     </div>
@@ -188,8 +188,6 @@ const Prices = ({classPrices = true}) => {
                       </div>
 
                     </div>
-                    {/*<div className="priceTableBottom__column">{itemOfPrice.price6}</div>*/}
-                    {/*<div className="priceTableBottom__column">{itemOfPrice.price7}</div>*/}
 
 
                   </div>

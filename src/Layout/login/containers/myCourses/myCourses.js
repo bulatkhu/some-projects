@@ -6,6 +6,7 @@ import thingItem3 from '../../../../images/login/myCourses/courseItem3.jpg'
 import thingItem4 from '../../../../images/login/myCourses/courseItem4.jpg'
 import CourseBox from '../../components/courseBox/courseBox'
 import {apiGetStudentsCourses} from '../../../../request/student/apiStudent'
+import {SITE_BASE_URL} from '../../../../app.config'
 
 const webinarItems = [
   {text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', link: '/', img: thingItem1, date: '20 agust 2020', progress: '0%'},
@@ -16,9 +17,17 @@ const webinarItems = [
 
 function reqToShowCourses(courses) {
   return courses.map(item => {
-    const img = item.metas && item.metas.length ? item.metas
-      .find(data => data.option === 'cover')
-      .value : null
+    let img = item.metas && item.metas.length
+      ? item.metas.find(data => data.option === 'cover').value
+      : null
+
+    if (img) {
+
+      if (!img.toString().includes('http')) {
+        img = SITE_BASE_URL + img
+      }
+
+    }
 
     return {
       title: item.title,

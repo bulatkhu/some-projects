@@ -9,6 +9,7 @@ import Progress from './containers/progress/progress'
 // import Literacy from './containers/literacy/literacy'
 import Prices from './containers/prices/prices'
 import SocialLinks from './containers/socialLinks/socialLinks'
+import Playlist from './containers/playlist/playlist'
 
 const Landing = ({showArrow}) => {
 
@@ -17,7 +18,7 @@ const Landing = ({showArrow}) => {
       <Main/>
       <Features/>
       <Courses/>
-      {/*<Literacy/>*/}
+      <Playlist/>
       <Prices/>
       <EduCoin/>
       <Rating/>

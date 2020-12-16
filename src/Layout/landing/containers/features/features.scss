@@ -217,6 +217,8 @@
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
     transition: all .3s;
     cursor: pointer;
+    box-sizing: border-box;
+    min-height: 400px;
 
     &:hover {
       transform: scale(1.05);

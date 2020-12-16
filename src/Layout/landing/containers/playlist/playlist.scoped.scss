@@ -1,0 +1,175 @@
+.playlist {
+  background: #F0F5FB url("../../../../images/general/courses/bg-courses.svg") center center;
+  padding: 20px;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+
+    height: 2px;
+    width: 100%;
+    background: #407BBF;
+  }
+
+  &__container {
+  }
+
+  &__title {
+    text-align: center;
+    font-size: 36px;
+    line-height: 49px;
+    color: #626267;
+    margin: 0 10px 20px 10px;
+  }
+
+  &__content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  &__overplay {
+    position: relative;
+    width: 350px;
+    height: 250px;
+    transition: all .3s;
+
+    @media (min-width: 576px) {
+      &::before {
+        content: '';
+        cursor: pointer;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+      }
+    }
+    //
+    //&.active {
+    //  padding: 25px 45px;
+    //  background-color: #fff;
+    //  position: fixed;
+    //  top: 50%;
+    //  z-index: 20000;
+    //  left: 50%;
+    //  transform: translate(-50%,-50%);
+    //  width: 70%;
+    //  height: 60%;
+    //
+    //  &::before {
+    //    content: none;
+    //    position: absolute;
+    //    display: none;
+    //  }
+    //}
+  }
+
+  &__column {
+    margin: 15px;
+    position: relative;
+
+    &.playlist__video {
+
+      &:not(:first-child) {
+      }
+
+      &:not(:last-child) {
+
+      }
+    }
+  }
+
+  &__video {
+    background: #C4C4C4;
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.playlistModal {
+  width: 80%;
+  max-height: 100%;
+  max-width: 1297px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  padding: 26px 45px;
+  background-color: #fff;
+  border-radius: 5px;
+  z-index: 200000;
+  box-sizing: border-box;
+
+  @media (max-width: 1200px) {
+    width: 90%;
+    padding: 20px 40px;
+  }
+
+  @media (max-width: 767px) {
+    width: 100%;
+  }
+
+  @media (max-width: 576px) {
+    height: 40%;
+  }
+
+  @media (max-width: 476px) {
+    height: 36%;
+  }
+
+  &__videoWrapper {
+    max-height: 100%;
+    overflow-y: auto;
+    padding-bottom: 56.3%;
+    position: relative;
+  }
+
+  &__video {
+    position: absolute;
+  }
+
+  &__closeWrapper {
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    cursor: pointer;
+  }
+
+  &__close {
+    position: relative;
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+    transform: rotate(45deg);
+
+    &:before, &:after{
+      content: '';
+      position: absolute;
+      width: 90%;
+      height: 2px;
+      background-color: #626267;
+    }
+
+    &::after {
+      top: 50%;
+    }
+
+    &::before {
+      top: 50%;
+      transform: rotate(90deg);
+    }
+  }
+}

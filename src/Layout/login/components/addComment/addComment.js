@@ -18,17 +18,13 @@ const AddComment = ({user, isAuth, id}) => {
     event.preventDefault()
     const comment = event.target.comment.value
     if (comment.trim()) {
-
-
-      console.log('id', id)
-
+      event.target.comment.value = ''
 
       apiCreateCommentCourse({
         content_id: id, comment
       })
         .then(res => {
           if (res.data.success === 1) {
-
             setCommentInfo({
               show: true,
               success: true,

@@ -35,3 +35,9 @@ export function takeQuizById({id = 4, results}) {
 
   return axios.post(`${APP_BASE_URL}/takeQuiz?token=${token}&quizId=${id}`, results)
 }
+
+export function getStudentQuizzes() {
+  const token = getToken()
+
+  return axios.get(`${APP_BASE_URL}/getStudentQuizzs`, { params: { token } })
+}

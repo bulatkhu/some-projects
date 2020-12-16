@@ -8,9 +8,9 @@ import './testSlider.scss'
 const navSliderSettings = {
   speed: 500,
   infinite: false,
-  slidesToScroll: 1,
+  slidesToScroll: 3,
   button: false,
-  centerMode: true,
+  // centerMode: true,
   responsive: [
     {
       breakpoint: 1200,
@@ -72,11 +72,15 @@ const textToMathJax = text => {
 }
 
 
-const TestSlider = ({showResults, testItems, setTestItems}) => {
+const TestSlider = ({showResults, testItems, setTestItems, linkToVideo}) => {
   console.log('test items', testItems)
 
   const [currentSlide, setCurrentSlide] = useState(0)
   navSliderSettings.slidesToShow = testItems.length > 18 ? 18 : testItems.length
+
+
+  console.log(navSliderSettings.slidesToShow)
+
 
   const navSlider = useRef(null)
   const mainSlider = useRef(null)
@@ -259,8 +263,9 @@ const TestSlider = ({showResults, testItems, setTestItems}) => {
                     ? <div className="slideItem__text">
                         {textToMathJax(item1.text)}
                       </div>
-                    : <p className="slideItem__text">Ut non neque, ut fusce. In quis lectus ipsum nisl. Id feugiat
-                      pellentesque tristique pellentesque tellus in ni</p>
+                    : <p className="slideItem__text">
+                        No questions
+                      </p>
                   }
 
                   <div className="slideItem__choices">
@@ -271,10 +276,14 @@ const TestSlider = ({showResults, testItems, setTestItems}) => {
                         if (showResults) {
                           cls.push('slideItem__otherHover')
 
-                          if (item1.answer !== null) {
-                            if (indexOfItem === item1.rightAnswer) {
+                          if (item1.answer && item1.answer.length) {
+
+                            console.log('item1.rightAnswers',item1.rightAnswers.find(rightAnswer => rightAnswer === indexOfItem))
+                            console.log('item1.answer',item1.answer.find(answer => answer === indexOfItem))
+
+                            if (item1.rightAnswers.find(rightAnswer => rightAnswer === indexOfItem)) {
                               cls.push('right')
-                            } else if (indexOfItem === item1.answer) {
+                            } else if (item1.answer.find(answer => answer === indexOfItem) !== undefined) {
                               cls.push('false')
                             }
                           }
@@ -305,7 +314,7 @@ const TestSlider = ({showResults, testItems, setTestItems}) => {
                     showResults
                      ? <div className="slideItem__buttons">
                           {btn}
-                          <button className="btn__noFocus btn__shadowFromNull slideItem__btn">Видео</button>
+                          <a href={linkToVideo} target="_blank"  rel="noopener noreferrer"  className="btn__noFocus btn__shadowFromNull slideItem__btn">Видео</a>
                         </div>
                     : null
                   }

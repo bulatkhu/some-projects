@@ -8,8 +8,8 @@ import roundAdd from '../../../../images/landing/checkBoxes/roundAdd.svg'
 import {createPayment} from '../../../../request/apiPayment'
 import ThingCard from '../../components/ThingCard/ThingCard'
 import Payment from '../payment/payment'
-import './checkOut.scoped.scss'
 import {isEmpty} from '../../../../scripts/isEmpty/isEmpty'
+import './checkOut.scoped.scss'
 
 function CoursesOverplay({text, onClick}) {
 

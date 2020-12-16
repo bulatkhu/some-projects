@@ -2,7 +2,6 @@ import React, {useCallback, useEffect, useRef, useState} from 'react'
 import Countdown from 'react-countdown'
 import {Link} from 'react-router-dom'
 import VideoPlayer from '../../../general/videoPlayer/videoPlayer'
-import Stars from '../../../general/stars/stars'
 // import FlipBookComponent from '../../../general/flipBook/flipBookComp'
 import TestSlider from '../../components/testSlider/testSlider'
 import ConsiderResults from '../../../landing/auxiliary/considerResults'
@@ -209,25 +208,19 @@ function Course({match: { params }}) {
 
           <div className="course-panel">
             <div className="course-panel__content">
-              <div className="course-panel__column">
-                <div className="course-panel__stars">
-                  <Stars rating={4} classNameOfValue="hidden"/>
-                </div>
-
-                <div className="course-panel__text">Сіздің бағаңыз</div>
-              </div>
+              <div className="course-panel__column"/>
 
               <div className="course-panel__column">
 
                 <div ref={refCoursesButtons} className="course-buttons">
                   <button
                     onClick={ev => showTestHandler(false, ev)}
-                    disabled={(!!testState.showTest && !testState.showResults) || error}
+                    disabled={testState.startTest || error}
                     className="course-buttons__btn active btn__noFocus"
                   >Сабақ</button>
                   <button
                     onClick={ev => showTestHandler(true, ev)}
-                    disabled={(!!testState.showTest && !testState.showResults) || error}
+                    disabled={testState.startTest || error}
                     className="course-buttons__btn btn__noFocus"
                   >Тест</button>
                 </div>
@@ -266,11 +259,6 @@ function Course({match: { params }}) {
                             Тестті аяқтағаннан кейін, қатемен жұмыс жасау үшін әр тесттің видео шешімі бар. Әр тесттің дұрыс
                             жауабы
                             үшін EduCoin беріледі. Тест тапсыру</p>
-
-                          <p className="course-start__text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lectus
-                            aliquet sed enim, iaculis. Sed consequat
-                            a gravida viverra vivamus laoreet cursus. Enim morbi pulvinar lobortis lacus diam nibh. Feugiat purus
-                            lorem sed aliquam vestibulum nec. </p>
 
                           <div className="course-start__btnWrap">
                             <button onClick={() => handleTest('start')}
@@ -324,7 +312,7 @@ function Course({match: { params }}) {
                         </div>
                       ) : <Loader/>
                     }
-                    <TestSlider testItems={testItems} setTestItems={setTestItems} showResults={true}/>
+                    <TestSlider linkToVideo={linkToVideo} testItems={testItems} setTestItems={setTestItems} showResults={true}/>
                   </>
               )
             : <Loader/>

@@ -10,7 +10,7 @@ const SocialLinks = () => {
       if (window.pageYOffset === 0) {
         clearInterval(intervalId)
       }
-      window.scroll(0, window.pageYOffset - 10)
+      window.scroll(0, window.pageYOffset - 30)
     }, 1)
   }
 
