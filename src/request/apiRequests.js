@@ -138,12 +138,6 @@ export async function getScheduleById(id) {
   if (!token) return { error: 'invalid token' }
 
   return await axios.get(APP_BASE_URL + `/mentor/scheduleById`, {params: {token, id}})
-    .then(res => ({...res, error: false}))
-    .catch(err => {
-      if (err.response) {
-        return {...err.response, error: true}
-      }
-    })
 }
 
 export async function addCalendarTask(task) {

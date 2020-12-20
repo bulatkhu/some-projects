@@ -117,8 +117,8 @@ const transitionStyles = {
 }
 
 const selectsLangs = [
-  {label: 'kz', option: 'kz'},
-  {label: 'ru', option: 'ru'},
+  {label: 'Қазақша', option: 'kz'},
+  {label: 'Русский', option: 'ru'},
 ]
 
 
@@ -403,7 +403,7 @@ const CheckOut = ({type, show, info, courses}) => {
                             type: typeState,
                             main: currentCourses.main,
                             selectCourses: currentCoursesSelect,
-                            lang: langOption.label,
+                            lang: langOption.option,
                             price: formInfo.price,
                             title: formInfo.title
                           })}

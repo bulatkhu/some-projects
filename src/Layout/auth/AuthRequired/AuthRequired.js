@@ -107,21 +107,24 @@ const renderMentorsRoutes = ({tutor}) => {
         links={tutor.links}
         type="tutor"
       >
-        <Route path={tutor.links.base + '/list'}>
-          <TeacherList/>
-        </Route>
-        <Route path={tutor.links.base + '/chat'}>
-          <Chat/>
-        </Route>
-        <Route path={tutor.links.base + '/educoin'}>
-          <TutorEducoin/>
-        </Route>
-        <Route path={tutor.links.base + '/edit'}>
-          <EditProfile type={tutor.type}/>
-        </Route>
-        <Route path={tutor.links.base + '/calendar'}>
-          <TutorCalendar/>
-        </Route>
+        <Switch>
+          <Route path={tutor.links.base + '/list'}>
+            <TeacherList/>
+          </Route>
+          <Route path={tutor.links.base + '/chat'}>
+            <Chat/>
+          </Route>
+          <Route path={tutor.links.base + '/educoin'}>
+            <TutorEducoin/>
+          </Route>
+          <Route path={tutor.links.base + '/edit'}>
+            <EditProfile type={tutor.type}/>
+          </Route>
+          <Route path={tutor.links.base + '/calendar'}>
+            <TutorCalendar/>
+          </Route>
+          <Route component={NotFound}/>
+        </Switch>
       </Login>
     </Route>
   )
@@ -134,24 +137,26 @@ const renderTeachersRoutes = ({teacher}) => {
       <Login
         links={teacher.links}
       >
-        <Route exact path="/teacher">
-          <TeacherCourses/>
-        </Route>
-        <Route exact path={teacher.links.base + '/calendar'}>
-          <Calendar/>
-        </Route>
-        <Route exact path={teacher.links.base + '/list'}>
-          <TeacherList/>
-        </Route>
-        <Route exact path={teacher.links.base + '/chat'}>
-          <Chat/>
-        </Route>
-        <Route exact path={teacher.links.base + '/edit'}>
-          <EditProfile type={teacher.type}/>
-        </Route>
-        <Route exact path={teacher.links.base + '/connecting'}>
-          <Connect/>
-        </Route>
+        <Switch>
+          <Route exact path="/teacher">
+            <TeacherCourses/>
+          </Route>
+          <Route exact path={teacher.links.base + '/calendar'}>
+            <Calendar/>
+          </Route>
+          <Route exact path={teacher.links.base + '/list'}>
+            <TeacherList/>
+          </Route>
+          <Route exact path={teacher.links.base + '/chat'}>
+            <Chat/>
+          </Route>
+          <Route exact path={teacher.links.base + '/edit'}>
+            <EditProfile type={teacher.type}/>
+          </Route>
+          <Route exact path={teacher.links.base + '/connecting'}>
+            <Connect/>
+          </Route>
+        </Switch>
       </Login>
     </Route>
   )
@@ -182,8 +187,8 @@ const AuthRequired = ({isAuth, user}) => {
       {
         isAuth
           ? <>
-              <RoutesToShow/>
-            </>
+            <RoutesToShow/>
+          </>
           : <Redirect to="/"/>
       }
     </>

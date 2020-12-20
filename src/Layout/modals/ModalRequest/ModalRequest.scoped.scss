@@ -1,0 +1,123 @@
+.modRequest {
+
+  &__overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: -200000;
+    visibility: hidden;
+    transition: all .3s ease-in-out;
+    overflow: auto;
+
+    &.active {
+      visibility: visible;
+      z-index: 20000;
+    }
+  }
+
+  position: relative;
+  color: #626267;
+  margin: 3% auto;
+  z-index: 2000;
+  overflow-y: auto;
+
+  background: #FFFFFF;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.25);
+  border-radius: 40px;
+  max-width: 700px;
+
+  &__wrapper {
+    padding: 52px 84px;
+    text-align: center;
+  }
+
+  &__close {
+    background: none;
+    border: none;
+    font-size: 30px;
+    padding: 0;
+    color: #626267;
+    position: absolute;
+    right: 30px;
+    top: 10px;
+  }
+
+  &__title {
+    margin-top: 0;
+    margin-bottom: 1px;
+    font-weight: bold;
+    font-size: 22px;
+  }
+
+  &__subtitle {
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 21px;
+    margin-top: 1px;
+    margin-bottom: 60px;
+  }
+
+  &__inputs {
+  }
+}
+
+.inputs {
+
+  &__label {
+    display: block;
+  }
+
+  &__labels {
+    margin-bottom: 49px;
+  }
+
+  &__input {
+    display: block;
+    width: 100%;
+    margin-bottom: 20px;
+    border: none;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.25);
+
+
+    background: #FFFFFF;
+    border-radius: 10px;
+    padding: 13px 23px;
+    box-sizing: border-box;
+
+    &::placeholder {
+      font-weight: normal;
+      font-size: 18px;
+      color: #B9B9B9;
+    }
+  }
+
+  &__name {
+  }
+
+  &__phone {
+  }
+
+  &__region {
+  }
+
+  &__city {
+  }
+
+  &__subject {
+  }
+
+  &__btn {
+    background: #FF5773;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
+    border-radius: 48px;
+    padding: 8px 32px;
+
+    font-weight: normal;
+    font-size: 24px;
+    color: #FFFFFF;
+    border: none;
+  }
+}

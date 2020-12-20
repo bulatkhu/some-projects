@@ -36,8 +36,23 @@ class TutorCalendar extends React.Component {
     this.state = {
       events: [],
       students: [],
-      currentStudentId: null
+      currentStudentId: null,
+      isError: { boolean: false, text: null }
     }
+  }
+
+  setError(newText) {
+    this.setState(() => {
+
+      return {
+        isError: {
+          boolean: true,
+          text: `
+          ${newText}.
+        `
+        }
+      }
+    })
   }
 
   componentDidMount() {
@@ -46,25 +61,44 @@ class TutorCalendar extends React.Component {
       getChatMentors('mentor')
         .then(res => {
           const {students} = res.data
-          const studentsInfo = students.map(item => {
-            const img = getFromUserMeta(item.user, 'avatar') ||
-              getFromUserMeta(item.user, 'profile_img')
-            item.img = img ? SITE_BASE_URL + img : null
-            return item
-          })
 
-          this.setState(() => ({students: studentsInfo}))
-          this.setScheduleById(studentsInfo[0].id)
-            .then(res => res)
+          if (students && students.length) {
+
+            const studentsInfo = students.map(item => {
+              const img = getFromUserMeta(item.user, 'avatar') ||
+                getFromUserMeta(item.user, 'profile_img')
+              item.img = img ? SITE_BASE_URL + img : null
+              return item
+            })
+
+            this.setState(() => ({students: studentsInfo}))
+            this.setScheduleById(studentsInfo[0].id)
+
+          } else {
+
+            this.setError('Error on getting list of students: no student was found.')
+
+          }
+        })
+        .catch(err => {
+
+          this.setError(`Error on getting list of students: ${err.message}`)
+
         })
     }
 
   }
 
-  async setScheduleById(id) {
-    const data = await getScheduleById(id)
-    const events = data.data.schedule.map(item => ({...item, title: item.task_name}))
-    this.setState(() => ({events: events, currentStudentId: +id}))
+  setScheduleById(id) {
+    getScheduleById(id)
+      .then(res => {
+        const events = res.data.schedule.map(item => ({...item, title: item.task_name}))
+        this.setState(() => ({events: events, currentStudentId: +id}))
+      })
+      .catch(err => {
+        console.log('err', err)
+        this.setError(`Error on getting user's ${id} schedule: ${err.message}`)
+      })
   }
 
 
@@ -114,6 +148,12 @@ class TutorCalendar extends React.Component {
         <div className="calender__column">
 
           <h2 className="calender__sidebarTitle">Calendar </h2>
+
+          {
+            this.state.isError.boolean
+            ? <p className="error__middle">{this.state.isError.text}</p>
+            : null
+          }
 
         </div>
 
