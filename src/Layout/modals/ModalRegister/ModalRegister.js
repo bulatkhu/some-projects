@@ -1,13 +1,14 @@
 import React, {useState} from 'react'
-import './ModalRegister.scss'
 import {connect} from 'react-redux'
-import {hideModalReg, showModalLogin} from '../../../redux/actions/menu/menuActionsFuncs'
-import CircleForModals from '../CircleForModals/CircleForModals'
 import {Field, Form} from 'react-final-form'
 import InputMask from 'react-input-mask'
+import {hideModalReg, showModalLogin} from '../../../redux/actions/menu/menuActionsFuncs'
+import CircleForModals from '../CircleForModals/CircleForModals'
 import {validatePassword, validateEmail, validatePhone} from '../../../scripts/validations/validators'
 import PhoneConfirmation from '../PhoneConfirmation/PhoneConfirmation'
 import {keyGenerate, register} from '../../../request/apiRequests'
+import './ModalRegister.scss'
+import {Translate, Translator} from "react-translated";
 
 const eyeHandler = event => {
   event.stopPropagation()
@@ -104,7 +105,7 @@ const ModalRegister = props => {
 
               <CircleForModals title="Кіру"/>
 
-              <h3 className="modalReg__title">Тіркелу</h3>
+              <h3 className="modalReg__title"><Translate text="Тіркелу"/></h3>
               <p className="modalReg__text"><span className="modalReg__text__red">Қош келдіңіз!</span> Тіркелу үшін
                 мәліметтерді енгізіңіз.</p>
 
@@ -247,15 +248,19 @@ const ModalRegister = props => {
                               // defaultValue="12345Bulat"
                             >
                               {({input, meta}) => (
-                                <label className="regForm__label margin0" htmlFor="password">
-                                  <span className="hidden">Құпиясөз</span>
-                                  <input className={['regForm__input',
-                                    meta.error && meta.touched ? 'regFormInput__error' : null
-                                  ].join(' ')} {...input} type="password"
-                                         placeholder="Құпиясөз"/>
-                                  {meta.error && meta.touched &&
-                                  <span className="regForm__error error">Invalid password</span>}
-                                </label>
+                                <Translator>
+                                  {({translate}) => (
+                                    <label className="regForm__label margin0" htmlFor="password">
+                                      <span className="hidden">Құпиясөз</span>
+                                      <input className={['regForm__input',
+                                        meta.error && meta.touched ? 'regFormInput__error' : null
+                                      ].join(' ')} {...input} type="password"
+                                             placeholder={translate({ text: 'Құпиясөз' })}/>
+                                      {meta.error && meta.touched &&
+                                      <span className="regForm__error error">Invalid password</span>}
+                                    </label>
+                                  )}
+                                </Translator>
                               )}
                             </Field>
                           </div>
@@ -363,7 +368,7 @@ const ModalRegister = props => {
                       </div>
 
 
-                      <button type="submit" className="regForm__button">Тіркелу</button>
+                      <button type="submit" className="regForm__button"><Translate text="Тіркелу"/></button>
 
 
                     </form>

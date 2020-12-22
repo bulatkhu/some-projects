@@ -1,6 +1,8 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Switch, Route} from 'react-router-dom'
 import {connect} from 'react-redux'
+import {Provider as TranslatedProvider} from 'react-translated'
+import translation from './translation/translationMainPage'
 import Menu from './Layout/landing/containers/menu/menu'
 import Footer from './Layout/landing/containers/footer/footer'
 import Landing from './Layout/landing/landing'
@@ -13,44 +15,46 @@ import AuthRequired from './Layout/auth/AuthRequired/AuthRequired'
 import TeacherPage from './Layout/general/teacherPage/teacherPage'
 import EducoinPage from './Layout/general/educoinPage/educoinPage'
 import HeaderMenu from './Layout/landing/containers/headerMenu/headerMenu'
+import {setLocalLanguage} from './hooks/useLanguages'
+import {deleteCallbackOnUnMounting, onScrollWindows} from './scripts/windowsEvents/windowsEvents'
 import './App.scss'
 
 
-const menuLinks = [
-  {name: 'Басты бет', to: '/'},
-  {name: 'Неліктен EduCon', to: '/'},
-  {name: 'Курстарымыз', to: '/'},
-  {name: 'Үзінділер', to: '/'},
-  {name: 'Оқу ақысы', to: '/teachers'},
-  {name: 'Басқалары', to: '/materials'},
-  {name: 'Байланыс', to: '/'},
-]
-
-function App(props) {
+function App({lang, isAuth}) {
   const [isShowHeaderMenu, setIsShowHeaderMenu] = useState(true)
-  const [isShowArrowUp, setIsShowArrowUp] = useState(false)
 
-  window.onscroll = () => {
+  const headerMenuHandler = () => {
     if (window.pageYOffset > 45) {
       setIsShowHeaderMenu(false)
     } else {
       setIsShowHeaderMenu(true)
     }
-
-    if (window.pageYOffset > 300) {
-      setIsShowArrowUp(true)
-    } else {
-      setIsShowArrowUp(false)
-    }
   }
 
 
+  useEffect(() => {
+
+    onScrollWindows(headerMenuHandler)
+
+    return () => deleteCallbackOnUnMounting(headerMenuHandler)
+  },[])
+
+  useEffect(() => {
+
+    if (lang) {
+      setLocalLanguage(lang)
+    }
+
+  },[lang])
+
+
   return (
+    <TranslatedProvider language={lang} translation={translation}>
     <div className={`app ${isShowHeaderMenu ? 'padding' : 'minPadding'}`}>
 
       <div className="app__menubar">
         <HeaderMenu isHide={isShowHeaderMenu}/>
-        <Menu links={menuLinks} isSignIn={false}/>
+        <Menu isSignIn={false}/>
       </div>
 
 
@@ -58,7 +62,7 @@ function App(props) {
         <Switch>
 
           <Route exact path="/">
-            <Landing showArrow={isShowArrowUp}/>
+            <Landing/>
           </Route>
 
           <Route exact path="/teachers">
@@ -77,7 +81,7 @@ function App(props) {
           <Route path="/educoin-page" component={EducoinPage}/>
 
 
-          <AuthRequired isAuth={props.isAuth}/>
+          <AuthRequired isAuth={isAuth}/>
 
           <Route path="*">
             <NotFound/>
@@ -87,13 +91,15 @@ function App(props) {
 
       <Footer/>
     </div>
+    </TranslatedProvider>
   )
 }
 
 const mapStateToProps = state => {
   return {
     menu: state.menu,
-    isAuth: state.auth.isAuthenticated
+    isAuth: state.auth.isAuthenticated,
+    lang: state.lang.value
   }
 }
 

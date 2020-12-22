@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react'
+import {Translate} from 'react-translated'
 import checkMark from '../../../../images/general/icons/checkMarkGreen.svg'
 import crossRed from '../../../../images/general/icons/crossRed.svg'
 import ModalPortal from '../../../modals/ModalPortal/ModalPortal'
@@ -7,14 +8,14 @@ import {getCoursesForPrices} from '../../../../request/apiPrices'
 import './prices.scoped.scss'
 
 const pricesData = [
-  {title: 'Видеосабақтар', price1: true, price2: true, price3: true, price4: true},
-  {title: 'Тест видео шешімдері', price1: true, price2: true, price3: true, price4: true},
-  {title: 'Тақырыптық тесттер', price1: true, price2: true, price3: true, price4: true},
-  {title: 'Байқау сынақтары', price1: false, price2: true, price3: true, price4: true},
-  {title: 'Кураторлық', price1: false, price2: true, price3: true, price4: true},
-  {title: 'Профориентология', price1: false, price2: true, price3: true, price4: true},
-  {title: 'Барлық тақырып ', price1: false, price2: true, price3: true, price4: true},
-  {title: '7/24 қолжетімді', price1: true, price2: true, price3: true, price4: true},
+  {title: <Translate text="Видеосабақтар"/>, price1: true, price2: true, price3: true, price4: true},
+  {title: <Translate text="Тест видео шешімдері"/>, price1: true, price2: true, price3: true, price4: true},
+  {title: <Translate text="Тақырыптық тесттер"/>, price1: true, price2: true, price3: true, price4: true},
+  {title: <Translate text="Байқау сынақтары"/>, price1: false, price2: true, price3: true, price4: true},
+  {title: <Translate text="Кураторлық"/>, price1: false, price2: true, price3: true, price4: true},
+  {title: <Translate text="Профориентология"/>, price1: false, price2: true, price3: true, price4: true},
+  {title: <Translate text="Барлық тақырып "/>, price1: false, price2: true, price3: true, price4: true},
+  {title: <Translate text="7/24 қолжетімді"/>, price1: true, price2: true, price3: true, price4: true},
 ]
 
 const Prices = ({classPrices = true}) => {
@@ -55,7 +56,7 @@ const Prices = ({classPrices = true}) => {
 
 
   return (
-    <section className={[classPrices ? 'prices' : null]}>
+    <section id="prices" className={[classPrices ? 'prices' : null]}>
 
       { courses && (
           <ModalPortal>
@@ -71,7 +72,7 @@ const Prices = ({classPrices = true}) => {
       <div className="prices__container _container">
 
         <h3 className="prices__title">
-          <span>Оқу ақысы</span>
+          <span>{<Translate text="Оқу ақысы"/>}</span>
         </h3>
 
         {
@@ -102,7 +103,7 @@ const Prices = ({classPrices = true}) => {
 
                     <div className="topTableFirst__column">
                       <div className="topTableFirst__wrapper">
-                        <span className="topTableFirst__text">Негізгі пәндер</span>
+                        <span className="topTableFirst__text"><Translate text="Негізгі пәндер"/></span>
                       </div>
                       <div className="topTableFirst__prices">
                         <div className="topTableFirst__oldPrice">115 000₸</div>
@@ -112,7 +113,7 @@ const Prices = ({classPrices = true}) => {
 
                     <div className="topTableFirst__column">
                       <div className="topTableFirst__wrapper">
-                        <span className="topTableFirst__text">Бейіндік пәндер</span>
+                        <span className="topTableFirst__text"><Translate text="Бейіндік пәндер"/></span>
                       </div>
                       <div className="topTableFirst__prices">
                         <div className="topTableFirst__oldPrice">140 000₸ </div>

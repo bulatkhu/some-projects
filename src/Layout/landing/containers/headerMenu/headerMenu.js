@@ -1,11 +1,13 @@
 import React, {useEffect} from 'react'
 import {connect} from 'react-redux'
 import { Transition } from 'react-transition-group'
+import { Translate as ReactTranslate } from 'react-translated'
 import {Link} from 'react-router-dom'
 import {showModalLogin, showModalReg} from '../../../../redux/actions/menu/menuActionsFuncs'
 import {setUsersData} from '../../../../redux/actions/user/userActionsFuncs'
 import {scrollBodyHandler} from '../../../../scripts/scrollController/scrollController'
 import NoPhoto from '../../../../images/general/noPhoto/noPhoto'
+import {setKZLanguage, setRuLanguage} from '../../../../redux/actions/language/langActiosFuncs'
 import './headerMenu.scoped.scss'
 
 const duration = 500;
@@ -36,14 +38,12 @@ const noPhotoStyles = {
   color: 'rgb(98, 98, 103)',
 }
 
-const HeaderMenu = ({isHide, onShowLogin, onShowRegister, setUserData, menu, isAuth, user}) => {
-
+const HeaderMenu = ({isHide, onShowLogin, onShowRegister, setUserData, menu, isAuth, user, lang, setKZLang, setRULang}) => {
 
   useEffect(() => {
     if (!user && isAuth) {
       setUserData()
     }
-
     // eslint-disable-next-line
   }, [user, isAuth])
   useEffect(() => {
@@ -83,8 +83,14 @@ const HeaderMenu = ({isHide, onShowLogin, onShowRegister, setUserData, menu, isA
 
                   <div className="headerMenu__buttons headerMenu-btns headerMenu-btns__lang ">
 
-                    <button className="headerMenu__btn kz">kz</button>
-                    <button className="headerMenu__btn rus">rus</button>
+                    <button
+                      onClick={() => setKZLang()}
+                      className={`headerMenu__btn kz ${lang === 'kz' ? 'active' : ''}`}
+                    >kz</button>
+                    <button
+                      onClick={() => setRULang()}
+                      className={`headerMenu__btn rus ${lang === 'ru' ? 'active' : ''}`}
+                    >rus</button>
 
                   </div>
 
@@ -103,8 +109,12 @@ const HeaderMenu = ({isHide, onShowLogin, onShowRegister, setUserData, menu, isA
                           </div>
                         </Link>
                       : <>
-                          <button onClick={() => onShowLogin()} className="headerMenu-btns__signIn">Кіру</button>
-                          <button onClick={() => onShowRegister()} className="headerMenu-btns__login">Тіркелу</button>
+                          <button onClick={() => onShowLogin()} className="headerMenu-btns__signIn">
+                            <ReactTranslate text='Кіру'/>
+                          </button>
+                          <button onClick={() => onShowRegister()} className="headerMenu-btns__login">
+                            <ReactTranslate text='Тіркелу'/>
+                          </button>
                         </>
                     }
 
@@ -125,7 +135,8 @@ const mapStateToProps = state => {
   return {
     menu: state.menu,
     isAuth: state.auth.isAuthenticated,
-    user: state.user.user ? state.user.user : null
+    user: state.user.user ? state.user.user : null,
+    lang: state.lang.value
   }
 }
 
@@ -134,7 +145,9 @@ const mapDispatchToProps = dispatch => {
   return {
     onShowLogin: () => dispatch(showModalLogin()),
     onShowRegister: () => dispatch(showModalReg()),
-    setUserData: () => dispatch(setUsersData())
+    setUserData: () => dispatch(setUsersData()),
+    setKZLang: () => dispatch(setKZLanguage()),
+    setRULang: () => dispatch(setRuLanguage())
   }
 }
 

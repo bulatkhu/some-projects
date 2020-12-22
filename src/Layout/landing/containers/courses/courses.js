@@ -1,7 +1,9 @@
 import React, { useMemo, useState } from 'react'
 import ThingCard from '../../../landing/components/ThingCard/ThingCard'
 import {getCoursesFromIndex} from '../../../../request/apiRequests'
+import { Translate as ReactTranslate } from 'react-translated'
 import './courses.scss'
+import Playlist from "../playlist/playlist";
 
 
 const Courses = () => {
@@ -17,9 +19,18 @@ const Courses = () => {
 
         response.data.forEach(course => {
           const {metas} = course
-          course.img = (metas && metas)
-            ? metas.find(meta => meta.option === 'cover').value
-            : null
+
+          if (metas) {
+            const cover = metas.find(meta => meta.option === 'cover')
+
+            if (cover && cover.value) {
+              course.img = cover.value
+            } else {
+              course.img = null
+            }
+          } else {
+            course.img = null
+          }
 
           if (courses[course.category.title]) {
             courses[course.category.title].push(course)
@@ -32,7 +43,7 @@ const Courses = () => {
         setCourses(courses)
       }
     } catch (e) {
-      console.log('error', e)
+      console.log('courses error', e)
     }
 
   }, [])
@@ -40,44 +51,47 @@ const Courses = () => {
 
 
   return (
-    <section className="courses">
+    <>
+      <section className="courses">
 
-      <div className="courses__header">
-        <h2 className="courses__title">Курстарымыз</h2>
+        <div className="courses__header">
+          <h2 id="courses" className="courses__title"><ReactTranslate text="Курстарымыз"/></h2>
 
-        <div className="tabs">
-          {
-            courses ? (
-              Object.keys(courses).map((title, index) => {
-                return (
-                  <button
-                    key={index}
-                    onClick={() => setActiveTab(title)}
-                    className={['tabs__item', 'btn__noFocus', activeTab === title ? 'active-tab' : null].join(' ')}
-                  >
-                    {title}
-                  </button>
-                )
-              })
-            ) : <div>No courses</div>
-          }
-        </div>
-
-      </div>
-
-      <div className="courses__bottom bottom">
-        <div className="bottom__container _container">
-          <div className="bottom__content">
+          <div className="tabs">
             {
-              courses && courses[activeTab].length ? (
-                courses[activeTab].map((item1, index1) => <ThingCard key={index1} course={item1}/>)
-              ) : null
+              courses ? (
+                Object.keys(courses).map((title, index) => {
+                  return (
+                    <button
+                      key={index}
+                      onClick={() => setActiveTab(title)}
+                      className={['tabs__item', 'btn__noFocus', activeTab === title ? 'active-tab' : null].join(' ')}
+                    >
+                      {title}
+                    </button>
+                  )
+                })
+              ) : <div>No courses</div>
             }
           </div>
-        </div>
-      </div>
 
-    </section>
+        </div>
+
+        <div className="courses__bottom bottom">
+          <div className="bottom__container _container">
+            <div className="bottom__content">
+              {
+                courses && courses[activeTab].length ? (
+                  courses[activeTab].map((item1, index1) => <ThingCard key={index1} course={item1}/>)
+                ) : null
+              }
+            </div>
+          </div>
+        </div>
+
+      </section>
+      <Playlist/>
+    </>
   )
 }
 

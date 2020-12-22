@@ -1,5 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react'
 import Slider from 'react-slick'
+import {Translate} from 'react-translated'
 import {apiGetTeachers} from '../../../../request/apiTeacher'
 import {getFromUserMeta} from '../../../../scripts/dataHandler/dataHandler'
 import {SITE_BASE_URL} from '../../../../app.config'
@@ -84,7 +85,7 @@ const TeachersSlider = () => {
   return (
     <section className="teachers">
 
-      <h2 className="teachers__title">Ұстаздарымыз</h2>
+      <h2 className="teachers__title"><Translate text="Ұстаздарымыз"/></h2>
 
       <div className="teachers__container _container">
 

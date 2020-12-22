@@ -1,6 +1,16 @@
-import React from 'react'
+import React, {useState} from 'react'
+import { Form, Field } from 'react-final-form'
+import { GoogleSpreadsheet } from 'google-spreadsheet'
 import {Transition} from 'react-transition-group'
 import './ModalRequest.scoped.scss'
+import {GOOGLE_SHEETS_CONFIG} from "../../../app.config";
+import InputMask from "react-input-mask";
+import {validatePhone} from "../../../scripts/validations/validators";
+import Loader from "../../general/component/loader/loader";
+
+
+// const spreadSheetId = '1AJmb7nn0w_9KPRi-kfb_kNUSD0etq_V7zKOqQBo3ghQ'
+// const sheetId = 0
 
 const duration = 300
 
@@ -18,8 +28,56 @@ const transitionStyles = {
   exited: {opacity: 0, marginTop: '-100%'},
 }
 
+const doc = new GoogleSpreadsheet(GOOGLE_SHEETS_CONFIG.spreadSheetId)
+
+const appendSpreadsheet = async (row) => {
+  try {
+    await doc.useServiceAccountAuth({
+      client_email: GOOGLE_SHEETS_CONFIG.client_email,
+      private_key: GOOGLE_SHEETS_CONFIG.private_key,
+    });
+    await doc.loadInfo();
+    const sheet = doc.sheetsById[GOOGLE_SHEETS_CONFIG.sheetId];
+    return {
+      error: false,
+      ...(await sheet.addRow({id: 'none', ...row}))
+    }
+  } catch (e) {
+    console.error('Error: ', e);
+    return {
+      error: true,
+      ...e
+    }
+  }
+}
+
 
 const ModalRequest = ({isShow, setShow}) => {
+  const [onRequest, setOnRequest] = useState(false)
+  const [info, setInfo] = useState(null)
+
+  const onSubmit = formData => {
+    const values = formData
+    setOnRequest(true)
+
+    appendSpreadsheet(values)
+      .then(res => {
+        setOnRequest(false)
+
+        if (!res.error) {
+
+          setInfo('Request has been successfully sent')
+
+        } else {
+
+          setInfo(`Error: ${res.message}`)
+
+        }
+
+      })
+
+  }
+
 
   return (
     <div onClick={event => event.target === event.currentTarget ? setShow(prev => !prev) : null} className={['modRequest__overlay', isShow ? 'active' : null].join(' ')}>
@@ -29,43 +87,104 @@ const ModalRequest = ({isShow, setShow}) => {
             ...defaultStyle,
             ...transitionStyles[state]
           }} className="modRequest">
-            <div className="modRequest__wrapper">
-              <button onClick={() => setShow(prev => !prev)} className="modRequest__close btn__noFocus">&times;</button>
+            {
+              onRequest
+                ? <Loader container/>
+                : info
+                  ? <div className="modRequest__info">
+                      <button onClick={() => setShow(prev => !prev)} className="modRequest__close btn__noFocus">&times;</button>
+                      <p className="success">{info}</p>
+                    </div>
+                  : <div className="modRequest__wrapper">
+                      <button onClick={() => setShow(prev => !prev)} className="modRequest__close btn__noFocus">&times;</button>
 
-              <h2 className="modRequest__title">Өтінім қалдырыңыз.</h2>
-              <h3 className="modRequest__subtitle">Біз жақын арада Сізге хабарласамыз.</h3>
+                      <h2 className="modRequest__title">Өтінім қалдырыңыз.</h2>
+                      <h3 className="modRequest__subtitle">Біз жақын арада Сізге хабарласамыз.</h3>
+
+                      <Form
+                        onSubmit={onSubmit}
+                        render={({handleSubmit}) => (
+                          <form onSubmit={handleSubmit} className="modRequest__inputs inputs">
+
+                            <div className="inputs__labels">
+                              <label htmlFor="dfs" className="inputs__label">
+                                <Field
+                                  className="inputs__input inputs__name btn__noFocus"
+                                  placeholder="Аты-жөніңіз*"
+                                  required
+                                  component="input"
+                                  type="text"
+                                  name="name"
+                                />
+                              </label>
+                              <label htmlFor="dfs" className="inputs__label">
+                                <Field
+                                  className="inputs__input inputs__phone btn__noFocus"
+                                  placeholder="+7(7__)-___-__-__"
+                                  required
+                                  component="input"
+                                  parse={value => value.replace(/\(|\)|\s|-/g, '')}
+                                  validate={validatePhone}
+                                  type="text"
+                                  name="number"
+                                >
+                                  {({input, meta}) => (
+                                    <>
+                                      <InputMask
+                                        mask="+7 (999) - 999 - 99 - 99"
+                                        className={['inputs__input inputs__name btn__noFocus',
+                                          meta.error && meta.touched ? 'inputs__error' : null
+                                        ].join(' ')}
+                                        placeholder="+7 (___) - ___ - __ - __"
+                                        {...input}
+                                      />
+                                      {meta.error && meta.touched
+                                        ? <span className="inputs__boxError error">Invalid phone number</span>
+                                        : null}
+                                    </>
+                                  )}
+                                </Field>
+                              </label>
+                              <label htmlFor="dfs" className="inputs__label">
+                                <Field
+                                  className="inputs__input inputs__region btn__noFocus"
+                                  placeholder="Облыс/Қала"
+                                  required
+                                  component="input"
+                                  type="text"
+                                  name="city"
+                                />
+                              </label>
+                              <label htmlFor="dfs" className="inputs__label">
+                                <Field
+                                  className="inputs__input inputs__city btn__noFocus"
+                                  placeholder="Қала/Аудан"
+                                  required
+                                  component="input"
+                                  type="text"
+                                  name="raion"
+                                />
+                              </label>
+                              <label htmlFor="dfs" className="inputs__label">
+                                <Field
+                                  className="inputs__input inputs__city btn__noFocus"
+                                  placeholder="Бейіндік пән"
+                                  required
+                                  component="input"
+                                  type="text"
+                                  name="predmet"
+                                />
+                              </label>
+                            </div>
 
 
-              <form className="modRequest__inputs inputs">
+                            <button type="submit" className="inputs__btn btn__shadowFromNull">Жіберу</button>
 
-                <div className="inputs__labels">
-                  <label htmlFor="dfs" className="inputs__label">
-                    <input className="inputs__input inputs__name btn__noFocus" placeholder="Аты-жөніңіз*" required
-                           type="text" name="name"/>
-                  </label>
-                  <label htmlFor="dfs" className="inputs__label">
-                    <input className="inputs__input inputs__phone btn__noFocus" placeholder="+7(7__)-___-__-__" required
-                           type="text" name="phone"/>
-                  </label>
-                  <label htmlFor="dfs" className="inputs__label">
-                    <input className="inputs__input inputs__region btn__noFocus" placeholder="Облыс/Қала" type="text"
-                           name="region"/>
-                  </label>
-                  <label htmlFor="dfs" className="inputs__label">
-                    <input className="inputs__input inputs__city btn__noFocus" placeholder="Қала/Аудан" type="text"
-                           name="city"/>
-                  </label>
-                  <label htmlFor="dfs" className="inputs__label">
-                    <input className="inputs__input inputs__subject btn__noFocus" placeholder="Бейіндік пән" type="text"
-                           name="subject"/>
-                  </label>
-                </div>
-
-
-                <button type="submit" className="inputs__btn btn__shadowFromNull">Жіберу</button>
-
-              </form>
-            </div>
+                          </form>
+                        )}
+                      />
+                    </div>
+            }
 
           </div>
         )}

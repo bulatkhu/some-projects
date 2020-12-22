@@ -1,21 +1,33 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
+import arrowUpIcon from '../../../../images/landing/socialLinks/arrowUp.svg'
+import {deleteCallbackOnUnMounting, onScrollWindows} from '../../../../scripts/windowsEvents/windowsEvents'
 import './socialLinks.scoped.scss'
-import arrowUpIcon   from '../../../../images/landing/socialLinks/arrowUp.svg'
 
 const SocialLinks = () => {
+  const [showArrowUp, setShowArrowUp] = useState(false)
 
-  const scrollToTop = event => {
-    event.preventDefault()
-    let intervalId = setInterval(() => {
-      if (window.pageYOffset === 0) {
-        clearInterval(intervalId)
-      }
-      window.scroll(0, window.pageYOffset - 30)
-    }, 1)
+  const showArrowUpHandler = () => {
+    // console.log('send a callback from social link')
+
+    if (window.pageYOffset > 300) {
+      setShowArrowUp(true)
+    } else {
+      setShowArrowUp(false)
+    }
   }
 
+  useEffect(() => {
+
+    onScrollWindows(showArrowUpHandler)
+
+
+    return () => {
+      deleteCallbackOnUnMounting(showArrowUpHandler)
+    }
+  },[])
+
   return (
-    <a href="/" onClick={scrollToTop} className="arrowUp">
+    <a href="/#" className={`arrowUp ${showArrowUp ? 'active' : ''}`}>
       <span className="arrowUp__img">
         <img src={arrowUpIcon} alt="arrowUp"/>
       </span>

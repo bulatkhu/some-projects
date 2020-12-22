@@ -1,6 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
+import {Translate} from 'react-translated'
 import {SITE_BASE_URL} from '../../../../app.config'
 import NoPhoto from '../../../../images/general/noPhoto/noPhoto'
 import './ThingCard.scss'
@@ -68,7 +69,7 @@ const ThingCard = ({activeTab, course}) => {
           }
         </div>
         <Link to={"/subject/" + id} target="_blank" className="btn__shadowFromNull bottom__item_button item_button">
-          Толығырақ
+          <Translate text="Толығырақ"/>
         </Link>
       </div>
     </div>

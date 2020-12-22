@@ -4,6 +4,7 @@ import facebookIcon from '../../../../images/landing/footer/facebook-icon.svg'
 import youtubeIcon from '../../../../images/landing/footer/youtube-icon.svg'
 import instagramIcon from '../../../../images/landing/footer/instagram-icon.svg'
 import './footer.scoped.scss'
+import {Translate} from "react-translated";
 
 
 const Footer = () => {
@@ -17,7 +18,7 @@ const Footer = () => {
             <div className="columnFoot__logo"><img src={logoEducon} alt="logo educon"/></div>
             <ul className="columnFoot__firstColumn firstColumn">
               <li className="firstColumn__item">
-                <span>Алматы қаласы; 4-микрорайон, 74А</span>
+                <span><Translate text="Алматы қаласы; 4"/></span>
               </li>
               <li className="firstColumn__item">
                 <a
@@ -44,7 +45,7 @@ const Footer = () => {
           <div className="footer__column columnFoot">
             <div className="columnFoot__content">
               <h5 className="columnFoot__title">
-                Бізге жазылыңыз
+                <Translate text="Бізге жазылыңыз"/>
               </h5>
               <ul className="columnFoot__list">
                 <li className="columnFoot__link columnFoot__socMedia">
@@ -65,11 +66,11 @@ const Footer = () => {
             <div className="columnFoot__content">
               <h5 className="columnFoot__title">Сілтемелер</h5>
               <ul className="columnFoot__list">
-                <li className="columnFoot__link"><a href="/">Басты бет</a></li>
-                <li className="columnFoot__link"><a href="/">Неліктен EduCon</a></li>
-                <li className="columnFoot__link"><a href="/">Курстарымыз</a></li>
-                <li className="columnFoot__link"><a href="/">Үзінділіер</a></li>
-                <li className="columnFoot__link"><a href="/">Оқу ақысы</a></li>
+                <li className="columnFoot__link"><a href="/"><Translate text="Басты бет"/></a></li>
+                <li className="columnFoot__link"><a href="/"><Translate text="Неліктен EduCon"/></a></li>
+                <li className="columnFoot__link"><a href="/"><Translate text="Курстарымыз"/></a></li>
+                <li className="columnFoot__link"><a href="/"><Translate text="Үзінділер"/></a></li>
+                <li className="columnFoot__link"><a href="/"><Translate text="Оқу ақысы"/></a></li>
               </ul>
             </div>
           </div>
@@ -77,16 +78,16 @@ const Footer = () => {
             <div className="columnFoot__content">
               <h5 className="columnFoot__title columnFoot__title__none">&nbsp;</h5>
               <ul className="columnFoot__list">
-                <li className="columnFoot__link"><a href="/">EduCoin</a></li>
-                <li className="columnFoot__link"><a href="/">EduCoin рейтинг</a></li>
-                <li className="columnFoot__link"><a href="/">Серіктестеріміз</a></li>
+                <li className="columnFoot__link"><a href="/"><Translate text="EduCoin"/></a></li>
+                <li className="columnFoot__link"><a href="/"><Translate text="EduCoin рейтинг"/></a></li>
+                <li className="columnFoot__link"><a href="/"><Translate text="Серіктестеріміз"/></a></li>
               </ul>
             </div>
           </div>
         </div>
       </div>
       <div className="footer__rights">
-        <p>EduCon.online © 2020 Барлық құқықтар қорғалған</p>
+        <p><Translate text="EduCon.online © 20"/></p>
       </div>
     </footer>
   )

@@ -8,43 +8,44 @@ import feature6 from '../../../../../src/images/landing/features/feature6.svg'
 import feature7 from '../../../../../src/images/landing/features/feature7.svg'
 import feature8 from '../../../../../src/images/landing/features/feature8.svg'
 import feature9 from '../../../../../src/images/landing/features/feature9.svg'
+import { Translate as ReactTranslate } from 'react-translated'
 import './features.scss'
 
 const FeatureItems = [
   {
-    text: '15 жылдық тәжірибесі бар, өз мамандығының шебері, Қазақстан бойынша атақты және үздік мұғалімдер сабақ жүргізеді. Ұстаздарымыз қосымша оқу құралдарының авторлары және редакторлары.',
+    text: <ReactTranslate text="Ұстаздар 15 жылдық"/>,
     title: 'Ұстаздар', img: feature1
   },
   {
-    text: 'Заманауи құралдармен жабдықталған студияларымызда түсірілген. Бұл видео сабақтар оқушыларға кез келген жерде және қалаған уақытта (7/24) қолжетімді.',
+    text: <ReactTranslate text="Видео сабақтар Зама"/>,
     title: 'Видео сабақтар', img: feature2
   },
   {
-    text: 'Білікті кураторлар оқушылардың қай пәннен, қай тараудан, қай тақырыптан тіпті үлгерім деңгейін порталымыз арқылы анықтап, оқушының нәтижеге жетуі үшін бағыт-бағдар береді.',
+    text: <ReactTranslate text="Онлайн кураторлық"/>,
     title: 'Онлайн кураторлық', img: feature3
   },
   {
-    text: '«EduCon» басылымдары − ұжымдық жұмыстың өнімі. Оқулықтар шынайы емтиханның негізінде құрастырылып, талапкерлердің көзайымына айналып үлгерген.',
+    text: <ReactTranslate text="Оқу құралдары «EduCon"/>,
     title: 'Оқу құралдары', img: feature4
   },
   {
-    text: 'Тікелей эфирдегі сабақ арқылы курсты үйіңізге дейін алып келеміз, осылайша сіз мұғаліміңізді көре аласыз және сұрақтарыңызды бірден қоя аласыз.',
+    text: <ReactTranslate text="Live вебинар"/>,
     title: 'Live вебинар', img: feature5
   },
   {
-    text: 'Әр видеосабақтан кейін сол сабақты бекіту мақсатында тек сол тақырып бойынша тест тапсырмалары беріледі. Тақырыптың қаншалықты меңгерілгенін анық көруге болады.',
+    text: <ReactTranslate text="Тақырыптық те"/>,
     title: 'Тақырыптық тесттер', img: feature6
   },
   {
-    text: 'Ындаландыру арқылы білім беру  жүйесі. Платформамызда білім алудың әрбір сәтін қызықты әрі тиімді ететін білім берудің заманауи методикасы.',
+    text: <ReactTranslate text="EduCoin Ындала"/>,
     title: 'EduCoin', img: feature7
   },
   {
-    text: 'Кәсіби профориентолог мамандарымыз оқушылардың қабілеттері мен дағдыларын анықтап, мамандықты саналы таңдау жасауына көмектесіп, әрқашан психологиялық қолдау көрсетеді. ',
+    text: <ReactTranslate text="Профориентология Кә"/>,
     title: 'Профориентология', img: feature8
   },
   {
-    text: 'Порталдағы барлық тест тапсырмаларын ұстаздар видео арқылы түсіндірме жасаған. Қателесіп кеткен сұрақты видео шешімі арқылы дұрыс жауабын көруге, тест арқылы білім алуға болады.',
+    text: <ReactTranslate text="Тест видео"/>,
     title: 'Тест видео шешімдері', img: feature9
   },
 ]
@@ -52,11 +53,11 @@ const FeatureItems = [
 const Features = () => {
 
   return (
-    <section className="features">
+    <section id="features" className="features">
 
       <div className="features__container _container">
         <h3 className="features__title">
-          <span>Неліктен EduCon.online?</span>
+          <span><ReactTranslate text="Неліктен EduCon.online?"/></span>
         </h3>
 
         <div className="features__secContent secContent">

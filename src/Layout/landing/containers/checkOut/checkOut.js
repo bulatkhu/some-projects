@@ -161,8 +161,6 @@ const CheckOut = ({type, show, info, courses}) => {
 
 
   useEffect(() => {
-    console.log('current courses', currentCourses)
-
     if (!isEmpty(currentCourses)) {
       const courses = combinationsToOption(currentCourses.combinations)
       setCoursesSelect(courses)
@@ -181,12 +179,6 @@ const CheckOut = ({type, show, info, courses}) => {
     }
 
   },[coursesSelect])
-
-  useEffect(() => {
-
-    console.log('typeState', typeState)
-
-  },[typeState])
 
 
   const onFormSubmit = (event) => {

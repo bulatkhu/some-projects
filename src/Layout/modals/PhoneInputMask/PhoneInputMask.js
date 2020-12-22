@@ -3,8 +3,6 @@ import InputMask from 'react-input-mask'
 
 
 const PhoneInputMask = props => {
-  const {disabled, mask, label, meta, required} = props
-
 
   return (
     <label className="regForm__label" htmlFor="phone">

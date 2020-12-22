@@ -1,5 +1,6 @@
 import React from 'react'
 import Slider from 'react-slick'
+import {Translate} from 'react-translated'
 import progressImg1 from '../../../../images/landing/progress/progress-img1.png'
 import progressImg2 from '../../../../images/landing/progress/progress-img2.png'
 import progressImg3 from '../../../../images/landing/progress/progress-img3.png'
@@ -74,10 +75,10 @@ const settings = {
 const Progress = () => {
 
   return (
-    <section className="progress">
+    <section id="progress" className="progress">
 
       <div className="progress__container _container">
-        <h2 className="progress__title">Серіктестеріміз</h2>
+        <h2 className="progress__title"><Translate text="Серіктестеріміз"/></h2>
 
         <div className="progress__slider">
 

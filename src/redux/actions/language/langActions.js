@@ -1,0 +1,2 @@
+export const SET_KZ_LANGUAGE = 'SET_KZ_LANGUAGE'
+export const SET_RU_LANGUAGE = 'SET_RU_LANGUAGE'

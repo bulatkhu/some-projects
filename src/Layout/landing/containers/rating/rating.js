@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import './rating.scss'
 // import Tabs from '../../../landing/components/Tabs/tabs'
 import TableItem from '../../../landing/components/TableItem/TableItem'
+import {Translate} from "react-translated";
 
 
 const tableItems = [
@@ -32,18 +33,18 @@ const Rating = () => {
   const numberOfItems = showMore ? tableItems.length : 10
 
   return (
-    <section className="rating">
+    <section id="rating" className="rating">
       <div className="rating__container _container">
-        <h3 className="rating__title">EduCoin рейтинг</h3>
+        <h3 className="rating__title"><Translate text="EduCoin рейтинг"/></h3>
 
         <table className="rating__table rateTable">
           <thead className="rateTable__head">
           <tr className="rateTable__title rateTitle">
             <td className="rateTitle__none">&nbsp;</td>
-            <th className="rateTitle__schoolboy">Аты-жөні</th>
-            <th className="rateTitle__class">Қаласы</th>
-            <th className="rateTitle__school">Мектеп</th>
-            <th className="rateTitle__coins">EduCoin</th>
+            <th className="rateTitle__schoolboy"><Translate text="Аты-жөні"/></th>
+            <th className="rateTitle__class"><Translate text="Қаласы"/></th>
+            <th className="rateTitle__school"><Translate text="Мектеп"/></th>
+            <th className="rateTitle__coins"><Translate text="EduCoin"/></th>
           </tr>
           </thead>
           <tbody className="rateTable__body">

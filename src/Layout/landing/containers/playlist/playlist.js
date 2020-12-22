@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import Transition from 'react-transition-group/cjs/Transition'
+import {Translate} from 'react-translated'
 import VideoPlayer from '../../../general/videoPlayer/videoPlayer'
 import ModalPortal from '../../../modals/ModalPortal/ModalPortal'
 import {scrollBodyHandler} from '../../../../scripts/scrollController/scrollController'
@@ -61,7 +62,7 @@ const Playlist = () => {
     <section className="playlist">
 
       <div className="playlist__container _container">
-        <h2 className="playlist__title">Видеосабақ үзінділері</h2>
+        <h2  id="playlist" className="playlist__title">{<Translate text="Видеосабақ үзінділері"/>}</h2>
 
         <ModalPortal>
           <Transition

@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from 'react'
-import './main.scss'
+import Slider from 'react-slick'
 import mainImage1 from '../../../../images/landing/main/main-image1.svg'
 import mainImage2 from '../../../../images/landing/main/main-image2.svg'
 import mainImage3 from '../../../../images/landing/main/main-image3.svg'
-import Slider from 'react-slick'
-import ModalPortal from "../../../modals/ModalPortal/ModalPortal";
-import ModalRequest from "../../../modals/ModalRequest/ModalRequest";
-import {scrollBodyHandler} from "../../../../scripts/scrollController/scrollController";
+import ModalPortal from '../../../modals/ModalPortal/ModalPortal'
+import ModalRequest from '../../../modals/ModalRequest/ModalRequest'
+import {scrollBodyHandler} from '../../../../scripts/scrollController/scrollController'
+import { Translate as ReactTranslate } from 'react-translated'
+import './main.scss'
 
 
 
@@ -60,11 +61,13 @@ const Main = () => {
                 Болашаққа нық қадамды бүгіннен баста.
               </h1>
               <p className="body__text">
-                Қашықтан білім беру арқылы біз әрқашан сенің жаныңдамыз.
+                <ReactTranslate text="Қашықтан білім беру арқылы біз әрқашан сенің жаныңдамыз."/>
               </p>
               <div className="body__icon">
                 <button onClick={() => setShowModalRequest(prev => !prev)} className="body__icon__button">
-                  <span>Өтінім қалдыру</span>
+                  <span>
+                    <ReactTranslate text="Өтінім қалдыру"/>
+                  </span>
                 </button>
               </div>
             </div>

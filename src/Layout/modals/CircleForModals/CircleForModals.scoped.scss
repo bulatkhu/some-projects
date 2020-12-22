@@ -1,7 +1,8 @@
 .circle {
-  width: 132px;
-  height: 132px;
+  min-width: 132px;
+  min-height: 132px;
   background: #FF5773;
+  padding: 10px;
   position: absolute;
   right: -20px;
   top: -20px;

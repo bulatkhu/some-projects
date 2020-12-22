@@ -2,6 +2,7 @@ import React from 'react'
 import './CircleForModals.scoped.scss'
 import {connect} from 'react-redux'
 import {hideModalLogin, hideModalReg, showModalLogin, showModalReg} from '../../../redux/actions/menu/menuActionsFuncs'
+import {Translate} from "react-translated";
 
 
 const CircleForModals = props => {
@@ -22,7 +23,7 @@ const CircleForModals = props => {
   return (
     <button onClick={switchModals} className="circle btn__shadowFromNull">
       <span className="circle__title">
-        {title}
+        <Translate text={title}/>
       </span>
     </button>
   )

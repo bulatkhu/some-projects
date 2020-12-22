@@ -4,17 +4,18 @@ import arcIcon from '../../../../images/landing/educoin/eduCoin.svg'
 import giftIcon from '../../../../images/landing/educoin/gift.svg'
 import './educoin.scss'
 import {Link} from 'react-router-dom'
+import {Translate} from "react-translated";
 
 const EduCoin = () => {
 
   return (
-    <section className="educoin" >
+    <section id="eduCoin" className="educoin" >
 
       <div className="educoin__container _container">
 
         <h2 className="educoin__title">EduCoin</h2>
 
-        <p className="educoin__subTitle">Ынталандыру арқылы білім беру жүйесі</p>
+        <p className="educoin__subTitle"> {<Translate text="Ынталандыру ар"/>}</p>
 
         <div className="educoin__content">
 
@@ -32,9 +33,9 @@ const EduCoin = () => {
               <div className="eduComp__text coins1">
 
                 <div className="coins1__description">
-                  <div className="coins1__title">Білім ал</div>
+                  <div className="coins1__title">{<Translate text="Білім ал"/>}</div>
                   <div className="coins1__text">
-                    Порталға тіркеліп, білім ал. Алған әсеріңмен бөліс. Нәтижелеріңді жаңарт. Жетістікке жет.
+                    {<Translate text="Порталға тіркеліп"/>}
                   </div>
                 </div>
 
@@ -60,9 +61,9 @@ const EduCoin = () => {
               <div className="eduComp__text coins1">
 
                 <div className="coins1__description">
-                  <div className="coins1__title">EduCoin жина</div>
+                  <div className="coins1__title"><Translate text="Білім ал"/><Translate text="EduCoin жина"/></div>
                   <div className="coins1__text">
-                    Порталда алған әрбір сәтің үшін біліммен қоса ұпай жина.
+                    <Translate text="Порталда алған"/>
                   </div>
                 </div>
 
@@ -88,9 +89,9 @@ const EduCoin = () => {
               <div className="eduComp__text coins1">
 
                 <div className="coins1__description">
-                  <div className="coins1__title">Бағалы сыйлық ұтып ал</div>
+                  <div className="coins1__title"><Translate text="Бағалы сыйлық"/></div>
                   <div className="coins1__text">
-                    Оқудың ақысын EduCoin-мен төле және сол EduCoin арқылы бағалы сыйлықтар ұтып ал.
+                    <Translate text="Оқудың ақысын"/>
                   </div>
                 </div>
 
@@ -107,7 +108,7 @@ const EduCoin = () => {
 
         </div>
 
-        <Link to="/educoin-page" className="educoin__button btn__shadowFromNull">Толығырақ</Link>
+        <Link to="/educoin-page" className="educoin__button btn__shadowFromNull"><Translate text="Толығырақ"/></Link>
 
 
       </div>

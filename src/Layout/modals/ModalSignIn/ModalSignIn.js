@@ -10,6 +10,7 @@ import CircleForModals from '../CircleForModals/CircleForModals'
 import {login} from '../../../request/apiRequests'
 import {hideModalLogin, showModalLogin, showModalPass} from '../../../redux/actions/menu/menuActionsFuncs'
 import './ModalSignIn.scss'
+import {Translate, Translator} from "react-translated";
 
 
 const ModalSignIn = props => {
@@ -83,10 +84,13 @@ const ModalSignIn = props => {
       <div className="modalSignIn">
         <CircleForModals title="Тіркелу"/>
 
-        <h3 className="modalSignIn__title">Кіру</h3>
+        <h3 className="modalSignIn__title">
+          <Translate text="Кіру"/>
+        </h3>
         <p className="modalSignIn__text">
-          <span className="modalSignIn__red">Қош келдіңіз! </span>
-          Кіру үшін мәліметтерді енгізіңіз.
+          <span className="modalSignIn__red">
+            <Translate text="Қош келдіңіз! Кіру"/>
+          </span>
         </p>
 
         {
@@ -145,34 +149,42 @@ const ModalSignIn = props => {
                 >
                   {({input,meta}) => (
                     <>
-                      <input
-                        ref={refToPassInput} id="passSignIn"
-                        className={['SignInform__password', 'SignInform__input',
-                          meta.error && meta.touched ? 'regFormInput__error' : null
-                        ].join(' ')} {...input}
-                        type="password" placeholder="Құпиясөз"
-                        {...input}
-                      />
+                      {
+                        <Translator>
+                          {({translate}) => (
+                            <input
+                              ref={refToPassInput} id="passSignIn"
+                              className={['SignInform__password', 'SignInform__input',
+                                meta.error && meta.touched ? 'regFormInput__error' : null
+                              ].join(' ')} {...input}
+                              placeholder={translate({ text: "Құпиясөз" })}
+                              type="password"
+                              {...input}
+                            />
+                          )}
+                        </Translator>
+                      }
                       {meta.error && meta.touched &&
                       <span className="regForm__error error">Invalid password</span>}
                     </>
                   )}
                 </Field>
               </label>
-              {/*<input id="passSignIn" className="SignInform__password SignInform__input" name="password" type="text" placeholder="Құпиясөз"/>*/}
 
               <div className="SignInform__questions questionsSignIn">
 
                 <div className="questionsSignIn__remember">
                   <input className="remember" id="SignInformRemember" type="checkbox"/>
-                  <label htmlFor="SignInformRemember">Есте сақтау</label>
+                  <label htmlFor="SignInformRemember"><Translate text="Есте сақтау"/></label>
                 </div>
 
-                <a href="/resetPassword" onClick={resetPassHandler} className="questionsSignIn__reset">Құпиясөзді ұмыттыңыз ба?</a>
+                <a href="/resetPassword" onClick={resetPassHandler} className="questionsSignIn__reset">
+                  <Translate text="Құпиясөзді ұмыт"/>
+                </a>
 
               </div>
 
-              <button type="submit" className="SignInform__button">Кіру</button>
+              <button type="submit" className="SignInform__button"><Translate text="Кіру"/></button>
 
             </form>
           )}
