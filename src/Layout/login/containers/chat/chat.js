@@ -34,9 +34,6 @@ const Chat = ({user}) => {
           setIsCandidatesFetched(true)
           const {mentors, teachers, students} = res.data
           const candidates = mentors || students || teachers
-          console.log('res', res.data)
-          console.log('candidates', candidates)
-
           if (candidates && candidates.length) {
             setCandidates(candidates || [])
             setDialogueId(candidates[0].id)
@@ -55,11 +52,8 @@ const Chat = ({user}) => {
       getMessagesByUserId(dialogueId)
         .then(res => {
           if (res.error) return setDiaMessage(res.data.message)
-
           setDiaMessage(null)
           setDialogueList(res.data.data)
-
-          console.log('messages:', res.data.data)
         })
     }
 

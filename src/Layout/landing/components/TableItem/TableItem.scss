@@ -1,67 +1,101 @@
 .rateRow {
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
-  border-radius: 68px;
-  background: #FFFFFF;
+
+  &:first-child {
+
+    td {
+      .cellWrapper {
+        margin-top: 18px;
+      }
+    }
+
+  }
+
+  &:last-child {
+    td {
+      .cellWrapper {
+        margin-bottom: 18px;
+      }
+    }
+  }
 
   td {
-    padding: 20px;
-    font-size: 24px;
-    line-height: 28px;
-    color: #626267;
-
     &:first-child {
-      border-bottom-left-radius: 68px;
-      border-top-left-radius: 68px;
-      text-align: center;
-      padding: 0 0 0 33px;
-      font-size: 24px;
-      line-height: 28px;
-      color: #626267
+
+      .cellWrapper {
+        border-bottom-left-radius: 68px;
+        border-top-left-radius: 68px;
+        color: #626267;
+        font-weight: normal;
+        font-style: normal;
+        font-size: 24px;
+      }
+
+
     }
 
     &:last-child {
-      border-bottom-right-radius: 68px;
-      border-top-right-radius: 68px;
-      font-size: 18px;
-      line-height: 21px;
-      color: #FF5773;
-      padding: 15px 0 15px 0;
+
+      .cellWrapper {
+        border-bottom-right-radius: 68px;
+        border-top-right-radius: 68px;
+        margin-right: 19px;
+      }
     }
 
-    @media (max-width: 992px) {
-      font-size: 18px;
-      padding: 10px;
+    .cellWrapper {
+      margin-left: -1px;
+      margin-right: -1px;
+      background: #FFFFFF;
+      overflow: hidden;
 
-      &:first-child {
-        padding: 0 0 0 15px;
+      min-height: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-sizing: border-box;
+
+      font-size: 24px;
+      color: #626267;
+      margin-bottom: 10px;
+
+
+      @media (max-width: 992px) {
         font-size: 18px;
+        padding: 10px;
+
+        &:first-child {
+          padding: 0 0 0 15px;
+          font-size: 18px;
+        }
+
+        &:last-child {
+          font-size: 15px;
+          padding: 10px 0 10px 0;
+        }
       }
 
-      &:last-child {
-        font-size: 15px;
-        padding: 10px 0 10px 0;
-      }
-    }
-
-    @media (max-width: 767px) {
-      font-size: 12px;
-
-      &:first-child {
-        padding: 0 0 0 15px;
+      @media (max-width: 767px) {
         font-size: 12px;
+
+        &:first-child {
+          padding: 0 0 0 15px;
+          font-size: 12px;
+        }
+
+        &:last-child {
+          font-size: 12px;
+        }
       }
 
-      &:last-child {
-        font-size: 12px;
-      }
-    }
+      @media (max-width: 576px) {
+        padding: 5px;
 
-    @media (max-width: 576px) {
-      padding: 5px;
-
-      &:first-child {
-        padding: 0 0 0 10px;
+        &:first-child {
+          padding: 0 0 0 10px;
+        }
       }
+
+
     }
 
   }
@@ -99,9 +133,12 @@
   }
 
   &__image {
-    background: #FF5773;
-    width: 50px;
-    height: 50px;
+    background: #FF5773 url("../../../../images/landing/educoin/eduCoin.svg") center center no-repeat;
+    background-size: 17px;
+    //background-position: center;
+    position: relative;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -117,18 +154,9 @@
     }
   }
 
-  &__arc {
-    width: 17px;
-    height: 17px;
-
-    img {
-      width: 100%;
-      height: 100%;
-    }
-  }
-
   &__text {
-
+    color: #FF5773;
+    font-size: 22px;
   }
 }
 

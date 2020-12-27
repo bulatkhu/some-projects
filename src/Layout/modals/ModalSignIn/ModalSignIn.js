@@ -3,6 +3,7 @@ import {useHistory} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {Form, Field} from 'react-final-form'
 import InputMask from 'react-input-mask'
+import {Translate, Translator} from 'react-translated'
 import {checkIsAuth} from '../../../redux/actions/auth/authActionsFuncs'
 import {setUsersData} from '../../../redux/actions/user/userActionsFuncs'
 import {validatePassword, validatePhone} from '../../../scripts/validations/validators'
@@ -10,7 +11,6 @@ import CircleForModals from '../CircleForModals/CircleForModals'
 import {login} from '../../../request/apiRequests'
 import {hideModalLogin, showModalLogin, showModalPass} from '../../../redux/actions/menu/menuActionsFuncs'
 import './ModalSignIn.scss'
-import {Translate, Translator} from "react-translated";
 
 
 const ModalSignIn = props => {
@@ -147,7 +147,7 @@ const ModalSignIn = props => {
                   validate={validatePassword}
                   // defaultValue="12345Bulat"
                 >
-                  {({input,meta}) => (
+                  {({input, meta}) => (
                     <>
                       {
                         <Translator>

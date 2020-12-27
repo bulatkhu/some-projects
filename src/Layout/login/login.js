@@ -1,15 +1,15 @@
 import React, {useState} from 'react'
 import {connect} from 'react-redux'
+import {Switch} from 'react-router-dom'
 import MenuLinks from './menuLinks/menuLinks'
 import NoPhoto from '../../images/general/noPhoto/noPhoto'
 import eduCoin from '../../images/landing/educoin/eduCoin.svg'
 import './login.scss'
 
 
-const Login = ({children, links, user}) => {
+const Login = React.memo(({children, links, user}) => {
   const [showMenu, setShowMenu] = useState(true)
   const {base} = links
-
   const toggleNavBar = event => {
 
     if (event.target.classList.contains('btnBurger__menu') || event.target.classList.contains('btnBurger__span')) {
@@ -20,7 +20,7 @@ const Login = ({children, links, user}) => {
 
   return (
     <section className="loginNav">
-
+      {/*//!showMenu   */}
       <div onClick={toggleNavBar} className={['loginNav__navBar', !showMenu ? null : 'active'].join(' ')}>
         <div className="loginNav__column loginNav__btnBurger btnBurger">
           <div className="btnBurger__menu">
@@ -60,7 +60,9 @@ const Login = ({children, links, user}) => {
       <div className="loginNav__body">
         <div className="loginNav__container _container">
           <div className="loginNav__thinkLine"/>
-          {children}
+          <Switch>
+            {children}
+          </Switch>
           <div className="loginNav__thinkLine"/>
         </div>
       </div>
@@ -68,7 +70,7 @@ const Login = ({children, links, user}) => {
 
     </section>
   )
-}
+})
 
 
 function mapStateToProps(state) {

@@ -10,7 +10,7 @@ import NoPhoto from '../../../../images/general/noPhoto/noPhoto'
 import {setKZLanguage, setRuLanguage} from '../../../../redux/actions/language/langActiosFuncs'
 import './headerMenu.scoped.scss'
 
-const duration = 500;
+const duration = 600;
 
 const defaultStyle = {
   transition: `all ${duration}ms ease-in-out`,

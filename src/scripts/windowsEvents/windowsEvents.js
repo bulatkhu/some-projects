@@ -1,6 +1,7 @@
 const callbacksArray = []
 
 export function onScrollWindows(callback) {
+  callback()
   callbacksArray.push(callback)
   window.onscroll = () => callbacksArray.forEach(callback => callback())
 

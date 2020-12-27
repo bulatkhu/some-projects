@@ -20,3 +20,13 @@ export const validatePassword = password => {
   const re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/
   return !re.test(password)
 }
+
+
+export function alphaNumeric(value) {
+  const letters = /^[0-9a-zA-Z]+$/
+  if(value.match(letters)) {
+    return true
+  } else {
+    return false
+  }
+}

@@ -74,9 +74,6 @@ class Calendar extends React.Component {
   }
 
   componentDidMount() {
-    // console.log('events:', INITIAL_EVENTS)
-    // console.log(this.refToCalendar.current.getApi())
-
     new Draggable(this.refToExtEvents.current, {
       itemSelector: '.calender__eventItem',
       eventData: eventEl => JSON.parse(eventEl.dataset.event)
@@ -85,7 +82,6 @@ class Calendar extends React.Component {
 
     getCalendarTasks()
       .then(response => {
-        console.log('getTasks:', response.data.schedule)
         if (response.error) return console.log(response)
         if (response.data.schedule.length) {
           const events = response.data.schedule.map(item => ({...item, title: item.task_name}))
@@ -140,14 +136,12 @@ class Calendar extends React.Component {
             eventClick={this.handleEventClick}
             eventsSet={this.handleEvents}
             eventReceive={info => {
-              console.log('eventReceive')
               const maxIndex = Math.max.apply(Math, this.state.events.map(function(o) { return o.id }))
               const event = transformEvents({...info.event, id: maxIndex + 1})
               addCalendarTask(event)
                 .then(res => res.error && console.log(res))
             }}
             eventChange={info => {
-              console.log('eventChange')
               addCalendarTask(transformEvents(info.event))
                 .then(res => res.error && console.log(res))
             }}
@@ -309,7 +303,6 @@ class Calendar extends React.Component {
               }]
             }))
           }
-          console.log('data', data)
         })
     }
   }
@@ -329,9 +322,7 @@ class Calendar extends React.Component {
 
   handleEvents = eventsData => {
     const events = transformEvents(eventsData)
-
     this.setState(() => ({currentEvents: events}))
-    // console.log('events', events)
   }
 
 

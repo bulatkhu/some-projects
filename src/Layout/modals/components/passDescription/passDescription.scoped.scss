@@ -1,0 +1,70 @@
+.pass {
+  text-align: left;
+  background-color: #fff;
+  padding: 6px 24px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
+  display: inline-block;
+  border-radius: 2px;
+
+  &__triangle {
+    width: 23px;
+    z-index: 20000000000000;
+    height: 23px;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
+    position: absolute;
+    background: url("../../../../images/general/modals/triangle.png") no-repeat left center;
+    background-position-x: -3px;
+
+    @media (max-width: 767px) {
+      left: 50%;
+      top: 0;
+      transform: rotate(90deg) translateY(50%);
+    }
+  }
+
+  &__wrapper {
+    display: inline-block;
+    z-index: 20;
+    position: relative;
+    padding-left: 10px;
+    width: 100%;
+
+    @media (max-width: 767px) {
+      padding-left: 0;
+      padding-top: 15px;
+    }
+  }
+
+  &__title {
+    font-weight: 500;
+    font-size: 16px;
+    color: #19245C;
+    margin: 0;
+  }
+
+  &__list {
+  }
+}
+
+
+.passList {
+
+  &__item {
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 14px;
+    color: #00AC26;
+    padding-left: 15px;
+    margin-top: 2.5px;
+    margin-bottom: 2.5px;
+    background: url("../../../../images/general/modals/validIcon.svg") center left 4px no-repeat ;
+    //white-space: nowrap;
+
+    &.invalid {
+      color: #EE0000;
+      background-image: url("../../../../images/general/modals/invalidIcon.svg");
+    }
+  }
+}

@@ -29,17 +29,17 @@ const Menu = props => {
 
 
   const menuLinks = [
-    {name: <ReactTranslate text="Басты бет"/>, to: '#'},
-    {name: <ReactTranslate text="Неліктен EduCon"/>, to: '#features'},
-    {name: <ReactTranslate text="Курстарымыз"/>, to: '#courses'},
-    {name: <ReactTranslate text="Үзінділер"/>, to: '#playlist'},
-    {name: <ReactTranslate text="Оқу ақысы"/>, to: '#prices'},
+    {name: <ReactTranslate text="Басты бет"/>, to: '/#'},
+    {name: <ReactTranslate text="Неліктен EduCon"/>, to: '/#features'},
+    {name: <ReactTranslate text="Курстарымыз"/>, to: '/#courses'},
+    {name: <ReactTranslate text="Үзінділер"/>, to: '/#playlist'},
+    {name: <ReactTranslate text="Оқу ақысы"/>, to: '/#prices'},
     {
       name: <ReactTranslate text="Басқалары"/>,
       links: [
-        {name: <ReactTranslate text="EduCoin"/>, to: '#eduCoin'},
-        {name: <ReactTranslate text="EduCoin рейтинг"/>, to: '#rating'},
-        {name: <ReactTranslate text="Серіктестеріміз"/>, to: '#progress'},
+        {name: <ReactTranslate text="EduCoin"/>, to: '/#eduCoin'},
+        {name: <ReactTranslate text="EduCoin рейтинг"/>, to: '/#rating'},
+        {name: <ReactTranslate text="Серіктестеріміз"/>, to: '/#progress'},
       ],
       select: true
     }

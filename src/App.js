@@ -6,7 +6,7 @@ import translation from './translation/translationMainPage'
 import Menu from './Layout/landing/containers/menu/menu'
 import Footer from './Layout/landing/containers/footer/footer'
 import Landing from './Layout/landing/landing'
-import NotFound from './Layout/general/notFound/notFound'
+// import NotFound from './Layout/general/notFound/notFound'
 import Materials from './Layout/general/materials/materials'
 import Subject from './Layout/general/subject/subject'
 import TeachersRoute from './Layout/general/teachersRoute/teachersRoute'
@@ -21,13 +21,20 @@ import './App.scss'
 
 
 function App({lang, isAuth}) {
-  const [isShowHeaderMenu, setIsShowHeaderMenu] = useState(true)
+  const [isShowHeaderMenu, setIsShowHeaderMenu] = useState(false)
+  const [menuFixed, setMenuFixed] = useState(true)
 
   const headerMenuHandler = () => {
-    if (window.pageYOffset > 45) {
+    if (window.pageYOffset > 60) {
       setIsShowHeaderMenu(false)
     } else {
       setIsShowHeaderMenu(true)
+    }
+
+    if (window.pageYOffset > 1) {
+      setMenuFixed(true)
+    } else {
+      setMenuFixed(false)
     }
   }
 
@@ -37,7 +44,7 @@ function App({lang, isAuth}) {
     onScrollWindows(headerMenuHandler)
 
     return () => deleteCallbackOnUnMounting(headerMenuHandler)
-  },[])
+  }, [])
 
   useEffect(() => {
 
@@ -45,52 +52,51 @@ function App({lang, isAuth}) {
       setLocalLanguage(lang)
     }
 
-  },[lang])
+  }, [lang])
 
 
   return (
     <TranslatedProvider language={lang} translation={translation}>
-    <div className={`app ${isShowHeaderMenu ? 'padding' : 'minPadding'}`}>
+      <div className={`app`}>
+        <div className={['app__menubar', menuFixed ? 'fixed' : null].join(' ')}>
+          <HeaderMenu isHide={isShowHeaderMenu}/>
+          <Menu isSignIn={false}/>
+        </div>
 
-      <div className="app__menubar">
-        <HeaderMenu isHide={isShowHeaderMenu}/>
-        <Menu isSignIn={false}/>
-      </div>
 
+        <div className="app__wrapper">
+          <Switch>
 
-      <div className="app__wrapper">
-        <Switch>
+            <Route exact path="/">
+              <Landing/>
+            </Route>
 
-          <Route exact path="/">
-            <Landing/>
-          </Route>
-
-          <Route exact path="/teachers">
-            <TeachersRoute/>
-          </Route>
-          <Route exact path="/materials">
-            <Materials/>
-          </Route>
-          <Route exact path="/subject/:id?">
-            <Subject container details={false}/>
-          </Route>
-          <Route exact path="/paying">
-            <Paying/>
-          </Route>
-          <Route path="/teacher-page/:id" component={TeacherPage}/>
-          <Route path="/educoin-page" component={EducoinPage}/>
-
+            <Route exact path="/teachers">
+              <TeachersRoute/>
+            </Route>
+            <Route exact path="/materials">
+              <Materials/>
+            </Route>
+            <Route exact path="/subject/:id?">
+              <Subject container details={false}/>
+            </Route>
+            <Route exact path="/paying">
+              <Paying/>
+            </Route>
+            <Route path="/teacher-page/:id" component={TeacherPage}/>
+            <Route path="/educoin-page" component={EducoinPage}/>
+            {/*<Route>*/}
+            {/*  <NotFound/>*/}
+            {/*</Route>*/}
+          </Switch>
 
           <AuthRequired isAuth={isAuth}/>
 
-          <Route path="*">
-            <NotFound/>
-          </Route>
-        </Switch>
-      </div>
 
-      <Footer/>
-    </div>
+        </div>
+
+        <Footer/>
+      </div>
     </TranslatedProvider>
   )
 }

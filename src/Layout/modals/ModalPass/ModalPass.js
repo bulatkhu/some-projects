@@ -4,10 +4,11 @@ import {Field, Form} from 'react-final-form'
 import {connect} from 'react-redux'
 import LittleBtn from '../LittleBtn/LittleBtn'
 import ModalInfo from './ModelInfo'
-import {validatePassword, validatePhone} from '../../../scripts/validations/validators'
+import {alphaNumeric, validatePhone} from '../../../scripts/validations/validators'
 import {hideModalPass} from '../../../redux/actions/menu/menuActionsFuncs'
 import {ApiCheckKeyForPassword, ApiResetPassword, keyGenerate} from '../../../request/apiRequests'
 import './ModalPass.scoped.scss'
+import PassDescription from "../components/passDescription/passDescription";
 
 
 const switchEye = event => {
@@ -185,6 +186,39 @@ const ModalPass = ({show, hidePassModal}) => {
               if (values.re_password !== values.password) {
                 errors.re_password = 'Passwords are not equal'
               }
+              const hasNumber = /\d/
+              const oneUpperCapital = /(?=.*[A-Z])/
+              errors.password = {}
+              if (values.re_password !== values.password) {
+                errors.re_password = 'Passwords are not equal'
+              }
+
+              if (!values.password) {
+                values.password = ''
+              }
+
+              if (!alphaNumeric(values.password)) {
+                errors.password.alphabet = true
+              }
+              if (values.password.toString().trim().length < 8) {
+                errors.password.length = true
+              }
+              if (!hasNumber.test(values.password)) {
+                errors.password.digital = true
+              }
+              if (!oneUpperCapital.test(values.password)) {
+                errors.password.upperCapital = true
+              }
+
+              if (!Object.keys(errors.password).length) {
+                delete errors.password
+              } else {
+                errors.password = JSON.stringify(errors.password)
+              }
+
+              console.log('pass', errors.password)
+
+
               return errors
             }}
             render={({handleSubmit}) => (
@@ -192,13 +226,16 @@ const ModalPass = ({show, hidePassModal}) => {
                 className="modalPass__part"
                 onSubmit={handleSubmit}
               >
-                <Field name="password" validate={validatePassword}>
+                <Field name="password">
                   {({input, meta}) => {
                     const inputClass = ['regForm__input', 'modalPass__input', 'margin0',
                       meta.error && meta.touched && 'regFormInput__error'].join(' ')
+                    const errors = meta.error && Object.keys(JSON.parse(meta.error)).length
+                      ? JSON.parse(meta.error)
+                      : {}
 
                     return (
-                      <label className="regForm__label modalPass__label" htmlFor="password">
+                      <label className="regForm__label modalPass__label passDescription__label" htmlFor="password">
                         <span className="hidden">Құпиясөз</span>
                         <span className="modalPass__inputWrapper">
                           <input
@@ -212,6 +249,17 @@ const ModalPass = ({show, hidePassModal}) => {
                             <span/>
                           </span>
                         </span>
+                        {
+                          (meta.active) ?
+                            <div className="passDescription__wrapper ">
+                              <PassDescription
+                                length={errors.length}
+                                alphabet={errors.alphabet}
+                                digital={errors.digital}
+                                upperCapital={errors.upperCapital}
+                              />
+                            </div> : null
+                        }
                         {meta.error && meta.touched &&
                         <span className="error modalPass__error">
                           Invalid password

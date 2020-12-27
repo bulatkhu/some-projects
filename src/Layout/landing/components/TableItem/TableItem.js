@@ -1,5 +1,4 @@
 import React from 'react'
-import arcIcon from '../../../../images/landing/educoin/eduCoin.svg'
 import './TableItem.scss'
 
 
@@ -18,18 +17,16 @@ const TableItem = ({item}) => {
   return (
     <tr className="rateRow" key={item.rating}>
       <td className="rateRow__number">
-        <span className={cls.join(' ')}>{item.rating}</span>
+        <div className="cellWrapper">
+          <span className={cls.join(' ')}>{item.rating}</span>
+        </div>
       </td>
-      <td className="rateRow__name">{item.name}</td>
-      <td className="rateRow__class">{item.country}</td>
-      <td className="rateRow__school">{item.school}</td>
+      <td className="rateRow__name"><div className="cellWrapper">{item.name}</div></td>
+      <td className="rateRow__class"><div className="cellWrapper">{item.country}</div></td>
+      <td className="rateRow__school"><div className="cellWrapper">{item.school}</div></td>
       <td className="rateRow__coins coins">
-        <div className="coins__wrapper">
-          <div className="coins__image">
-            <div className="coins__arc">
-              <img src={arcIcon} alt="arc"/>
-            </div>
-          </div>
+        <div className="coins__wrapper cellWrapper">
+          <div className="coins__image"/>
           <div className="coins__text">
             {item.coins}
           </div>

@@ -1,8 +1,7 @@
-import React, {useState} from 'react'
-import './rating.scss'
-// import Tabs from '../../../landing/components/Tabs/tabs'
+import React from 'react'
+import {Translate} from 'react-translated'
 import TableItem from '../../../landing/components/TableItem/TableItem'
-import {Translate} from "react-translated";
+import './rating.scss'
 
 
 const tableItems = [
@@ -25,12 +24,6 @@ const tableItems = [
 ]
 
 const Rating = () => {
-  const [showMore, setShowMore] = useState(false)
-
-  const btnClickHandler = () => setShowMore(prev => !prev)
-
-
-  const numberOfItems = showMore ? tableItems.length : 10
 
   return (
     <section id="rating" className="rating">
@@ -40,17 +33,17 @@ const Rating = () => {
         <table className="rating__table rateTable">
           <thead className="rateTable__head">
           <tr className="rateTable__title rateTitle">
-            <td className="rateTitle__none">&nbsp;</td>
-            <th className="rateTitle__schoolboy"><Translate text="Аты-жөні"/></th>
-            <th className="rateTitle__class"><Translate text="Қаласы"/></th>
-            <th className="rateTitle__school"><Translate text="Мектеп"/></th>
-            <th className="rateTitle__coins"><Translate text="EduCoin"/></th>
+            <th className="rateTitle__none"><div className="rateTitle__cell">&nbsp;</div></th>
+            <th className="rateTitle__schoolboy"><div className="rateTitle__cell"><Translate text="Аты-жөні"/></div></th>
+            <th className="rateTitle__class"><div className="rateTitle__cell"><Translate text="Қаласы"/></div></th>
+            <th className="rateTitle__school"><div className="rateTitle__cell"><Translate text="Мектеп"/></div></th>
+            <th className="rateTitle__coins"><div className="rateTitle__cell"><Translate text="EduCoin"/></div></th>
           </tr>
           </thead>
           <tbody className="rateTable__body">
 
           {
-            tableItems.slice(0, numberOfItems).map((item, index) => (
+            tableItems.map((item, index) => (
               <TableItem item={item} key={item.rating + index}/>
             ))
           }
@@ -58,15 +51,6 @@ const Rating = () => {
           </tbody>
 
         </table>
-        <div className="rating__showMore showMore">
-          <button
-            onClick={btnClickHandler}
-            className={['showMore__btn', 'btn', showMore ? 'btn__showed' : null].join(' ')}
-          >
-            Show More
-            <span className="btn__arrow"/>
-          </button>
-        </div>
       </div>
     </section>
   )

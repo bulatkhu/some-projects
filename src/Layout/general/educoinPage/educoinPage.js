@@ -5,6 +5,8 @@ import './educoinPage.scoped.scss'
 
 const EducoinPage = () => {
 
+  window.scrollTo(0, 0)
+
 
   return (
     <div className="educoinPage">

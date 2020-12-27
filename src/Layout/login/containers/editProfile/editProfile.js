@@ -1,11 +1,20 @@
-import React, {useRef, useState} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import {Field, Form} from 'react-final-form'
 import Select from 'react-select'
 import {connect} from 'react-redux'
-import {apiEditProfile} from '../../../../request/apiRequests'
+import ReactCrop from 'react-image-crop'
 import {setUsersData} from '../../../../redux/actions/user/userActionsFuncs'
+import ModalPortal from '../../../modals/ModalPortal/ModalPortal'
+import {scrollBodyHandler} from '../../../../scripts/scrollController/scrollController'
+import {apiEditProfile} from '../../../../request/apiRequests'
 import './editProfile.scss'
+import 'react-image-crop/dist/ReactCrop.css'
 
+const initialCrop = {
+  unit: '%',
+  width: 30,
+  aspect: 10 / 10,
+}
 
 const options = [
   {label: 2021, value: 2021},
@@ -28,6 +37,40 @@ const selectorStyles = {
   indicatorSeparator: () => ({
     display: 'none'
   })
+}
+
+const getCroppedImg = (image, crop, fileName) => {
+  const canvas = document.createElement('canvas');
+  const scaleX = image.naturalWidth / image.width;
+  const scaleY = image.naturalHeight / image.height;
+  canvas.width = crop.width;
+  canvas.height = crop.height;
+  const ctx = canvas.getContext('2d');
+
+  ctx.drawImage(
+    image,
+    crop.x * scaleX,
+    crop.y * scaleY,
+    crop.width * scaleX,
+    crop.height * scaleY,
+    0,
+    0,
+    crop.width,
+    crop.height
+  );
+  // const base64Image = canvas.toDataURL('image/jpeg');
+  // console.log('base64', base64Image)
+  return new Promise((resolve, reject) => {
+    canvas.toBlob(blob => {
+      if (!blob) {
+        //reject(new Error('Canvas is empty'));
+        console.error('Canvas is empty');
+        return;
+      }
+      blob.name = fileName;
+      resolve(blob);
+    }, 'image/jpeg');
+  });
 }
 
 
@@ -56,13 +99,56 @@ function formatFormValues(fromFormValues) {
 
 
 const EditProfile = ({type, updateUserData}) => {
+  const onClickAddAvatar = useRef(null)
   const [showMessage, setShowMessage] = useState(null)
   const [photoDescr, setPhotoDescr] = useState(null)
-  const onClickAddAvatar = useRef(null)
+  const [showPhotoEditor, setShowPhotoEditor] = useState(false)
+  const [avatarUrl, setAvatarUrl] = useState(null)
+  const [crop, setCrop] = useState(initialCrop)
+  const [refToImage, setRefToImage] = useState(null)
+  const [croppedImageUrl, setCroppedImageUrl] = useState(null)
 
-  const onProfileEdited = values => {
+
+  useEffect(() => {
+    if (showPhotoEditor) {
+      scrollBodyHandler.lock()
+    } else {
+      scrollBodyHandler.unLock()
+    }
+    return () => scrollBodyHandler.unLock()
+  }, [showPhotoEditor])
+
+
+  const onAvatarInputChange = target => {
+    setShowPhotoEditor(true)
+    if (target.files && target.files.length > 0) {
+      const reader = new FileReader()
+      reader.addEventListener('load', () => {
+        setAvatarUrl(reader.result)
+      })
+      reader.readAsDataURL(target.files[0])
+    }
+  }
+
+
+  const makeClientCrop = async crop => {
+    if (refToImage && crop.width && crop.height) {
+      const croppedImageUrl = await getCroppedImg(
+        refToImage,
+        crop,
+        'newFile.jpeg'
+      )
+      setCroppedImageUrl(croppedImageUrl)
+    }
+  }
+
+
+  const onProfileEdited = defaultValues => {
+    const values = defaultValues
+    if (values && values.avatar && values.avatar.length && croppedImageUrl) {
+      values.avatar = {0: croppedImageUrl, length: 1}
+    }
     const formValues = formatFormValues(values)
-
     apiEditProfile(formValues)
       .then(res => {
         console.log('success:', res.data.message)
@@ -79,150 +165,136 @@ const EditProfile = ({type, updateUserData}) => {
   }
 
 
+  const avatarField = <Field name="avatar">
+    {({input: {value, onChange, ...input}}) => {
+      const handleChange = ({target}) => {
+        onAvatarInputChange(target)
+        const description = target.files[0] ? target.files[0].name : 'no'
+        setPhotoDescr(`Photo: ${description}`)
+        onChange(target.files)
+        setShowPhotoEditor(true)
+      }
+      return (
+        <input
+          accept="image/*"
+          ref={onClickAddAvatar}
+          onChange={handleChange}
+          {...input}
+          type="file"
+          className="hidden"
+        />
+      )
+    }}
+  </Field>
+
+
   let form
 
   if (type === 'student') {
-    form = <>
-      <div className="editProfile__buttons">
-        <button onClick={() => {
-          onClickAddAvatar.current.value = null
-          setPhotoDescr('Photo: no')
-        }} className="editProfile__btn editProfile__deletePhoto">Суретті өшіру</button>
-        <button
-          onClick={() => onClickAddAvatar.current.click()}
-          className="editProfile__btn editProfile__addPhoto">Сурет жүктеу
-        </button>
-        <div className="success editProfileBtn__info">{photoDescr}</div>
-      </div>
+    form = <Form onSubmit={onProfileEdited} render={({handleSubmit}) => (
+      <form
+        onSubmit={handleSubmit}
+        className="editProfile__form editProfileForm">
 
-      {showMessage && (
-        <div className="success editProfile__error">
-          {showMessage}
+        <div className="editProfileForm__content">
+
+          <div className="editProfileForm__column">
+            {avatarField}
+            <Field name="name">
+              {({input}) => <input {...input} type="text" placeholder="Аты" className="editProfileForm__input"/>}
+            </Field>
+            <Field name="surname">
+              {({input}) => <input {...input} type="text" placeholder="Тегі" className="editProfileForm__input"/>}
+            </Field>
+            <Field
+              name="region"
+              placeholder="Облыс/қала"
+              className="editProfileForm__input editProfileForm__selector"
+              styles={selectorStyles}
+              component={({input, ...rest}) => (
+                <Select
+                  {...input}
+                  {...rest}
+                  options={options}
+                />
+              )}
+            />
+            <Field
+              name="city"
+              placeholder="Қала/Аудан"
+              className="editProfileForm__input editProfileForm__selector"
+              styles={selectorStyles}
+              component={({input, ...rest}) => (
+                <Select
+                  {...input}
+                  {...rest}
+                  options={options}
+                />
+              )}
+            />
+            <Field
+              name="subject"
+              placeholder="Мектеп"
+              className="editProfileForm__input editProfileForm__selector"
+              styles={selectorStyles}
+              component={({input, ...rest}) => (
+                <Select
+                  {...input}
+                  {...rest}
+                  options={options}
+                />
+              )}
+            />
+            <Field
+              name="profileSubject"
+              placeholder="Бейіндік пән"
+              className="editProfileForm__input editProfileForm__selector"
+              styles={selectorStyles}
+              component={({input, ...rest}) => (
+                <Select
+                  {...input}
+                  {...rest}
+                  options={options}
+                />
+              )}
+            />
+          </div>
+          <div className="editProfileForm__column">
+            <Field name="email">
+              {({input}) => <input {...input} name="email" type="text" placeholder="E-mail"
+                                   className="editProfileForm__input"/>}
+            </Field>
+            <Field name="phone">
+              {({input}) => <input {...input} type="text" placeholder="Тел. нөмірі"
+                                   className="editProfileForm__input"/>}
+            </Field>
+            <Field name="iin">
+              {({input}) => <input {...input} type="text" placeholder="ЖСН" className="editProfileForm__input"/>}
+            </Field>
+            <Field name="user_name">
+              {({input}) => <input {...input} type="text" placeholder="ТЖК" className="editProfileForm__input"/>}
+            </Field>
+            <Field name="parentPhone">
+              {({input}) => <input {...input} type="text" placeholder="Ата-ана тел. нөмірі"
+                                   className="editProfileForm__input"/>}
+            </Field>
+          </div>
+
         </div>
-      )}
 
-      <Form onSubmit={onProfileEdited} render={({handleSubmit}) => (
-        <form
-          onSubmit={handleSubmit}
-          className="editProfile__form editProfileForm">
+        <Field
+          name="text"
+          placeholder="Өзім туралы ..."
+          className="editProfileForm__textHolder"
+          component="textarea"
+        />
 
-          <div className="editProfileForm__content">
+        <div className="editProfileForm__wrapper">
+          <button type="submit" className="editProfileForm__button">Сақтау</button>
+        </div>
 
-            <div className="editProfileForm__column">
-              <Field name="avatar">
-                {({input: {value, onChange, ...input}}) => {
-                  const handleChange = ({target}) => {
-                    onChange(target.files)
-                    const description = target.files[0] ? target.files[0].name : 'no'
-                    setPhotoDescr(`Photo: ${description}`)
-                  }
-                  return (
-                    <input
-                      ref={onClickAddAvatar}
-                      onChange={handleChange}
-                      {...input}
-                      type="file"
-                      className="hidden"
-                    />
-                  )
-                }}
-              </Field>
-              <Field name="name">
-                {({input}) => <input {...input} type="text" placeholder="Аты" className="editProfileForm__input"/>}
-              </Field>
-              <Field name="surname">
-                {({input}) => <input {...input} type="text" placeholder="Тегі" className="editProfileForm__input"/>}
-              </Field>
-              <Field
-                name="region"
-                placeholder="Облыс/қала"
-                className="editProfileForm__input editProfileForm__selector"
-                styles={selectorStyles}
-                component={({input, ...rest}) => (
-                  <Select
-                    {...input}
-                    {...rest}
-                    options={options}
-                  />
-                )}
-              />
-              <Field
-                name="city"
-                placeholder="Қала/Аудан"
-                className="editProfileForm__input editProfileForm__selector"
-                styles={selectorStyles}
-                component={({input, ...rest}) => (
-                  <Select
-                    {...input}
-                    {...rest}
-                    options={options}
-                  />
-                )}
-              />
-              <Field
-                name="subject"
-                placeholder="Мектеп"
-                className="editProfileForm__input editProfileForm__selector"
-                styles={selectorStyles}
-                component={({input, ...rest}) => (
-                  <Select
-                    {...input}
-                    {...rest}
-                    options={options}
-                  />
-                )}
-              />
-              <Field
-                name="profileSubject"
-                placeholder="Бейіндік пән"
-                className="editProfileForm__input editProfileForm__selector"
-                styles={selectorStyles}
-                component={({input, ...rest}) => (
-                  <Select
-                    {...input}
-                    {...rest}
-                    options={options}
-                  />
-                )}
-              />
-            </div>
-            <div className="editProfileForm__column">
-              <Field name="email">
-                {({input}) => <input {...input} name="email" type="text" placeholder="E-mail"
-                                     className="editProfileForm__input"/>}
-              </Field>
-              <Field name="phone">
-                {({input}) => <input {...input} type="text" placeholder="Тел. нөмірі"
-                                     className="editProfileForm__input"/>}
-              </Field>
-              <Field name="iin">
-                {({input}) => <input {...input} type="text" placeholder="ЖСН" className="editProfileForm__input"/>}
-              </Field>
-              <Field name="user_name">
-                {({input}) => <input {...input} type="text" placeholder="ТЖК" className="editProfileForm__input"/>}
-              </Field>
-              <Field name="parentPhone">
-                {({input}) => <input {...input} type="text" placeholder="Ата-ана тел. нөмірі"
-                                     className="editProfileForm__input"/>}
-              </Field>
-            </div>
-
-          </div>
-
-          <Field
-            name="text"
-            placeholder="Өзім туралы ..."
-            className="editProfileForm__textHolder"
-            component="textarea"
-          />
-
-          <div className="editProfileForm__wrapper">
-            <button type="submit" className="editProfileForm__button">Сақтау</button>
-          </div>
-
-        </form>
-      )}/>
-    </>
+      </form>
+    )}/>
   } else if (type === 'teacher' || type === 'mentor') {
     form = (
       <Form
@@ -232,20 +304,44 @@ const EditProfile = ({type, updateUserData}) => {
           <div className="editProfileForm__content">
 
             <div className="editProfileForm__column">
-              <input type="text" placeholder="Аты" className="editProfileForm__input"/>
-              <input type="text" placeholder="ЖОО" className="editProfileForm__input"/>
-              <input type="text" placeholder="E-mail" className="editProfileForm__input"/>
-              <input type="text" placeholder="Пәні" className="editProfileForm__input"/>
+              {avatarField}
+              <Field name="name">
+                {({input}) => (
+                  <input {...input} type="text" placeholder="Аты" className="editProfileForm__input"/>
+                )}
+              </Field>
+              <Field name="goo">
+                {({input}) => (
+                  <input {...input} type="text" placeholder="ЖОО" className="editProfileForm__input"/>
+                )}
+              </Field>
+              <Field name="email">
+                {({input}) => (
+                  <input {...input} name="email" type="text" placeholder="E-mail" className="editProfileForm__input"/>
+                )}
+              </Field>
+              <Field name="theme">
+                {({input}) => (
+                  <input {...input} type="text" placeholder="Пәні" className="editProfileForm__input"/>
+                )}
+              </Field>
             </div>
             <div className="editProfileForm__column">
-              <input type="text" placeholder="Тегі" className="editProfileForm__input"/>
-              <input type="text" placeholder="Мамандық" className="editProfileForm__input"/>
-              <input type="text" placeholder="Тел. нөмірі" className="editProfileForm__input"/>
-              <div className="editProfile__buttons" style={{textAlign: 'right'}}>
-                <button className="editProfile__teacherBtn editProfile__btn editProfile__deletePhoto">Суретті өшіру
-                </button>
-                <button className="editProfile__teacherBtn editProfile__btn editProfile__addPhoto">Сурет жүктеу</button>
-              </div>
+              <Field name="lastname">
+                {({input}) => (
+                  <input {...input} type="text" placeholder="Тегі" className="editProfileForm__input"/>
+                )}
+              </Field>
+              <Field name="specialty">
+                {({input}) => (
+                  <input {...input} type="text" placeholder="Мамандық" className="editProfileForm__input"/>
+                )}
+              </Field>
+              <Field name="phone">
+                {({input}) => (
+                  <input {...input} name="email" type="text" placeholder="Тел. нөмірі" className="editProfileForm__input"/>
+                )}
+              </Field>
             </div>
 
           </div>
@@ -264,6 +360,81 @@ const EditProfile = ({type, updateUserData}) => {
 
   return (
     <section className="editProfile">
+
+      {
+        showPhotoEditor && <ModalPortal>
+          <div className="editProfileModal fixed">
+            <div className="editProfileModal__body">
+
+              <button
+                onClick={() => {
+                  setShowPhotoEditor(false)
+                  onClickAddAvatar.current.value = null
+                  setPhotoDescr('Photo: no')
+                }}
+                className="editProfileModal__close btn__noFocus"
+              >&times;</button>
+              {
+                avatarUrl && (
+                  <div className="editProfileModal__content">
+                    <div className="editProfileModal__column">
+                      <div className="editProfileModal__editorWrapper">
+                        <ReactCrop
+                          src={avatarUrl}
+                          crop={crop}
+                          ruleOfThirds
+                          onImageLoaded={setRefToImage}
+                          onComplete={makeClientCrop}
+                          onChange={setCrop}
+                        />
+                      </div>
+                    </div>
+                    <div className="editProfileModal__column">
+                      {
+                        croppedImageUrl && (
+                          <div className="editProfileModal__img">
+                            <img src={window.URL.createObjectURL(croppedImageUrl)} alt="avatar"/>
+                          </div>
+                        )
+                      }
+                    </div>
+                  </div>
+                )
+              }
+              <button
+                className="editProfile__btn editProfile__addPhoto"
+                style={{margin: '20px auto', maxWidth: 200, display: 'block'}}
+                onClick={() => {
+                  setPhotoDescr('Your cropped has been saved')
+                  setShowPhotoEditor(false)
+                }}
+              >Save photo</button>
+            </div>
+          </div>
+        </ModalPortal>
+      }
+      <div className="editProfile__header">
+        <div className="editProfile__buttons">
+          <button onClick={() => {
+            onClickAddAvatar.current.value = null
+            setPhotoDescr('Photo: no')
+          }} className="editProfile__btn editProfile__deletePhoto">Суретті өшіру
+          </button>
+          <button
+            onClick={() => {
+              onClickAddAvatar.current.click()
+            }}
+            className="editProfile__btn editProfile__addPhoto">Сурет жүктеу
+          </button>
+          <div className="success editProfileBtn__info">{photoDescr}</div>
+        </div>
+
+        {showMessage && (
+          <div className="success editProfile__error">
+            {showMessage}
+          </div>
+        )}
+      </div>
       {form}
     </section>
   )
@@ -276,7 +447,6 @@ const mapDispatchToProps = dispatch => {
     updateUserData: () => dispatch(setUsersData())
   }
 }
-
 
 
 export default connect(null, mapDispatchToProps)(EditProfile)

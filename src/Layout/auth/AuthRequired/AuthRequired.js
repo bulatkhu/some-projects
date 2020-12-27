@@ -1,5 +1,5 @@
 import React from 'react'
-import {Route, Redirect, Switch} from 'react-router-dom'
+import {Route, Redirect} from 'react-router-dom'
 import Login from '../../login/login'
 import MyCourses from '../../login/containers/myCourses/myCourses'
 import Chat from '../../login/containers/chat/chat'
@@ -17,8 +17,8 @@ import TutorEducoin from '../../login/tutor/tutorEducoin/tutorEducoin'
 import TutorCalendar from '../../login/tutor/tutorCalendar/tutorCalendar'
 import studentPhoto from '../../../images/login/navbar/profilePhoto.jpg'
 import teacherPhoto from '../../../images/login/navbar/teacherPhoto.jpg'
-import EduCoinComponent from '../../login/containers/eduCoin/eduCoin';
-import NotFound from '../../general/notFound/notFound';
+import EduCoinComponent from '../../login/containers/eduCoin/eduCoin'
+import NotFound from '../../general/notFound/notFound'
 import {connect} from 'react-redux'
 import Subject from '../../general/subject/subject'
 import TestComponent from '../../login/containers/testComponent/testComponent'
@@ -74,26 +74,24 @@ const renderStudentsRoutes = ({teacher, student}) => {
         {...teacher}
         links={student.links}
       >
-        <Switch>
-          <Route exact path={student.links.base} component={MyCourses}/>
-          <Route exact path={student.links.chat} component={Chat}/>
-          <Route exact path={student.links.promo} component={PromoCode}/>
-          <Route exact path={student.links.edit}>
-            <EditProfile type={student.type}/>
-          </Route>
-          <Route exact path={student.links.tests} component={TestComponent}/>
-          <Route exact path={student.links.payment} component={Payment}/>
-          <Route exact path={student.links.eduCoin} component={EduCoinComponent}/>
-          <Route exact path={student.links.calendar} component={Calendar}/>
-          <Route exact path={student.links.buy} component={BuySubject}/>
-          <Route exact path={student.links.lesson} component={Lesson}/>
-          <Route exact path={student.links.connecting} component={Connect}/>
-          <Route exact path={student.links.watchCourse} component={WatchCourse}/>
-          <Route exact path={student.links.subject}>
-            <Subject container bg={false} details={true}/>
-          </Route>
-          <Route component={NotFound}/>
-        </Switch>
+        <Route exact path={student.links.base} component={MyCourses}/>
+        <Route exact path={student.links.chat} component={Chat}/>
+        <Route exact path={student.links.promo} component={PromoCode}/>
+        <Route exact path={student.links.edit}>
+          <EditProfile type={student.type}/>
+        </Route>
+        <Route exact path={student.links.tests} component={TestComponent}/>
+        <Route exact path={student.links.payment} component={Payment}/>
+        <Route exact path={student.links.eduCoin} component={EduCoinComponent}/>
+        <Route exact path={student.links.calendar} component={Calendar}/>
+        <Route exact path={student.links.buy} component={BuySubject}/>
+        <Route exact path={student.links.lesson} component={Lesson}/>
+        <Route exact path={student.links.connecting} component={Connect}/>
+        <Route exact path={student.links.watchCourse} component={WatchCourse}/>
+        <Route exact path={student.links.subject}>
+          <Subject container bg={false} details={true}/>
+        </Route>
+        <Route component={NotFound}/>
       </Login>
     </Route>
   )
@@ -107,24 +105,22 @@ const renderMentorsRoutes = ({tutor}) => {
         links={tutor.links}
         type="tutor"
       >
-        <Switch>
-          <Route path={tutor.links.base + '/list'}>
-            <TeacherList/>
-          </Route>
-          <Route path={tutor.links.base + '/chat'}>
-            <Chat/>
-          </Route>
-          <Route path={tutor.links.base + '/educoin'}>
-            <TutorEducoin/>
-          </Route>
-          <Route path={tutor.links.base + '/edit'}>
-            <EditProfile type={tutor.type}/>
-          </Route>
-          <Route path={tutor.links.base + '/calendar'}>
-            <TutorCalendar/>
-          </Route>
-          <Route component={NotFound}/>
-        </Switch>
+        <Route path={tutor.links.base + '/list'}>
+          <TeacherList/>
+        </Route>
+        <Route path={tutor.links.base + '/chat'}>
+          <Chat/>
+        </Route>
+        <Route path={tutor.links.base + '/educoin'}>
+          <TutorEducoin/>
+        </Route>
+        <Route path={tutor.links.base + '/edit'}>
+          <EditProfile type={tutor.type}/>
+        </Route>
+        <Route path={tutor.links.base + '/calendar'}>
+          <TutorCalendar/>
+        </Route>
+        <Route component={NotFound}/>
       </Login>
     </Route>
   )
@@ -137,26 +133,25 @@ const renderTeachersRoutes = ({teacher}) => {
       <Login
         links={teacher.links}
       >
-        <Switch>
-          <Route exact path="/teacher">
-            <TeacherCourses/>
-          </Route>
-          <Route exact path={teacher.links.base + '/calendar'}>
-            <Calendar/>
-          </Route>
-          <Route exact path={teacher.links.base + '/list'}>
-            <TeacherList/>
-          </Route>
-          <Route exact path={teacher.links.base + '/chat'}>
-            <Chat/>
-          </Route>
-          <Route exact path={teacher.links.base + '/edit'}>
-            <EditProfile type={teacher.type}/>
-          </Route>
-          <Route exact path={teacher.links.base + '/connecting'}>
-            <Connect/>
-          </Route>
-        </Switch>
+        <Route exact path="/teacher">
+          <TeacherCourses/>
+        </Route>
+        <Route exact path={teacher.links.base + '/calendar'}>
+          <Calendar/>
+        </Route>
+        <Route exact path={teacher.links.base + '/list'}>
+          <TeacherList/>
+        </Route>
+        <Route exact path={teacher.links.base + '/chat'}>
+          <Chat/>
+        </Route>
+        <Route exact path={teacher.links.base + '/edit'}>
+          <EditProfile type={teacher.type}/>
+        </Route>
+        <Route exact path={teacher.links.base + '/connecting'}>
+          <Connect/>
+        </Route>
+        <Route component={NotFound}/>
       </Login>
     </Route>
   )

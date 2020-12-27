@@ -57,7 +57,7 @@ export async function getCoursesFromIndex() {
 
 export async function getDetailCourse(id) {
   try {
-    return await axios.get(APP_BASE_URL + `/userDetailCourse/${id}`)
+    return await axios.get(APP_BASE_URL + `/userDetailCourse/${id}`,{ params: { token: getToken() } })
   } catch (e) {
     return e.error || e.response || e.data.response || e.data.error
   }
@@ -75,7 +75,6 @@ export async function getChatConversations(page = '1') {
 }
 
 export async function getChatMentors(type) {
-  console.log('get chat for', type)
   const token = getToken()
   if (type === 'mentor' || type === 'teacher') {
     return  await axios

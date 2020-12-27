@@ -1,11 +1,11 @@
 .courses {
   color: #fff;
-  background: #F0F5FB;
+  background: #fff;
+  padding-top: 60px;
 
 
-  @media (max-width: 576px) {
-    margin: 20px 0 0 0;
-  }
+  margin: -1px 0 0 0;
+
 
   &__header {
     background: #407BBF;

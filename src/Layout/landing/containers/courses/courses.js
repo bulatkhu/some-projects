@@ -1,9 +1,10 @@
 import React, { useMemo, useState } from 'react'
+import { Translate as ReactTranslate } from 'react-translated'
 import ThingCard from '../../../landing/components/ThingCard/ThingCard'
 import {getCoursesFromIndex} from '../../../../request/apiRequests'
-import { Translate as ReactTranslate } from 'react-translated'
+import Playlist from '../playlist/playlist'
 import './courses.scss'
-import Playlist from "../playlist/playlist";
+
 
 
 const Courses = () => {
@@ -52,10 +53,10 @@ const Courses = () => {
 
   return (
     <>
-      <section className="courses">
+      <section  id="courses" className="courses">
 
         <div className="courses__header">
-          <h2 id="courses" className="courses__title"><ReactTranslate text="Курстарымыз"/></h2>
+          <h2 className="courses__title"><ReactTranslate text="Курстарымыз"/></h2>
 
           <div className="tabs">
             {
@@ -77,20 +78,20 @@ const Courses = () => {
 
         </div>
 
-        <div className="courses__bottom bottom">
-          <div className="bottom__container _container">
-            <div className="bottom__content">
-              {
-                courses && courses[activeTab].length ? (
-                  courses[activeTab].map((item1, index1) => <ThingCard key={index1} course={item1}/>)
-                ) : null
-              }
+        {
+          courses && courses[activeTab].length ? (
+            <div className="courses__bottom bottom">
+              <div className="bottom__container _container">
+                <div className="bottom__content">
+                  {courses[activeTab].map((item1, index1) => <ThingCard key={index1} course={item1}/>)}
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          ) : null
+        }
 
       </section>
-      <Playlist/>
+      <Playlist activeTab={activeTab} courses={courses}/>
     </>
   )
 }

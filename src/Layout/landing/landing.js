@@ -8,7 +8,6 @@ import Rating from './containers/rating/rating'
 import Progress from './containers/progress/progress'
 import Prices from './containers/prices/prices'
 import SocialLinks from './containers/socialLinks/socialLinks'
-import Playlist from './containers/playlist/playlist'
 
 const Landing = () => {
 
@@ -17,7 +16,6 @@ const Landing = () => {
       <Main/>
       <Features/>
       <Courses/>
-      <Playlist/>
       <Prices/>
       <EduCoin/>
       <Rating/>

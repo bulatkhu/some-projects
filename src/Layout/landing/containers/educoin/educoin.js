@@ -1,10 +1,10 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
+import {Translate} from 'react-translated'
 import studentIcon from '../../../../images/landing/educoin/student.svg'
 import arcIcon from '../../../../images/landing/educoin/eduCoin.svg'
 import giftIcon from '../../../../images/landing/educoin/gift.svg'
 import './educoin.scss'
-import {Link} from 'react-router-dom'
-import {Translate} from "react-translated";
 
 const EduCoin = () => {
 

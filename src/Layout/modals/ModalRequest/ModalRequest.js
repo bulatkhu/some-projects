@@ -2,11 +2,11 @@ import React, {useState} from 'react'
 import { Form, Field } from 'react-final-form'
 import { GoogleSpreadsheet } from 'google-spreadsheet'
 import {Transition} from 'react-transition-group'
+import InputMask from 'react-input-mask'
+import {GOOGLE_SHEETS_CONFIG} from '../../../app.config'
+import {validatePhone} from '../../../scripts/validations/validators'
+import Loader from '../../general/component/loader/loader'
 import './ModalRequest.scoped.scss'
-import {GOOGLE_SHEETS_CONFIG} from "../../../app.config";
-import InputMask from "react-input-mask";
-import {validatePhone} from "../../../scripts/validations/validators";
-import Loader from "../../general/component/loader/loader";
 
 
 // const spreadSheetId = '1AJmb7nn0w_9KPRi-kfb_kNUSD0etq_V7zKOqQBo3ghQ'

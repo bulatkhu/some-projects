@@ -2,13 +2,14 @@ import React, {useState} from 'react'
 import {connect} from 'react-redux'
 import {Field, Form} from 'react-final-form'
 import InputMask from 'react-input-mask'
+import {Translate, Translator} from 'react-translated'
 import {hideModalReg, showModalLogin} from '../../../redux/actions/menu/menuActionsFuncs'
 import CircleForModals from '../CircleForModals/CircleForModals'
-import {validatePassword, validateEmail, validatePhone} from '../../../scripts/validations/validators'
+import {validateEmail, validatePhone, alphaNumeric} from '../../../scripts/validations/validators'
 import PhoneConfirmation from '../PhoneConfirmation/PhoneConfirmation'
 import {keyGenerate, register} from '../../../request/apiRequests'
+import PassDescription from '../components/passDescription/passDescription'
 import './ModalRegister.scss'
-import {Translate, Translator} from "react-translated";
 
 const eyeHandler = event => {
   event.stopPropagation()
@@ -30,8 +31,8 @@ const eyeHandler = event => {
 
 
 const ModalRegister = props => {
-  const [error, setError]         = useState(null)
-  const [success, setSuccess]     = useState(null)
+  const [error, setError] = useState(null)
+  const [success, setSuccess] = useState(null)
   const [phoneData, setPhoneData] = useState(null)
   const [phoneConf, setPhoneConf] = useState({boolean: true, phone: 9999})
   const overlayClass = ['modalReg__overlay', props.show ? 'modalActive' : null].join(' ')
@@ -67,7 +68,7 @@ const ModalRegister = props => {
           setPhoneConf(() => (
             {boolean: true, phone: values.phone}
           ))
-        },3000)
+        }, 3000)
 
         const data = await keyGenerate(values.phone)
 
@@ -121,10 +122,38 @@ const ModalRegister = props => {
               <Form
                 onSubmit={onRegisterSubmit}
                 validate={values => {
+                  const hasNumber = /\d/
+                  const oneUpperCapital = /(?=.*[A-Z])/
                   const errors = {}
+
+                  errors.password = {}
                   if (values.re_password !== values.password) {
                     errors.re_password = 'Passwords are not equal'
                   }
+
+                  if (!values.password) {
+                    values.password = ''
+                  }
+
+                  if (!alphaNumeric(values.password)) {
+                    errors.password.alphabet = true
+                  }
+                  if (values.password.toString().trim().length < 8) {
+                    errors.password.length = true
+                  }
+                  if (!hasNumber.test(values.password)) {
+                    errors.password.digital = true
+                  }
+                  if (!oneUpperCapital.test(values.password)) {
+                    errors.password.upperCapital = true
+                  }
+
+                  if (!Object.keys(errors.password).length) {
+                    delete errors.password
+                  } else {
+                    errors.password = JSON.stringify(errors.password)
+                  }
+
                   return errors
                 }}
                 render={({handleSubmit}) => {
@@ -244,24 +273,45 @@ const ModalRegister = props => {
                           <div className="regForm__passEye">
                             <Field
                               name="password"
-                              validate={validatePassword}
+                              // validate={validatePassword}
                               // defaultValue="12345Bulat"
                             >
-                              {({input, meta}) => (
-                                <Translator>
-                                  {({translate}) => (
-                                    <label className="regForm__label margin0" htmlFor="password">
-                                      <span className="hidden">Құпиясөз</span>
-                                      <input className={['regForm__input',
-                                        meta.error && meta.touched ? 'regFormInput__error' : null
-                                      ].join(' ')} {...input} type="password"
-                                             placeholder={translate({ text: 'Құпиясөз' })}/>
-                                      {meta.error && meta.touched &&
-                                      <span className="regForm__error error">Invalid password</span>}
-                                    </label>
-                                  )}
-                                </Translator>
-                              )}
+                              {(props) => {
+                                const {input, meta} = props
+                                const errors = meta.error && Object.keys(JSON.parse(meta.error)).length
+                                  ? JSON.parse(meta.error)
+                                  : {}
+
+                                return (
+                                  <Translator>
+                                    {({translate}) => (
+                                      <label className="regForm__label margin0 passDescription__label" htmlFor="password">
+                                        <span className="hidden">Құпиясөз</span>
+                                        <input className={['regForm__input margin0',
+                                          meta.error && meta.touched ? 'regFormInput__error' : null
+                                        ].join(' ')} {...input} type="password"
+                                               placeholder={translate({text: 'Құпиясөз'})}/>
+
+                                        {
+                                          (meta.active)
+                                            ?
+                                            <div className="passDescription__wrapper ">
+                                              <PassDescription
+                                                length={errors.length}
+                                                alphabet={errors.alphabet}
+                                                digital={errors.digital}
+                                                upperCapital={errors.upperCapital}
+                                              />
+                                            </div>
+                                            : null
+                                        }
+                                        {/*{meta.error && meta.touched &&*/}
+                                        {/*<span className="regForm__error error">Invalid password</span>}*/}
+                                      </label>
+                                    )}
+                                  </Translator>
+                                )
+                              }}
                             </Field>
                           </div>
                         </div>
@@ -278,7 +328,8 @@ const ModalRegister = props => {
                                     meta.error && meta.touched ? 'regFormInput__error' : null
                                   ].join(' ')} {...input} type="password"
                                          placeholder="Құпиясөз"/>
-                                  {meta.error && meta.touched && <span className="regForm__error error">{meta.error}</span>}
+                                  {meta.error && meta.touched &&
+                                  <span className="regForm__error error">{meta.error}</span>}
                                 </label>
                               )}
                             </Field>
@@ -295,7 +346,8 @@ const ModalRegister = props => {
                               <input checked required {...input} className="regCheckbox__input"/>
 
                               <label htmlFor="regPrivacy" className="regCheckbox__text">
-                                Пайдаланушы келісімінің <a href="/" className="regCheckbox__red">шарттарын</a> қабылдаймын.
+                                Пайдаланушы келісімінің <a href="/"
+                                                           className="regCheckbox__red">шарттарын</a> қабылдаймын.
                               </label>
                             </>
                           )}

@@ -6,21 +6,6 @@ import ModalPortal from '../../../modals/ModalPortal/ModalPortal'
 import {scrollBodyHandler} from '../../../../scripts/scrollController/scrollController'
 import './playlist.scoped.scss'
 
-const videoPlaylist = [
-  { video: 'https://www.youtube.com/watch?v=JRb3is9uzKI&list=PLa4jWVzklkO7JHPZFq_MWZzZ8WC3v0ACj&index=1' },
-  { video: 'https://www.youtube.com/watch?v=91m_WBsnAUM&list=PLa4jWVzklkO7JHPZFq_MWZzZ8WC3v0ACj&index=2' },
-  { video: 'https://www.youtube.com/watch?v=btPJDODKvyY&list=PLa4jWVzklkO7JHPZFq_MWZzZ8WC3v0ACj&index=3' },
-  { video: 'https://www.youtube.com/watch?v=xNFusJN7ho0&list=PLa4jWVzklkO7JHPZFq_MWZzZ8WC3v0ACj&index=4' },
-  { video: 'https://www.youtube.com/watch?v=iOUR4t-gqtQ&list=PLa4jWVzklkO7JHPZFq_MWZzZ8WC3v0ACj&index=5' },
-  { video: 'https://www.youtube.com/watch?v=-MFGszPVyy0&list=PLa4jWVzklkO7JHPZFq_MWZzZ8WC3v0ACj&index=6' },
-  { video: 'https://www.youtube.com/watch?v=EafwmW2dpcc&list=PLa4jWVzklkO7JHPZFq_MWZzZ8WC3v0ACj&index=7' },
-  { video: 'https://www.youtube.com/watch?v=N7mxq9AoH6c&list=PLa4jWVzklkO7JHPZFq_MWZzZ8WC3v0ACj&index=8' },
-  { video: 'https://www.youtube.com/watch?v=0wSzBzt87O8&list=PLa4jWVzklkO7JHPZFq_MWZzZ8WC3v0ACj&index=9' },
-  { video: 'https://www.youtube.com/watch?v=UN4eLtYta-0&list=PLa4jWVzklkO7JHPZFq_MWZzZ8WC3v0ACj&index=10' },
-  { video: 'https://www.youtube.com/watch?v=wB67AZMdBZU&list=PLa4jWVzklkO7JHPZFq_MWZzZ8WC3v0ACj&index=11' },
-  { video: 'https://www.youtube.com/watch?v=EaRUB4iRFko&list=PLa4jWVzklkO7JHPZFq_MWZzZ8WC3v0ACj&index=12' },
-]
-
 const duration = 250;
 
 const defaultStyle = {
@@ -31,16 +16,17 @@ const defaultStyle = {
 }
 
 const transitionStyles = {
-  entering: { position: 'fixed', top: '-100%', opacity: 1},
-  entered:  { position: 'fixed', top: '50%', opacity: 1 },
-  exiting:  { position: 'fixed', top: '-100%', opacity: 1 },
-  exited:  { position: 'fixed', top: '-100%', opacity: 0 },
+  entering: {position: 'fixed', top: '-100%', opacity: 1},
+  entered: {position: 'fixed', top: '50%', opacity: 1},
+  exiting: {position: 'fixed', top: '-100%', opacity: 1},
+  exited: {position: 'fixed', top: '-100%', opacity: 0},
 }
 
 
-const Playlist = () => {
+const Playlist = ({activeTab, courses}) => {
   const [currentVideo, setCurrentVideo] = useState(null)
   const [showModal, setShowModal] = useState(false)
+  const [videoPlayList, setVideoPlayList] = useState([])
 
   useEffect(() => {
 
@@ -50,19 +36,36 @@ const Playlist = () => {
       scrollBodyHandler.unLock()
     }
 
-  },[showModal])
+  }, [showModal])
+
+
+  useEffect(() => {
+
+    if (courses && activeTab) {
+      const coursesVideos = courses[activeTab]
+        .map(course => {
+          const metaVideo = course.metas.find(meta => meta.option === 'video')
+          if (metaVideo && metaVideo.value) return {video: metaVideo.value}
+          return null
+        })
+        .filter(course => course)
+      setVideoPlayList(coursesVideos)
+    }
+
+  }, [courses, activeTab])
+
 
   const onVideoClick = (event, videoId) => {
     event.stopPropagation()
-    setCurrentVideo(videoPlaylist[videoId].video)
+    setCurrentVideo(videoPlayList[videoId].video)
     setShowModal(true)
   }
 
   return (
-    <section className="playlist">
+    <section  id="playlist" className="playlist">
 
       <div className="playlist__container _container">
-        <h2  id="playlist" className="playlist__title">{<Translate text="Видеосабақ үзінділері"/>}</h2>
+        <h2 className="playlist__title">{<Translate text="Видеосабақ үзінділері"/>}</h2>
 
         <ModalPortal>
           <Transition
@@ -93,20 +96,24 @@ const Playlist = () => {
         <div className="playlist__content">
 
           {
-            videoPlaylist.map((item, index) => {
+            videoPlayList && videoPlayList.length ? (
+              videoPlayList.map((item, index) => {
 
-              return (
-                <div key={index} className="playlist__column">
-                  <div onClick={event => onVideoClick(event, index)} className="playlist__overplay">
-                    <div className="playlist__video">
+                return (
+                  <div key={index} className="playlist__column">
+                    <div onClick={event => onVideoClick(event, index)} className="playlist__overplay">
+                      <div className="playlist__video">
 
-                      <VideoPlayer url={item.video}/>
+                        <VideoPlayer url={item.video}/>
 
+                      </div>
                     </div>
                   </div>
-                </div>
-              )
-            })
+                )
+              })
+            ) : <div>No courses</div>
+
+
           }
 
         </div>
