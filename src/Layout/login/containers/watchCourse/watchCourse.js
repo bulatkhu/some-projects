@@ -57,7 +57,7 @@ function partsToSideParts(parts) {
       title: part,
       players: parts[part]
         .map(part => ({
-          link: `/student/detail-course/${part.content_id}/${part.id}`,
+          link: `/login/student/detail-course/${part.content_id}/${part.id}`,
           ...part
         }))
     }

@@ -99,7 +99,7 @@ const HeaderMenu = ({isHide, onShowLogin, onShowRegister, setUserData, menu, isA
 
 
                     {isAuth && user
-                      ? <Link className="headerMenu-login" to={user.type ? '/' + user.type : '/student'}>
+                      ? <Link className="headerMenu-login" to={user.type ? '/login/' + user.type : '/login/student'}>
                           <div className="headerMenu-login__img">
                             {
                               user && user.localAvatar

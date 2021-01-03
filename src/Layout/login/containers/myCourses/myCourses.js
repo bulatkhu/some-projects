@@ -22,7 +22,8 @@ function reqToShowCourses(courses) {
     return {
       title: item.title,
       courseImg: img,
-      link: '/student/subject/' + item.id
+      link: '/login/student/subject/' + item.id,
+      percentage: item.percentage
     }
   })
 }
@@ -82,43 +83,6 @@ const MyCourses = () => {
         </div>
 
       </div>
-
-      {/*<div className="myCourses__bottom myCoursesBottom">*/}
-
-      {/*  <h2 className="myCourses__secondTitle">Live вебинарлар</h2>*/}
-
-      {/*  <div className="myCoursesBottom__content">*/}
-
-      {/*    {webinarItems.map((item, index) => {*/}
-      {/*      return (*/}
-      {/*        <div key={index} className="myCoursesBottom__column">*/}
-
-
-      {/*          <div className="myCoursesBottom__topWrapper">*/}
-      {/*            <div className="myCoursesBottom__img">*/}
-      {/*              <img src={item.img} alt="item"/>*/}
-      {/*            </div>*/}
-
-      {/*            <div className="myCoursesBottom__text">{item.text}</div>*/}
-      {/*          </div>*/}
-
-      {/*          <div className="myCoursesBottom__wrapper">*/}
-      {/*            <div className="myCoursesBottom__date">*/}
-      {/*              <a href={item.link}>{item.date}</a>*/}
-      {/*            </div>*/}
-
-      {/*            <div className="myCoursesBottom__percent">*/}
-      {/*              <span>{item.progress}</span>*/}
-      {/*            </div>*/}
-      {/*          </div>*/}
-      {/*        </div>*/}
-      {/*      )*/}
-      {/*    })}*/}
-
-      {/*  </div>*/}
-
-      {/*</div>*/}
-
     </section>
   )
 }

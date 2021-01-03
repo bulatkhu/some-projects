@@ -144,12 +144,6 @@ export async function addCalendarTask(task) {
   if (!token) return { error: 'invalid token' }
 
   return await axios.post(APP_BASE_URL + `/user/addTask?token=${token}`, task)
-    .then(res => ({...res, error: false}))
-    .catch(err => {
-      if (err.response) {
-        return {...err.response, error: true}
-      }
-    })
 }
 
 export async function removeCalendarTask(id) {
@@ -157,12 +151,6 @@ export async function removeCalendarTask(id) {
   if (!token) return { error: 'invalid token' }
 
   return await axios.get(APP_BASE_URL + `/removeTask?token=${token}&id=${id}`)
-    .then(res => ({...res, error: false}))
-    .catch(err => {
-      if (err.response) {
-        return {...err.response, error: true}
-      }
-    })
 }
 
 export async function apiEditProfile(formData) {

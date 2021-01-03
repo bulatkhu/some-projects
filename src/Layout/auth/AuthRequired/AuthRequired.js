@@ -31,19 +31,19 @@ const loggedInfo = {
     photo: studentPhoto,
     coins: 99999,
     links: {
-      base: '/student',
-      chat: '/student/chat',
-      tests: '/student/tests',
-      promo: '/student/promo',
-      edit: '/student/edit',
-      payment: '/student/payment',
-      calendar: '/student/calendar',
-      eduCoin: '/student/eduCoin',
-      buy: '/student/buy',
-      lesson: '/student/lesson',
-      connecting: '/student/connecting',
-      watchCourse: '/student/detail-course/:contentId/:id',
-      subject: '/student/subject/:id?'
+      base: '/login/student',
+      chat: '/login/student/chat',
+      tests: '/login/student/tests',
+      promo: '/login/student/promo',
+      edit: '/login/student/edit',
+      payment: '/login/student/payment',
+      calendar: '/login/student/calendar',
+      eduCoin: '/login/student/eduCoin',
+      buy: '/login/student/buy',
+      lesson: '/login/student/lesson',
+      connecting: '/login/student/connecting',
+      watchCourse: '/login/student/detail-course/:contentId/:id',
+      subject: '/login/student/subject/:id?'
     }
   },
   teacher: {
@@ -51,8 +51,8 @@ const loggedInfo = {
     type: 'teacher',
     photo: teacherPhoto,
     links: {
-      base: '/teacher',
-      calendar: '/teacher/calendar',
+      base: '/login/teacher',
+      calendar: '/login/teacher/calendar',
     }
   },
   tutor: {
@@ -60,7 +60,7 @@ const loggedInfo = {
     type: 'mentor',
     photo: teacherPhoto,
     links: {
-      base: '/mentor',
+      base: '/login/mentor',
     }
   }
 }
@@ -69,7 +69,7 @@ const loggedInfo = {
 const renderStudentsRoutes = ({teacher, student}) => {
 
   return (
-    <Route path="/student">
+    <Route path="/login/student">
       <Login
         {...teacher}
         links={student.links}
@@ -99,7 +99,7 @@ const renderStudentsRoutes = ({teacher, student}) => {
 
 const renderMentorsRoutes = ({tutor}) => {
   return (
-    <Route path="/mentor">
+    <Route path="/login/mentor">
       <Login
         {...tutor}
         links={tutor.links}
@@ -129,11 +129,11 @@ const renderMentorsRoutes = ({tutor}) => {
 const renderTeachersRoutes = ({teacher}) => {
 
   return (
-    <Route path="/teacher">
+    <Route path="/login/teacher">
       <Login
         links={teacher.links}
       >
-        <Route exact path="/teacher">
+        <Route exact path="/login/teacher">
           <TeacherCourses/>
         </Route>
         <Route exact path={teacher.links.base + '/calendar'}>
@@ -182,8 +182,8 @@ const AuthRequired = ({isAuth, user}) => {
       {
         isAuth
           ? <>
-            <RoutesToShow/>
-          </>
+              <RoutesToShow/>
+            </>
           : <Redirect to="/"/>
       }
     </>

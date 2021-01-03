@@ -139,11 +139,19 @@ class Calendar extends React.Component {
               const maxIndex = Math.max.apply(Math, this.state.events.map(function(o) { return o.id }))
               const event = transformEvents({...info.event, id: maxIndex + 1})
               addCalendarTask(event)
-                .then(res => res.error && console.log(res))
+                .then(res => console.log('res', res.data.message))
+                .catch(err => {
+                  const message = err.message || (err.response.data && err.response.data.message) ? err.response.data.message : null
+                  alert(`Error:, ${message}`)
+                })
             }}
             eventChange={info => {
               addCalendarTask(transformEvents(info.event))
-                .then(res => res.error && console.log(res))
+                .then(res => console.log('res', res.data.message))
+                .catch(err => {
+                  const message = err.message || (err.response.data && err.response.data.message) ? err.response.data.message : null
+                  alert(`Error:, ${message}`)
+                })
             }}
             // called after events are initialized/added/changed/removed
             /* you can update a remote database when these fire:
@@ -226,7 +234,7 @@ class Calendar extends React.Component {
 
           <div className="calenderAdd__wrapper">
 
-            <form action="/add-item" onSubmit={this.addColorItem}>
+            <form onSubmit={this.addColorItem}>
               <input
                 className="calenderAdd__input input__noFocus"
                 placeholder="Тапсырма атауы"
@@ -313,8 +321,13 @@ class Calendar extends React.Component {
     if (window.confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
       removeCalendarTask(clickInfo.event._def.publicId)
         .then(data => {
-          if (!data.error) return clickInfo.event.remove()
-          console.log('error:', data)
+          clickInfo.event.remove()
+          // if (!data.error) return
+          console.log('success:', data)
+        })
+        .catch(err => {
+          const message = err.message || (err.response.data && err.response.data.message) ? err.response.data.message : null
+          window.alert(`Error: ${message}`)
         })
       // clickInfo.event.remove()
     }

@@ -29,6 +29,7 @@ const ModalSignIn = props => {
   }, [showPassword])
 
 
+
   const onFormSubmit = async values => {
     let {phone, password} = values
     values.phone = phone.replace('+', '')
@@ -39,7 +40,7 @@ const ModalSignIn = props => {
       if (response.error) return setShowError({ error: response.data.error, isError: true })
 
       if (+response.data.status === 1) {
-        const {user, type} = response.data.data
+        const {user} = response.data.data
         console.log(response.data)
 
         setShowError({
@@ -48,11 +49,11 @@ const ModalSignIn = props => {
         })
 
         localStorage.setItem('token', user.token)
-        props.setUserData(user)
+        props.setUserData()
         props.onHideLoginModal()
         props.isAuth(true)
-        if (type) {
-          history.push(`/${type}`)
+        if (user.type) {
+          history.push(`/login/${user.type}`)
         }
       } else {
         setShowError({
@@ -199,20 +200,22 @@ const ModalSignIn = props => {
 
 const mapStateToProps = state => {
   return {
-    ...state.menu
+    ...state.menu,
+    user: state.user,
+    isAuth: state.auth
   }
 }
 
 
-const matchDispatchToProps = dispatch => {
+const mapDispatchToProps = dispatch => {
   return {
     onHideLoginModal: () => dispatch(hideModalLogin()),
     isAuth: boolean => dispatch(checkIsAuth(!!boolean)),
-    setUserData: user => dispatch(setUsersData(user)),
+    setUserData: () => dispatch(setUsersData()),
     onShowLogin: () => dispatch(showModalLogin()),
     onShowPassModal: () => dispatch(showModalPass())
   }
 }
 
 
-export default connect(mapStateToProps, matchDispatchToProps)(ModalSignIn)
+export default connect(mapStateToProps, mapDispatchToProps)(ModalSignIn)

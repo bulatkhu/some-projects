@@ -9,11 +9,11 @@ import {scrollBodyHandler} from '../../../../scripts/scrollController/scrollCont
 import ModalPortal from '../../../modals/ModalPortal/ModalPortal'
 import ModalPass from '../../../modals/ModalPass/ModalPass'
 import {setUsersData} from '../../../../redux/actions/user/userActionsFuncs'
-import { Translate as ReactTranslate } from 'react-translated'
+import {Translate as ReactTranslate} from 'react-translated'
 import './menu.scoped.scss'
 
 
-const MenuLink = ({ action, to, name, showMobileMenu }) => (
+const MenuLink = ({action, to, name, showMobileMenu}) => (
   <a
     onClick={showMobileMenu ? action : null}
     href={to}
@@ -25,7 +25,6 @@ const Menu = props => {
   const refToSelectorMenu = useRef(null)
   const {menu} = props
   const [showMobileMenu, setShowMobileMenu] = useState(false)
-
 
 
   const menuLinks = [
@@ -47,12 +46,12 @@ const Menu = props => {
 
   useEffect(() => {
     if (menu.showRegisterModal || menu.showLoginModal ||
-      menu.showPassModal || showMobileMenu) {
+      menu.showPassModal) {
       scrollBodyHandler.lock()
     } else {
       scrollBodyHandler.unLock()
     }
-  }, [menu, showMobileMenu])
+  }, [menu])
 
 
   const toggleMenuHandler = () => setShowMobileMenu(prev => !prev)
@@ -73,13 +72,9 @@ const Menu = props => {
               <img src={logo} alt="Logo"/>
             </Link>
             <div className={menuClasses.join(' ')}>
-              <div
-                onClick={toggleMenuHandler}
-                className="menu__icon icon-menu"
-              >
-                <span/>
-                <span/>
-                <span/>
+              <div className="arrow__wrapper">
+                <div onClick={toggleMenuHandler}
+                     className="own__arrow menu__arrow arrow"/>
               </div>
               <nav className="menu__body">
                 <ul className="menu__list list">
@@ -87,40 +82,40 @@ const Menu = props => {
 
                     const element = !link.select
                       ? <MenuLink
-                          action={toggleMenuHandler}
-                          showMobileMenu={showMobileMenu}
-                          name={link.name}
-                          to={link.to}
-                        />
+                        action={toggleMenuHandler}
+                        showMobileMenu={showMobileMenu}
+                        name={link.name}
+                        to={link.to}
+                      />
                       : <div
-                          onMouseEnter={() => refToSelectorMenu.current.classList.toggle('active')}
-                          onMouseLeave={() => refToSelectorMenu.current.classList.toggle('active')}
-                          ref={refToSelectorMenu}
-                          className="menuList"
-                        >
-                          <Link
-                            to="/"
-                            className="menuList__btn"
-                            onClick={event => event.preventDefault()}
-                          >{link.name}
-                            <span className="own__arrow menuList__arrowDown"/>
-                          </Link>
-                          <ul className="menuList__list">
-                            {
-                              link.links.map((item, index) => (
-                                <li key={index} className="menuList__item">
-                                  <MenuLink
-                                    action={toggleMenuHandler}
-                                    showMobileMenu={showMobileMenu}
-                                    name={item.name}
-                                    to={item.to}
-                                    key={index}
-                                  />
-                                </li>
-                              ))
-                            }
-                          </ul>
-                        </div>
+                        onMouseEnter={() => refToSelectorMenu.current.classList.toggle('active')}
+                        onMouseLeave={() => refToSelectorMenu.current.classList.toggle('active')}
+                        ref={refToSelectorMenu}
+                        className="menuList"
+                      >
+                        <Link
+                          to="/"
+                          className="menuList__btn"
+                          onClick={event => event.preventDefault()}
+                        >{link.name}
+                          <span className="own__arrow menuList__arrowDown"/>
+                        </Link>
+                        <ul className="menuList__list">
+                          {
+                            link.links.map((item, index) => (
+                              <li key={index} className="menuList__item">
+                                <MenuLink
+                                  action={toggleMenuHandler}
+                                  showMobileMenu={showMobileMenu}
+                                  name={item.name}
+                                  to={item.to}
+                                  key={index}
+                                />
+                              </li>
+                            ))
+                          }
+                        </ul>
+                      </div>
 
                     return (
                       <li className="list__link" key={index}>

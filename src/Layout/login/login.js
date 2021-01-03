@@ -20,11 +20,15 @@ const Login = React.memo(({children, links, user}) => {
 
   return (
     <section className="loginNav">
-      {/*//!showMenu   */}
-      <div onClick={toggleNavBar} className={['loginNav__navBar', !showMenu ? null : 'active'].join(' ')}>
+      <div
+        onClick={toggleNavBar}
+        className={['loginNav__navBar', !showMenu ? null : 'active'].join(' ')}
+      >
         <div className="loginNav__column loginNav__btnBurger btnBurger">
           <div className="btnBurger__menu">
-            <span className="btnBurger__span"/><span className="btnBurger__span"/><span className="btnBurger__span"/>
+            <span className="btnBurger__span"/>
+            <span className="btnBurger__span"/>
+            <span className="btnBurger__span"/>
           </div>
         </div>
 

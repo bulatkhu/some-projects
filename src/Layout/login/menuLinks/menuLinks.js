@@ -61,14 +61,12 @@ const MenuLinks = ({base, type = 'student'}) => {
             return (
               <li key={index} className="loginNav__item">
                 <NavLink className="loginNav__link loginNav__linkChat" to={base + item.to}>
-                  <div className="loginNav__linkWrapper">
+                  <div className="loginNav__overlay"/>
+                  <div className="loginNav__infoWrapper">
                     <div className="loginNav__linkIcon">
                       <ChatIcon/>
                     </div>
-                    <span>{item.text}</span>
-                  </div>
-                  <div className="loginNav__linkMessages">
-                    <span>1</span>
+                    <span className="loginNav__spanText">{item.text}</span>
                   </div>
                 </NavLink>
               </li>
@@ -79,22 +77,25 @@ const MenuLinks = ({base, type = 'student'}) => {
           return (
             <li key={index} className="loginNav__item">
               <NavLink exact className="loginNav__link" to={base + item.to}>
-                <div className="loginNav__linkIcon">
-                  <item.icon/>
+                <div className="loginNav__overlay"/>
+                <div className="loginNav__infoWrapper">
+                  <div className="loginNav__linkIcon">
+                    <item.icon/>
+                  </div>
+                  <span className="loginNav__spanText">{item.text}</span>
                 </div>
-                <span>{item.text}</span>
               </NavLink>
             </li>
           )
         })
       }
-      <li className="loginNav__item">
+      <li className="loginNav__item loginNav__exitButton">
         <LogoutButton>
           Шығу
         </LogoutButton>
       </li>
     </ul>
-    )
+  )
 }
 
 export default MenuLinks

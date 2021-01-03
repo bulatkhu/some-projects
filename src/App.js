@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {Switch, Route} from 'react-router-dom'
+import {Route} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {Provider as TranslatedProvider} from 'react-translated'
 import translation from './translation/translationMainPage'
@@ -19,8 +19,42 @@ import {setLocalLanguage} from './hooks/useLanguages'
 import {deleteCallbackOnUnMounting, onScrollWindows} from './scripts/windowsEvents/windowsEvents'
 import './App.scss'
 
+const AppWrapper = React.memo(() => {
 
-function App({lang, isAuth}) {
+  return (
+    <>
+      <div className="app__wrapper">
+        <Route exact path="/">
+          <Landing/>
+        </Route>
+        <Route exact path="/teachers">
+          <TeachersRoute/>
+        </Route>
+        <Route exact path="/materials">
+          <Materials/>
+        </Route>
+        <Route exact path="/subject/:id?">
+          <Subject container details={false}/>
+        </Route>
+        <Route path="/login">
+          <AuthRequired/>
+        </Route>
+        <Route exact path="/paying">
+          <Paying/>
+        </Route>
+        <Route path="/teacher-page/:id" component={TeacherPage}/>
+        <Route path="/educoin-page" component={EducoinPage}/>
+        {/*<Route path="*">*/}
+        {/*  <NotFound/>*/}
+        {/*</Route>*/}
+      </div>
+
+      <Footer/>
+    </>
+  )
+})
+
+function App({lang}) {
   const [isShowHeaderMenu, setIsShowHeaderMenu] = useState(false)
   const [menuFixed, setMenuFixed] = useState(true)
 
@@ -54,48 +88,16 @@ function App({lang, isAuth}) {
 
   }, [lang])
 
-
   return (
     <TranslatedProvider language={lang} translation={translation}>
-      <div className={`app`}>
+      <div className="app">
         <div className={['app__menubar', menuFixed ? 'fixed' : null].join(' ')}>
           <HeaderMenu isHide={isShowHeaderMenu}/>
-          <Menu isSignIn={false}/>
+          <Menu/>
         </div>
 
+        <AppWrapper/>
 
-        <div className="app__wrapper">
-          <Switch>
-
-            <Route exact path="/">
-              <Landing/>
-            </Route>
-
-            <Route exact path="/teachers">
-              <TeachersRoute/>
-            </Route>
-            <Route exact path="/materials">
-              <Materials/>
-            </Route>
-            <Route exact path="/subject/:id?">
-              <Subject container details={false}/>
-            </Route>
-            <Route exact path="/paying">
-              <Paying/>
-            </Route>
-            <Route path="/teacher-page/:id" component={TeacherPage}/>
-            <Route path="/educoin-page" component={EducoinPage}/>
-            {/*<Route>*/}
-            {/*  <NotFound/>*/}
-            {/*</Route>*/}
-          </Switch>
-
-          <AuthRequired isAuth={isAuth}/>
-
-
-        </div>
-
-        <Footer/>
       </div>
     </TranslatedProvider>
   )
