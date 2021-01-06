@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactPlayer from 'react-player'
-import '../../landing/containers/playlist/playlist.scoped.scss'
+import '../../landing/components/VideoPlayerModal/VideoPlayerModal.scoped.scss'
 import './videoPlayer.scss'
 
 const VideoPlayer = ({className, url}) => {

@@ -1,11 +1,17 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import eduCoinStatistic from '../../../images/general/educoinPage/educoin-info.svg'
 import './educoinPage.scoped.scss'
 
 
 const EducoinPage = () => {
 
-  window.scrollTo(0, 0)
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'auto'
+    })
+  },[])
 
 
   return (

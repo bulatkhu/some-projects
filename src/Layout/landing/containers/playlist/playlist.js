@@ -1,26 +1,12 @@
 import React, {useEffect, useState} from 'react'
-import Transition from 'react-transition-group/cjs/Transition'
+// import Transition from 'react-transition-group/cjs/Transition'
 import {Translate} from 'react-translated'
 import VideoPlayer from '../../../general/videoPlayer/videoPlayer'
 import ModalPortal from '../../../modals/ModalPortal/ModalPortal'
 import {scrollBodyHandler} from '../../../../scripts/scrollController/scrollController'
+import VideoPlayerModal from '../../components/VideoPlayerModal/VideoPlayerModal'
 import './playlist.scoped.scss'
 
-const duration = 250;
-
-const defaultStyle = {
-  transition: `all ${duration}ms ease-in-out`,
-  position: 'fixed',
-  top: '-100%',
-  opacity: 0
-}
-
-const transitionStyles = {
-  entering: {position: 'fixed', top: '-100%', opacity: 1},
-  entered: {position: 'fixed', top: '50%', opacity: 1},
-  exiting: {position: 'fixed', top: '-100%', opacity: 1},
-  exited: {position: 'fixed', top: '-100%', opacity: 0},
-}
 
 
 const Playlist = ({activeTab, courses}) => {
@@ -68,28 +54,11 @@ const Playlist = ({activeTab, courses}) => {
         <h2 className="playlist__title">{<Translate text="Видеосабақ үзінділері"/>}</h2>
 
         <ModalPortal>
-          <Transition
-            unmountOnExit={true}
-            in={showModal}
-            timeout={duration}
-          >
-            {state => (
-              <div
-                style={{...defaultStyle, ...transitionStyles[state]}}
-                className="playlistModal"
-              >
-                <div className="playlistModal__closeWrapper">
-                    <span
-                      onClick={() => setShowModal(false)}
-                      className="playlistModal__close"
-                    />
-                </div>
-                <div className="playlistModal__videoWrapper">
-                  <VideoPlayer className="playlistModal__video" url={currentVideo}/>
-                </div>
-              </div>
-            )}
-          </Transition>
+          <VideoPlayerModal
+            showModal={showModal}
+            hideModal={() => setShowModal(false)}
+            videoUrl={currentVideo}
+          />
         </ModalPortal>
 
 

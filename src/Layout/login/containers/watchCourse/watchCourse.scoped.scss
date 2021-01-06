@@ -6,6 +6,12 @@
     padding: 60px 0;
   }
 
+  &__errorWrapper {
+    padding: 20px;
+    border-radius: 15px;
+    background-color: #fff;
+  }
+
   &__wrapper {
     padding-top: 56.25%;
     position: relative;

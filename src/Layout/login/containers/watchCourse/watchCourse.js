@@ -40,7 +40,7 @@ function testToResults(results) {
 }
 
 function countdownRenderer(rerenderData) {
-  const { completed, formatted: { minutes, seconds } } = rerenderData
+  const {completed, formatted: {minutes, seconds}} = rerenderData
 
   if (completed) {
     return <span>Time is over.</span>
@@ -65,7 +65,7 @@ function partsToSideParts(parts) {
 }
 
 
-const CountdownComponent  = React.memo(function ({handleTest, time}) {
+const CountdownComponent = React.memo(function ({handleTest, time}) {
 
   return (
     <Countdown
@@ -77,33 +77,103 @@ const CountdownComponent  = React.memo(function ({handleTest, time}) {
 })
 
 
-function Course({match: { params }}) {
-  const { id, contentId } = params
+function Course({match: {params}}) {
+  const {id, contentId} = params
   const refCoursesButtons = useRef(null)
   const finishButton = useRef(null)
   const [testState, changeTestState] = useState(initialTestState)
   const [testItems, setTestItems] = useState(null)
+  const [testAnswersItems, setTestAnswersItems] = useState(null)
   const [testResults, setTestResults] = useState({response: null, circleData: null})
   const [sideParts, setSideParts] = useState([])
   const [linkToVideo, setLinkToVideo] = useState(null)
   const [currentLesson, setCurrentLesson] = useState(null)
+  const [isTestItemsFetching, setIsTestItemsFetching] = useState(true)
   const [error, setError] = useState(null)
-
-  // console.log('params', contentId, id)
-
 
   useEffect(() => {
 
-    if (!testItems || !testItems.length) {
-      getQuizById({ contentId, id })
+    console.log('id', id)
+    setTestAnswersItems(null)
+    setTestItems(null)
+    setError(false)
+    changeTestState(prevState => ({...prevState, showResults: false, startTest: false}))
+    getQuizById({contentId, id})
+      .then(res => {
+        console.log('response', res)
+        setLinkToVideo(res.currentLesson.upload_video)
+        setSideParts(partsToSideParts(res.parts))
+
+        if (!res.error) {
+          if (!res.quiz) {
+            setError(`Error, this course does't have any quizzes`)
+            setTestItems(null)
+            setIsTestItemsFetching(false)
+            console.log('setIsTestItemsFetching(false)')
+            return null
+          }
+          setCurrentLesson(res.currentLesson)
+          setIsTestItemsFetching(false)
+
+          console.log('setIsTestItemsFetching(false)')
+          const {questions, duration} = res.quiz
+          const newTestItems = questions.map(item => {
+            return {
+              multiple: !!item.is_multiple,
+              text: item.question,
+              questionId: item.id,
+              questions: item.options.map(option => {
+                return option.option_text
+              }),
+              answer: [],
+              rightAnswers: item.options
+                .map((option, index) => {
+                  if (!!option.correct) {
+                    return index
+                  }
+                  return null
+                })
+                .filter(answer => !!answer)
+            }
+          })
+          setTestItems(newTestItems)
+          setTestAnswersItems(newTestItems)
+          changeTestState(prev => ({...prev, time: +duration || 14}))
+        } else {
+          setError(`Request error:, ${res.message}`)
+          setIsTestItemsFetching(false)
+        }
+      })
+      .catch(err => {
+        console.log('error', JSON.parse(JSON.stringify(err)))
+        setError(`Error: ${err.message}`)
+        setIsTestItemsFetching(false)
+      })
+
+  // eslint-disable-next-line
+  },[id])
+
+  useEffect(() => {
+
+    if (isTestItemsFetching) {
+      getQuizById({contentId, id})
         .then(res => {
           console.log('response', res)
           setLinkToVideo(res.currentLesson.upload_video)
           setSideParts(partsToSideParts(res.parts))
 
           if (!res.error) {
-            if (!res.quiz) return setError(`Error, this course does't have any quizzes`)
+            if (!res.quiz) {
+              setError(`Error, this course does't have any quizzes`)
+              setTestItems(null)
+              setIsTestItemsFetching(false)
+              console.log('setIsTestItemsFetching(false)')
+              return null
+            }
             setCurrentLesson(res.currentLesson)
+            setIsTestItemsFetching(false)
+
+            console.log('setIsTestItemsFetching(false)')
             const {questions, duration} = res.quiz
             const newTestItems = questions.map(item => {
               return {
@@ -125,22 +195,22 @@ function Course({match: { params }}) {
               }
             })
             setTestItems(newTestItems)
+            setTestAnswersItems(newTestItems)
             changeTestState(prev => ({...prev, time: +duration || 14}))
           } else {
             setError(`Request error:, ${res.message}`)
+            setIsTestItemsFetching(false)
+            console.log('setIsTestItemsFetching(false)')
           }
         })
         .catch(err => {
-
           console.log('error', JSON.parse(JSON.stringify(err)))
           setError(`Error: ${err.message}`)
-
-
+          setIsTestItemsFetching(false)
         })
-
     }
 
-  }, [testItems, id, contentId])
+  }, [testItems, id, contentId, isTestItemsFetching])
 
 
   const showTestHandler = (info, element) => {
@@ -162,7 +232,7 @@ function Course({match: { params }}) {
         ...prev,
         showResults: true
       }))
-      takeQuizById({results:  testToResults(testItems),id: currentLesson.quiz.id})
+      takeQuizById({results: testToResults(testAnswersItems), id: currentLesson.quiz.id})
         .then(response => {
           const {correct_answers, total_attempt, empty} = response.data
           setTestResults({
@@ -215,14 +285,14 @@ function Course({match: { params }}) {
                 <div ref={refCoursesButtons} className="course-buttons">
                   <button
                     onClick={ev => showTestHandler(false, ev)}
-                    disabled={testState.startTest || error}
                     className="course-buttons__btn active btn__noFocus"
-                  >Сабақ</button>
+                  >Сабақ
+                  </button>
                   <button
                     onClick={ev => showTestHandler(true, ev)}
-                    disabled={testState.startTest || error}
                     className="course-buttons__btn btn__noFocus"
-                  >Тест</button>
+                  >Тест
+                  </button>
                 </div>
 
               </div>
@@ -234,40 +304,40 @@ function Course({match: { params }}) {
         </div>
 
         {
-
-          error
-            ? <p className="error__big text-center">{error}</p>
-            :
-
-          testItems && testItems.length
-            ? (
-              !testState.showResults
-                ? !testState.startTest
-                    ? <div className="course__column course-book__column">
+            !isTestItemsFetching
+              ? (
+                !testState.showResults
+                  ? !testState.startTest
+                  ? <div className="course__column course-book__column">
 
 
                     {
                       !testState.showTest
                         ? null
-                        : <div className="course-start">
+                        : !testItems
+                          ? <div className="course__errorWrapper">
+                              <p className="error__middle">{error}</p>
+                            </div>
+                          : <div className="course-start">
 
-                          <h2 className="course-start__title course-book__title">Тақырып бойынша арнайы тесттер</h2>
+                            <h2 className="course-start__title course-book__title">Тақырып бойынша арнайы тесттер</h2>
 
-                          <p className="course-start__text">Сізге берілетін тесттер сіздің осы тақырыпты қаншалықты
-                            меңгергеніңізді көрсетеді. Нәтижеге көңіліңіз
-                            толмаса, сабақты қайта көруді ұсынамыз.
-                            Тестті аяқтағаннан кейін, қатемен жұмыс жасау үшін әр тесттің видео шешімі бар. Әр тесттің дұрыс
-                            жауабы
-                            үшін EduCoin беріледі. Тест тапсыру</p>
+                            <p className="course-start__text">Сізге берілетін тесттер сіздің осы тақырыпты қаншалықты
+                              меңгергеніңізді көрсетеді. Нәтижеге көңіліңіз
+                              толмаса, сабақты қайта көруді ұсынамыз.
+                              Тестті аяқтағаннан кейін, қатемен жұмыс жасау үшін әр тесттің видео шешімі бар. Әр тесттің
+                              дұрыс
+                              жауабы
+                              үшін EduCoin беріледі. Тест тапсыру</p>
 
-                          <div className="course-start__btnWrap">
-                            <button onClick={() => handleTest('start')}
-                                    className="btn__shadowFromNull courseQuestFrom__button course-start__button">Бастау
-                            </button>
+                            <div className="course-start__btnWrap">
+                              <button onClick={() => handleTest('start')}
+                                      className="btn__shadowFromNull courseQuestFrom__button course-start__button">Бастау
+                              </button>
+                            </div>
+
+
                           </div>
-
-
-                        </div>
                     }
 
                     <div className="course__question courseQuestion">
@@ -293,8 +363,12 @@ function Course({match: { params }}) {
 
 
                   </div>
-                    : <TestSlider testItems={testItems} setTestItems={setTestItems} showResults={false}/>
-                : <>
+                  : !testItems
+                    ? <div className="course__errorWrapper">
+                        <p className="error__middle">No quizzes</p>
+                      </div>
+                    : <TestSlider testItems={testItems} setTestItems={setTestAnswersItems} showResults={false}/>
+                  : <>
                     {
                       testResults.response ? (
                         <div className="course__resultsInfo resultsInfo">
@@ -307,15 +381,17 @@ function Course({match: { params }}) {
                             {/*<li className="resultsInfo__item"><span>Дұрысы:</span> <span>20</span></li>*/}
                             <li className="resultsInfo__item"><span>Белгіленбеген:</span>
                               <span>{testResults.response.empty}</span></li>
-                            <li className="resultsInfo__item"><span>Тестке кеткен уақыт:</span> <span>{testState.time}</span></li>
+                            <li className="resultsInfo__item"><span>Тестке кеткен уақыт:</span>
+                              <span>{testState.time}</span></li>
                           </ul>
                         </div>
                       ) : <Loader/>
                     }
-                    <TestSlider linkToVideo={linkToVideo} testItems={testItems} setTestItems={setTestItems} showResults={true}/>
+                    <TestSlider linkToVideo={linkToVideo} testItems={testItems} setTestItems={setTestAnswersItems}
+                                showResults={true}/>
                   </>
               )
-            : <Loader/>
+              : <Loader/>
 
         }
 
@@ -366,32 +442,32 @@ function Course({match: { params }}) {
           {
             !testState.showResults
               ? testState.startTest
-                ? <div className="course__timer courseTimer">
+              ? <div className="course__timer courseTimer">
 
-                    <div className="courseTimer__wrapper">
-                      <div className="courseTimer__time">
-                        <CountdownComponent
-                          handleTest={timeIsOver}
-                          time={testState.time}
-                        />
-                      </div>
-                    </div>
-
-                    <button
-                      ref={finishButton}
-                      onClick={() => handleTest('showResults')}
-                      className="btn__noFocus btn__shadow courseTimer__button"
-                    >
-                      Аяқтау
-                    </button>
-
-                </div>
-                : ''
-              : testResults.circleData
-                ? <div className="course-results courseResults">
-                    <ConsiderResults results={testResults.circleData}/>
+                <div className="courseTimer__wrapper">
+                  <div className="courseTimer__time">
+                    <CountdownComponent
+                      handleTest={timeIsOver}
+                      time={testState.time}
+                    />
                   </div>
-                : <Loader/>
+                </div>
+
+                <button
+                  ref={finishButton}
+                  onClick={() => handleTest('showResults')}
+                  className="btn__noFocus btn__shadow courseTimer__button"
+                >
+                  Аяқтау
+                </button>
+
+              </div>
+              : ''
+              : testResults.circleData
+              ? <div className="course-results courseResults">
+                <ConsiderResults results={testResults.circleData}/>
+              </div>
+              : <Loader/>
           }
         </div>
 

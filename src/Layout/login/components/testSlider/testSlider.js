@@ -3,6 +3,9 @@ import Slider from 'react-slick'
 import MathJax from 'react-mathjax2'
 import '../../containers/watchCourse/watchCourse.scoped.scss'
 import './testSlider.scss'
+import ModalPortal from "../../../modals/ModalPortal/ModalPortal";
+import VideoPlayerModal from "../../../landing/components/VideoPlayerModal/VideoPlayerModal";
+import {scrollBodyHandler} from "../../../../scripts/scrollController/scrollController";
 
 
 const navSliderSettings = {
@@ -73,14 +76,12 @@ const textToMathJax = text => {
 
 
 const TestSlider = ({showResults, testItems, setTestItems, linkToVideo}) => {
-  console.log('test items', testItems)
-
   const [currentSlide, setCurrentSlide] = useState(0)
-  navSliderSettings.slidesToShow = testItems.length > 18 ? 18 : testItems.length
-
-
-  console.log(navSliderSettings.slidesToShow)
-
+  const [showVideoModal, setShowVideoModal] = useState(false)
+  navSliderSettings.slidesToShow =
+    testItems && testItems.length > 18
+      ? 18
+      : testItems.length
 
   const navSlider = useRef(null)
   const mainSlider = useRef(null)
@@ -93,6 +94,23 @@ const TestSlider = ({showResults, testItems, setTestItems, linkToVideo}) => {
     }
   }, [currentSlide])
 
+  useEffect(() => {
+
+    if (showVideoModal) {
+      scrollBodyHandler.lock()
+    } else {
+      scrollBodyHandler.unLock()
+    }
+
+  },[showVideoModal])
+
+
+  const onVideoClick = (event, link) => {
+    event.preventDefault()
+
+    setShowVideoModal(true)
+    console.log('link', link)
+  }
 
   const testSliderHandler = info => {
     if (info === 'next') {
@@ -155,10 +173,18 @@ const TestSlider = ({showResults, testItems, setTestItems, linkToVideo}) => {
     }
   }
 
+  if (!testItems || !testItems.length) return null
 
 
   return (
     <div className="course__column">
+      <ModalPortal>
+        <VideoPlayerModal
+          showModal={showVideoModal}
+          hideModal={() => setShowVideoModal(false)}
+          videoUrl={linkToVideo}
+        />
+      </ModalPortal>
 
       <div className="course__testing courseTesting">
 
@@ -277,10 +303,6 @@ const TestSlider = ({showResults, testItems, setTestItems, linkToVideo}) => {
                           cls.push('slideItem__otherHover')
 
                           if (item1.answer && item1.answer.length) {
-
-                            console.log('item1.rightAnswers',item1.rightAnswers.find(rightAnswer => rightAnswer === indexOfItem))
-                            console.log('item1.answer',item1.answer.find(answer => answer === indexOfItem))
-
                             if (item1.rightAnswers.find(rightAnswer => rightAnswer === indexOfItem)) {
                               cls.push('right')
                             } else if (item1.answer.find(answer => answer === indexOfItem) !== undefined) {
@@ -314,7 +336,7 @@ const TestSlider = ({showResults, testItems, setTestItems, linkToVideo}) => {
                     showResults
                      ? <div className="slideItem__buttons">
                           {btn}
-                          <a href={linkToVideo} target="_blank"  rel="noopener noreferrer"  className="btn__noFocus btn__shadowFromNull slideItem__btn">Видео</a>
+                          <a onClick={event => onVideoClick(event, linkToVideo)} href={linkToVideo} className="btn__noFocus btn__shadowFromNull slideItem__btn">Видео</a>
                         </div>
                     : null
                   }

@@ -68,7 +68,7 @@ const ThingCard = ({activeTab, course}) => {
               : <NoPhoto style={stylesForNoPhoto}/>
           }
         </div>
-        <Link to={"/subject/" + id} target="_blank" className="btn__shadowFromNull bottom__item_button item_button">
+        <Link to={"/subject/" + id} className="btn__shadowFromNull bottom__item_button item_button">
           <Translate text="Толығырақ"/>
         </Link>
       </div>

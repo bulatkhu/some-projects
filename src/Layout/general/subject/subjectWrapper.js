@@ -82,6 +82,12 @@ const SubjectWrapper = ({response, isLoaded, details}) => {
 
 
   useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'auto'
+    })
+
     if (response && isLoaded) {
       const items = ItemsWrapper.current.querySelectorAll('.subjectItem')
       const itemsObject = []
