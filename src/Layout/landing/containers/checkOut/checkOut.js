@@ -163,7 +163,6 @@ const CheckOut = ({type, show, info, courses}) => {
 
   useEffect(() => {
     if (!isEmpty(currentCourses)) {
-      console.log('current courses', currentCourses.combinations)
       const courses = combinationsToOption(currentCourses.combinations)
       setCoursesSelect(courses)
     }
