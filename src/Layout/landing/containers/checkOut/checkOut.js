@@ -31,8 +31,9 @@ function CoursesOverplay({text, onClick}) {
 }
 
 function combinationsToOption(combination) {
-
-  return Object.keys(combination).map(item => ({
+  return Object.keys(combination)
+    .filter(item => item.length === 1)
+    .map(item => ({
     label: `${combination[item][0].content.title} - ${combination[item][1].content.title}`,
     option: item,
     courses: combination[item].map(course => {
@@ -162,6 +163,7 @@ const CheckOut = ({type, show, info, courses}) => {
 
   useEffect(() => {
     if (!isEmpty(currentCourses)) {
+      console.log('current courses', currentCourses.combinations)
       const courses = combinationsToOption(currentCourses.combinations)
       setCoursesSelect(courses)
     }
