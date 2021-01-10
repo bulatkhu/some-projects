@@ -253,13 +253,10 @@ const TeacherList = ({type}) => {
              return student
            })
 
-           // console.log('students', newStudents)
+           console.log('students', newStudents)
 
            setStudents(newStudents)
            setSecondList(newStudents)
-
-
-
            setIsLoaded(true)
          })
          .catch(err => {
@@ -581,7 +578,7 @@ const TeacherList = ({type}) => {
                       <td className="table__item">{item.id}</td>
                       <td className="table__item">{item.username}</td>
                       <td className="table__item">{item.courseStartDate}</td>
-                      <td className="table__item">{item.coursesCount}</td>
+                      <td className="table__item">{item.courses ? item.courses.length : 0}</td>
                       <td className="table__item">{item.review || 0}%</td>
                       <td className="table__item">{item.lastQuizResult} балл</td>
                       <td className="table__item">{item.credit} <span className="item__coin"/></td>

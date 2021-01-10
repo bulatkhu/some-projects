@@ -257,3 +257,7 @@ export default {
     ru: 'Хотя бы одна заглавная буква'
   },
 }
+
+// export const mainTranslation = {
+//
+// }
