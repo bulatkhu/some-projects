@@ -1,11 +1,11 @@
 import React, {useEffect, useRef, useState} from 'react'
 import Slider from 'react-slick'
 import MathJax from 'react-mathjax2'
+import ModalPortal from '../../../modals/ModalPortal/ModalPortal'
+import VideoPlayerModal from '../../../landing/components/VideoPlayerModal/VideoPlayerModal'
+import {scrollBodyHandler} from '../../../../scripts/scrollController/scrollController'
 import '../../containers/watchCourse/watchCourse.scoped.scss'
 import './testSlider.scss'
-import ModalPortal from "../../../modals/ModalPortal/ModalPortal";
-import VideoPlayerModal from "../../../landing/components/VideoPlayerModal/VideoPlayerModal";
-import {scrollBodyHandler} from "../../../../scripts/scrollController/scrollController";
 
 
 const navSliderSettings = {
@@ -69,7 +69,11 @@ const textToMathJax = text => {
         }
       }}
     >
-      <MathJax.Text text={ text }/>
+      <div dangerouslySetInnerHTML={{
+        __html: text
+      }}>
+        {/*<MathJax.Text text={ text }/>*/}
+      </div>
     </MathJax.Context>
   )
 }
@@ -107,9 +111,7 @@ const TestSlider = ({showResults, testItems, setTestItems, linkToVideo}) => {
 
   const onVideoClick = (event, link) => {
     event.preventDefault()
-
     setShowVideoModal(true)
-    console.log('link', link)
   }
 
   const testSliderHandler = info => {
@@ -280,7 +282,6 @@ const TestSlider = ({showResults, testItems, setTestItems, linkToVideo}) => {
             } else {
               btn = null
             }
-
 
             return (
               <div key={indexOfQuestion} className="courseTesting__itemWrapper slideItem__wrapper">

@@ -93,14 +93,12 @@ function Course({match: {params}}) {
 
   useEffect(() => {
 
-    console.log('id', id)
     setTestAnswersItems(null)
     setTestItems(null)
     setError(false)
     changeTestState(prevState => ({...prevState, showResults: false, startTest: false}))
     getQuizById({contentId, id})
       .then(res => {
-        console.log('response', res)
         setLinkToVideo(res.currentLesson.upload_video)
         setSideParts(partsToSideParts(res.parts))
 
@@ -109,13 +107,11 @@ function Course({match: {params}}) {
             setError(`Error, this course does't have any quizzes`)
             setTestItems(null)
             setIsTestItemsFetching(false)
-            console.log('setIsTestItemsFetching(false)')
             return null
           }
           setCurrentLesson(res.currentLesson)
           setIsTestItemsFetching(false)
 
-          console.log('setIsTestItemsFetching(false)')
           const {questions, duration} = res.quiz
           const newTestItems = questions.map(item => {
             return {
@@ -173,7 +169,6 @@ function Course({match: {params}}) {
             setCurrentLesson(res.currentLesson)
             setIsTestItemsFetching(false)
 
-            console.log('setIsTestItemsFetching(false)')
             const {questions, duration} = res.quiz
             const newTestItems = questions.map(item => {
               return {
@@ -200,7 +195,6 @@ function Course({match: {params}}) {
           } else {
             setError(`Request error:, ${res.message}`)
             setIsTestItemsFetching(false)
-            console.log('setIsTestItemsFetching(false)')
           }
         })
         .catch(err => {
