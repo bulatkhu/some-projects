@@ -15,232 +15,103 @@ const Payment = () => {
 
   return (
     <section className="payment">
-
-      <div className="payment__newPayments newPaying">
-        <h2 className="payment__title newPaying__title">Жаңа төлемдер</h2>
-
-        <div className="newPaying__table payment__table">
-          <div className="newPaying__column newPaying__title">
-            <div className="payment__tableTitle newPaying__item">Пәні</div>
-            <div className="payment__tableTitle newPaying__item">Жылдық құны</div>
-            <div className="payment__tableTitle newPaying__item">Төленді</div>
-            <div className="payment__tableTitle newPaying__item">Келесі төлем уақыты</div>
-            <div className="payment__tableTitle newPaying__item">EduCoin</div>
-            <div className="payment__tableTitle newPaying__item">Чек</div>
-          </div>
-          <div className="newPaying__column payment__row">
-            <div className="payment__tableItem newPaying__item">Қазақстан тарихы</div>
-            <div className="payment__tableItem newPaying__item">16000т</div>
-            <div className="payment__tableItem newPaying__item">
-              <span>4000т</span>
-              <span className="newPaying__littleDate">17.09.2020</span>
-            </div>
-            <div className="payment__tableItem newPaying__item">
-              <span className="newPaying__bigDate">17.10.2020</span>
-              <span className="newPaying__currency">4000т</span>
-            </div>
-            <div className="payment__tableItem newPaying__item">
-              <div className="newPaying__educoin">
-                <span>7000 ₸</span> <span className="newPaying__coin"/> <span>=7000 ₸</span>
-              </div>
-            </div>
-            <div className="payment__tableItem newPaying__item">
-              <a href="/" className="payment__button newPaying__button">Pay</a>
-            </div>
-          </div>
-          <div className="newPaying__column payment__row">
-            <div className="payment__tableItem newPaying__item">Оқу сауаттылығы</div>
-            <div className="payment__tableItem newPaying__item">16000т</div>
-            <div className="payment__tableItem newPaying__item">
-              <span>4000т</span>
-            </div>
-            <div className="payment__tableItem newPaying__item">
-              <span className="newPaying__bigDate">17.10.2020</span>
-            </div>
-            <div className="payment__tableItem newPaying__item">
-              <div className="newPaying__educoin">
-                <span>7000 ₸</span> <span className="newPaying__coin"/> <span>=7000 ₸</span>
-              </div>
-            </div>
-            <div className="payment__tableItem newPaying__item">
-              <a href="/" className="payment__button newPaying__button">Pay</a>
-            </div>
-          </div>
-          <div className="newPaying__column payment__row">
-            <div className="payment__tableItem newPaying__item">Математикалық
-              сауаттылық
-            </div>
-            <div className="payment__tableItem newPaying__item">16000т</div>
-            <div className="payment__tableItem newPaying__item">
-              <span>4000т</span>
-              <span className="newPaying__littleDate">17.09.2020</span>
-            </div>
-            <div className="payment__tableItem newPaying__item">
-              <span className="newPaying__bigDate">17.10.2020</span>
-              <span className="newPaying__currency">4000т</span>
-            </div>
-            <div className="payment__tableItem newPaying__item">
-              <div className="newPaying__educoin">
-                <span>7000 ₸</span> <span className="newPaying__coin"/> <span>=7000 ₸</span>
-              </div>
-            </div>
-            <div className="payment__tableItem newPaying__item">
-              <a href="/" className="payment__button newPaying__button">Pay</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <div className="payment__history historyPayment">
-        <h2 className="payment__title historyPayment__title">Төлемдер тарихы</h2>
+        <h2 className="payment__title">Төлемдер тарихы</h2>
 
-        <div className="historyPayment__table">
+        <div className="historyPayment__tableWrapper">
+          <div className="historyPayment__table">
 
-          <div className="historyPayment__content historyPayment__title">
-            <div className="payment__tableTitle historyPayment__item">Пәні</div>
-            <div className="payment__tableTitle historyPayment__item">Жылдық құны</div>
-            <div className="payment__tableTitle historyPayment__item">Айлық төлем құны</div>
-            <div className="payment__tableTitle historyPayment__item">Төленді</div>
-            <div className="payment__tableTitle historyPayment__item">Келесі төлем уақыты</div>
-            <div className="payment__tableTitle historyPayment__item">EduCoin</div>
-            <div className="payment__tableTitle historyPayment__item">Чек</div>
-          </div>
+            <div className="historyPayment__content historyPayment__title">
+              <div className="payment__tableTitle historyPayment__item">Курс</div>
+              <div className="payment__tableTitle historyPayment__item">Құны</div>
+              <div className="payment__tableTitle historyPayment__item">Мерзімі</div>
+              <div className="payment__tableTitle historyPayment__item">EduCoin</div>
+              <div className="payment__tableTitle historyPayment__item">Чек</div>
+            </div>
 
-          <div className="historyPayment__column payment__row">
-            <div className="payment__tableItem historyPayment__item">Қазақстан тарихы</div>
-            <div className="payment__tableItem historyPayment__item">16000т</div>
-            <div className="payment__tableItem historyPayment__item">
-              <span>4000т</span>
-            </div>
-            <div className="payment__tableItem historyPayment__item">
-              <span className="historyPayment__currency">4000т</span>
-              <span className="historyPayment__littleDate">17.10.2020</span>
-            </div>
-            <div className="payment__tableItem historyPayment__item">
-              <span className="newPaying__bigDate">17.10.2020</span>
-              <span className="newPaying__currency">4000т</span>
-            </div>
-            <div className="payment__tableItem historyPayment__item">
-              <div className="newPaying__educoin">
-                <span>7000 ₸</span> <span className="newPaying__coin"/> <span>=7000 ₸</span>
+            <div className="historyPayment__column payment__row">
+              <div className="payment__tableItem historyPayment__item">Қазақстан тарихы</div>
+              <div className="payment__tableItem historyPayment__item">16000т</div>
+              <div className="payment__tableItem historyPayment__item">
+                <span>4000т</span>
+              </div>
+              <div className="payment__tableItem historyPayment__item">
+                <div className="newPaying__educoin">
+                  <span>7000 ₸</span> <span className="newPaying__coin"/> <span>=7000 ₸</span>
+                </div>
+              </div>
+              <div className="payment__tableItem historyPayment__item">
+                <a href="/" className="payment__button newPaying__button"><span className="historyPayment__downloadText">Download.pdf</span> <span className="historyPayment__download">{downloadIcon}</span></a>
               </div>
             </div>
-            <div className="payment__tableItem historyPayment__item">
-              <a href="/" className="payment__button newPaying__button"><span className="historyPayment__downloadText">Download.pdf</span> <span className="historyPayment__download">{downloadIcon}</span></a>
-            </div>
-          </div>
 
-          <div className="historyPayment__column payment__row">
-            <div className="payment__tableItem historyPayment__item">Оқу сауаттылығы</div>
-            <div className="payment__tableItem historyPayment__item">16000т</div>
-            <div className="payment__tableItem historyPayment__item">
-              <span>4000т</span>
-            </div>
-            <div className="payment__tableItem historyPayment__item">
-              <span className="historyPayment__currency">4000т</span>
-            </div>
-            <div className="payment__tableItem historyPayment__item">
-              <span className="newPaying__bigDate">17.10.2020</span>
-            </div>
-            <div className="payment__tableItem historyPayment__item">
-              <div className="newPaying__educoin">
-                <span>7000 ₸</span> <span className="newPaying__coin"/> <span>=7000 ₸</span>
+            <div className="historyPayment__column payment__row">
+              <div className="payment__tableItem historyPayment__item">Оқу сауаттылығы</div>
+              <div className="payment__tableItem historyPayment__item">16000т</div>
+              <div className="payment__tableItem historyPayment__item">
+                <span>4000т</span>
+              </div>
+              <div className="payment__tableItem historyPayment__item">
+                <div className="newPaying__educoin">
+                  <span>7000 ₸</span> <span className="newPaying__coin"/> <span>=7000 ₸</span>
+                </div>
+              </div>
+              <div className="payment__tableItem historyPayment__item">
+                <a href="/" className="payment__button newPaying__button"><span className="historyPayment__downloadText">Download.pdf</span> <span className="historyPayment__download">{downloadIcon}</span></a>
               </div>
             </div>
-            <div className="payment__tableItem historyPayment__item">
-              <a href="/" className="payment__button newPaying__button"><span className="historyPayment__downloadText">Download.pdf</span> <span className="historyPayment__download">{downloadIcon}</span></a>
-            </div>
-          </div>
 
-          <div className="historyPayment__column payment__row">
-            <div className="payment__tableItem historyPayment__item">Математикалық
-              сауаттылық</div>
-            <div className="payment__tableItem historyPayment__item">16000т</div>
-            <div className="payment__tableItem historyPayment__item">
-              <span>4000т</span>
-            </div>
-            <div className="payment__tableItem historyPayment__item">
-              <span className="historyPayment__currency">4000т</span>
-            </div>
-            <div className="payment__tableItem historyPayment__item">
-              <span className="newPaying__bigDate">17.10.2020</span>
-            </div>
-            <div className="payment__tableItem historyPayment__item">
-              <div className="newPaying__educoin">
-                <span>7000 ₸</span> <span className="newPaying__coin"/> <span>=7000 ₸</span>
+            <div className="historyPayment__column payment__row">
+              <div className="payment__tableItem historyPayment__item">Математикалық
+                сауаттылық</div>
+              <div className="payment__tableItem historyPayment__item">16000т</div>
+              <div className="payment__tableItem historyPayment__item">
+                <span>4000т</span>
+              </div>
+              <div className="payment__tableItem historyPayment__item">
+                <div className="newPaying__educoin">
+                  <span>7000 ₸</span> <span className="newPaying__coin"/> <span>=7000 ₸</span>
+                </div>
+              </div>
+              <div className="payment__tableItem historyPayment__item">
+                <a href="/" className="payment__button newPaying__button"><span className="historyPayment__downloadText">Download.pdf</span> <span className="historyPayment__download">{downloadIcon}</span></a>
+
               </div>
             </div>
-            <div className="payment__tableItem historyPayment__item">
-              <a href="/" className="payment__button newPaying__button"><span className="historyPayment__downloadText">Download.pdf</span> <span className="historyPayment__download">{downloadIcon}</span></a>
 
-            </div>
-          </div>
+            <div className="historyPayment__column payment__row">
+              <div className="payment__tableItem historyPayment__item">Физика</div>
+              <div className="payment__tableItem historyPayment__item">20000т</div>
+              <div className="payment__tableItem historyPayment__item">
+                <span>4000т</span>
+              </div>
+              <div className="payment__tableItem historyPayment__item">
+                <div className="newPaying__educoin">
+                  <span>7000 ₸</span> <span className="newPaying__coin"/> <span>=7000 ₸</span>
+                </div>
+              </div>
+              <div className="payment__tableItem historyPayment__item">
+                <a href="/" className="payment__button newPaying__button"><span className="historyPayment__downloadText">Download.pdf</span> <span className="historyPayment__download">{downloadIcon}</span></a>
 
-          <div className="historyPayment__column payment__row">
-            <div className="payment__tableItem historyPayment__item">Физика</div>
-            <div className="payment__tableItem historyPayment__item">20000т</div>
-            <div className="payment__tableItem historyPayment__item">
-              <span>4000т</span>
-            </div>
-            <div className="payment__tableItem historyPayment__item">
-              <span className="historyPayment__currency">4000т</span>
-            </div>
-            <div className="payment__tableItem historyPayment__item">
-              <span className="newPaying__bigDate">17.10.2020</span>
-            </div>
-            <div className="payment__tableItem historyPayment__item">
-              <div className="newPaying__educoin">
-                <span>7000 ₸</span> <span className="newPaying__coin"/> <span>=7000 ₸</span>
               </div>
             </div>
-            <div className="payment__tableItem historyPayment__item">
-              <a href="/" className="payment__button newPaying__button"><span className="historyPayment__downloadText">Download.pdf</span> <span className="historyPayment__download">{downloadIcon}</span></a>
 
-            </div>
-          </div>
-
-          <div className="historyPayment__column payment__row">
-            <div className="payment__tableItem historyPayment__item">Математика </div>
-            <div className="payment__tableItem historyPayment__item">20000т</div>
-            <div className="payment__tableItem historyPayment__item">
-              <span>4000т</span>
-            </div>
-            <div className="payment__tableItem historyPayment__item">
-              <span className="historyPayment__currency">4000т</span>
-            </div>
-            <div className="payment__tableItem historyPayment__item">
-              <span className="newPaying__bigDate">17.10.2020</span>
-            </div>
-            <div className="payment__tableItem historyPayment__item">
-              <div className="newPaying__educoin">
-                <span>7000 ₸</span> <span className="newPaying__coin"/> <span>=7000 ₸</span>
+            <div className="historyPayment__column payment__row">
+              <div className="payment__tableItem historyPayment__item">Математика </div>
+              <div className="payment__tableItem historyPayment__item">20000т</div>
+              <div className="payment__tableItem historyPayment__item">
+                <span>4000т</span>
+              </div>
+              <div className="payment__tableItem historyPayment__item">
+                <div className="newPaying__educoin">
+                  <span>7000 ₸</span> <span className="newPaying__coin"/> <span>=7000 ₸</span>
+                </div>
+              </div>
+              <div className="payment__tableItem historyPayment__item">
+                <a href="/" className="payment__button newPaying__button"><span className="historyPayment__downloadText">Download.pdf</span> <span className="historyPayment__download">{downloadIcon}</span></a>
               </div>
             </div>
-            <div className="payment__tableItem historyPayment__item">
-              <a href="/" className="payment__button newPaying__button"><span className="historyPayment__downloadText">Download.pdf</span> <span className="historyPayment__download">{downloadIcon}</span></a>
-            </div>
-          </div>
 
-          <div className="historyPayment__column payment__row">
-            <div className="payment__tableItem historyPayment__item">Combo</div>
-            <div className="payment__tableItem historyPayment__item">59990т</div>
-            <div className="payment__tableItem historyPayment__item">
-              <span>4000т</span>
-            </div>
-            <div className="payment__tableItem historyPayment__item">
-              <span className="historyPayment__currency">4000т</span>
-            </div>
-            <div className="payment__tableItem historyPayment__item">
-              <span className="newPaying__bigDate">17.10.2020</span>
-            </div>
-            <div className="payment__tableItem historyPayment__item">
-              <div className="newPaying__educoin">
-                <span>7000 ₸</span> <span className="newPaying__coin"/> <span>=7000 ₸</span>
-              </div>
-            </div>
-            <div className="payment__tableItem historyPayment__item">
-              <a href="/" className="payment__button newPaying__button"><span className="historyPayment__downloadText">Download.pdf</span> <span className="historyPayment__download">{downloadIcon}</span></a>
-            </div>
           </div>
 
         </div>

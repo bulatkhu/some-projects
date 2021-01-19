@@ -13,11 +13,25 @@
   justify-content: center;
   align-items: center;
 
+  &:after {
+    content: '';
+    display: block;
+    padding-top: 100%;
+  }
+
   @media (max-width: 767px) {
     width: 80px;
     height: 80px;
     right: -10px;
     top: -10px;
+  }
+
+  @media (max-width: 576px) {
+    min-height: 100px;
+    min-width: 100px;
+    width: 40px;
+    height: 40px;
+    top: -13px;
   }
 
   &__title {
@@ -27,6 +41,10 @@
 
     @media (max-width: 767px) {
       font-size: 18px;
+    }
+
+    @media (max-width: 576px) {
+      font-size: 14px;
     }
   }
 }

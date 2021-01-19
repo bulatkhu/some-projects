@@ -67,7 +67,7 @@ const HeaderMenu = ({isHide, onShowLogin, onShowRegister, setUserData, menu, isA
               <div className="headerMenu__content">
 
                 <div className="headerMenu__column">
-                  <a className="headerMenu__icon phone" href="tel:77072300555">+77073446060</a>
+                  <a className="headerMenu__icon phone" href="tel:77073446060">+77073446060</a>
                   <a className="headerMenu__icon whatsapp" rel="noopener noreferrer" target="_blank" href="https://wa.me/77072300555">+77072300555</a>
                 </div>
                 <div className="headerMenu__column">

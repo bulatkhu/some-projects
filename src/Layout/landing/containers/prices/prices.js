@@ -1,10 +1,13 @@
 import React, {useEffect, useState} from 'react'
+import {Link} from 'react-router-dom'
+import {connect} from 'react-redux'
 import {Translate} from 'react-translated'
 import checkMark from '../../../../images/general/icons/checkMarkGreen.svg'
 import crossRed from '../../../../images/general/icons/crossRed.svg'
 import ModalPortal from '../../../modals/ModalPortal/ModalPortal'
 import CheckOut from '../checkOut/checkOut'
 import {getCoursesForPrices} from '../../../../request/apiPrices'
+import {showModalLogin} from '../../../../redux/actions/menu/menuActionsFuncs'
 import './prices.scoped.scss'
 
 const pricesData = [
@@ -18,10 +21,11 @@ const pricesData = [
   {title: <Translate text="7/24 қолжетімді"/>, price1: true, price2: true, price3: true, price4: true},
 ]
 
-const Prices = ({classPrices = true}) => {
+const Prices = ({classPrices = true, isAuth, user, onShowLogin}) => {
   const [showCheckOut, setShowCheckOut] = useState({show: false, type: null})
   const [courses, setCourses] = useState({})
   const [error, setError] = useState(null)
+
 
   useEffect(() => {
 
@@ -49,8 +53,15 @@ const Prices = ({classPrices = true}) => {
   const onShowCheckOut = type => {
     if (!error) {
       setShowCheckOut({show: true, type: type})
-    } else {
+    }
+  }
 
+  const firstButton = () => {
+    const type = (user && user.type) ? user.type : null
+    if (type === 'student') {
+      return <Link onClick={() => window.scroll(0,0)} to="/login/student">Таңдау</Link>
+    } else if (!isAuth) {
+      return <div onClick={() => onShowLogin()}>Таңдау</div>
     }
   }
 
@@ -206,9 +217,9 @@ const Prices = ({classPrices = true}) => {
                 <div className="topTableFirst">
                   <div className="topTableFirst__content">
 
-                    <div className="topTableFirst__column">
-                      <button disabled={error} onClick={() => console.log('first column')} className="topTableFirst__button btn__shadowFromNull">
-                        <span className="topTableFirst__text">Таңдау</span>
+                    <div className="topTableFirst__column ">
+                      <button disabled={error} className="topTableFirst__button btn__shadowFromNull topTableFirst__link">
+                        <span className="topTableFirst__text">{firstButton()}</span>
                       </button>
                     </div>
 
@@ -246,4 +257,20 @@ const Prices = ({classPrices = true}) => {
   )
 }
 
-export default Prices
+
+const mapStateToProps = state => {
+
+  return {
+    isAuth: state.auth.isAuthenticated,
+    user: state.user.user
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+
+  return {
+    onShowLogin: () => dispatch(showModalLogin()),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Prices)

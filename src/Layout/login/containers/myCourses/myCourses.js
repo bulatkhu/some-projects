@@ -63,7 +63,7 @@ const MyCourses = () => {
           <div className="myCourses__column">
             <div className="myCourses__addSubject myCoursesAdd">
 
-              <a href="/" className="myCoursesAdd">
+              <a href="/#courses" className="myCoursesAdd">
 
                 <div className="myCoursesAdd__wrapper">
                   <div className="myCoursesAdd__plus">
