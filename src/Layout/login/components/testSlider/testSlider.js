@@ -91,6 +91,8 @@ const TestSlider = ({showResults, testItems, setTestItems, linkToVideo}) => {
   const mainSlider = useRef(null)
   const navSliderWrapper = useRef(null)
 
+  console.log('testItems', testItems)
+
   useEffect(() => {
     if (currentSlide || currentSlide === 0) {
       mainSlider.current.slickGoTo(currentSlide)
@@ -111,7 +113,7 @@ const TestSlider = ({showResults, testItems, setTestItems, linkToVideo}) => {
 
   const onVideoClick = (event, link) => {
     event.preventDefault()
-    setShowVideoModal(true)
+    setShowVideoModal(link)
   }
 
   const testSliderHandler = info => {
@@ -184,7 +186,7 @@ const TestSlider = ({showResults, testItems, setTestItems, linkToVideo}) => {
         <VideoPlayerModal
           showModal={showVideoModal}
           hideModal={() => setShowVideoModal(false)}
-          videoUrl={linkToVideo}
+          videoUrl={showVideoModal}
         />
       </ModalPortal>
 
@@ -209,8 +211,6 @@ const TestSlider = ({showResults, testItems, setTestItems, linkToVideo}) => {
               {testItems.map((item, index) => {
                 const number = index + 1
                 const cls = ['courseTesting__point']
-
-
 
                 if (showResults) {
                   if (!item.answer || !item.answer.length) {
@@ -268,6 +268,9 @@ const TestSlider = ({showResults, testItems, setTestItems, linkToVideo}) => {
 
           {testItems.map((item1, indexOfQuestion) => {
             let btn
+
+
+            console.log('testItems', item1)
 
 
             if (showResults) {
@@ -337,7 +340,11 @@ const TestSlider = ({showResults, testItems, setTestItems, linkToVideo}) => {
                     showResults
                      ? <div className="slideItem__buttons">
                           {btn}
-                          <a onClick={event => onVideoClick(event, linkToVideo)} href={linkToVideo} className="btn__noFocus btn__shadowFromNull slideItem__btn">Видео</a>
+                          <a
+                            onClick={event => onVideoClick(event, item1.video)}
+                            href={linkToVideo}
+                            className="btn__noFocus btn__shadowFromNull slideItem__btn"
+                          >Видео</a>
                         </div>
                     : null
                   }

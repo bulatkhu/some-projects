@@ -115,6 +115,7 @@ function Course({match: {params}}) {
           const {questions, duration} = res.quiz
           const newTestItems = questions.map(item => {
             return {
+              video: item.video,
               multiple: !!item.is_multiple,
               text: item.question,
               questionId: item.id,
@@ -132,6 +133,7 @@ function Course({match: {params}}) {
                 .filter(answer => !!answer)
             }
           })
+
           setTestItems(newTestItems)
           setTestAnswersItems(newTestItems)
           changeTestState(prev => ({...prev, time: +duration || 14}))
@@ -154,7 +156,6 @@ function Course({match: {params}}) {
     if (isTestItemsFetching) {
       getQuizById({contentId, id})
         .then(res => {
-          console.log('response', res)
           setLinkToVideo(res.currentLesson.upload_video)
           setSideParts(partsToSideParts(res.parts))
 
@@ -163,7 +164,6 @@ function Course({match: {params}}) {
               setError(`Error, this course does't have any quizzes`)
               setTestItems(null)
               setIsTestItemsFetching(false)
-              console.log('setIsTestItemsFetching(false)')
               return null
             }
             setCurrentLesson(res.currentLesson)
@@ -172,6 +172,7 @@ function Course({match: {params}}) {
             const {questions, duration} = res.quiz
             const newTestItems = questions.map(item => {
               return {
+                video: item.video,
                 multiple: !!item.is_multiple,
                 text: item.question,
                 questionId: item.id,
@@ -237,7 +238,7 @@ function Course({match: {params}}) {
             },
             response: response.data
           })
-          console.info('new results', response.data)
+          // console.info('new results', response.data)
         })
     }
   }
