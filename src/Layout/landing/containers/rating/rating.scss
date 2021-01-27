@@ -5,6 +5,11 @@
   &__container {
   }
 
+  &__tableWrapper {
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
   &__title {
     font-weight: bold;
     font-size: 48px;
@@ -30,6 +35,7 @@
   &__table {
     width: 100%;
     border-collapse: collapse;
+    min-width: 540px;
 
     //border-collapse: separate;
     //border-spacing: 0 1em;
@@ -73,9 +79,14 @@
     display: block !important;
 
     tr {
-      display: table;
+      display: grid;
+      grid-template-columns: 50px 1fr 1fr 1fr 1fr;
       margin-right: 10px;
       width: 100% !important;
+
+      @media (max-width: 576px) {
+        grid-template-columns: 50px 1fr 1fr 1fr;
+      }
     }
   }
 
@@ -85,15 +96,20 @@
     overflow: auto !important;
 
     tr {
-      display: table;
+      display: grid;
+      grid-template-columns: 50px 1fr 1fr 1fr 1fr;
       margin-right: 10px;
       width: 100% !important;
+
+      @media (max-width: 576px) {
+        grid-template-columns: 50px 1fr 1fr 1fr;
+      }
     }
   }
 
   &__head, &__body {
-    display:table;
-    width:100%;
+    display: table;
+    width: 100%;
   }
 }
 
@@ -148,7 +164,7 @@
     box-sizing: border-box;
     font-size: 24px;
     line-height: 28px;
-      font-weight: 900;
+    font-weight: 900;
 
     @media (max-width: 767px) {
       width: 30px;

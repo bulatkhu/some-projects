@@ -27,12 +27,12 @@
   }
 
   @media (max-width: 476px) {
-    height: 36%;
+    height: auto;
+    padding: 35px 3px 10px 4px;
   }
 
   &__videoWrapper {
     max-height: 100%;
-    overflow-y: auto;
     padding-bottom: 56.3%;
     position: relative;
   }
@@ -49,6 +49,11 @@
     top: 12px;
     right: 12px;
     cursor: pointer;
+
+    @media (max-width: 476px) {
+      top: 8px;
+      right: 8px;
+    }
   }
 
   &__close {

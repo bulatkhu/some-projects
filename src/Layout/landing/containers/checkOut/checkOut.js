@@ -9,6 +9,8 @@ import {createPayment} from '../../../../request/apiPayment'
 import ThingCard from '../../components/ThingCard/ThingCard'
 import Payment from '../payment/payment'
 import {isEmpty} from '../../../../scripts/isEmpty/isEmpty'
+import {getCoursesForPrices} from '../../../../request/apiPrices'
+import Loader from '../../../general/component/loader/loader'
 import './checkOut.scoped.scss'
 
 function CoursesOverplay({text, onClick}) {
@@ -34,22 +36,22 @@ function combinationsToOption(combination) {
   return Object.keys(combination)
     .filter(item => item.length === 1)
     .map(item => ({
-    label: `${combination[item][0].content.title} - ${combination[item][1].content.title}`,
-    option: item,
-    courses: combination[item].map(course => {
-      let cover = course.content.metas.find(meta => meta.option === 'cover') || null
-      if (cover) {
-        cover = cover.value
-      }
+      label: `${combination[item][0].content.title} - ${combination[item][1].content.title}`,
+      option: item,
+      courses: combination[item].map(course => {
+        let cover = course.content.metas.find(meta => meta.option === 'cover') || null
+        if (cover) {
+          cover = cover.value
+        }
 
-      return {
-        relationId: course.relation_id,
-        id: course.content_id,
-        title: course.content.title,
-        img: cover
-      }
-    })
-  }))
+        return {
+          relationId: course.relation_id,
+          id: course.content_id,
+          title: course.content.title,
+          img: cover
+        }
+      })
+    }))
 }
 
 function genCoursesDescription({type, lang, main, selectCourses, price, title}) {
@@ -123,15 +125,53 @@ const selectsLangs = [
 ]
 
 
-const CheckOut = ({type, show, info, courses}) => {
+const CheckOut = ({type, show, info}) => {
   const [typeState, setTypeState] = useState(null)
   const [showResults, setShowResults] = useState({show: false, card: null, data: null})
   const [langOption, setLangOption] = useState(selectsLangs[0])
-  const [currentCourses, setCurrentCourses] = useState(courses[selectsLangs[0]])
+  const [currentCourses, setCurrentCourses] = useState(null)
   const [coursesSelect, setCoursesSelect] = useState(null)
   const [currentCoursesSelect, setCurrentCoursesSelect] = useState({label: 'default', option: 'default', courses: null})
   const [isError, setIsError] = useState(null)
+  const [courses, setCourses] = useState(null)
 
+
+  const onLoadPrices = () => getCoursesForPrices()
+    .then(res => {
+
+      if (!res.error && +res.data.status === 1) {
+        const {data} = res.data
+        if (
+          !data.kz.combinations ||
+          !data.kz.main ||
+          !data.ru.combinations ||
+          !data.ru.main
+        ) {
+          setIsError('we do not have yet any courses')
+        } else {
+          const resCurrentCourse = data[langOption.option]
+          const courses = combinationsToOption(resCurrentCourse.combinations)
+          setCourses(data)
+          setCurrentCourses(resCurrentCourse)
+          setCurrentCoursesSelect({
+            courses: courses[0].courses,
+            label: courses[0].label,
+            option: courses[0].option
+          })
+        }
+      }
+    })
+
+
+  useEffect(() => {
+
+    onLoadPrices()
+      .catch(err => {
+        console.log('err', err)
+      })
+
+    // eslint-disable-next-line
+  }, [])
 
   useEffect(() => {
 
@@ -143,7 +183,7 @@ const CheckOut = ({type, show, info, courses}) => {
       scrollBodyHandler.unLock()
       setShowResults({show: false, card: null, data: null})
     }
-  },[info])
+  }, [info])
 
   useEffect(() => {
 
@@ -151,22 +191,20 @@ const CheckOut = ({type, show, info, courses}) => {
       setTypeState(type)
     }
 
-  },[type])
-
+  }, [type])
 
   useEffect(() => {
     if (courses) {
       setCurrentCourses(courses[langOption.option])
     }
-  },[langOption, courses])
-
+  }, [langOption, courses])
 
   useEffect(() => {
     if (!isEmpty(currentCourses)) {
       const courses = combinationsToOption(currentCourses.combinations)
       setCoursesSelect(courses)
     }
-  },[currentCourses])
+  }, [currentCourses])
 
   useEffect(() => {
 
@@ -179,7 +217,7 @@ const CheckOut = ({type, show, info, courses}) => {
       })
     }
 
-  },[coursesSelect])
+  }, [coursesSelect])
 
 
   const onFormSubmit = (event) => {
@@ -189,14 +227,17 @@ const CheckOut = ({type, show, info, courses}) => {
     const order_type = event.target.type.value
     const relationId = event.target.relationId.value
     const lang = event.target.lang.value
-    const data = { bank, sum, order_type, relation_id: relationId }
+    const data = {bank, sum, order_type, relation_id: relationId}
 
     createPayment(data)
       .then(res => {
 
         if (+res.data.status === 1) {
+          const mainCourses = typeState === 'combo'
+            ? currentCourses.main.map(course => course.content.title).join(', ')
+            : null
 
-          setShowResults({show: true, card: bank, data: {...res.data.data, lang}})
+          setShowResults({show: true, card: bank, data: {...res.data.data, lang, mainCourses}})
           setIsError(null)
 
         } else if (res.data.status === 401) {
@@ -244,9 +285,9 @@ const CheckOut = ({type, show, info, courses}) => {
   }
 
   const relationId = () => {
-    if (!currentCourses.main && !currentCourses.main[0]) return  setIsError('we do not have main courses')
+    if (!currentCourses.main && !currentCourses.main[0]) return setIsError('we do not have main courses')
     if (!currentCoursesSelect.courses &&
-      !currentCoursesSelect.courses[0]) return  setIsError('we do not have your choose courses')
+      !currentCoursesSelect.courses[0]) return setIsError('we do not have your choose courses')
 
     const mainRelId = currentCourses.main[0]
       ? currentCourses.main[0].relation_id
@@ -266,6 +307,11 @@ const CheckOut = ({type, show, info, courses}) => {
 
   // console.log('relationId', relationId())
 
+
+  if (!courses || !currentCoursesSelect.courses || !currentCourses) {
+    return <Loader container/>
+  }
+
   return (
     <Transition unmountOnExit in={info.show} timeout={500}>
       {state => (
@@ -279,7 +325,7 @@ const CheckOut = ({type, show, info, courses}) => {
               <CloseButton show={show}/>
             </h1>
 
-            <div className="checkOut__body">
+            <div className="checkOut__body default-scroll">
 
               {
                 !showResults.show
@@ -313,11 +359,11 @@ const CheckOut = ({type, show, info, courses}) => {
                         {
                           typeState === 'main'
                             ? <CoursesOverplay
-                                onClick={() => {
-                                  setTypeState('combo')
-                                }}
-                                text="Бейіндік пәндерді қосу арқылы 5 990₸ эконом жасаңыз. "
-                              />
+                              onClick={() => {
+                                setTypeState('combo')
+                              }}
+                              text="Бейіндік пәндерді қосу арқылы 5 990₸ эконом жасаңыз. "
+                            />
                             : null
                         }
 
@@ -381,38 +427,40 @@ const CheckOut = ({type, show, info, courses}) => {
                     }
 
 
+                    {
+                      currentCourses && currentCourses.main
+                        ? (
+                          <form onSubmit={onFormSubmit} className="checkOut__column checkOut-side">
+                            <div className="checkOut-side__body">
 
-                    <form onSubmit={onFormSubmit} className="checkOut__column checkOut-side">
-                      <div className="checkOut-side__body">
+                              <h2 className="checkOut-side__title" style={{background: formInfo.color}}>
+                                <span>{formInfo.title}</span>
+                                <span>{formInfo.subTitle}</span>
+                              </h2>
 
-                        <h2 className="checkOut-side__title" style={{background: formInfo.color}}>
-                          <span>{formInfo.title}</span>
-                          <span>{formInfo.subTitle}</span>
-                        </h2>
+                              <div className="checkOut-side__wrapper">
 
-                        <div className="checkOut-side__wrapper">
+                                {genCoursesDescription({
+                                  type: typeState,
+                                  main: currentCourses.main,
+                                  selectCourses: currentCoursesSelect,
+                                  lang: langOption.option,
+                                  price: formInfo.price,
+                                  title: formInfo.title
+                                })}
 
-                          {genCoursesDescription({
-                            type: typeState,
-                            main: currentCourses.main,
-                            selectCourses: currentCoursesSelect,
-                            lang: langOption.option,
-                            price: formInfo.price,
-                            title: formInfo.title
-                          })}
+                                <input
+                                  value={relationId()}
+                                  type="text"
+                                  name="relationId"
+                                  readOnly
+                                  className="hidden"
+                                />
 
-                          <input
-                            value={relationId()}
-                            type="text"
-                            name="relationId"
-                            readOnly
-                            className="hidden"
-                          />
+                                <div className="checkOut-side__checkBoxes">
+                                  <h3 className="checkOut-side__checkTitle">Төлем түрін таңдаңыз</h3>
 
-                          <div className="checkOut-side__checkBoxes">
-                            <h3 className="checkOut-side__checkTitle">Төлем түрін таңдаңыз</h3>
-
-                            <label className="checkOut-side__label" htmlFor="kaspi">
+                                  <label className="checkOut-side__label" htmlFor="kaspi">
                               <span className="bank">
                                 <span className="bank__content">
                                   <input
@@ -432,8 +480,8 @@ const CheckOut = ({type, show, info, courses}) => {
                                 </span>
 
                               </span>
-                            </label>
-                            <label className="checkOut-side__label" htmlFor="card">
+                                  </label>
+                                  <label className="checkOut-side__label" htmlFor="card">
                              <span className="bank">
                         <span className="bank__content">
                            <input
@@ -454,27 +502,30 @@ const CheckOut = ({type, show, info, courses}) => {
                         </span>
 
                       </span>
-                            </label>
-                          </div>
+                                  </label>
+                                </div>
 
-                          {
-                            isError ? (
-                              <div className="error__middle text-center margin__button2">{isError}</div>
-                            ) : null
-                          }
+                                {
+                                  isError ? (
+                                    <div className="error__middle text-center margin__button2">{isError}</div>
+                                  ) : null
+                                }
 
-                          <button className="checkOut-side__btn btn__shadowFromNull">
-                            <span>{formInfo.price} ₸</span>
-                            <span>Төлем жасау</span>
-                          </button>
-                        </div>
+                                <button className="checkOut-side__btn btn__shadowFromNull">
+                                  <span>{formInfo.price} ₸</span>
+                                  <span>Төлем жасау</span>
+                                </button>
+                              </div>
 
-                      </div>
-                    </form>
+                            </div>
+                          </form>
+                        )
+                        : null
+                    }
                   </div>
                   : showResults.card === 'kaspi'
-                    ? <Payment data={showResults.data} type="kaspi"/>
-                    : <Payment data={showResults.data} type="credit"/>
+                  ? <Payment data={showResults.data} type="kaspi"/>
+                  : <Payment data={showResults.data} type="credit"/>
               }
 
             </div>

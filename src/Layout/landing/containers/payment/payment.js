@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react'
+import React, {useState} from 'react'
 import {checkPayment} from '../../../../request/apiPayment'
 import './payment.scoped.scss'
 
 
-const Payment = ({type, data}) => {
+const Payment = ({data}) => {
   const {id, order_type, transaction: {price, bank, post__feedback}} = data.transaction
   const [feedbackState, setFeedbackState] = useState(post__feedback)
   const [reqInProcess, setReqInProcess] = useState(false)
@@ -24,13 +24,6 @@ const Payment = ({type, data}) => {
   } else if (bank === 'kaspi') {
     bankToShow = 'Kaspi.kz'
   }
-
-
-  useEffect(() => {
-
-    console.log('feedback', feedbackState)
-
-  }, [feedbackState])
 
   const sendRequest = () => {
     setReqInProcess(true)
@@ -62,22 +55,35 @@ const Payment = ({type, data}) => {
             <span className="results__column">{data.lang}</span></p>
 
           {
-            order_type === 'main'
-              ? null
-              : (
-                <p className="results__content"><span className="results__column">Негізгі пәндер: </span>
+            order_type === 'profs'
+              ? <p className="results__content">
+                  <span className="results__column">Негізгі пәндер: </span>
                   <span className="results__column">{courses}</span>
                 </p>
-              )
+              : null
           }
 
           {
-            order_type === 'profs'
-              ? null
-              : (
-                <p className="results__content"><span className="results__column">Бейіндік пәндер: </span>
-                  <span className="results__column">{courses}</span></p>
-              )
+            order_type === 'combo' && data.mainCourses && (
+              <>
+                <p className="results__content"><span className="results__column">Негізгі пәндер: </span>
+                  <span className="results__column">{data.mainCourses}</span>
+                </p>
+                <p className="results__content">
+                  <span className="results__column">Бейіндік пәндер: </span>
+                  <span className="results__column">{courses}</span>
+                </p>
+              </>
+            )
+          }
+
+          {
+            order_type === 'main'
+              ? <p className="results__content">
+                  <span className="results__column">Бейіндік пәндер: </span>
+                  <span className="results__column">{courses}</span>
+                </p>
+              : null
           }
           <p className="results__content"><span className="results__column">Төленген сомма:</span>
             <span className="results__column">{price}₸</span></p>
@@ -105,21 +111,35 @@ const Payment = ({type, data}) => {
           <p className="results__content"><span className="results__column">Курс тілі: </span>
             <span className="results__column">{data.lang}</span></p>
           {
-            order_type === 'profs'
-              ? null
-              : (
-                <p className="results__content"><span className="results__column">Бейіндік пәндер: </span>
-                  <span className="results__column">{courses}</span></p>
-              )
-          }
-          {
             order_type === 'main'
-              ? null
-              : (
-                <p className="results__content"><span className="results__column">Негізгі пәндер: </span>
+              ? <p className="results__content">
+                  <span className="results__column">Бейіндік пәндер: </span>
                   <span className="results__column">{courses}</span>
                 </p>
-              )
+              : null
+          }
+          {
+            order_type === 'combo' && data.mainCourses && (
+              <>
+                <p className="results__content">
+                  <span className="results__column">Бейіндік пәндер: </span>
+                  <span className="results__column">{courses}</span>
+                </p>
+                <p className="results__content">
+                  <span className="results__column">Негізгі пәндер: </span>
+                  <span className="results__column">{data.mainCourses}</span>
+                </p>
+              </>
+
+            )
+          }
+          {
+            order_type === 'profs'
+              ? <p className="results__content">
+                  <span className="results__column">Негізгі пәндер: </span>
+                  <span className="results__column">{courses}</span>
+                </p>
+              : null
           }
           <p className="results__content"><span className="results__column">Оқу ақысы: </span>
             <span className="results__column results-price">

@@ -20,6 +20,8 @@ export async function login(values) {
     .catch(err => ({ error: true, errInfo: err}))
 }
 
+
+
 export async function register(values) {
   return await axios.post(APP_BASE_URL + '/user/register', { ...values }, { headers: { ...configAccess } })
 }
@@ -158,4 +160,8 @@ export async function apiEditProfile(formData) {
   if (!token) return { error: 'invalid token' }
 
   return await axios.post(`${APP_BASE_URL}/user/editProfile?token=${token}`, formData)
+}
+
+export async function ApiSetRatingByBonus() {
+  return await axios.get(`${APP_BASE_URL}/educoin/ratingByBonus`)
 }

@@ -1,55 +1,64 @@
-import React, { useMemo, useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import { Translate as ReactTranslate } from 'react-translated'
 import ThingCard from '../../../landing/components/ThingCard/ThingCard'
 import {getCoursesFromIndex} from '../../../../request/apiRequests'
 import Playlist from '../playlist/playlist'
 import './courses.scss'
+import Loader from "../../../general/component/loader/loader";
 
 
 
 const Courses = () => {
   const [courses, setCourses] = useState(null)
   const [activeTab, setActiveTab] = useState(null)
+  const [isLoaded, setIsLoaded] = useState(false)
 
-  useMemo(async () => {
+  useEffect(() => {
 
-    try {
-      const response = await getCoursesFromIndex()
-      if (response.status === 200) {
-        const courses = {}
+    getCoursesFromIndex()
+      .then(response => {
+        if (response.status === 200) {
+          const courses = {}
 
-        response.data.forEach(course => {
-          const {metas} = course
+          response.data.forEach(course => {
+            const {metas} = course
 
-          if (metas) {
-            const cover = metas.find(meta => meta.option === 'cover')
+            if (metas) {
+              const cover = metas.find(meta => meta.option === 'cover')
 
-            if (cover && cover.value) {
-              course.img = cover.value
+              if (cover && cover.value) {
+                course.img = cover.value
+              } else {
+                course.img = null
+              }
             } else {
               course.img = null
             }
-          } else {
-            course.img = null
-          }
 
-          if (courses[course.category.title]) {
-            courses[course.category.title].push(course)
-          } else {
-            courses[course.category.title] = [course]
-          }
-        })
+            if (courses[course.category.title]) {
+              courses[course.category.title].push(course)
+            } else {
+              courses[course.category.title] = [course]
+            }
+          })
 
-        setActiveTab(Object.keys(courses)[0])
-        setCourses(courses)
-      }
-    } catch (e) {
-      console.log('courses error', e)
-    }
+          setIsLoaded(true)
+          setActiveTab(Object.keys(courses)[0])
+          setCourses(courses)
+        }
+      })
+      .catch(err => {
+        console.log('courses error', err)
+      })
 
   }, [])
 
 
+  if (!isLoaded) {
+    return (
+      <Loader container/>
+    )
+  }
 
   return (
     <>
@@ -60,7 +69,7 @@ const Courses = () => {
 
           <div className="tabs">
             {
-              courses ? (
+              courses && isLoaded ? (
                 Object.keys(courses).map((title, index) => {
                   return (
                     <button

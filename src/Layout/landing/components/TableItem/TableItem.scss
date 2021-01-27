@@ -157,6 +157,10 @@
   &__text {
     color: #FF5773;
     font-size: 22px;
+
+    @media (max-width: 576px) {
+      font-size: 14px;
+    }
   }
 }
 

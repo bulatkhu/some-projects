@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useState} from 'react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {Translate} from 'react-translated'
@@ -6,7 +6,6 @@ import checkMark from '../../../../images/general/icons/checkMarkGreen.svg'
 import crossRed from '../../../../images/general/icons/crossRed.svg'
 import ModalPortal from '../../../modals/ModalPortal/ModalPortal'
 import CheckOut from '../checkOut/checkOut'
-import {getCoursesForPrices} from '../../../../request/apiPrices'
 import {showModalLogin} from '../../../../redux/actions/menu/menuActionsFuncs'
 import './prices.scoped.scss'
 
@@ -23,37 +22,9 @@ const pricesData = [
 
 const Prices = ({classPrices = true, isAuth, user, onShowLogin}) => {
   const [showCheckOut, setShowCheckOut] = useState({show: false, type: null})
-  const [courses, setCourses] = useState({})
-  const [error, setError] = useState(null)
-
-
-  useEffect(() => {
-
-    getCoursesForPrices()
-      .then(res => {
-        if (!res.error && +res.data.status === 1) {
-          const {data} = res.data
-
-          if (
-            !data.kz.combinations ||
-            !data.kz.main ||
-            !data.ru.combinations ||
-            !data.ru.main
-          ) {
-            setError('we do not have yet any courses')
-          } else {
-            setCourses(data)
-          }
-
-        }
-      })
-
-  },[])
 
   const onShowCheckOut = type => {
-    if (!error) {
-      setShowCheckOut({show: true, type: type})
-    }
+    setShowCheckOut({show: true, type: type})
   }
 
   const firstButton = () => {
@@ -69,10 +40,9 @@ const Prices = ({classPrices = true, isAuth, user, onShowLogin}) => {
   return (
     <section id="prices" className={[classPrices ? 'prices' : null]}>
 
-      { courses && (
+      { showCheckOut.show && (
           <ModalPortal>
             <CheckOut
-              courses={courses}
               type={showCheckOut.type}
               info={showCheckOut}
               show={setShowCheckOut}
@@ -85,12 +55,6 @@ const Prices = ({classPrices = true, isAuth, user, onShowLogin}) => {
         <h3 className="prices__title">
           <span>{<Translate text="Оқу ақысы"/>}</span>
         </h3>
-
-        {
-          error ? (
-            <p className="error__big text-center">{error}</p>
-          ) : null
-        }
 
         <div className="prices__table priceTable">
 
@@ -218,25 +182,25 @@ const Prices = ({classPrices = true, isAuth, user, onShowLogin}) => {
                   <div className="topTableFirst__content">
 
                     <div className="topTableFirst__column ">
-                      <button disabled={error} className="topTableFirst__button btn__shadowFromNull topTableFirst__link">
+                      <button className="topTableFirst__button btn__shadowFromNull topTableFirst__link">
                         <span className="topTableFirst__text">{firstButton()}</span>
                       </button>
                     </div>
 
                     <div className="topTableFirst__column">
-                      <button disabled={error} onClick={() => onShowCheckOut('main')} className="topTableFirst__button btn__shadowFromNull">
+                      <button onClick={() => onShowCheckOut('main')} className="topTableFirst__button btn__shadowFromNull">
                         <span className="topTableFirst__text">Таңдау</span>
                       </button>
                     </div>
 
                     <div className="topTableFirst__column">
-                      <button disabled={error} onClick={() => onShowCheckOut('profs')} className="topTableFirst__button btn__shadowFromNull">
+                      <button onClick={() => onShowCheckOut('profs')} className="topTableFirst__button btn__shadowFromNull">
                         <span className="topTableFirst__text">Таңдау</span>
                       </button>
                     </div>
 
                     <div className="topTableFirst__column">
-                      <button disabled={error} onClick={() => onShowCheckOut('combo')} className="topTableFirst__button btn__shadowFromNull">
+                      <button onClick={() => onShowCheckOut('combo')} className="topTableFirst__button btn__shadowFromNull">
                         <span className="topTableFirst__text">Таңдау</span>
                       </button>
                     </div>

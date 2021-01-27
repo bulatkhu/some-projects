@@ -81,8 +81,10 @@ function formatFormValues(fromFormValues) {
   const values = fromFormValues
   const formValues = new FormData()
   const keys = Object.keys(values)
-  keys.forEach(item => {
-    if (typeof values[item] === 'object') {
+  keys
+    .filter(item => item)
+    .forEach(item => {
+    if (typeof values[item] === 'object' && values[item]) {
 
       if ((item === 'avatar' || item === 'profile_image') && values[item].length) {
         console.log(item, values[item])
@@ -112,23 +114,17 @@ const EditProfile = ({type, updateUserData, user}) => {
   const [croppedImageUrl, setCroppedImageUrl] = useState(null)
 
 
-  console.log('user', user)
 
   useEffect(() => {
 
-    if (user) {
+    // if (user) {
 
-      const option = options.find(item => {
+      // const option = options.find(item => {
+      //   return item.value === +getFromUserMeta(user, 'region')
+      // })
+      // console.log('option', option)
 
-        // console.log('item', item.value)
-        console.log('region', item.value === +getFromUserMeta(user, 'region'))
-
-        return item.value === +getFromUserMeta(user, 'region')
-      })
-
-      console.log('option', option)
-
-    }
+    // }
 
     if (showPhotoEditor) {
       scrollBodyHandler.lock()
