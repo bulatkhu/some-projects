@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import Select from 'react-select'
+import MySelect from '../../../general/component/mySelect/mySelect'
 import {Transition} from 'react-transition-group'
 import {scrollBodyHandler} from '../../../../scripts/scrollController/scrollController'
 import kaspiBank from '../../../../images/landing/checkBoxes/bankKaspi.svg'
@@ -34,7 +34,6 @@ function CoursesOverplay({text, onClick}) {
 
 function combinationsToOption(combination) {
   return Object.keys(combination)
-    .filter(item => item.length === 1)
     .map(item => ({
       label: `${combination[item][0].content.title} - ${combination[item][1].content.title}`,
       option: item,
@@ -134,6 +133,14 @@ const CheckOut = ({type, show, info}) => {
   const [currentCoursesSelect, setCurrentCoursesSelect] = useState({label: 'default', option: 'default', courses: null})
   const [isError, setIsError] = useState(null)
   const [courses, setCourses] = useState(null)
+
+
+
+  useEffect(() => {
+
+    console.log('coursesSelect', coursesSelect)
+
+  },[coursesSelect])
 
 
   const onLoadPrices = () => getCoursesForPrices()
@@ -337,7 +344,7 @@ const CheckOut = ({type, show, info}) => {
                     <div className="checkOut__column">
                       <div className="checkOut-select__wrapper checkOut-subject__content">
                         <div className="checkOut-select__input checkOut-select__short">
-                          <Select
+                          <MySelect
                             value={langOption}
                             options={selectsLangs}
                             placeholder="Курс тілі"
@@ -346,7 +353,7 @@ const CheckOut = ({type, show, info}) => {
                         </div>
 
                         <div className="checkOut-select__input checkOut-select__long">
-                          <Select
+                          <MySelect
                             value={currentCoursesSelect}
                             options={coursesSelect}
                             onChange={onCourseSelect}
