@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from 'react'
 import NoPhoto from '../../../../images/general/noPhoto/noPhoto'
 import {getChatMentors, getMessagesByUserId, sendMessageById} from '../../../../request/apiRequests'
+import {Translate} from 'react-translated'
 import {connect} from 'react-redux'
 import './chat.scss'
+
 
 
 
@@ -242,7 +244,9 @@ const Chat = ({user}) => {
                    className="chatDisplay__file"
                    type="file"
                 />
-                <button className="chatDisplay__button" type="submit">Send</button>
+                <button className="chatDisplay__button" type="submit">
+                  <Translate text="send"/>
+                </button>
               </div>
             </form>
 

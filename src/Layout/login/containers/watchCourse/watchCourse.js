@@ -8,6 +8,7 @@ import ConsiderResults from '../../../landing/auxiliary/considerResults'
 import {getQuizById, takeQuizById} from '../../../../request/apiQuizzes'
 import Loader from '../../../general/component/loader/loader'
 import './watchCourse.scoped.scss'
+import {isArraysEqual} from "../../../../scripts/dataHandler/dataHandler";
 // import useScript from "../../../../hooks/useScript";
 
 const initialTestState = {
@@ -90,6 +91,8 @@ function Course({match: {params}}) {
   const [currentLesson, setCurrentLesson] = useState(null)
   const [isTestItemsFetching, setIsTestItemsFetching] = useState(true)
   const [error, setError] = useState(null)
+
+
 
   useEffect(() => {
 
@@ -227,13 +230,20 @@ function Course({match: {params}}) {
         ...prev,
         showResults: true
       }))
+
+      const rightAnswersResult = testAnswersItems.map(item => {
+        return !!(isArraysEqual(item.answer, item.rightAnswers) && item.rightAnswers.length)
+      }).filter(item => item).length
+      console.log('testAnswersItems', testAnswersItems)
+      console.log('rightAnswersResult', rightAnswersResult)
+
       takeQuizById({results: testToResults(testAnswersItems), id: currentLesson.quiz.id})
         .then(response => {
           const {correct_answers, total_attempt, empty} = response.data
           setTestResults({
             circleData: {
               empty,
-              right: correct_answers,
+              right: rightAnswersResult,
               wrong: total_attempt - correct_answers - empty
             },
             response: response.data
@@ -372,10 +382,10 @@ function Course({match: {params}}) {
                             <li className="resultsInfo__item"><span>Сұрақ саны:</span>
                               <span>{testResults.response.total_attempt}</span></li>
                             <li className="resultsInfo__item"><span>Дұрысы:</span>
-                              <span>{testResults.response.correct_answers}</span></li>
+                              <span>{testResults.circleData.right}</span></li>
                             {/*<li className="resultsInfo__item"><span>Дұрысы:</span> <span>20</span></li>*/}
                             <li className="resultsInfo__item"><span>Белгіленбеген:</span>
-                              <span>{testResults.response.empty}</span></li>
+                              <span>{testResults.circleData.empty}</span></li>
                             <li className="resultsInfo__item"><span>Тестке кеткен уақыт:</span>
                               <span>{testState.time}</span></li>
                           </ul>

@@ -91,7 +91,6 @@ const TestSlider = ({showResults, testItems, setTestItems, linkToVideo}) => {
   const mainSlider = useRef(null)
   const navSliderWrapper = useRef(null)
 
-  console.log('testItems', testItems)
 
   useEffect(() => {
     if (currentSlide || currentSlide === 0) {
@@ -268,10 +267,6 @@ const TestSlider = ({showResults, testItems, setTestItems, linkToVideo}) => {
 
           {testItems.map((item1, indexOfQuestion) => {
             let btn
-
-
-            console.log('testItems', item1)
-
 
             if (showResults) {
               if (item1.answer.length) {

@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react'
 import eduCoinStatistic from '../../../images/general/educoinPage/educoin-info.svg'
 import './educoinPage.scoped.scss'
+import {Translate} from "react-translated";
 
 
 const EducoinPage = () => {
@@ -34,10 +35,9 @@ const EducoinPage = () => {
 
             <div className="rules__item">
 
-              <h3 className="rules__title" style={{color: '#FE8047'}}>Тіркелу</h3>
+              <h3 className="rules__title" style={{color: '#FE8047'}}><Translate text="Тіркелу"/></h3>
               <p className="rules__text">
-                Порталға тіркелгені үшін әрбір қолданушыға
-                <span className="coin__icon">20000</span> беріледі.
+                <Translate text="Порталға тіркелгені"/>
               </p>
 
             </div>
