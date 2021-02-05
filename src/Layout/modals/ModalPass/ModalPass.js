@@ -5,7 +5,7 @@ import {connect} from 'react-redux'
 import LittleBtn from '../LittleBtn/LittleBtn'
 import ModalInfo from './ModelInfo'
 import {alphaNumeric, validatePhone} from '../../../scripts/validations/validators'
-import {hideModalPass} from '../../../redux/actions/menu/menuActionsFuncs'
+import {hideModalPass, showModalLogin} from '../../../redux/actions/menu/menuActionsFuncs'
 import {ApiCheckKeyForPassword, ApiResetPassword, keyGenerate} from '../../../request/apiRequests'
 import './ModalPass.scoped.scss'
 import PassDescription from "../components/passDescription/passDescription";
@@ -22,7 +22,7 @@ const switchEye = event => {
 }
 
 
-const ModalPass = ({show, hidePassModal}) => {
+const ModalPass = ({show, hidePassModal, showLoginModal}) => {
   const overlayClass = ['modalPass__overlay', 'modal__overlay', show ? 'modalActive' : null].join(' ')
   const [isInfoShown, setIsInfoShown] = useState(false)
   const [stepsCount, setStepsCount] = useState(0)
@@ -67,7 +67,10 @@ const ModalPass = ({show, hidePassModal}) => {
       .then(res => {
         if (res.data.success === 1) {
           setInfoFromServer(res.data.msg)
-          setTimeout(() => hideModalPass(),2000)
+          setTimeout(() => {
+            hideModalPass()
+            showLoginModal()
+          },2000)
         } else {
           setInfoFromServer(res.data.msg)
         }
@@ -317,7 +320,8 @@ const ModalPass = ({show, hidePassModal}) => {
 
 function mapDispatchToProps(dispatch) {
   return {
-    hidePassModal: () => dispatch(hideModalPass())
+    hidePassModal: () => dispatch(hideModalPass()),
+    showLoginModal: () => dispatch(showModalLogin())
   }
 }
 
