@@ -245,7 +245,7 @@ const Chat = ({user}) => {
                    type="file"
                 />
                 <button className="chatDisplay__button" type="submit">
-                  <Translate text="send"/>
+                  <Translate text="Send"/>
                 </button>
               </div>
             </form>

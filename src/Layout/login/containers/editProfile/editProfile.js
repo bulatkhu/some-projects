@@ -11,6 +11,7 @@ import {getFromUserMeta} from '../../../../scripts/dataHandler/dataHandler'
 import Loader from '../../../general/component/loader/loader'
 import './editProfile.scss'
 import 'react-image-crop/dist/ReactCrop.css'
+import {Translate} from "react-translated";
 
 const initialCrop = {
   unit: '%',
@@ -311,7 +312,7 @@ const EditProfile = ({type, updateUserData, user}) => {
           />
 
           <div className="editProfileForm__wrapper">
-            <button type="submit" className="editProfileForm__button">Сақтау</button>
+            <button type="submit" className="editProfileForm__button"><Translate text="Сақтау"/></button>
           </div>
 
         </form>
@@ -372,7 +373,7 @@ const EditProfile = ({type, updateUserData, user}) => {
 
 
             <div className="editProfileForm__wrapper">
-              <button className="editProfileForm__button">Сақтау</button>
+              <button className="editProfileForm__button"><Translate text="Сақтау"/></button>
             </div>
 
           </form>)}
@@ -442,13 +443,13 @@ const EditProfile = ({type, updateUserData, user}) => {
           <button onClick={() => {
             onClickAddAvatar.current.value = null
             setPhotoDescr('Photo: no')
-          }} className="editProfile__btn editProfile__deletePhoto">Суретті өшіру
+          }} className="editProfile__btn editProfile__deletePhoto"><Translate text="Суретті өшіру"/>
           </button>
           <button
             onClick={() => {
               onClickAddAvatar.current.click()
             }}
-            className="editProfile__btn editProfile__addPhoto">Сурет жүктеу
+            className="editProfile__btn editProfile__addPhoto"><Translate text="Сурет жүктеу"/>
           </button>
           <div className="success editProfileBtn__info">{photoDescr}</div>
         </div>

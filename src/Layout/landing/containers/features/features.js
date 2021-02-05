@@ -13,40 +13,40 @@ import './features.scss'
 
 const FeatureItems = [
   {
-    text: <ReactTranslate text="Ұстаздар 15 жылдық"/>,
-    title: 'Ұстаздар', img: feature1
+    text: <ReactTranslate text="Ұстаздар 15 жылдық тәжірибесі бар,"/>,
+    title: <ReactTranslate text="Ұстаздар"/>, img: feature1
   },
   {
-    text: <ReactTranslate text="Видео сабақтар Зама"/>,
-    title: 'Видео сабақтар', img: feature2
+    text: <ReactTranslate text="Видео сабақтар Видео сабақтар Заманауи."/>,
+    title: <ReactTranslate text="Видео сабақтар"/>, img: feature2
   },
   {
-    text: <ReactTranslate text="Онлайн кураторлық"/>,
-    title: 'Онлайн кураторлық', img: feature3
+    text: <ReactTranslate text="Онлайн кураторлық Онлайн кураторлық"/>,
+    title: <ReactTranslate text="Online curator"/>, img: feature3
   },
   {
-    text: <ReactTranslate text="Оқу құралдары «EduCon"/>,
-    title: 'Оқу құралдары', img: feature4
+    text: <ReactTranslate text="Оқу құралдары Оқу құралдары «EduCon» "/>,
+    title: <ReactTranslate text="Textbooks"/>, img: feature4
   },
   {
-    text: <ReactTranslate text="Live вебинар"/>,
+    text: <ReactTranslate text="Live вебинар Live вебинар Тікелей эфирдегі"/>,
     title: 'Live вебинар', img: feature5
   },
   {
-    text: <ReactTranslate text="Тақырыптық те"/>,
-    title: 'Тақырыптық тесттер', img: feature6
+    text: <ReactTranslate text="Тақырыптық тесттер Әр видеосабақтан"/>,
+    title: <ReactTranslate text="Тақырыптық тесттер"/>, img: feature6
   },
   {
-    text: <ReactTranslate text="EduCoin Ындала"/>,
+    text: <ReactTranslate text="EduCoin Ындаландыру арқылы білім беру"/>,
     title: 'EduCoin', img: feature7
   },
   {
-    text: <ReactTranslate text="Профориентология Кә"/>,
+    text: <ReactTranslate text="Профориентология Кәсіби профориентолог"/>,
     title: 'Профориентология', img: feature8
   },
   {
-    text: <ReactTranslate text="Тест видео"/>,
-    title: 'Тест видео шешімдері', img: feature9
+    text: <ReactTranslate text="Тест видео шешімдері Порталдағы "/>,
+    title: <ReactTranslate text="Тест видео шешімдері"/>, img: feature9
   },
 ]
 

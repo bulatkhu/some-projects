@@ -58,7 +58,7 @@ const Main = () => {
           <div className="main__content">
             <div className="main__column body">
               <h1 className="body__title">
-                Болашаққа нық қадамды бүгіннен баста.
+                <ReactTranslate text="Болашаққа нық қадамды бүгіннен баста."/>
               </h1>
               <p className="body__text">
                 <ReactTranslate text="Қашықтан білім беру арқылы біз әрқашан сенің жаныңдамыз."/>

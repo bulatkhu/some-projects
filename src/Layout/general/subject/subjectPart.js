@@ -8,8 +8,6 @@ const SubjectPart = ({name, id, courses, details}) => {
   courses.forEach(item => duration = duration + +item.duration)
 
 
-  console.log('courses 111', courses)
-
   return (
     <div data-id={id} className="subject__item subjectItem active">
       <div className="subjectItem__top subjectItemTop">

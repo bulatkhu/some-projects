@@ -1,5 +1,6 @@
 import React from 'react'
 import './payment.scss'
+import {Translate} from "react-translated";
 
 
 const Payment = () => {
@@ -16,15 +17,15 @@ const Payment = () => {
   return (
     <section className="payment">
       <div className="payment__history historyPayment">
-        <h2 className="payment__title">Төлемдер тарихы</h2>
+        <h2 className="payment__title"><Translate text="Төлемдер тарихы"/></h2>
 
         <div className="historyPayment__tableWrapper">
           <div className="historyPayment__table">
 
             <div className="historyPayment__content historyPayment__title">
               <div className="payment__tableTitle historyPayment__item">Курс</div>
-              <div className="payment__tableTitle historyPayment__item">Құны</div>
-              <div className="payment__tableTitle historyPayment__item">Мерзімі</div>
+              <div className="payment__tableTitle historyPayment__item"><Translate text="Құны"/></div>
+              <div className="payment__tableTitle historyPayment__item"><Translate text="Мерзімі"/></div>
               <div className="payment__tableTitle historyPayment__item">EduCoin</div>
               <div className="payment__tableTitle historyPayment__item">Чек</div>
             </div>
@@ -118,7 +119,7 @@ const Payment = () => {
 
         <div className="historyPayment__buttonWrapper">
           <button className="historyPayment__button">
-            Төлем жасау
+            <Translate text="ТӨЛЕМ ЖАСАУ"/>
             4000 ₸
           </button>
         </div>

@@ -6,6 +6,7 @@ import interactionPlugin, {Draggable} from '@fullcalendar/interaction'
 import {createEventId} from './event-utils'
 import {addCalendarTask, getCalendarTasks, removeCalendarTask} from '../../../../request/apiRequests'
 import './calendar.css'
+import {Translate} from "react-translated";
 
 
 /*
@@ -171,13 +172,13 @@ class Calendar extends React.Component {
 
         <div className="calender__column">
 
-          <h2 className="calender__sidebarTitle">Calendar </h2>
+          <h2 className="calender__sidebarTitle"><Translate text="Calendar"/></h2>
 
         </div>
 
         <div ref={this.refToExtEvents} className='calender__eventContent calender__column' id='external-events'>
 
-          <h2 className='calender__eventTitle'>Тапсырмалар</h2>
+          <h2 className='calender__eventTitle'><Translate text="Тапсырмалар"/></h2>
 
           {this.state.dragEvents.map((item, index) => {
 
@@ -195,7 +196,7 @@ class Calendar extends React.Component {
 
         <div className="calender__eventAdd calenderAdd calender__column">
 
-          <h2 className="calenderAdd__title">Жаңа тапсырма</h2>
+          <h2 className="calenderAdd__title"><Translate text="Жаңа тапсырма"/></h2>
 
           <ul onClick={this.colorPickerHandler} className="calenderAdd__colors">
             <li className="calenderAdd__eventColor">

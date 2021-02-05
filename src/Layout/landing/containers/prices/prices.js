@@ -30,9 +30,9 @@ const Prices = ({classPrices = true, isAuth, user, onShowLogin}) => {
   const firstButton = () => {
     const type = (user && user.type) ? user.type : null
     if (type === 'student') {
-      return <Link onClick={() => window.scroll(0,0)} to="/login/student">Таңдау</Link>
+      return <Link onClick={() => window.scroll(0,0)} to="/login/student"><Translate text="Таңдау"/></Link>
     } else if (!isAuth) {
-      return <div onClick={() => onShowLogin()}>Таңдау</div>
+      return <div onClick={() => onShowLogin()}><Translate text="Таңдау"/></div>
     }
   }
 
@@ -68,11 +68,11 @@ const Prices = ({classPrices = true, isAuth, user, onShowLogin}) => {
 
                     <div className="topTableFirst__column">
                       <div className="topTableFirst__wrapper">
-                        <span className="topTableFirst__text">Қазақстан тарихы</span>
+                        <span className="topTableFirst__text"><Translate text="Қазақстан тарихы"/></span>
                       </div>
                       <div className="topTableFirst__prices">
                         <div className="topTableFirst__oldPrice">0₸</div>
-                        <div className="topTableFirst__currentPrice">₸егін</div>
+                        <div className="topTableFirst__currentPrice"><Translate text="₸егін"/></div>
                       </div>
                     </div>
 
@@ -189,19 +189,19 @@ const Prices = ({classPrices = true, isAuth, user, onShowLogin}) => {
 
                     <div className="topTableFirst__column">
                       <button onClick={() => onShowCheckOut('main')} className="topTableFirst__button btn__shadowFromNull">
-                        <span className="topTableFirst__text">Таңдау</span>
+                        <span className="topTableFirst__text"><Translate text="Таңдау"/></span>
                       </button>
                     </div>
 
                     <div className="topTableFirst__column">
                       <button onClick={() => onShowCheckOut('profs')} className="topTableFirst__button btn__shadowFromNull">
-                        <span className="topTableFirst__text">Таңдау</span>
+                        <span className="topTableFirst__text"><Translate text="Таңдау"/></span>
                       </button>
                     </div>
 
                     <div className="topTableFirst__column">
                       <button onClick={() => onShowCheckOut('combo')} className="topTableFirst__button btn__shadowFromNull">
-                        <span className="topTableFirst__text">Таңдау</span>
+                        <span className="topTableFirst__text"><Translate text="Таңдау"/></span>
                       </button>
                     </div>
 

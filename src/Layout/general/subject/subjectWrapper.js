@@ -109,8 +109,6 @@ const SubjectWrapper = ({response, isLoaded, details}) => {
 
       setElements(() => [...itemsObject])
     }
-
-    console.log('response', response)
   }, [response, isLoaded])
 
   const linkToVideo = getVideoFromRes(response)

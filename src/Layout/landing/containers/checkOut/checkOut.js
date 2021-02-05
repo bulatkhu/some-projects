@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import MySelect from '../../../general/component/mySelect/mySelect'
 import {Transition} from 'react-transition-group'
+import {Translate} from 'react-translated'
 import {scrollBodyHandler} from '../../../../scripts/scrollController/scrollController'
 import kaspiBank from '../../../../images/landing/checkBoxes/bankKaspi.svg'
 import bankCard from '../../../../images/landing/checkBoxes/bankCard.svg'
@@ -26,7 +27,7 @@ function CoursesOverplay({text, onClick}) {
         <span className="subOverlayBtn__img">
           <img src={roundAdd} alt="roundAdd"/>
         </span>
-        <span className="subOverlayBtn__text">Қосу</span>
+        <span className="subOverlayBtn__text"><Translate text="Қосу"/></span>
       </button>
     </div>
   )
@@ -72,7 +73,7 @@ function genCoursesDescription({type, lang, main, selectCourses, price, title}) 
       {
         type !== 'main' ? (
           <p className="about__row">
-            <span className="about__column">Бейіндік: </span>
+            <span className="about__column"><Translate text="Бейіндік:"/></span>
             <span className="about__column">{textSelectCourses}</span>
           </p>
         ) : null
@@ -80,13 +81,13 @@ function genCoursesDescription({type, lang, main, selectCourses, price, title}) 
       {
         type !== 'profs' ? (
           <p className="about__row">
-            <span className="about__column">Негізгі:</span>
+            <span className="about__column"><Translate text="Негізгі:"/></span>
             <span className="about__column">{textMainCourses}</span>
           </p>
         ) : null
       }
       <p className="about__row">
-        <span className="about__column">Жалпы сомма: </span>
+        <span className="about__column"><Translate text="Жалпы сомма:"/></span>
         <span className="about__column">{price}₸</span>
         <input className="hidden" readOnly type="text" name="price" value={price}/>
       </p>
@@ -94,7 +95,7 @@ function genCoursesDescription({type, lang, main, selectCourses, price, title}) 
   )
 }
 
-function CloseButton({show}) {
+function CloseButton({show})  {
 
   return (
     <span onClick={() => show({show: false, id: null})} className="close">
@@ -273,13 +274,13 @@ const CheckOut = ({type, show, info}) => {
   }
 
   if (typeState === 'main') {
-    formInfo.title = 'Негізгі пәндер'
+    formInfo.title = <Translate text="Негізгі пәндер"/>
     formInfo.subTitle = '3 пәнге/6 айға'
     formInfo.color = '#6CA04A'
     formInfo.price = 22990
   }
   if (typeState === 'profs') {
-    formInfo.title = 'Бейіндік пәндер'
+    formInfo.title = <Translate text='Бейіндік пәндер'/>
     formInfo.subTitle = '2 пәнге/6 айға'
     formInfo.color = '#3EC1EB'
     formInfo.price = 27990
@@ -328,7 +329,7 @@ const CheckOut = ({type, show, info}) => {
 
           <div className="checkOut">
             <h1 className="checkOut__title">
-              <span>ТӨЛЕМ ЖАСАУ</span>
+              <span><Translate text="ТӨЛЕМ ЖАСАУ"/></span>
               <CloseButton show={show}/>
             </h1>
 
@@ -338,7 +339,7 @@ const CheckOut = ({type, show, info}) => {
                 !showResults.show
                   ? <div className="checkOut__content">
                     <div className="checkOut__column">
-                      <h2 className="checkOut__courseTitle">Пәндерді таңдаңыз</h2>
+                      <h2 className="checkOut__courseTitle"><Translate text="Пәндерді таңдаңыз"/></h2>
                     </div>
                     <div className="checkOut__column"/>
                     <div className="checkOut__column">
@@ -394,7 +395,7 @@ const CheckOut = ({type, show, info}) => {
                       currentCourses && !isEmpty(currentCourses.main)
                         ? (
                           <div className="checkOut__column">
-                            <h2 className="checkOut__subTitle">Негізгі пәндер</h2>
+                            <h2 className="checkOut__subTitle"><Translate text="Негізгі пәндер"/></h2>
 
                             <div className="checkOut-subject__content checkOut-subject__subContent">
 
@@ -465,7 +466,7 @@ const CheckOut = ({type, show, info}) => {
                                 />
 
                                 <div className="checkOut-side__checkBoxes">
-                                  <h3 className="checkOut-side__checkTitle">Төлем түрін таңдаңыз</h3>
+                                  <h3 className="checkOut-side__checkTitle"><Translate text="Төлем түрін таңдаңыз"/></h3>
 
                                   <label className="checkOut-side__label" htmlFor="kaspi">
                               <span className="bank">
@@ -505,7 +506,7 @@ const CheckOut = ({type, show, info}) => {
                             <img src={bankCard} alt="card"/>
                           </span>
 
-                          <span className="bank__text">Банк картасы </span>
+                          <span className="bank__text"><Translate text="Банк картасы"/> </span>
                         </span>
 
                       </span>
@@ -520,7 +521,7 @@ const CheckOut = ({type, show, info}) => {
 
                                 <button className="checkOut-side__btn btn__shadowFromNull">
                                   <span>{formInfo.price} ₸</span>
-                                  <span>Төлем жасау</span>
+                                  <span><Translate text="ТӨЛЕМ ЖАСАУ"/></span>
                                 </button>
                               </div>
 

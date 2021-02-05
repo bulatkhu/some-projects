@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react'
 import Select from 'react-select'
 import './testComponent.scoped.scss'
 import {getStudentQuizzes} from '../../../../request/apiQuizzes'
+import {Translate} from "react-translated";
 
 // const flavourOptions = [
 //   { value: 'vanilla', label: 'Vanilla', rating: 'safe' },
@@ -91,7 +92,7 @@ const TestComponent = () => {
 
   return (
     <div className="test">
-      <h1 className="test__title">Тесттер</h1>
+      <h1 className="test__title"><Translate text="Тесттері"/></h1>
 
       <div className="test__wrapper">
 
@@ -116,10 +117,10 @@ const TestComponent = () => {
           <table className="test__table testTable">
             <thead>
               <tr className="testTable__rowTitle">
-                <th className="testTable__cellTitle">Тақырыптар</th>
-                <th className="testTable__cellTitle">Сұрақ саны</th>
-                <th className="testTable__cellTitle">Дұрысы</th>
-                <th className="testTable__cellTitle">Қатесі</th>
+                <th className="testTable__cellTitle"><Translate text="Topics"/></th>
+                <th className="testTable__cellTitle"><Translate text="Сұрақ саны:"/></th>
+                <th className="testTable__cellTitle"><Translate text="Дұрысы:"/></th>
+                <th className="testTable__cellTitle"><Translate text="Қатесі:"/></th>
                 <th className="testTable__cellTitle">Көрсеткіш</th>
               </tr>
             </thead>

@@ -3,6 +3,7 @@ import CourseBox from '../../components/courseBox/courseBox'
 import {apiGetStudentsCourses} from '../../../../request/student/apiStudent'
 import {SITE_BASE_URL} from '../../../../app.config'
 import './myCourses.scss'
+import {Translate} from "react-translated";
 
 
 function reqToShowCourses(courses) {
@@ -52,7 +53,7 @@ const MyCourses = () => {
 
       <div className="myCourses__top">
 
-        <h1 className="myCourses__title">Курстарым</h1>
+        <h1 className="myCourses__title"><Translate text="Курстарым"/></h1>
 
         <div className="myCourses__content">
 
@@ -71,7 +72,7 @@ const MyCourses = () => {
                     <span/>
                   </div>
 
-                  <div className="myCoursesAdd__btn">New</div>
+                  <div className="myCoursesAdd__btn"><Translate text="New"/></div>
                 </div>
 
               </a>

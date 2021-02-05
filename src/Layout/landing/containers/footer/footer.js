@@ -18,7 +18,7 @@ const Footer = () => {
             <div className="columnFoot__logo"><img src={logoEducon} alt="logo educon"/></div>
             <ul className="columnFoot__firstColumn firstColumn">
               <li className="firstColumn__item">
-                <span><Translate text="Алматы қаласы; 4"/></span>
+                <span><Translate text="Алматы қаласы; 4-микрорайон, 74А"/></span>
               </li>
               <li className="firstColumn__item">
                 <a
@@ -64,7 +64,7 @@ const Footer = () => {
           </div>
           <div className="footer__column columnFoot">
             <div className="columnFoot__content">
-              <h5 className="columnFoot__title">Сілтемелер</h5>
+              <h5 className="columnFoot__title"><Translate text="Сілтемелер"/></h5>
               <ul className="columnFoot__list">
                 <li className="columnFoot__link"><a href="/"><Translate text="Басты бет"/></a></li>
                 <li className="columnFoot__link"><a href="/"><Translate text="Неліктен EduCon"/></a></li>
