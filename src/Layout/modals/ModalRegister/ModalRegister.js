@@ -98,17 +98,18 @@ const ModalRegister = props => {
         {
           phoneConf.boolean && phoneConf.phone && phoneData
             ? <PhoneConfirmation
-                setPhoneConf={setPhoneConf}
-                data={phoneData}
-                phone={phoneConf.phone}
-              />
+              setPhoneConf={setPhoneConf}
+              data={phoneData}
+              phone={phoneConf.phone}
+            />
             : <div className="modalReg">
 
               <CircleForModals title="Кіру"/>
 
               <h3 className="modalReg__title"><Translate text="Тіркелу"/></h3>
-              <p className="modalReg__text"><span className="modalReg__text__red">Қош келдіңіз!</span> Тіркелу үшін
-                мәліметтерді енгізіңіз.</p>
+              <p className="modalReg__text">
+                <Translate text="Қош келдіңіз! Тіркелу үшін мәліметтерді енгізіңіз."/>
+              </p>
 
               {
                 error
@@ -174,12 +175,16 @@ const ModalRegister = props => {
                             <div className="regForm__labelWrap">
                               <label className="regForm__label" htmlFor="name">
                                 <span className="hidden">Атыңыз</span>
-                                <input
-                                  className="regForm__input"
-                                  {...input}
-                                  type="text"
-                                  placeholder="Атыңыз"
-                                />
+                                <Translator>
+                                  {({translate}) => (
+                                    <input
+                                      className="regForm__input"
+                                      {...input}
+                                      type="text"
+                                      placeholder={translate({text: 'Атыңыз'})}
+                                    />
+                                  )}
+                                </Translator>
                               </label>
                             </div>
                           )}
@@ -194,12 +199,16 @@ const ModalRegister = props => {
                             <div className="regForm__labelWrap">
                               <label className="regForm__label" htmlFor="login">
                                 <span className="hidden">Тегіңіз</span>
-                                <input
-                                  className="regForm__input"
-                                  {...input}
-                                  type="text"
-                                  placeholder="Тегіңіз"
-                                />
+                                <Translator>
+                                  {({translate}) => (
+                                    <input
+                                      className="regForm__input"
+                                      {...input}
+                                      type="text"
+                                      placeholder={translate({text: 'Тегіңіз'})}
+                                    />
+                                  )}
+                                </Translator>
                               </label>
                             </div>
                           )}
@@ -324,10 +333,17 @@ const ModalRegister = props => {
                               {({input, meta}) => (
                                 <label className="regForm__label margin0" htmlFor="rePassword">
                                   <span className="hidden">Құпиясөз</span>
-                                  <input className={['regForm__input',
-                                    meta.error && meta.touched ? 'regFormInput__error' : null
-                                  ].join(' ')} {...input} type="password"
-                                         placeholder="Құпиясөз"/>
+                                  <Translator>
+                                    {({translate}) => (
+                                      <input
+                                        className={['regForm__input',
+                                          meta.error && meta.touched ? 'regFormInput__error' : null].join(' ')}
+                                        {...input}
+                                        type="password"
+                                        placeholder={translate({text: 'Құпиясөз'})}
+                                      />
+                                    )}
+                                  </Translator>
                                   {meta.error && meta.touched &&
                                   <span className="regForm__error error">{meta.error}</span>}
                                 </label>
@@ -346,8 +362,7 @@ const ModalRegister = props => {
                               <input checked required {...input} className="regCheckbox__input"/>
 
                               <label htmlFor="regPrivacy" className="regCheckbox__text">
-                                Пайдаланушы келісімінің <a href="/"
-                                                           className="regCheckbox__red">шарттарын</a> қабылдаймын.
+                                <Translate text="Пайдаланушы келісімінің шарттарын қабылдаймын."/>
                               </label>
                             </>
                           )}
@@ -363,8 +378,17 @@ const ModalRegister = props => {
                             {({input}) => (
                               <label className="regPromo__label" htmlFor="promoCode">
                                 <span className="label__hidden">Promo code</span>
-                                <input {...input} className="regPromo__input regForm__input" type="text"
-                                       placeholder="Досыңнан алған промокод"/>
+
+                                <Translator>
+                                  {({translate}) => (
+                                    <input
+                                      {...input}
+                                      className="regPromo__input regForm__input"
+                                      type="text"
+                                      placeholder={translate({text: 'Досыңнан алған промокод'})}
+                                    />
+                                  )}
+                                </Translator>
 
                                 <span>
                   <span className="regPromo__info ">
@@ -385,12 +409,9 @@ const ModalRegister = props => {
                     <span className="myTriangle"/>
 
                     <span className="regPromo__description">
-                        <p>Промокодты біздің порталға тіркелген кез келген досың
-                        нан алуға болады. Болма ған жағдайда, “Промокод жоқ” деп белгіле.</p>
-                        <span className="regPromo__description__red">
-                          Өз промокодыңды доста
-                        рыңмен бөлісіп, бағалы сыйлықтар ұтып ал.
-                        </span>
+                        <p>
+                          <Translate text="Промокодты біздің порталға тіркелген"/>
+                        </p>
                     </span>
                   </span>
 
@@ -410,7 +431,7 @@ const ModalRegister = props => {
                             {({input}) => (
                               <label className="regPromo__labelCheckbox" htmlFor="promoAction">
                                 <input {...input} className="regPromo__checkbox" type="checkbox"/>
-                                <span>Промокод жоқ</span>
+                                <span><Translate text="Промокод жоқ"/></span>
                               </label>
                             )}
                           </Field>

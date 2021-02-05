@@ -234,17 +234,16 @@ function Course({match: {params}}) {
       const rightAnswersResult = testAnswersItems.map(item => {
         return !!(isArraysEqual(item.answer, item.rightAnswers) && item.rightAnswers.length)
       }).filter(item => item).length
-      console.log('testAnswersItems', testAnswersItems)
-      console.log('rightAnswersResult', rightAnswersResult)
+
 
       takeQuizById({results: testToResults(testAnswersItems), id: currentLesson.quiz.id})
         .then(response => {
-          const {correct_answers, total_attempt, empty} = response.data
+          const {total_attempt, empty} = response.data
           setTestResults({
             circleData: {
               empty,
               right: rightAnswersResult,
-              wrong: total_attempt - correct_answers - empty
+              wrong: total_attempt - rightAnswersResult - empty
             },
             response: response.data
           })

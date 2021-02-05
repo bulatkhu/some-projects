@@ -7,6 +7,7 @@ import {GOOGLE_SHEETS_CONFIG} from '../../../app.config'
 import {validatePhone} from '../../../scripts/validations/validators'
 import Loader from '../../general/component/loader/loader'
 import './ModalRequest.scoped.scss'
+import {Translate, Translator} from "react-translated";
 
 
 // const spreadSheetId = '1AJmb7nn0w_9KPRi-kfb_kNUSD0etq_V7zKOqQBo3ghQ'
@@ -108,14 +109,18 @@ const ModalRequest = ({isShow, setShow}) => {
 
                             <div className="inputs__labels">
                               <label htmlFor="dfs" className="inputs__label">
-                                <Field
-                                  className="inputs__input inputs__name btn__noFocus"
-                                  placeholder="Аты-жөніңіз*"
-                                  required
-                                  component="input"
-                                  type="text"
-                                  name="name"
-                                />
+                                <Translator>
+                                  {({translate}) => (
+                                    <Field
+                                      className="inputs__input inputs__name btn__noFocus"
+                                      placeholder={translate({text: 'Full name'})}
+                                      required
+                                      component="input"
+                                      type="text"
+                                      name="name"
+                                    />
+                                  )}
+                                </Translator>
                               </label>
                               <label htmlFor="dfs" className="inputs__label">
                                 <Field
@@ -146,39 +151,51 @@ const ModalRequest = ({isShow, setShow}) => {
                                 </Field>
                               </label>
                               <label htmlFor="dfs" className="inputs__label">
-                                <Field
-                                  className="inputs__input inputs__region btn__noFocus"
-                                  placeholder="Облыс/Қала"
-                                  required
-                                  component="input"
-                                  type="text"
-                                  name="city"
-                                />
+                                <Translator>
+                                  {({translate}) => (
+                                    <Field
+                                      className="inputs__input inputs__name btn__noFocus"
+                                      placeholder={translate({text: 'Region/city'})}
+                                      required
+                                      component="input"
+                                      type="text"
+                                      name="city"
+                                    />
+                                  )}
+                                </Translator>
                               </label>
                               <label htmlFor="dfs" className="inputs__label">
-                                <Field
-                                  className="inputs__input inputs__city btn__noFocus"
-                                  placeholder="Қала/Аудан"
-                                  required
-                                  component="input"
-                                  type="text"
-                                  name="raion"
-                                />
+                                <Translator>
+                                  {({translate}) => (
+                                    <Field
+                                      className="inputs__input inputs__name btn__noFocus"
+                                      placeholder={translate({text: 'Region/district'})}
+                                      required
+                                      component="input"
+                                      type="text"
+                                      name="raion"
+                                    />
+                                  )}
+                                </Translator>
                               </label>
                               <label htmlFor="dfs" className="inputs__label">
-                                <Field
-                                  className="inputs__input inputs__city btn__noFocus"
-                                  placeholder="Бейіндік пән"
-                                  required
-                                  component="input"
-                                  type="text"
-                                  name="predmet"
-                                />
+                                <Translator>
+                                  {({translate}) => (
+                                    <Field
+                                      className="inputs__input inputs__name btn__noFocus"
+                                      placeholder={translate({text: 'Profile subject'})}
+                                      required
+                                      component="input"
+                                      type="text"
+                                      name="predmet"
+                                    />
+                                  )}
+                                </Translator>
                               </label>
                             </div>
 
 
-                            <button type="submit" className="inputs__btn btn__shadowFromNull">Жіберу</button>
+                            <button type="submit" className="inputs__btn btn__shadowFromNull"><Translate text="Жіберу"/></button>
 
                           </form>
                         )}

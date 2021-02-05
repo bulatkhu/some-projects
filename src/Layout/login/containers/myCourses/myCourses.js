@@ -23,7 +23,7 @@ function reqToShowCourses(courses) {
     return {
       title: item.title,
       courseImg: img,
-      link: '/login/student/subject/' + item.id,
+      link: `/login/student/detail-course/${item.id}/${item.next}`,
       percentage: item.percentage
     }
   })

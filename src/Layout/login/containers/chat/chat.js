@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import NoPhoto from '../../../../images/general/noPhoto/noPhoto'
 import {getChatMentors, getMessagesByUserId, sendMessageById} from '../../../../request/apiRequests'
-import {Translate} from 'react-translated'
+import {Translate, Translator} from 'react-translated'
 import {connect} from 'react-redux'
 import './chat.scss'
 
@@ -108,11 +108,15 @@ const Chat = ({user}) => {
               className="chatPeople__searchWrapper"
               onSubmit={event => event.preventDefault()}
             >
-              <input
-                onChange={event => setFilterUser(event.target.value.trim().toLowerCase())}
-                className="chatPeople__search input__focusedBoxShadow"
-                placeholder="Search student name..."
-              />
+              <Translator>
+                {({translate}) => (
+                  <input
+                    onChange={event => setFilterUser(event.target.value.trim().toLowerCase())}
+                    className="chatPeople__search input__focusedBoxShadow"
+                    placeholder={translate({text: 'Search student name...'})}
+                  />
+                )}
+              </Translator>
               <button type="submit" className="chatPeople__searchButton input__noFocus"/>
             </form>
 
@@ -190,25 +194,15 @@ const Chat = ({user}) => {
               <h2 className="chatDisplay__title">{particsName}</h2>
               <div className="chatDisplay__status">
                 <span className="chatDisplay__activeDot"/>
-                <span>Active</span>
+                <span><Translate text="Active"/></span>
               </div>
             </div>
-
-            {/*<div className="chatDisplay__content">*/}
-
-
             <div className="chatDisplay__chat chatMsgBox">
-
-              {/*{renderMessages()}*/}
-
               {diaMessage
                 ? <div className="text-center">{diaMessage}s</div>
                 : dialogueList
                   .sort((a, b) => a.created_at - b.created_at)
                   .map((item, index) => {
-                    // const date = new Date(Date.parse(item.created_at.substr(11, 5)))
-                    // const currentData = [+date.getMonth() + 1, date.getDay(), date.getHours(), date.getMinutes()].join('.')
-                      //
                     const isOwner = item.isOwn || +item.sender.id !== dialogueId ? 'chatMsgBox__ownMessage' : null
 
 
@@ -238,7 +232,16 @@ const Chat = ({user}) => {
 
             <form onSubmit={onSendMessage} className="chatDisplay__form">
               <div className="chatDisplay__formWrapper">
-                <input name="message" placeholder="Input message" className="chatDisplay__input" type="text"/>
+                <Translator>
+                  {({translate}) => (
+                    <input
+                      name="message"
+                      placeholder={translate({text: 'Input message'})}
+                      className="chatDisplay__input"
+                      type="text"
+                    />
+                  )}
+                </Translator>
                 <input
                    name="media"
                    className="chatDisplay__file"
