@@ -134,10 +134,15 @@ function Course({match: {params}}) {
                   }
                   return null
                 })
-                .filter(answer => !!answer)
+                .filter(answer => {
+                  if (answer || answer === 0) {
+                    return true
+                  } else {
+                    return false
+                  }
+                })
             }
           })
-
           setTestItems(newTestItems)
           setTestAnswersItems(newTestItems)
           changeTestState(prev => ({...prev, time: +duration || 14}))
@@ -191,8 +196,13 @@ function Course({match: {params}}) {
                     }
                     return null
                   })
-                  .filter(answer => !!answer)
-              }
+                  .filter(answer => {
+                    if (answer || answer === 0) {
+                      return true
+                    } else {
+                      return false
+                    }
+                  })              }
             })
             setTestItems(newTestItems)
             setTestAnswersItems(newTestItems)
@@ -450,6 +460,8 @@ function Course({match: {params}}) {
 
             {sideParts.map((item, key) => {
 
+              console.log('item', item)
+
               return (
                 <div key={key + item.title} className="accordion__wrapper">
                   <div onClick={onButtonClick} id="accordion__item" className="accordion__top">
@@ -458,7 +470,7 @@ function Course({match: {params}}) {
                   <div className="accordion__bottom accorBot">
                     {item.players.map((item1, key1) => (
                       <div key={key1} className="accorBot__wrapper">
-                        <Link to={item1.link} className="accorBot__icon">&nbsp;</Link>
+                        <Link to={item1.link} className={['accorBot__icon', item1.access === 'open' ? 'green' : null].join(' ')}>&nbsp;</Link>
                         <div className="accorBot__content">
 
                           <div className="accorBot__text">{item1.title}</div>
