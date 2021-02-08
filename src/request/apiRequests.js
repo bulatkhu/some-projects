@@ -125,7 +125,7 @@ export async function getCalendarTasks() {
   if (!token) return { error: 'invalid token' }
 
 
-  return await axios.get(APP_BASE_URL + `/getSchedule?token=${token}`)
+  return await axios.get(APP_BASE_URL + `/user/getSchedule?token=${token}`)
     .then(res => ({...res, error: false}))
     .catch(err => {
       if (err.response) {

@@ -1,6 +1,7 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react'
 import Countdown from 'react-countdown'
 import {Link} from 'react-router-dom'
+import {Translate, Translator} from 'react-translated'
 import VideoPlayer from '../../../general/videoPlayer/videoPlayer'
 // import FlipBookComponent from '../../../general/flipBook/flipBookComp'
 import TestSlider from '../../components/testSlider/testSlider'
@@ -8,8 +9,7 @@ import ConsiderResults from '../../../landing/auxiliary/considerResults'
 import {getQuizById, takeQuizById} from '../../../../request/apiQuizzes'
 import Loader from '../../../general/component/loader/loader'
 import './watchCourse.scoped.scss'
-import {isArraysEqual} from "../../../../scripts/dataHandler/dataHandler";
-import {Translate, Translator} from "react-translated";
+// import {isArraysEqual} from "../../../../scripts/dataHandler/dataHandler";
 // import useScript from "../../../../hooks/useScript";
 
 const initialTestState = {
@@ -32,10 +32,20 @@ const onButtonClick = event => {
 
 function testToResults(results) {
   const newResults = results
-    .map(item => ({
-      id: item.questionId,
-      options: item.answer
-    }))
+    .map(item => {
+      const options = []
+
+      if (item.answer.length) {
+        item.answer.forEach(answer => {
+          options.push(item.options[answer].id)
+        })
+      }
+
+      return {
+        id: item.questionId,
+        options: options
+      }
+    })
   return {
     questions: newResults
   }
@@ -94,7 +104,6 @@ function Course({match: {params}}) {
   const [error, setError] = useState(null)
 
 
-
   useEffect(() => {
 
     setTestAnswersItems(null)
@@ -119,6 +128,7 @@ function Course({match: {params}}) {
           const {questions, duration} = res.quiz
           const newTestItems = questions.map(item => {
             return {
+              options: item.options,
               video: item.video,
               multiple: !!item.is_multiple,
               text: item.question,
@@ -157,8 +167,8 @@ function Course({match: {params}}) {
         setIsTestItemsFetching(false)
       })
 
-  // eslint-disable-next-line
-  },[id])
+    // eslint-disable-next-line
+  }, [id])
 
   useEffect(() => {
 
@@ -181,6 +191,7 @@ function Course({match: {params}}) {
             const {questions, duration} = res.quiz
             const newTestItems = questions.map(item => {
               return {
+                options: item.options,
                 video: item.video,
                 multiple: !!item.is_multiple,
                 text: item.question,
@@ -202,8 +213,14 @@ function Course({match: {params}}) {
                     } else {
                       return false
                     }
-                  })              }
+                  })
+              }
+
+
+
             })
+
+
             setTestItems(newTestItems)
             setTestAnswersItems(newTestItems)
             changeTestState(prev => ({...prev, time: +duration || 14}))
@@ -242,19 +259,14 @@ function Course({match: {params}}) {
         showResults: true
       }))
 
-      const rightAnswersResult = testAnswersItems.map(item => {
-        return !!(isArraysEqual(item.answer, item.rightAnswers) && item.rightAnswers.length)
-      }).filter(item => item).length
-
-
       takeQuizById({results: testToResults(testAnswersItems), id: currentLesson.quiz.id})
         .then(response => {
-          const {total_attempt, empty} = response.data
+          const {total_attempt, empty, correct_answers} = response.data
           setTestResults({
             circleData: {
               empty,
-              right: rightAnswersResult,
-              wrong: total_attempt - rightAnswersResult - empty
+              right: correct_answers,
+              wrong: total_attempt - correct_answers - empty
             },
             response: response.data
           })
@@ -320,133 +332,133 @@ function Course({match: {params}}) {
         </div>
 
         {
-            !isTestItemsFetching
-              ? (
-                !testState.showResults
-                  ? !testState.startTest
-                  ? <div className="course__column course-book__column">
-                    {
-                      !testState.showTest
-                        ? null
-                        : !testItems
-                          ? <div className="course__errorWrapper">
-                              <p className="error__middle">{error}</p>
-                            </div>
-                          : <div className="course-start">
+          !isTestItemsFetching
+            ? (
+              !testState.showResults
+                ? !testState.startTest
+                ? <div className="course__column course-book__column">
+                  {
+                    !testState.showTest
+                      ? null
+                      : !testItems
+                      ? <div className="course__errorWrapper">
+                        <p className="error__middle">{error}</p>
+                      </div>
+                      : <div className="course-start">
 
-                            <h2 className="course-start__title course-book__title">
-                              <Translate text="Тақырып бойынша арнайы тесттер"/>
-                            </h2>
+                        <h2 className="course-start__title course-book__title">
+                          <Translate text="Тақырып бойынша арнайы тесттер"/>
+                        </h2>
 
-                            <p className="course-start__text">
-                              <Translate text="Сізге берілетін тесттер"/>
-                            </p>
+                        <p className="course-start__text">
+                          <Translate text="Сізге берілетін тесттер"/>
+                        </p>
 
-                            <div className="course-start__btnWrap">
-                              <button onClick={() => handleTest('start')}
-                                      className="btn__shadowFromNull courseQuestFrom__button course-start__button">
-                                <Translate text="Бастау"/>
-                              </button>
-                            </div>
+                        <div className="course-start__btnWrap">
+                          <button onClick={() => handleTest('start')}
+                                  className="btn__shadowFromNull courseQuestFrom__button course-start__button">
+                            <Translate text="Бастау"/>
+                          </button>
+                        </div>
 
 
-                          </div>
-                    }
+                      </div>
+                  }
 
-                    <div className="course__question courseQuestion">
-                      <h2 className="courseQuestion__title course-book__title">
-                        <Translate text="Сабақ бойынша сұрақ қою"/>
-                      </h2>
+                  <div className="course__question courseQuestion">
+                    <h2 className="courseQuestion__title course-book__title">
+                      <Translate text="Сабақ бойынша сұрақ қою"/>
+                    </h2>
 
-                      <form className="courseQuestion__form courseQuestFrom">
-                        <Translator>
-                          {({translate}) => (
-                            <textarea
-                              className="courseQuestFrom__input"
-                              placeholder={translate({text: 'Сұрағыңызды жазыңыз...'})}
-                            />
-                          )}
-                        </Translator>
+                    <form className="courseQuestion__form courseQuestFrom">
+                      <Translator>
+                        {({translate}) => (
+                          <textarea
+                            className="courseQuestFrom__input"
+                            placeholder={translate({text: 'Сұрағыңызды жазыңыз...'})}
+                          />
+                        )}
+                      </Translator>
 
-                        <div className="courseQuestFrom__wrapper">
+                      <div className="courseQuestFrom__wrapper">
 
-                          <label htmlFor="attachFile">
-                            <input name="file" id="attachFile" className="courseQuestFrom__file" multiple type="file"/>
-                            <span className="courseQuestFrom__button">
+                        <label htmlFor="attachFile">
+                          <input name="file" id="attachFile" className="courseQuestFrom__file" multiple type="file"/>
+                          <span className="courseQuestFrom__button">
                               <Translate text="Foto or File"/>
                             </span>
-                          </label>
+                        </label>
 
-                          <button className="btn__shadowFromNull courseQuestFrom__button"><Translate text="Send"/></button>
+                        <button className="btn__shadowFromNull courseQuestFrom__button"><Translate text="Send"/></button>
 
-                        </div>
-
-                      </form>
-                    </div>
-
-
-                  </div>
-                  : !testItems
-                    ? <div className="course__errorWrapper">
-                        <p className="error__middle">No quizzes</p>
                       </div>
-                    : <>
-                      {
-                        !testState.showResults
-                          ? testState.startTest
-                          ? <div className="course__timer courseTimer">
 
-                            <div className="courseTimer__wrapper">
-                              <div className="courseTimer__time">
-                                <CountdownComponent
-                                  handleTest={timeIsOver}
-                                  time={testState.time}
-                                />
-                              </div>
-                            </div>
+                    </form>
+                  </div>
 
-                            <button
-                              ref={finishButton}
-                              onClick={() => handleTest('showResults')}
-                              className="btn__noFocus btn__shadow courseTimer__button"
-                            >
-                              Аяқтау
-                            </button>
 
-                          </div>
-                          : ''
-                          : testResults.circleData
-                          ? <div className="course-results courseResults">
-                            <ConsiderResults results={testResults.circleData}/>
-                          </div>
-                          : <Loader/>
-                      }
-                        <TestSlider testItems={testItems} setTestItems={setTestAnswersItems} showResults={false}/>
-                      </>
+                </div>
+                : !testItems
+                  ? <div className="course__errorWrapper">
+                    <p className="error__middle">No quizzes</p>
+                  </div>
                   : <>
                     {
-                      testResults.response ? (
-                        <div className="course__resultsInfo resultsInfo">
-                          <h1 className="resultsInfo__title"><Translate text="Тест нәтижесі"/></h1>
-                          <ul className="resultsInfo__list">
-                            <li className="resultsInfo__item"><span><Translate text="Сұрақ саны:"/></span>
-                              <span>{testResults.response.total_attempt}</span></li>
-                            <li className="resultsInfo__item"><span><Translate text="Дұрысы:"/></span>
-                              <span>{testResults.circleData.right}</span></li>
-                            {/*<li className="resultsInfo__item"><span>Дұрысы:</span> <span>20</span></li>*/}
-                            <li className="resultsInfo__item"><span><Translate text="Белгіленбеген:"/></span>
-                              <span>{testResults.circleData.empty}</span></li>
-                            <li className="resultsInfo__item"><span><Translate text="Тестке кеткен уақыт:"/></span>
-                              <span>{testState.time}</span></li>
-                          </ul>
+                      !testState.showResults
+                        ? testState.startTest
+                        ? <div className="course__timer courseTimer">
+
+                          <div className="courseTimer__wrapper">
+                            <div className="courseTimer__time">
+                              <CountdownComponent
+                                handleTest={timeIsOver}
+                                time={testState.time}
+                              />
+                            </div>
+                          </div>
+
+                          <button
+                            ref={finishButton}
+                            onClick={() => handleTest('showResults')}
+                            className="btn__noFocus btn__shadow courseTimer__button"
+                          >
+                            Аяқтау
+                          </button>
+
                         </div>
-                      ) : <Loader/>
+                        : ''
+                        : testResults.circleData
+                        ? <div className="course-results courseResults">
+                          <ConsiderResults results={testResults.circleData}/>
+                        </div>
+                        : <Loader/>
                     }
-                    <TestSlider linkToVideo={linkToVideo} testItems={testItems} setTestItems={setTestAnswersItems}
-                                showResults={true}/>
+                    <TestSlider testItems={testItems} setTestItems={setTestAnswersItems} showResults={false}/>
                   </>
-              )
-              : <Loader/>
+                : <>
+                  {
+                    testResults.response ? (
+                      <div className="course__resultsInfo resultsInfo">
+                        <h1 className="resultsInfo__title"><Translate text="Тест нәтижесі"/></h1>
+                        <ul className="resultsInfo__list">
+                          <li className="resultsInfo__item"><span><Translate text="Сұрақ саны:"/></span>
+                            <span>{testResults.response.total_attempt}</span></li>
+                          <li className="resultsInfo__item"><span><Translate text="Дұрысы:"/></span>
+                            <span>{testResults.circleData.right}</span></li>
+                          {/*<li className="resultsInfo__item"><span>Дұрысы:</span> <span>20</span></li>*/}
+                          <li className="resultsInfo__item"><span><Translate text="Белгіленбеген:"/></span>
+                            <span>{testResults.circleData.empty}</span></li>
+                          <li className="resultsInfo__item"><span><Translate text="Тестке кеткен уақыт:"/></span>
+                            <span>{testState.time}</span></li>
+                        </ul>
+                      </div>
+                    ) : <Loader/>
+                  }
+                  <TestSlider linkToVideo={linkToVideo} testItems={testItems} setTestItems={setTestAnswersItems}
+                              showResults={true}/>
+                </>
+            )
+            : <Loader/>
 
         }
 
@@ -459,9 +471,6 @@ function Course({match: {params}}) {
             </div>
 
             {sideParts.map((item, key) => {
-
-              console.log('item', item)
-
               return (
                 <div key={key + item.title} className="accordion__wrapper">
                   <div onClick={onButtonClick} id="accordion__item" className="accordion__top">
@@ -470,7 +479,8 @@ function Course({match: {params}}) {
                   <div className="accordion__bottom accorBot">
                     {item.players.map((item1, key1) => (
                       <div key={key1} className="accorBot__wrapper">
-                        <Link to={item1.link} className={['accorBot__icon', item1.access === 'open' ? 'green' : null].join(' ')}>&nbsp;</Link>
+                        <Link to={item1.link}
+                              className={['accorBot__icon', item1.access === 'open' ? 'green' : null].join(' ')}>&nbsp;</Link>
                         <div className="accorBot__content">
 
                           <div className="accorBot__text">{item1.title}</div>
@@ -499,8 +509,8 @@ function Course({match: {params}}) {
           {
             testResults.circleData
               ? <div className="course-results courseResults">
-                  <ConsiderResults results={testResults.circleData}/>
-                </div>
+                <ConsiderResults results={testResults.circleData}/>
+              </div>
               : null
           }
         </div>
