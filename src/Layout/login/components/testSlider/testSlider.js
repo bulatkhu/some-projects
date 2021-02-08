@@ -180,7 +180,7 @@ const TestSlider = ({showResults, testItems, setTestItems, linkToVideo}) => {
 
 
   return (
-    <div className="course__column">
+    <>
       <ModalPortal>
         <VideoPlayerModal
           showModal={showVideoModal}
@@ -359,7 +359,7 @@ const TestSlider = ({showResults, testItems, setTestItems, linkToVideo}) => {
         </button>
 
       </div>
-    </div>
+    </>
   )
 }
 

@@ -9,6 +9,7 @@ import {getQuizById, takeQuizById} from '../../../../request/apiQuizzes'
 import Loader from '../../../general/component/loader/loader'
 import './watchCourse.scoped.scss'
 import {isArraysEqual} from "../../../../scripts/dataHandler/dataHandler";
+import {Translate, Translator} from "react-translated";
 // import useScript from "../../../../hooks/useScript";
 
 const initialTestState = {
@@ -290,7 +291,8 @@ function Course({match: {params}}) {
                   <button
                     onClick={ev => showTestHandler(false, ev)}
                     className="course-buttons__btn active btn__noFocus"
-                  >Сабақ
+                  >
+                    <Translate text="Сабақ"/>
                   </button>
                   <button
                     onClick={ev => showTestHandler(true, ev)}
@@ -313,8 +315,6 @@ function Course({match: {params}}) {
                 !testState.showResults
                   ? !testState.startTest
                   ? <div className="course__column course-book__column">
-
-
                     {
                       !testState.showTest
                         ? null
@@ -324,19 +324,18 @@ function Course({match: {params}}) {
                             </div>
                           : <div className="course-start">
 
-                            <h2 className="course-start__title course-book__title">Тақырып бойынша арнайы тесттер</h2>
+                            <h2 className="course-start__title course-book__title">
+                              <Translate text="Тақырып бойынша арнайы тесттер"/>
+                            </h2>
 
-                            <p className="course-start__text">Сізге берілетін тесттер сіздің осы тақырыпты қаншалықты
-                              меңгергеніңізді көрсетеді. Нәтижеге көңіліңіз
-                              толмаса, сабақты қайта көруді ұсынамыз.
-                              Тестті аяқтағаннан кейін, қатемен жұмыс жасау үшін әр тесттің видео шешімі бар. Әр тесттің
-                              дұрыс
-                              жауабы
-                              үшін EduCoin беріледі. Тест тапсыру</p>
+                            <p className="course-start__text">
+                              <Translate text="Сізге берілетін тесттер"/>
+                            </p>
 
                             <div className="course-start__btnWrap">
                               <button onClick={() => handleTest('start')}
-                                      className="btn__shadowFromNull courseQuestFrom__button course-start__button">Бастау
+                                      className="btn__shadowFromNull courseQuestFrom__button course-start__button">
+                                <Translate text="Бастау"/>
                               </button>
                             </div>
 
@@ -345,20 +344,30 @@ function Course({match: {params}}) {
                     }
 
                     <div className="course__question courseQuestion">
-                      <h2 className="courseQuestion__title course-book__title">Сабақ бойынша сұрақ қою</h2>
+                      <h2 className="courseQuestion__title course-book__title">
+                        <Translate text="Сабақ бойынша сұрақ қою"/>
+                      </h2>
 
                       <form className="courseQuestion__form courseQuestFrom">
-
-                        <textarea className="courseQuestFrom__input" placeholder="Сұрағыңызды жазыңыз..."/>
+                        <Translator>
+                          {({translate}) => (
+                            <textarea
+                              className="courseQuestFrom__input"
+                              placeholder={translate({text: 'Сұрағыңызды жазыңыз...'})}
+                            />
+                          )}
+                        </Translator>
 
                         <div className="courseQuestFrom__wrapper">
 
                           <label htmlFor="attachFile">
                             <input name="file" id="attachFile" className="courseQuestFrom__file" multiple type="file"/>
-                            <span className="courseQuestFrom__button">Foto or File</span>
+                            <span className="courseQuestFrom__button">
+                              <Translate text="Foto or File"/>
+                            </span>
                           </label>
 
-                          <button className="btn__shadowFromNull courseQuestFrom__button">Send</button>
+                          <button className="btn__shadowFromNull courseQuestFrom__button"><Translate text="Send"/></button>
 
                         </div>
 
@@ -371,21 +380,53 @@ function Course({match: {params}}) {
                     ? <div className="course__errorWrapper">
                         <p className="error__middle">No quizzes</p>
                       </div>
-                    : <TestSlider testItems={testItems} setTestItems={setTestAnswersItems} showResults={false}/>
+                    : <>
+                      {
+                        !testState.showResults
+                          ? testState.startTest
+                          ? <div className="course__timer courseTimer">
+
+                            <div className="courseTimer__wrapper">
+                              <div className="courseTimer__time">
+                                <CountdownComponent
+                                  handleTest={timeIsOver}
+                                  time={testState.time}
+                                />
+                              </div>
+                            </div>
+
+                            <button
+                              ref={finishButton}
+                              onClick={() => handleTest('showResults')}
+                              className="btn__noFocus btn__shadow courseTimer__button"
+                            >
+                              Аяқтау
+                            </button>
+
+                          </div>
+                          : ''
+                          : testResults.circleData
+                          ? <div className="course-results courseResults">
+                            <ConsiderResults results={testResults.circleData}/>
+                          </div>
+                          : <Loader/>
+                      }
+                        <TestSlider testItems={testItems} setTestItems={setTestAnswersItems} showResults={false}/>
+                      </>
                   : <>
                     {
                       testResults.response ? (
                         <div className="course__resultsInfo resultsInfo">
-                          <h1 className="resultsInfo__title">Тест нәтижесі</h1>
+                          <h1 className="resultsInfo__title"><Translate text="Тест нәтижесі"/></h1>
                           <ul className="resultsInfo__list">
-                            <li className="resultsInfo__item"><span>Сұрақ саны:</span>
+                            <li className="resultsInfo__item"><span><Translate text="Сұрақ саны:"/></span>
                               <span>{testResults.response.total_attempt}</span></li>
-                            <li className="resultsInfo__item"><span>Дұрысы:</span>
+                            <li className="resultsInfo__item"><span><Translate text="Дұрысы:"/></span>
                               <span>{testResults.circleData.right}</span></li>
                             {/*<li className="resultsInfo__item"><span>Дұрысы:</span> <span>20</span></li>*/}
-                            <li className="resultsInfo__item"><span>Белгіленбеген:</span>
+                            <li className="resultsInfo__item"><span><Translate text="Белгіленбеген:"/></span>
                               <span>{testResults.circleData.empty}</span></li>
-                            <li className="resultsInfo__item"><span>Тестке кеткен уақыт:</span>
+                            <li className="resultsInfo__item"><span><Translate text="Тестке кеткен уақыт:"/></span>
                               <span>{testState.time}</span></li>
                           </ul>
                         </div>
@@ -404,7 +445,7 @@ function Course({match: {params}}) {
           <div className="accordion">
 
             <div className="accordion__content">
-              <h1 className="accordion__title">Мазмұны</h1>
+              <h1 className="accordion__title"><Translate text="Мазмұны"/></h1>
             </div>
 
             {sideParts.map((item, key) => {
@@ -428,7 +469,7 @@ function Course({match: {params}}) {
                             <span className="accorBot-progress__number">{item1.progress}%</span>
                           </div>
                           <div className="accorBot-test">
-                            <div className="accorBot-test__text">Тақырыптық тест</div>
+                            <div className="accorBot-test__text"><Translate text="Тақырыптық тест"/></div>
                             <input type="checkbox"/>
                           </div>
 
@@ -444,34 +485,11 @@ function Course({match: {params}}) {
           </div>
 
           {
-            !testState.showResults
-              ? testState.startTest
-              ? <div className="course__timer courseTimer">
-
-                <div className="courseTimer__wrapper">
-                  <div className="courseTimer__time">
-                    <CountdownComponent
-                      handleTest={timeIsOver}
-                      time={testState.time}
-                    />
-                  </div>
-                </div>
-
-                <button
-                  ref={finishButton}
-                  onClick={() => handleTest('showResults')}
-                  className="btn__noFocus btn__shadow courseTimer__button"
-                >
-                  Аяқтау
-                </button>
-
-              </div>
-              : ''
-              : testResults.circleData
+            testResults.circleData
               ? <div className="course-results courseResults">
-                <ConsiderResults results={testResults.circleData}/>
-              </div>
-              : <Loader/>
+                  <ConsiderResults results={testResults.circleData}/>
+                </div>
+              : null
           }
         </div>
 
