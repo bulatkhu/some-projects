@@ -4,11 +4,12 @@ import {Field, Form} from 'react-final-form'
 import {connect} from 'react-redux'
 import LittleBtn from '../LittleBtn/LittleBtn'
 import ModalInfo from './ModelInfo'
+import PassDescription from '../components/passDescription/passDescription'
 import {alphaNumeric, validatePhone} from '../../../scripts/validations/validators'
 import {hideModalPass, showModalLogin} from '../../../redux/actions/menu/menuActionsFuncs'
 import {ApiCheckKeyForPassword, ApiResetPassword, keyGenerate} from '../../../request/apiRequests'
 import './ModalPass.scoped.scss'
-import PassDescription from "../components/passDescription/passDescription";
+import {Translate} from "react-translated";
 
 
 const switchEye = event => {
@@ -27,11 +28,12 @@ const ModalPass = ({show, hidePassModal, showLoginModal}) => {
   const [isInfoShown, setIsInfoShown] = useState(false)
   const [stepsCount, setStepsCount] = useState(0)
   const [infoFromServer, setInfoFromServer] = useState(null)
-  const [formData, setFormData] = useState({ password: null, phone: null, code: null })
+  const [formData, setFormData] = useState({password: null, phone: null, code: null})
 
   const onResetPassSubmit = async values => {
     const phone = values.phone.replace('+', '')
-    setFormData(prev => ({ ...prev, phone: phone }))
+    setFormData(prev => ({...prev, phone: phone}))
+    setStepsCount(1)
     keyGenerate(phone)
       .then(res => {
         setInfoFromServer(res.message || res.data )
@@ -44,8 +46,8 @@ const ModalPass = ({show, hidePassModal, showLoginModal}) => {
 
 
   const onSendCodeSubmit = values => {
-    setFormData(prev => ({ ...prev, code: values.code }))
-
+    setFormData(prev => ({...prev, code: values.code}))
+    setStepsCount(2)
     ApiCheckKeyForPassword({ phone: formData.phone, code: values.code })
       .then(res => {
         if (res.data.success === 1) {
@@ -62,15 +64,15 @@ const ModalPass = ({show, hidePassModal, showLoginModal}) => {
 
 
   const onChangePassSubmit = values => {
-    setFormData(prev => ({  ...prev, password: values.password }))
+    setFormData(prev => ({...prev, password: values.password}))
     ApiResetPassword({ phone: formData.phone, password: values.password })
       .then(res => {
         if (res.data.success === 1) {
           setInfoFromServer(res.data.msg)
           setTimeout(() => {
-            hideModalPass()
-            showLoginModal()
+            hidePassModal()
           },2000)
+          showLoginModal()
         } else {
           setInfoFromServer(res.data.msg)
         }
@@ -119,7 +121,8 @@ const ModalPass = ({show, hidePassModal, showLoginModal}) => {
                           placeholder="+7 (___) - ___ - __ - __"
                           {...input}
                         />
-                        {meta.error && meta.touched && <span style={{display: 'block', margin: '-10px 0 0 0'}} className="error">Invalid phone number</span>}
+                        {meta.error && meta.touched && <span style={{display: 'block', margin: '-10px 0 0 0'}}
+                                                             className="error">Invalid phone number</span>}
                       </label>
                     )
                   }}
@@ -131,7 +134,8 @@ const ModalPass = ({show, hidePassModal, showLoginModal}) => {
                   bigFontSize
                   submit
                   fontSize="16"
-                >Жіберу</LittleBtn>
+                >
+                  <Translate text="Send"/></LittleBtn>
               </form>
             )}
           />
@@ -182,65 +186,62 @@ const ModalPass = ({show, hidePassModal, showLoginModal}) => {
           />
         }
 
-        { stepsCount === 2 && <Form
-            onSubmit={onChangePassSubmit}
-            validate={values => {
-              const errors = {}
-              if (values.re_password !== values.password) {
-                errors.re_password = 'Passwords are not equal'
-              }
-              const hasNumber = /\d/
-              const oneUpperCapital = /(?=.*[A-Z])/
-              errors.password = {}
-              if (values.re_password !== values.password) {
-                errors.re_password = 'Passwords are not equal'
-              }
+        {stepsCount === 2 && <Form
+          onSubmit={onChangePassSubmit}
+          validate={values => {
+            const errors = {}
+            if (values.re_password !== values.password) {
+              errors.re_password = 'Passwords are not equal'
+            }
+            const hasNumber = /\d/
+            const oneUpperCapital = /(?=.*[A-Z])/
+            errors.password = {}
+            if (values.re_password !== values.password) {
+              errors.re_password = 'Passwords are not equal'
+            }
 
-              if (!values.password) {
-                values.password = ''
-              }
+            if (!values.password) {
+              values.password = ''
+            }
 
-              if (!alphaNumeric(values.password)) {
-                errors.password.alphabet = true
-              }
-              if (values.password.toString().trim().length < 8) {
-                errors.password.length = true
-              }
-              if (!hasNumber.test(values.password)) {
-                errors.password.digital = true
-              }
-              if (!oneUpperCapital.test(values.password)) {
-                errors.password.upperCapital = true
-              }
+            if (!alphaNumeric(values.password)) {
+              errors.password.alphabet = true
+            }
+            if (values.password.toString().trim().length < 8) {
+              errors.password.length = true
+            }
+            if (!hasNumber.test(values.password)) {
+              errors.password.digital = true
+            }
+            if (!oneUpperCapital.test(values.password)) {
+              errors.password.upperCapital = true
+            }
 
-              if (!Object.keys(errors.password).length) {
-                delete errors.password
-              } else {
-                errors.password = JSON.stringify(errors.password)
-              }
+            if (!Object.keys(errors.password).length) {
+              delete errors.password
+            } else {
+              errors.password = JSON.stringify(errors.password)
+            }
 
-              console.log('pass', errors.password)
+            return errors
+          }}
+          render={({handleSubmit}) => (
+            <form
+              className="modalPass__part"
+              onSubmit={handleSubmit}
+            >
+              <Field name="password">
+                {({input, meta}) => {
+                  const inputClass = ['regForm__input', 'modalPass__input', 'margin0',
+                    meta.error && meta.touched && 'regFormInput__error'].join(' ')
+                  const errors = meta.error && Object.keys(JSON.parse(meta.error)).length
+                    ? JSON.parse(meta.error)
+                    : {}
 
-
-              return errors
-            }}
-            render={({handleSubmit}) => (
-              <form
-                className="modalPass__part"
-                onSubmit={handleSubmit}
-              >
-                <Field name="password">
-                  {({input, meta}) => {
-                    const inputClass = ['regForm__input', 'modalPass__input', 'margin0',
-                      meta.error && meta.touched && 'regFormInput__error'].join(' ')
-                    const errors = meta.error && Object.keys(JSON.parse(meta.error)).length
-                      ? JSON.parse(meta.error)
-                      : {}
-
-                    return (
-                      <label className="regForm__label modalPass__label passDescription__label" htmlFor="password">
-                        <span className="hidden">Құпиясөз</span>
-                        <span className="modalPass__inputWrapper">
+                  return (
+                    <label className="regForm__label modalPass__label passDescription__label" htmlFor="password">
+                      <span className="hidden"><Translate text="Құпиясөз"/></span>
+                      <span className="modalPass__inputWrapper">
                           <input
                             required
                             className={inputClass}
@@ -252,36 +253,36 @@ const ModalPass = ({show, hidePassModal, showLoginModal}) => {
                             <span/>
                           </span>
                         </span>
-                        {
-                          (meta.active) ?
-                            <div className="passDescription__wrapper ">
-                              <PassDescription
-                                length={errors.length}
-                                alphabet={errors.alphabet}
-                                digital={errors.digital}
-                                upperCapital={errors.upperCapital}
-                              />
-                            </div> : null
-                        }
-                        {meta.error && meta.touched &&
-                        <span className="error modalPass__error">
+                      {
+                        (meta.active) ?
+                          <div className="passDescription__wrapper ">
+                            <PassDescription
+                              length={errors.length}
+                              alphabet={errors.alphabet}
+                              digital={errors.digital}
+                              upperCapital={errors.upperCapital}
+                            />
+                          </div> : null
+                      }
+                      {meta.error && meta.touched &&
+                      <span className="error modalPass__error">
                           Invalid password
                         </span>}
-                      </label>
-                    )
-                  }}
-                </Field>
+                    </label>
+                  )
+                }}
+              </Field>
 
 
-                <Field name="re_password">
-                  {({input, meta}) => {
-                    const inputClass = ['regForm__input', 'modalPass__input', 'margin0',
-                      meta.error && meta.touched && 'regFormInput__error'].join(' ')
+              <Field name="re_password">
+                {({input, meta}) => {
+                  const inputClass = ['regForm__input', 'modalPass__input', 'margin0',
+                    meta.error && meta.touched && 'regFormInput__error'].join(' ')
 
-                    return (
-                      <label className="regForm__label modalPass__label" htmlFor="password">
-                        <span className="hidden">Құпиясөз</span>
-                        <span className="modalPass__inputWrapper">
+                  return (
+                    <label className="regForm__label modalPass__label" htmlFor="password">
+                      <span className="hidden"><Translate text="Құпиясөз"/></span>
+                      <span className="modalPass__inputWrapper">
                           <input
                             required
                             className={inputClass}
@@ -291,23 +292,23 @@ const ModalPass = ({show, hidePassModal, showLoginModal}) => {
                           />
                           <span className="modalPass__eye" onClick={switchEye}><span/></span>
                         </span>
-                        {meta.error && meta.touched &&
-                        <span className="error modalPass__error">{meta.error}</span>}
+                      {meta.error && meta.touched &&
+                      <span className="error modalPass__error">{meta.error}</span>}
 
-                      </label>
-                    )
-                  }}
-                </Field>
+                    </label>
+                  )
+                }}
+              </Field>
 
-                <LittleBtn
-                  className="modalPass__btn centered"
-                  bigFontSize
-                  color="red"
-                  submit
-                >Растау</LittleBtn>
-              </form>
-            )}
-          />
+              <LittleBtn
+                className="modalPass__btn centered"
+                bigFontSize
+                color="red"
+                submit
+              >Растау</LittleBtn>
+            </form>
+          )}
+        />
         }
 
 

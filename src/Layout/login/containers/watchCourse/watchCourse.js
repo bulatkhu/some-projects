@@ -238,6 +238,15 @@ function Course({match: {params}}) {
 
   }, [testItems, id, contentId, isTestItemsFetching])
 
+  const timeIsOver = useCallback(() => {
+    finishButton.current.click()
+  }, [])
+
+
+  if (isTestItemsFetching) {
+    return <Loader container/>
+  }
+
 
   const showTestHandler = (info, element) => {
     const $buttons = refCoursesButtons.current.querySelectorAll('.course-buttons__btn')
@@ -275,9 +284,7 @@ function Course({match: {params}}) {
     }
   }
 
-  const timeIsOver = useCallback(() => {
-    finishButton.current.click()
-  }, [])
+
 
 
   return (
@@ -422,7 +429,7 @@ function Course({match: {params}}) {
                             onClick={() => handleTest('showResults')}
                             className="btn__noFocus btn__shadow courseTimer__button"
                           >
-                            Аяқтау
+                            <Translate text="Аяқтау"/>
                           </button>
 
                         </div>
@@ -521,6 +528,5 @@ function Course({match: {params}}) {
     </section>
   )
 }
-
 
 export default Course

@@ -1,12 +1,13 @@
 import React from 'react'
+import {Translate} from 'react-translated'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin, {Draggable} from '@fullcalendar/interaction'
 import {createEventId} from './event-utils'
 import {addCalendarTask, getCalendarTasks, removeCalendarTask} from '../../../../request/apiRequests'
+import './calendar.scss'
 import './calendar.css'
-import {Translate} from "react-translated";
 
 
 /*
@@ -133,8 +134,8 @@ class Calendar extends React.Component {
             // initialEvents={INITIAL_EVENTS}
             events={this.state.events} // alternatively, use the `events` setting to fetch from a feed
             select={this.handleDateSelect}
-            eventContent={renderEventContent} // custom render function
-            eventClick={this.handleEventClick}
+            eventContent={eventInfo => renderEventContent(eventInfo, this.handleEventClick)} // custom render function
+            // eventClick={this.handleEventClick}
             eventsSet={this.handleEvents}
             eventReceive={info => {
               const maxIndex = Math.max.apply(Math, this.state.events.map(function(o) { return o.id }))
@@ -256,6 +257,12 @@ class Calendar extends React.Component {
     )
   }
 
+  // onClose = info => {
+  //
+  //   console.log('info', info)
+  //
+  // }
+
   addColorItem = event => {
     event.preventDefault()
     const {value} = event.target.title
@@ -317,21 +324,33 @@ class Calendar extends React.Component {
   }
 
   handleEventClick = (clickInfo) => {
-    console.log(clickInfo.event._def.publicId)
 
-    if (window.confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
-      removeCalendarTask(clickInfo.event._def.publicId)
-        .then(data => {
+    removeCalendarTask(clickInfo.event._def.publicId)
+      .then(res => {
+        if (res.status === 200) {
           clickInfo.event.remove()
-          // if (!data.error) return
-          console.log('success:', data)
-        })
-        .catch(err => {
-          const message = err.message || (err.response.data && err.response.data.message) ? err.response.data.message : null
-          window.alert(`Error: ${message}`)
-        })
-      // clickInfo.event.remove()
-    }
+          console.log('success:', res)
+        }
+      })
+      .catch(err => {
+        const message = err.message || (err.response.data && err.response.data.message) ? err.response.data.message : null
+        window.alert(`Error: ${message}`)
+      })
+
+
+    // if (window.confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
+    //   removeCalendarTask(clickInfo.event._def.publicId)
+    //     .then(data => {
+    //       clickInfo.event.remove()
+    //       // if (!data.error) return
+    //       console.log('success:', data)
+    //     })
+    //     .catch(err => {
+    //       const message = err.message || (err.response.data && err.response.data.message) ? err.response.data.message : null
+    //       window.alert(`Error: ${message}`)
+    //     })
+    //   // clickInfo.event.remove()
+    // }
   }
 
   handleEvents = eventsData => {
@@ -342,12 +361,16 @@ class Calendar extends React.Component {
 
 }
 
-function renderEventContent(eventInfo) {
+function renderEventContent(eventInfo, onHide) {
 
   return (
     <>
+      <button className="calendar__closeBtn" onClick={() => onHide(eventInfo)}>&#10005;</button>
       <b>{eventInfo.timeText}</b>
-      <i>{eventInfo.event.title}</i>
+      <i style={{
+        maxWidth: '84%',
+        overflow: 'hidden'
+      }}>{eventInfo.event.title}</i>
     </>
   )
 }

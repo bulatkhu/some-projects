@@ -6,6 +6,7 @@ import VideoPlayerModal from '../../../landing/components/VideoPlayerModal/Video
 import {scrollBodyHandler} from '../../../../scripts/scrollController/scrollController'
 import '../../containers/watchCourse/watchCourse.scoped.scss'
 import './testSlider.scss'
+import {Translate} from "react-translated";
 
 
 const navSliderSettings = {
@@ -79,7 +80,7 @@ const textToMathJax = text => {
 }
 
 
-const TestSlider = ({showResults, testItems, setTestItems, linkToVideo}) => {
+const TestSlider = ({showResults, testItems, setTestItems}) => {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [showVideoModal, setShowVideoModal] = useState(false)
   navSliderSettings.slidesToShow =
@@ -272,10 +273,16 @@ const TestSlider = ({showResults, testItems, setTestItems, linkToVideo}) => {
               if (item1.answer.length) {
 
                 areAnswerEqual(item1.answer, item1.rightAnswers)
-                  ? btn = <button className="btn__noFocus btn__shadowFromNull slideItem__btn slideItem__btnRight">Дұрыс</button>
-                  : btn = <button className="btn__noFocus btn__shadowFromNull slideItem__btn slideItem__btnError">Қате</button>
+                  ? btn = <button className="btn__noFocus btn__shadowFromNull slideItem__btn slideItem__btnRight">
+                        <Translate text="Дұрысы:"/>
+                    </button>
+                  : btn = <button className="btn__noFocus btn__shadowFromNull slideItem__btn slideItem__btnError">
+                    <Translate text="Қате"/>
+                  </button>
               } else {
-                btn = <button className="btn__noFocus btn__shadowFromNull slideItem__btn slideItem__btnEmpty">Белгіленбеген</button>
+                btn = <button className="btn__noFocus btn__shadowFromNull slideItem__btn slideItem__btnEmpty">
+                  <Translate text="Белгіленбеген:"/>
+                </button>
               }
             } else {
               btn = null
@@ -337,7 +344,7 @@ const TestSlider = ({showResults, testItems, setTestItems, linkToVideo}) => {
                           {btn}
                           <a
                             onClick={event => onVideoClick(event, item1.video)}
-                            href={linkToVideo}
+                            href="/"
                             className="btn__noFocus btn__shadowFromNull slideItem__btn"
                           >Видео</a>
                         </div>

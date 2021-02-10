@@ -152,7 +152,7 @@ export async function removeCalendarTask(id) {
   const token = getToken()
   if (!token) return { error: 'invalid token' }
 
-  return await axios.get(APP_BASE_URL + `/removeTask?token=${token}&id=${id}`)
+  return await axios.get(APP_BASE_URL + `/user/removeTask?token=${token}&id=${id}`)
 }
 
 export async function apiEditProfile(formData) {
