@@ -5,7 +5,7 @@ import {getToken} from './apiRequests'
 export function getQuizById({contentId, id}) {
 
   return axios
-    .get(`${APP_BASE_URL}/userDetailCourse/${contentId}`)
+    .get(`${APP_BASE_URL}/userDetailCourse/${contentId}/${id}?token=${getToken()}`)
     .then(res => {
       const {parts} = res.data
       const lessons = Object.keys(parts).map(key => parts[key])

@@ -145,11 +145,7 @@ function Course({match: {params}}) {
                   return null
                 })
                 .filter(answer => {
-                  if (answer || answer === 0) {
-                    return true
-                  } else {
-                    return false
-                  }
+                  return !!(answer || answer === 0);
                 })
             }
           })
@@ -246,6 +242,11 @@ function Course({match: {params}}) {
   if (isTestItemsFetching) {
     return <Loader container/>
   }
+
+
+  // if (error) {
+  //   return <p className="error__middle text-center">{JSON.stringify(error)}</p>
+  // }
 
 
   const showTestHandler = (info, element) => {

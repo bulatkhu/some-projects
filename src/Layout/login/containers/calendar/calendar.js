@@ -336,21 +336,6 @@ class Calendar extends React.Component {
         const message = err.message || (err.response.data && err.response.data.message) ? err.response.data.message : null
         window.alert(`Error: ${message}`)
       })
-
-
-    // if (window.confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
-    //   removeCalendarTask(clickInfo.event._def.publicId)
-    //     .then(data => {
-    //       clickInfo.event.remove()
-    //       // if (!data.error) return
-    //       console.log('success:', data)
-    //     })
-    //     .catch(err => {
-    //       const message = err.message || (err.response.data && err.response.data.message) ? err.response.data.message : null
-    //       window.alert(`Error: ${message}`)
-    //     })
-    //   // clickInfo.event.remove()
-    // }
   }
 
   handleEvents = eventsData => {
