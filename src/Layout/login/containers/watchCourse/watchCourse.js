@@ -3,14 +3,11 @@ import Countdown from 'react-countdown'
 import {Link} from 'react-router-dom'
 import {Translate, Translator} from 'react-translated'
 import VideoPlayer from '../../../general/videoPlayer/videoPlayer'
-// import FlipBookComponent from '../../../general/flipBook/flipBookComp'
 import TestSlider from '../../components/testSlider/testSlider'
 import ConsiderResults from '../../../landing/auxiliary/considerResults'
 import {getQuizById, takeQuizById} from '../../../../request/apiQuizzes'
 import Loader from '../../../general/component/loader/loader'
 import './watchCourse.scoped.scss'
-// import {isArraysEqual} from "../../../../scripts/dataHandler/dataHandler";
-// import useScript from "../../../../hooks/useScript";
 
 const initialTestState = {
   showTest: false,
@@ -19,14 +16,10 @@ const initialTestState = {
   showResults: false,
 }
 
+const initialTestResults = {response: null, circleData: null, time: 0}
+
 const onButtonClick = event => {
   event.target.classList.toggle('active')
-  const panel = event.target.nextElementSibling
-  if (panel.style.maxHeight) {
-    panel.style.maxHeight = null
-  } else {
-    panel.style.maxHeight = panel.scrollHeight + 'px'
-  }
 }
 
 
@@ -89,14 +82,16 @@ const CountdownComponent = React.memo(function ({handleTest, time}) {
 })
 
 
+
 function Course({match: {params}}) {
   const {id, contentId} = params
   const refCoursesButtons = useRef(null)
   const finishButton = useRef(null)
+  const [response, setResponse] = useState(null)
   const [testState, changeTestState] = useState(initialTestState)
   const [testItems, setTestItems] = useState(null)
   const [testAnswersItems, setTestAnswersItems] = useState(null)
-  const [testResults, setTestResults] = useState({response: null, circleData: null})
+  const [testResults, setTestResults] = useState(initialTestResults)
   const [sideParts, setSideParts] = useState([])
   const [linkToVideo, setLinkToVideo] = useState(null)
   const [currentLesson, setCurrentLesson] = useState(null)
@@ -104,135 +99,101 @@ function Course({match: {params}}) {
   const [error, setError] = useState(null)
 
 
-  useEffect(() => {
 
-    setTestAnswersItems(null)
+
+
+  const handleResponse = () => {
     setTestItems(null)
-    setError(false)
-    changeTestState(prevState => ({...prevState, showResults: false, startTest: false}))
+    changeTestState(prevState => ({...initialTestState, showTest: prevState.showTest}))
+    setTestResults(initialTestResults)
+    const {parts} = response
+    const lessons = Object.keys(parts).map(key => parts[key])
+    const mergedLessons = [].concat.apply([], lessons)
+    const lesson = mergedLessons.find(item => item.id === +id)
+    const res = {
+      error: false,
+      quiz: lesson.quiz,
+      currentLesson: lesson,
+      parts
+    }
+
+    setLinkToVideo(res.currentLesson.upload_video)
+    setSideParts(partsToSideParts(res.parts))
+
+    if (!res.error) {
+      if (!res.quiz) {
+        setError(`Error, this course does't have any quizzes`)
+        setTestItems(null)
+        setIsTestItemsFetching(false)
+        return null
+      }
+      setCurrentLesson(res.currentLesson)
+      setIsTestItemsFetching(false)
+
+      const {questions, duration} = res.quiz
+      const newTestItems = questions.map(item => {
+        return {
+          options: item.options,
+          video: item.video,
+          multiple: !!item.is_multiple,
+          text: item.question,
+          questionId: item.id,
+          questions: item.options.map(option => {
+            return option.option_text
+          }),
+          answer: [],
+          rightAnswers: item.options
+            .map((option, index) => {
+              if (!!option.correct) {
+                return index
+              }
+              return null
+            })
+            .filter(answer => {
+              return !!(answer || answer === 0);
+            })
+        }
+      })
+      setTestItems(newTestItems)
+      setTestAnswersItems(newTestItems)
+      changeTestState(prev => ({...prev, time: +duration || 14}))
+    } else {
+      setError(`Request error:, ${res.message}`)
+      setIsTestItemsFetching(false)
+    }
+  }
+
+
+  const  requestGetQuiz = () => {
     getQuizById({contentId, id})
       .then(res => {
-        setLinkToVideo(res.currentLesson.upload_video)
-        setSideParts(partsToSideParts(res.parts))
-
-        if (!res.error) {
-          if (!res.quiz) {
-            setError(`Error, this course does't have any quizzes`)
-            setTestItems(null)
-            setIsTestItemsFetching(false)
-            return null
-          }
-          setCurrentLesson(res.currentLesson)
-          setIsTestItemsFetching(false)
-
-          const {questions, duration} = res.quiz
-          const newTestItems = questions.map(item => {
-            return {
-              options: item.options,
-              video: item.video,
-              multiple: !!item.is_multiple,
-              text: item.question,
-              questionId: item.id,
-              questions: item.options.map(option => {
-                return option.option_text
-              }),
-              answer: [],
-              rightAnswers: item.options
-                .map((option, index) => {
-                  if (!!option.correct) {
-                    return index
-                  }
-                  return null
-                })
-                .filter(answer => {
-                  return !!(answer || answer === 0);
-                })
-            }
-          })
-          setTestItems(newTestItems)
-          setTestAnswersItems(newTestItems)
-          changeTestState(prev => ({...prev, time: +duration || 14}))
-        } else {
-          setError(`Request error:, ${res.message}`)
-          setIsTestItemsFetching(false)
-        }
+        setResponse(res.data)
+        handleResponse(res.data)
+        return res
       })
       .catch(err => {
         console.log('error', JSON.parse(JSON.stringify(err)))
         setError(`Error: ${err.message}`)
         setIsTestItemsFetching(false)
+        return null
       })
+  }
 
-    // eslint-disable-next-line
-  }, [id])
+
 
   useEffect(() => {
-
-    if (isTestItemsFetching) {
-      getQuizById({contentId, id})
-        .then(res => {
-          setLinkToVideo(res.currentLesson.upload_video)
-          setSideParts(partsToSideParts(res.parts))
-
-          if (!res.error) {
-            if (!res.quiz) {
-              setError(`Error, this course does't have any quizzes`)
-              setTestItems(null)
-              setIsTestItemsFetching(false)
-              return null
-            }
-            setCurrentLesson(res.currentLesson)
-            setIsTestItemsFetching(false)
-
-            const {questions, duration} = res.quiz
-            const newTestItems = questions.map(item => {
-              return {
-                options: item.options,
-                video: item.video,
-                multiple: !!item.is_multiple,
-                text: item.question,
-                questionId: item.id,
-                questions: item.options.map(option => {
-                  return option.option_text
-                }),
-                answer: [],
-                rightAnswers: item.options
-                  .map((option, index) => {
-                    if (!!option.correct) {
-                      return index
-                    }
-                    return null
-                  })
-                  .filter(answer => {
-                    if (answer || answer === 0) {
-                      return true
-                    } else {
-                      return false
-                    }
-                  })
-              }
+    requestGetQuiz()
+    // eslint-disable-next-line
+  }, [])
 
 
 
-            })
-
-
-            setTestItems(newTestItems)
-            setTestAnswersItems(newTestItems)
-            changeTestState(prev => ({...prev, time: +duration || 14}))
-          } else {
-            setError(`Request error:, ${res.message}`)
-            setIsTestItemsFetching(false)
-          }
-        })
-        .catch(err => {
-          console.log('error', JSON.parse(JSON.stringify(err)))
-          setError(`Error: ${err.message}`)
-          setIsTestItemsFetching(false)
-        })
+  useEffect(() => {
+    if (response && !isTestItemsFetching) {
+      handleResponse(response)
     }
-
-  }, [testItems, id, contentId, isTestItemsFetching])
+  // eslint-disable-next-line
+  }, [id, isTestItemsFetching, response])
 
   const timeIsOver = useCallback(() => {
     finishButton.current.click()
@@ -244,18 +205,12 @@ function Course({match: {params}}) {
   }
 
 
-  // if (error) {
-  //   return <p className="error__middle text-center">{JSON.stringify(error)}</p>
-  // }
 
 
-  const showTestHandler = (info, element) => {
-    const $buttons = refCoursesButtons.current.querySelectorAll('.course-buttons__btn')
-    $buttons.forEach(item => item.classList.remove('active'))
+  const showTestHandler = (info) => {
     changeTestState(prevState => ({
       ...prevState, showTest: info
     }))
-    element.target.classList.add('active')
   }
 
   const handleTest = info => {
@@ -268,11 +223,12 @@ function Course({match: {params}}) {
         ...prev,
         showResults: true
       }))
-
+      const timeIsGone = document.querySelector('.courseTimer__time').textContent
       takeQuizById({results: testToResults(testAnswersItems), id: currentLesson.quiz.id})
         .then(response => {
           const {total_attempt, empty, correct_answers} = response.data
           setTestResults({
+            time: timeIsGone,
             circleData: {
               empty,
               right: correct_answers,
@@ -280,7 +236,6 @@ function Course({match: {params}}) {
             },
             response: response.data
           })
-          // console.info('new results', response.data)
         })
     }
   }
@@ -320,13 +275,13 @@ function Course({match: {params}}) {
                 <div ref={refCoursesButtons} className="course-buttons">
                   <button
                     onClick={ev => showTestHandler(false, ev)}
-                    className="course-buttons__btn active btn__noFocus"
+                    className={['course-buttons__btn btn__noFocus', !testState.showTest ? 'active' : null ].join(' ')}
                   >
                     <Translate text="Сабақ"/>
                   </button>
                   <button
                     onClick={ev => showTestHandler(true, ev)}
-                    className="course-buttons__btn btn__noFocus"
+                    className={['course-buttons__btn btn__noFocus', testState.showTest ? 'active' : null ].join(' ')}
                   >Тест
                   </button>
                 </div>
@@ -453,11 +408,10 @@ function Course({match: {params}}) {
                             <span>{testResults.response.total_attempt}</span></li>
                           <li className="resultsInfo__item"><span><Translate text="Дұрысы:"/></span>
                             <span>{testResults.circleData.right}</span></li>
-                          {/*<li className="resultsInfo__item"><span>Дұрысы:</span> <span>20</span></li>*/}
                           <li className="resultsInfo__item"><span><Translate text="Белгіленбеген:"/></span>
                             <span>{testResults.circleData.empty}</span></li>
                           <li className="resultsInfo__item"><span><Translate text="Тестке кеткен уақыт:"/></span>
-                            <span>{testState.time}</span></li>
+                            <span>{testResults.time}</span></li>
                         </ul>
                       </div>
                     ) : <Loader/>
@@ -478,39 +432,44 @@ function Course({match: {params}}) {
               <h1 className="accordion__title"><Translate text="Мазмұны"/></h1>
             </div>
 
-            {sideParts.map((item, key) => {
-              return (
-                <div key={key + item.title} className="accordion__wrapper">
-                  <div onClick={onButtonClick} id="accordion__item" className="accordion__top">
-                    {item.title}
-                  </div>
-                  <div className="accordion__bottom accorBot">
-                    {item.players.map((item1, key1) => (
-                      <div key={key1} className="accorBot__wrapper">
-                        <Link to={item1.link}
-                              className={['accorBot__icon', item1.access === 'open' ? 'green' : null].join(' ')}>&nbsp;</Link>
-                        <div className="accorBot__content">
 
-                          <div className="accorBot__text">{item1.title}</div>
-                          <div className="accorBot-progress clearFix">
-                            <div className="accorBot-progress__line">
-                              <span style={{width: item1.progress + '%'}}/>
+            <div className="accordion__itemsWrapper default-scroll slim">
+
+              {sideParts.map((item, key) => {
+                return (
+                  <div key={key + item.title} className="accordion__wrapper">
+                    <div onClick={onButtonClick} id="accordion__item" className="accordion__top">
+                      {item.title}
+                    </div>
+                    <div className="accordion__bottom accorBot default-scroll slim">
+                      {item.players.map((item1, key1) => (
+                        <div key={key1} className="accorBot__wrapper">
+                          <Link to={item1.link}
+                                className={['accorBot__icon', item1.access === 'open' ? 'green' : null].join(' ')}>&nbsp;</Link>
+                          <div className="accorBot__content">
+
+                            <div className="accorBot__text">{item1.title}</div>
+                            <div className="accorBot-progress clearFix">
+                              <div className="accorBot-progress__line">
+                                <span style={{width: item1.progress + '%'}}/>
+                              </div>
+                              <span className="accorBot-progress__number">{item1.progress}%</span>
                             </div>
-                            <span className="accorBot-progress__number">{item1.progress}%</span>
-                          </div>
-                          <div className="accorBot-test">
-                            <div className="accorBot-test__text"><Translate text="Тақырыптық тест"/></div>
-                            <input type="checkbox"/>
-                          </div>
+                            <div className="accorBot-test">
+                              <div className="accorBot-test__text"><Translate text="Тақырыптық тест"/></div>
+                              <input type="checkbox"/>
+                            </div>
 
+                          </div>
+                          <div className="accorBot__time">{item1.time}</div>
                         </div>
-                        <div className="accorBot__time">{item1.time}</div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )
-            })}
+                )
+              })}
+
+            </div>
 
           </div>
 

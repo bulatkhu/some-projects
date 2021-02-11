@@ -67,6 +67,11 @@
     padding: 18px 23px;
   }
 
+  &__itemsWrapper {
+    max-height: 600px;
+    overflow: auto;
+  }
+
   &__wrapper {
     background: #FFFFFF;
     overflow: hidden;
@@ -86,6 +91,13 @@
     display: flex;
     justify-content: space-between;
     position: relative;
+
+    &.active {
+      & ~ .accordion__bottom {
+        max-height: 500px;
+        overflow: auto;
+      }
+    }
 
     @media (max-width: 576px) {
       padding: 10px 40px 10px 10px;
