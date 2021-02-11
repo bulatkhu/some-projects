@@ -61,7 +61,7 @@ const EduCoin = () => {
               <div className="eduComp__text coins1">
 
                 <div className="coins1__description">
-                  <div className="coins1__title"><Translate text="Білім ал"/><Translate text="EduCoin жина"/></div>
+                  <div className="coins1__title"><Translate text="EduCoin жина"/></div>
                   <div className="coins1__text">
                     <Translate text="Порталда алған"/>
                   </div>
