@@ -362,7 +362,13 @@ const ModalRegister = props => {
                               <input checked required {...input} className="regCheckbox__input"/>
 
                               <label htmlFor="regPrivacy" className="regCheckbox__text">
-                                <Translate text="Пайдаланушы келісімінің шарттарын қабылдаймын."/>
+                                <a
+                                  rel="noopener noreferrer"
+                                  target="_blank"
+                                  href="https://drive.google.com/file/d/1RTS2vsEtb2YmF4H_bgKoKhjhtykoqnaW/view"
+                                >
+                                  <Translate text="Пайдаланушы келісімінің шарттарын қабылдаймын."/>
+                                </a>
                               </label>
                             </>
                           )}

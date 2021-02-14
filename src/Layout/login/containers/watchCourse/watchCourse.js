@@ -1,12 +1,13 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react'
 import Countdown from 'react-countdown'
 import {Link} from 'react-router-dom'
-import {Translate, Translator} from 'react-translated'
+import {Translate} from 'react-translated'
 import VideoPlayer from '../../../general/videoPlayer/videoPlayer'
 import TestSlider from '../../components/testSlider/testSlider'
 import ConsiderResults from '../../../landing/auxiliary/considerResults'
 import {getQuizById, takeQuizById} from '../../../../request/apiQuizzes'
 import Loader from '../../../general/component/loader/loader'
+import AddTestComment from './addTestComment/addTestComment'
 import './watchCourse.scoped.scss'
 
 const initialTestState = {
@@ -206,7 +207,6 @@ function Course({match: {params}}) {
 
 
 
-
   const showTestHandler = (info) => {
     changeTestState(prevState => ({
       ...prevState, showTest: info
@@ -239,6 +239,8 @@ function Course({match: {params}}) {
         })
     }
   }
+
+
 
 
 
@@ -333,30 +335,7 @@ function Course({match: {params}}) {
                       <Translate text="Сабақ бойынша сұрақ қою"/>
                     </h2>
 
-                    <form className="courseQuestion__form courseQuestFrom">
-                      <Translator>
-                        {({translate}) => (
-                          <textarea
-                            className="courseQuestFrom__input"
-                            placeholder={translate({text: 'Сұрағыңызды жазыңыз...'})}
-                          />
-                        )}
-                      </Translator>
-
-                      <div className="courseQuestFrom__wrapper">
-
-                        <label htmlFor="attachFile">
-                          <input name="file" id="attachFile" className="courseQuestFrom__file" multiple type="file"/>
-                          <span className="courseQuestFrom__button">
-                              <Translate text="Foto or File"/>
-                            </span>
-                        </label>
-
-                        <button className="btn__shadowFromNull courseQuestFrom__button"><Translate text="Send"/></button>
-
-                      </div>
-
-                    </form>
+                    <AddTestComment id={id}/>
                   </div>
 
 
@@ -436,9 +415,14 @@ function Course({match: {params}}) {
             <div className="accordion__itemsWrapper default-scroll slim">
 
               {sideParts.map((item, key) => {
+                const isActive = key === 0
+
                 return (
                   <div key={key + item.title} className="accordion__wrapper">
-                    <div onClick={onButtonClick} id="accordion__item" className="accordion__top">
+                    <div
+                      onClick={onButtonClick}
+                      id="accordion__item"
+                      className={[`accordion__top`, isActive ? 'active' : null].join(' ')}>
                       {item.title}
                     </div>
                     <div className="accordion__bottom accorBot default-scroll slim">

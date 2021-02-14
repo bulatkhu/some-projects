@@ -56,20 +56,35 @@ const TestComponent = () => {
 
       getStudentQuizzes()
         .then(res => {
-          const resResults = res.data.map(item => {
+          const courseQuizIds = []
+          const response = res.data
+            .reverse()
+            .filter(item => {
+              const quizId = item.results[0].quiz_id
+              if (!item.course) return false
+
+              if (courseQuizIds.findIndex(courseId => courseId === quizId) !== -1) {
+                return false
+              } else {
+                courseQuizIds.push(quizId)
+                return true
+              }
+            })
+
+          const resResults = response.map(item => {
             const newItem = {...item}
             delete newItem.results
 
             const haveResults = (item.results && item.results[0]) ? {...item.results[0]} : null
-
             return {
               ...newItem,
               ...haveResults
             }
           })
-          const coursesTitle = [...new Set(res.data.map(item => item.course))]
+          const coursesTitle = [...new Set(response.map(item => item.course))]
           const options = coursesTitle.map(item => ({ label: item, option: item }))
           setCoursesOption(options)
+
           setResults(resResults)
           if (options && options.length) {
             setCurrentCourse(options[0])
@@ -121,7 +136,7 @@ const TestComponent = () => {
                 <th className="testTable__cellTitle"><Translate text="Сұрақ саны:"/></th>
                 <th className="testTable__cellTitle"><Translate text="Дұрысы:"/></th>
                 <th className="testTable__cellTitle"><Translate text="Қатесі:"/></th>
-                <th className="testTable__cellTitle">Көрсеткіш</th>
+                  <th className="testTable__cellTitle">Көрсеткіш</th>
               </tr>
             </thead>
             <tbody>
@@ -136,13 +151,13 @@ const TestComponent = () => {
                         <td className="testTable__cell">{item.count_of_questions}</td>
                         <td className="testTable__cell">{item.correct_answers}</td>
                         <td className="testTable__cell">{item.count_of_questions - item.correct_answers}</td>
-                        <td className="testTable__cell">{item.percentage * 100}%</td>
+                        <td className="testTable__cell">{(item.percentage * 100).toFixed(0)}%</td>
                       </tr>
                     ))
                 )
                 : <tr>
                     <td colSpan="5">
-                      <p className="error__middle text-center">{ error || 'No results' }</p>
+                      <p className="error__middle text-center">{ error || '...Loading' }</p>
                     </td>
                   </tr>
             }
