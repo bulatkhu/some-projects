@@ -1,17 +1,19 @@
-import React, {useEffect, useRef, useState} from 'react'
-import {Field, Form} from 'react-final-form'
+import React, { useEffect, useRef, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { Field, Form } from 'react-final-form'
 import Select from 'react-select'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import ReactCrop from 'react-image-crop'
-import {setUsersData} from '../../../../redux/actions/user/userActionsFuncs'
+import { setUsersData } from '../../../../redux/actions/user/userActionsFuncs'
 import ModalPortal from '../../../modals/ModalPortal/ModalPortal'
-import {scrollBodyHandler} from '../../../../scripts/scrollController/scrollController'
-import {apiEditProfile} from '../../../../request/apiRequests'
-import {getFromUserMeta} from '../../../../scripts/dataHandler/dataHandler'
+import { scrollBodyHandler } from '../../../../scripts/scrollController/scrollController'
+import { apiEditProfile } from '../../../../request/apiRequests'
+import { getFromUserMeta } from '../../../../scripts/dataHandler/dataHandler'
 import Loader from '../../../general/component/loader/loader'
 import './editProfile.scss'
 import 'react-image-crop/dist/ReactCrop.css'
-import {Translate} from "react-translated";
+import { Translate } from "react-translated";
+import { data } from '../../../../data'
 
 const initialCrop = {
   unit: '%',
@@ -20,11 +22,11 @@ const initialCrop = {
 }
 
 const options = [
-  {label: 2021, value: 2021},
-  {label: 2020, value: 2020},
-  {label: 2019, value: 2019},
-  {label: 2018, value: 2018},
-  {label: 2017, value: 2017}
+  { label: 2021, value: 2021 },
+  { label: 2020, value: 2020 },
+  { label: 2019, value: 2019 },
+  { label: 2018, value: 2018 },
+  { label: 2017, value: 2017 }
 ]
 
 const selectorStyles = {
@@ -85,26 +87,26 @@ function formatFormValues(fromFormValues) {
   keys
     .filter(item => item)
     .forEach(item => {
-    if (typeof values[item] === 'object' && values[item]) {
+      if (typeof values[item] === 'object' && values[item]) {
 
-      if ((item === 'avatar' || item === 'profile_image') && values[item].length) {
-        console.log(item, values[item])
+        if ((item === 'avatar' || item === 'profile_image') && values[item].length) {
+          console.log(item, values[item])
 
-        formValues.append(item, values[item][0], values[item][0].name)
+          formValues.append(item, values[item][0], values[item][0].name)
+        } else {
+          formValues.append(item, values[item].value)
+        }
       } else {
-        formValues.append(item, values[item].value)
+        formValues.append(item, values[item])
       }
-    } else {
-      formValues.append(item, values[item])
-    }
-  })
+    })
 
 
   return formValues
 }
 
 
-const EditProfile = ({type, updateUserData, user}) => {
+const EditProfile = ({ type, updateUserData, user }) => {
   const onClickAddAvatar = useRef(null)
   const [showMessage, setShowMessage] = useState(null)
   const [photoDescr, setPhotoDescr] = useState(null)
@@ -114,16 +116,65 @@ const EditProfile = ({type, updateUserData, user}) => {
   const [refToImage, setRefToImage] = useState(null)
   const [croppedImageUrl, setCroppedImageUrl] = useState(null)
 
+  const [cityRu, setCityRu] = useState([]);
+  const [cityKz, setCityKz] = useState([]);
+  const [regionRu, setRegionRu] = useState([]);
+  const [regionKz, setRegionKz] = useState([]);
+  const [schoolRu, setSchoolRu] = useState([]);
+  const [schoolKz, setSchoolKz] = useState([]);
+
+  const [myCityRu, setMyCityRu] = useState([]);
+  const [myCityKz, setMyCityKz] = useState([]);
+  const [myRegionRu, setMyRegionRu] = useState([]);
+  const [myRegionKz, setMyRegionKz] = useState([]);
+  const [mySchoolRu, setMySchoolRu] = useState([]);
+  const [mySchoolKz, setMySchoolKz] = useState([]);
+
+  const [values, setValues] = useState({
+    cityRu: { label: undefined },
+    cityKz: { label: undefined },
+    regionRu: { label: undefined },
+    regionKz: { label: undefined },
+    schoolRu: { label: undefined },
+    schoolKz: { label: undefined }
+  })
+
+  const lang = useSelector(state => state.lang.value)
+  console.log(lang)
+
+  useEffect(() => {
+    let copyCityRu = [];
+    let copyCityKz = [];
+    let copyRegionRu = [];
+    let copyRegionKz = [];
+    let copySchoolRu = [];
+    let copySchoolKz = [];
+    for (let item of data) {
+      if (copyCityRu.indexOf(item[5]) === -1) copyCityRu.push(item[5]);
+      if (copyCityKz.indexOf(item[4]) === -1) copyCityKz.push(item[4]);
+      if (copyRegionRu.indexOf(item[3]) === -1) copyRegionRu.push(item[3]);
+      if (copyRegionKz.indexOf(item[2]) === -1) copyRegionKz.push(item[2]);
+      copySchoolRu.push(item[1]);
+      copySchoolKz.push(item[0]);
+    }
+    //console.log(copyCityRu,copyCityKz,copyRegionRu,copyRegionKz,copySchoolRu,copySchoolKz)
+    setCityRu(copyCityRu);
+    setCityKz(copyCityKz);
+    setRegionRu(copyRegionRu);
+    setRegionKz(copyRegionKz);
+    setSchoolRu(copySchoolRu);
+    setSchoolKz(copySchoolKz);
+  }, [])
 
 
   useEffect(() => {
 
     // if (user) {
 
-      // const option = options.find(item => {
-      //   return item.value === +getFromUserMeta(user, 'region')
-      // })
-      // console.log('option', option)
+    // const option = options.find(item => {
+    //   return item.value === +getFromUserMeta(user, 'region')
+    // })
+    // console.log('option', option)
 
     // }
 
@@ -163,7 +214,7 @@ const EditProfile = ({type, updateUserData, user}) => {
   const onProfileEdited = defaultValues => {
     const values = defaultValues
     if (values && values.avatar && values.avatar.length && croppedImageUrl) {
-      values.avatar = {0: croppedImageUrl, length: 1}
+      values.avatar = { 0: croppedImageUrl, length: 1 }
     }
     const formValues = formatFormValues(values)
     apiEditProfile(formValues)
@@ -180,10 +231,178 @@ const EditProfile = ({type, updateUserData, user}) => {
 
   }
 
+  const cityHandler = e => {
+    if (e.value === undefined) {
+      setValues({
+        ...values,
+        cityRu: { label: undefined },
+        regionRu: { label: undefined },
+        schoolRu: { label: undefined },
+        cityKz: { label: undefined },
+        regionKz: { label: undefined },
+        schoolKz: { label: undefined }
+      })
+      setMyCityRu([]);
+      setMyCityKz([]);
+      setMyRegionRu([]);
+      setMyRegionKz([]);
+      setMySchoolRu([]);
+      setMySchoolKz([]);
+      return;
+    }
+    console.log(e.value)
+    let copyRegionRu = [];
+    let copyRegionKz = [];
+    let nameRu;
+    let nameKz;
+    for (let it of data) {
+      if (it[5] === e.value || it[4] === e.value) {
+        console.log('+')
+        nameRu = it[5];
+        nameKz = it[4];
+        if (copyRegionRu.indexOf(it[3]) === -1) copyRegionRu.push(it[3])
+        if (copyRegionKz.indexOf(it[2]) === -1) copyRegionKz.push(it[2])
+      }
+    }
+    setValues({
+      ...values,
+      cityRu: { label: nameRu },
+      cityKz: { label: nameKz },
+    })
+    setMyRegionRu(copyRegionRu);
+    setMyRegionKz(copyRegionKz);
+
+
+    if (!values.regionRu.label) {
+      let copySchoolRu = [];
+      let copySchoolKz = [];
+      for (let it of data) {
+        if ((it[5] || it[4]) === e.value) {
+          console.log('+')
+          copySchoolRu.push(it[1])
+          copySchoolKz.push(it[0])
+        }
+      }
+      setMySchoolRu(copySchoolRu);
+      setMySchoolKz(copySchoolKz);
+    }
+  }
+
+  const regionHandler = e => {
+    if (e.value === undefined) {
+      setValues({
+        ...values,
+        cityRu: { label: undefined },
+        regionRu: { label: undefined },
+        schoolRu: { label: undefined },
+        cityKz: { label: undefined },
+        regionKz: { label: undefined },
+        schoolKz: { label: undefined }
+      })
+      setMyCityRu([]);
+      setMyCityKz([]);
+      setMyRegionRu([]);
+      setMyRegionKz([]);
+      setMySchoolRu([]);
+      setMySchoolKz([]);
+      return;
+    }
+    let copyCityRu = [];
+    let copyCityKz = [];
+    let copySchoolRu = [];
+    let copySchoolKz = [];
+    let nameRu;
+    let nameKz;
+    for (let it of data) {
+      if (it[3] === e.value || it[2] === e.value) {
+        console.log('+')
+        nameRu = it[3];
+        nameKz = it[2];
+        if (copyCityRu.indexOf(it[5]) === -1) copyCityRu.push(it[5])
+        if (copyCityKz.indexOf(it[4]) === -1) copyCityKz.push(it[4])
+        copySchoolRu.push(it[1])
+        copySchoolKz.push(it[0])
+      }
+    }
+    setValues({
+      ...values,
+      regionRu: { label: nameRu },
+      regionKz: { label: nameKz }
+    })
+    setMyCityRu(copyCityRu);
+    setMyCityKz(copyCityKz);
+    setMySchoolRu(copySchoolRu);
+    setMySchoolKz(copySchoolKz);
+  }
+
+  const schoolHandler = e => {
+    if (e.value === undefined) {
+      setValues({
+        ...values,
+        cityRu: { label: undefined },
+        regionRu: { label: undefined },
+        schoolRu: { label: undefined },
+        cityKz: { label: undefined },
+        regionKz: { label: undefined },
+        schoolKz: { label: undefined }
+      })
+      setMyCityRu([]);
+      setMyCityKz([]);
+      setMyRegionRu([]);
+      setMyRegionKz([]);
+      setMySchoolRu([]);
+      setMySchoolKz([]);
+      return;
+    }
+    let copyCityRu = [];
+    let copyCityKz = [];
+    let copyRegionRu = [];
+    let copyRegionKz = [];
+    let nameRu;
+    let nameKz;
+    let nameCityRu;
+    let nameCityKz;
+    let nameRegRu;
+    let nameRegKz;
+    for (let it of data) {
+      if (it[1] === e.value || it[0] === e.value) {
+        console.log('+')
+        nameCityRu = it[5];
+        nameCityKz = it[4];
+        nameRegRu = it[3];
+        nameRegKz = it[2];
+        nameRu = it[1];
+        nameKz = it[0];
+        if (copyCityRu.indexOf(it[5]) === -1) copyCityRu.push(it[5])
+        if (copyCityKz.indexOf(it[4]) === -1) copyCityKz.push(it[4])
+        if (copyRegionRu.indexOf(it[3]) === -1) copyRegionRu.push(it[3])
+        if (copyRegionKz.indexOf(it[2]) === -1) copyRegionKz.push(it[2])
+      }
+    }
+    setValues({
+      ...values,
+      cityRu: { label: nameCityRu },
+      regionRu: { label: nameRegRu },
+      schoolRu: { label: nameRu },
+      cityKz: { label: nameCityKz },
+      regionKz: { label: nameRegKz },
+      schoolKz: { label: nameKz }
+    })
+    setMyCityRu(copyCityRu);
+    setMyCityKz(copyCityKz);
+    setMyRegionRu(copyRegionRu);
+    setMyRegionKz(copyRegionKz);
+  }
+
+
+  useEffect(() => {
+    console.log(values)
+  }, [values])
+
 
   const avatarField = <Field name="avatar">
-    {({input: {value, onChange, ...input}}) => {
-      const handleChange = ({target}) => {
+    {({ input: { value, onChange, ...input } }) => {
+      const handleChange = ({ target }) => {
         onAvatarInputChange(target)
         const description = target.files[0] ? target.files[0].name : 'no'
         setPhotoDescr(`Photo: ${description}`)
@@ -204,11 +423,11 @@ const EditProfile = ({type, updateUserData, user}) => {
   </Field>
 
 
-  let form = <Loader container/>
+  let form = <Loader container />
 
   if (user) {
     if (type === 'student') {
-      form = <Form onSubmit={onProfileEdited} render={({handleSubmit}) => (
+      form = <Form onSubmit={onProfileEdited} render={({ handleSubmit }) => (
         <form
           onSubmit={handleSubmit}
           className="editProfile__form editProfileForm">
@@ -218,49 +437,131 @@ const EditProfile = ({type, updateUserData, user}) => {
             <div className="editProfileForm__column">
               {avatarField}
               <Field name="name" defaultValue={user.name}>
-                {({input}) => <input {...input} type="text" placeholder="Аты" className="editProfileForm__input"/>}
+                {({ input }) => <input {...input} type="text" placeholder="Аты" className="editProfileForm__input" />}
               </Field>
               <Field name="surname" defaultValue={getFromUserMeta(user, 'surname')}>
-                {({input}) => <input {...input} type="text" placeholder="Тегі" className="editProfileForm__input"/>}
+                {({ input }) => <input {...input} type="text" placeholder="Тегі" className="editProfileForm__input" />}
               </Field>
               <Field
                 name="region"
-                placeholder="Облыс/қала"
+                placeholder={lang === 'ru' ? "Город" : "Облыс/қала"}
                 className="editProfileForm__input editProfileForm__selector"
                 styles={selectorStyles}
-                component={({input, ...rest}) => (
+
+                component={({ input, ...rest }) => (
                   <Select
                     {...input}
                     {...rest}
-                    options={options}
+                    value={lang === 'ru' ? (values.cityRu.label ? values.cityRu : undefined) : values.cityKz.label ? values.cityKz : undefined}
+                    onChange={cityHandler}
+                    options={
+                      lang === 'ru'
+                        ?
+                        myCityRu.length > 0 ?
+                          [
+                            { label: 'Все', value: undefined },
+                            ...myCityRu.map(city => ({ label: city, value: city }))
+                          ]
+                          :
+                          [
+                            { label: 'Все', value: undefined },
+                            ...cityRu.map(city => ({ label: city, value: city }))
+                          ]
+                        :
+                        myCityKz.length > 0 ?
+                          [
+                            { label: 'Все', value: undefined },
+                            ...myCityKz.map(city => ({ label: city, value: city }))
+                          ]
+                          :
+                          [
+                            { label: 'Все', value: undefined },
+                            ...cityKz.map(city => ({ label: city, value: city }))
+                          ]
+                    }
                   />
                 )}
               />
               <Field
                 name="city"
-                placeholder="Қала/Аудан"
+                placeholder={lang === "ru" ? "Район" : "Қала/Аудан"}
                 className="editProfileForm__input editProfileForm__selector"
                 styles={selectorStyles}
-                component={({input, ...rest}) => (
+                component={({ input, ...rest }) => (
                   <Select
                     {...input}
                     {...rest}
-                    value={options.find(option => option.value === +getFromUserMeta(user, 'city'))}
-                    options={options}
+                    // value={options.find(option => option.value === +getFromUserMeta(user, 'city'))}
+                    value={lang === 'ru' ? (values.regionRu.label ? values.regionRu : undefined) : values.regionKz.label ? values.regionKz : undefined}
+                    onChange={regionHandler}
+                    options={
+                      lang === 'ru'
+                        ?
+                        myRegionRu.length > 0
+                          ?
+                          [
+                            { label: 'Все', value: undefined },
+                            ...myRegionRu.map(reg => ({ label: reg, value: reg }))
+                          ]
+                          :
+                          [
+                            { label: 'Все', value: undefined },
+                            ...regionRu.map(reg => ({ label: reg, value: reg }))
+                          ]
+                        :
+                        myRegionKz.length > 0
+                          ?
+                          [
+                            { label: 'Все', value: undefined },
+                            ...myRegionKz.map(reg => ({ label: reg, value: reg }))
+                          ]
+                          :
+                          [
+                            { label: 'Все', value: undefined },
+                            ...regionKz.map(reg => ({ label: reg, value: reg }))
+                          ]
+                    }
                   />
                 )}
               />
               <Field
                 name="subject"
-                placeholder="Мектеп"
+                placeholder={lang === 'ru' ? "Школа" : "Мектеп"}
                 className="editProfileForm__input editProfileForm__selector"
                 styles={selectorStyles}
-                component={({input, ...rest}) => (
+                component={({ input, ...rest }) => (
                   <Select
                     {...input}
                     {...rest}
-                    value={options.find(option => option.value === +getFromUserMeta(user, 'subject'))}
-                    options={options}
+                    // value={options.find(option => option.value === +getFromUserMeta(user, 'subject'))}
+                    value={lang === 'ru' ? (values.schoolRu.label ? values.schoolRu : undefined) : values.schoolKz.label ? values.schoolKz : undefined}
+                    onChange={schoolHandler}
+                    options={
+                      lang === 'ru' ?
+                        mySchoolRu.length > 0
+                          ?
+                          [
+                            { label: 'Все', value: undefined },
+                            ...mySchoolRu.map(sc => ({ label: sc, value: sc }))
+                          ]
+                          :
+                          [
+                            { label: 'Все', value: undefined },
+                            ...schoolRu.map(sc => ({ label: sc, value: sc }))
+                          ]
+                        :
+                        mySchoolKz.length > 0
+                          ?
+                          [
+                            { label: 'Все', value: undefined },
+                            ...mySchoolKz.map(sc => ({ label: sc, value: sc }))
+                          ]
+                          :
+                          [
+                            { label: 'Все', value: undefined },
+                            ...schoolKz.map(sc => ({ label: sc, value: sc }))
+                          ]
+                    }
                   />
                 )}
               />
@@ -269,7 +570,7 @@ const EditProfile = ({type, updateUserData, user}) => {
                 placeholder="Бейіндік пән"
                 className="editProfileForm__input editProfileForm__selector"
                 styles={selectorStyles}
-                component={({input, ...rest}) => (
+                component={({ input, ...rest }) => (
                   <Select
                     {...input}
                     {...rest}
@@ -282,22 +583,22 @@ const EditProfile = ({type, updateUserData, user}) => {
             </div>
             <div className="editProfileForm__column">
               <Field name="email" defaultValue={user.email}>
-                {({input}) => <input {...input} name="email" type="text" placeholder="E-mail"
-                                     className="editProfileForm__input"/>}
+                {({ input }) => <input {...input} name="email" type="text" placeholder="E-mail"
+                  className="editProfileForm__input" />}
               </Field>
               <Field name="phone" defaultValue={user.phone}>
-                {({input}) => <input {...input} type="text" placeholder="Тел. нөмірі"
-                                     className="editProfileForm__input"/>}
+                {({ input }) => <input {...input} type="text" placeholder="Тел. нөмірі"
+                  className="editProfileForm__input" />}
               </Field>
               <Field name="iin" defaultValue={getFromUserMeta(user, 'iin')}>
-                {({input}) => <input {...input} type="text" placeholder="ЖСН" className="editProfileForm__input"/>}
+                {({ input }) => <input {...input} type="text" placeholder="ЖСН" className="editProfileForm__input" />}
               </Field>
               <Field name="user_name" defaultValue={getFromUserMeta(user, 'user_name')}>
-                {({input}) => <input {...input} type="text" placeholder="ТЖК" className="editProfileForm__input"/>}
+                {({ input }) => <input {...input} type="text" placeholder="ТЖК" className="editProfileForm__input" />}
               </Field>
               <Field name="parentPhone" defaultValue={getFromUserMeta(user, 'parentPhone')}>
-                {({input}) => <input {...input} type="text" placeholder="Ата-ана тел. нөмірі"
-                                     className="editProfileForm__input"/>}
+                {({ input }) => <input {...input} type="text" placeholder="Ата-ана тел. нөмірі"
+                  className="editProfileForm__input" />}
               </Field>
             </div>
 
@@ -312,68 +613,68 @@ const EditProfile = ({type, updateUserData, user}) => {
           />
 
           <div className="editProfileForm__wrapper">
-            <button type="submit" className="editProfileForm__button"><Translate text="Сақтау"/></button>
+            <button type="submit" className="editProfileForm__button"><Translate text="Сақтау" /></button>
           </div>
 
         </form>
-      )}/>
+      )} />
     } else if (type === 'teacher' || type === 'mentor') {
       form = (
         <Form
           onSubmit={onProfileEdited}
-          render={({handleSubmit}) => (<form onSubmit={handleSubmit} className="editProfile__form editProfileForm">
+          render={({ handleSubmit }) => (<form onSubmit={handleSubmit} className="editProfile__form editProfileForm">
 
             <div className="editProfileForm__content">
 
               <div className="editProfileForm__column">
                 {avatarField}
                 <Field name="name">
-                  {({input}) => (
-                    <input {...input} type="text" placeholder="Аты" className="editProfileForm__input"/>
+                  {({ input }) => (
+                    <input {...input} type="text" placeholder="Аты" className="editProfileForm__input" />
                   )}
                 </Field>
                 <Field name="goo">
-                  {({input}) => (
-                    <input {...input} type="text" placeholder="ЖОО" className="editProfileForm__input"/>
+                  {({ input }) => (
+                    <input {...input} type="text" placeholder="ЖОО" className="editProfileForm__input" />
                   )}
                 </Field>
                 <Field name="email">
-                  {({input}) => (
-                    <input {...input} name="email" type="text" placeholder="E-mail" className="editProfileForm__input"/>
+                  {({ input }) => (
+                    <input {...input} name="email" type="text" placeholder="E-mail" className="editProfileForm__input" />
                   )}
                 </Field>
                 <Field name="theme">
-                  {({input}) => (
-                    <input {...input} type="text" placeholder="Пәні" className="editProfileForm__input"/>
+                  {({ input }) => (
+                    <input {...input} type="text" placeholder="Пәні" className="editProfileForm__input" />
                   )}
                 </Field>
               </div>
               <div className="editProfileForm__column">
                 <Field name="lastname">
-                  {({input}) => (
-                    <input {...input} type="text" placeholder="Тегі" className="editProfileForm__input"/>
+                  {({ input }) => (
+                    <input {...input} type="text" placeholder="Тегі" className="editProfileForm__input" />
                   )}
                 </Field>
                 <Field name="specialty">
-                  {({input}) => (
-                    <input {...input} type="text" placeholder="Мамандық" className="editProfileForm__input"/>
+                  {({ input }) => (
+                    <input {...input} type="text" placeholder="Мамандық" className="editProfileForm__input" />
                   )}
                 </Field>
                 <Field name="phone">
-                  {({input}) => (
+                  {({ input }) => (
                     <input {...input} name="email" type="text" placeholder="Тел. нөмірі"
-                           className="editProfileForm__input"/>
+                      className="editProfileForm__input" />
                   )}
                 </Field>
               </div>
 
             </div>
 
-            <textarea placeholder="Өзім туралы ..." className="editProfileForm__textHolder"/>
+            <textarea placeholder="Өзім туралы ..." className="editProfileForm__textHolder" />
 
 
             <div className="editProfileForm__wrapper">
-              <button className="editProfileForm__button"><Translate text="Сақтау"/></button>
+              <button className="editProfileForm__button"><Translate text="Сақтау" /></button>
             </div>
 
           </form>)}
@@ -417,7 +718,7 @@ const EditProfile = ({type, updateUserData, user}) => {
                       {
                         croppedImageUrl && (
                           <div className="editProfileModal__img">
-                            <img src={window.URL.createObjectURL(croppedImageUrl)} alt="avatar"/>
+                            <img src={window.URL.createObjectURL(croppedImageUrl)} alt="avatar" />
                           </div>
                         )
                       }
@@ -427,7 +728,7 @@ const EditProfile = ({type, updateUserData, user}) => {
               }
               <button
                 className="editProfile__btn editProfile__addPhoto"
-                style={{margin: '20px auto', maxWidth: 200, display: 'block'}}
+                style={{ margin: '20px auto', maxWidth: 200, display: 'block' }}
                 onClick={() => {
                   setPhotoDescr('Your cropped has been saved')
                   setShowPhotoEditor(false)
@@ -443,13 +744,13 @@ const EditProfile = ({type, updateUserData, user}) => {
           <button onClick={() => {
             onClickAddAvatar.current.value = null
             setPhotoDescr('Photo: no')
-          }} className="editProfile__btn editProfile__deletePhoto"><Translate text="Суретті өшіру"/>
+          }} className="editProfile__btn editProfile__deletePhoto"><Translate text="Суретті өшіру" />
           </button>
           <button
             onClick={() => {
               onClickAddAvatar.current.click()
             }}
-            className="editProfile__btn editProfile__addPhoto"><Translate text="Сурет жүктеу"/>
+            className="editProfile__btn editProfile__addPhoto"><Translate text="Сурет жүктеу" />
           </button>
           <div className="success editProfileBtn__info">{photoDescr}</div>
         </div>
