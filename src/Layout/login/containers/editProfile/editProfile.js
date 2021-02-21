@@ -87,6 +87,7 @@ function formatFormValues(fromFormValues) {
   keys
     .filter(item => item)
     .forEach(item => {
+      console.log(item)
       if (typeof values[item] === 'object' && values[item]) {
 
         if ((item === 'avatar' || item === 'profile_image') && values[item].length) {
@@ -212,11 +213,31 @@ const EditProfile = ({ type, updateUserData, user }) => {
 
 
   const onProfileEdited = defaultValues => {
-    const values = defaultValues
-    if (values && values.avatar && values.avatar.length && croppedImageUrl) {
-      values.avatar = { 0: croppedImageUrl, length: 1 }
+    let values2 = defaultValues
+    if (values2 && values2.avatar && values2.avatar.length && croppedImageUrl) {
+      values2.avatar = { 0: croppedImageUrl, length: 1 }
     }
-    const formValues = formatFormValues(values)
+    if (values.cityRu.label) {
+      values2 = {
+        ...values2,
+        city: `${lang === 'ru' ? values.cityRu.label : values.cityKz.label}`,
+      }
+    }
+    if (values.regionRu.label) {
+      values2 = {
+        ...values2,
+        region: `${lang === 'ru' ? values.regionRu.label : values.regionKz.label}`,
+      }
+    }
+    if (values.schoolRu.label) {
+      values2 = {
+        ...values2,
+        school: `${lang === 'ru' ? values.schoolRu.label : values.schoolKz.label}`,
+      }
+    }
+    console.log(values2, 'sssssssssssssssss')
+    const formValues = formatFormValues(values2)
+    console.log(formValues)
     apiEditProfile(formValues)
       .then(res => {
         console.log('success:', res.data.message)
@@ -235,12 +256,12 @@ const EditProfile = ({ type, updateUserData, user }) => {
     if (e.value === undefined) {
       setValues({
         ...values,
-        cityRu: { label: undefined },
-        regionRu: { label: undefined },
-        schoolRu: { label: undefined },
-        cityKz: { label: undefined },
-        regionKz: { label: undefined },
-        schoolKz: { label: undefined }
+        cityRu: { label: null },
+        regionRu: { label: null },
+        schoolRu: { label: null },
+        cityKz: { label: null },
+        regionKz: { label: null },
+        schoolKz: { label: null }
       })
       setMyCityRu([]);
       setMyCityKz([]);
@@ -264,10 +285,18 @@ const EditProfile = ({ type, updateUserData, user }) => {
         if (copyRegionKz.indexOf(it[2]) === -1) copyRegionKz.push(it[2])
       }
     }
+    let regionRuCopy = values.regionRu.label ? values.regionRu : { label: null };
+    let regionKzCopy = values.regionKz.label ? values.regionKz : { label: null };
+    let schoolRuCopy = values.schoolRu.label ? values.schoolRu : { label: null };
+    let schoolKzCopy = values.schoolKz.label ? values.schoolKz : { label: null };
     setValues({
       ...values,
       cityRu: { label: nameRu },
       cityKz: { label: nameKz },
+      regionRu: regionRuCopy,
+      schoolRu: schoolRuCopy,
+      regionKz: regionKzCopy,
+      schoolKz: schoolKzCopy,
     })
     setMyRegionRu(copyRegionRu);
     setMyRegionKz(copyRegionKz);
@@ -292,12 +321,12 @@ const EditProfile = ({ type, updateUserData, user }) => {
     if (e.value === undefined) {
       setValues({
         ...values,
-        cityRu: { label: undefined },
-        regionRu: { label: undefined },
-        schoolRu: { label: undefined },
-        cityKz: { label: undefined },
-        regionKz: { label: undefined },
-        schoolKz: { label: undefined }
+        cityRu: { label: null },
+        regionRu: { label: null },
+        schoolRu: { label: null },
+        cityKz: { label: null },
+        regionKz: { label: null },
+        schoolKz: { label: null }
       })
       setMyCityRu([]);
       setMyCityKz([]);
@@ -324,10 +353,18 @@ const EditProfile = ({ type, updateUserData, user }) => {
         copySchoolKz.push(it[0])
       }
     }
+    let cityRuCopy = values.cityRu.label ? values.cityRu : { label: null };
+    let cityKzCopy = values.cityKz.label ? values.cityKz : { label: null };
+    let schoolRuCopy = values.schoolRu.label ? values.schoolRu : { label: null };
+    let schoolKzCopy = values.schoolKz.label ? values.schoolKz : { label: null };
     setValues({
       ...values,
       regionRu: { label: nameRu },
-      regionKz: { label: nameKz }
+      regionKz: { label: nameKz },
+      cityRu: cityRuCopy,
+      schoolRu: schoolRuCopy,
+      cityKz: cityKzCopy,
+      schoolKz: schoolKzCopy,
     })
     setMyCityRu(copyCityRu);
     setMyCityKz(copyCityKz);
@@ -339,12 +376,12 @@ const EditProfile = ({ type, updateUserData, user }) => {
     if (e.value === undefined) {
       setValues({
         ...values,
-        cityRu: { label: undefined },
-        regionRu: { label: undefined },
-        schoolRu: { label: undefined },
-        cityKz: { label: undefined },
-        regionKz: { label: undefined },
-        schoolKz: { label: undefined }
+        cityRu: { label: null },
+        regionRu: { label: null },
+        schoolRu: { label: null },
+        cityKz: { label: null },
+        regionKz: { label: null },
+        schoolKz: { label: null }
       })
       setMyCityRu([]);
       setMyCityKz([]);
@@ -443,7 +480,8 @@ const EditProfile = ({ type, updateUserData, user }) => {
                 {({ input }) => <input {...input} type="text" placeholder="Тегі" className="editProfileForm__input" />}
               </Field>
               <Field
-                name="region"
+                name="city"
+
                 placeholder={lang === 'ru' ? "Город" : "Облыс/қала"}
                 className="editProfileForm__input editProfileForm__selector"
                 styles={selectorStyles}
@@ -452,7 +490,7 @@ const EditProfile = ({ type, updateUserData, user }) => {
                   <Select
                     {...input}
                     {...rest}
-                    value={lang === 'ru' ? (values.cityRu.label ? values.cityRu : undefined) : values.cityKz.label ? values.cityKz : undefined}
+                    value={lang === 'ru' ? (values.cityRu.label ? values.cityRu : values.cityRu.label === null ? undefined : getFromUserMeta(user, 'city') ? { label: getFromUserMeta(user, 'city') } : undefined) : values.cityKz.label ? values.cityKz : values.cityKz.label === null ? undefined : getFromUserMeta(user, 'city') ? { label: getFromUserMeta(user, 'city') } : undefined}
                     onChange={cityHandler}
                     options={
                       lang === 'ru'
@@ -483,7 +521,7 @@ const EditProfile = ({ type, updateUserData, user }) => {
                 )}
               />
               <Field
-                name="city"
+                name="region"
                 placeholder={lang === "ru" ? "Район" : "Қала/Аудан"}
                 className="editProfileForm__input editProfileForm__selector"
                 styles={selectorStyles}
@@ -492,7 +530,7 @@ const EditProfile = ({ type, updateUserData, user }) => {
                     {...input}
                     {...rest}
                     // value={options.find(option => option.value === +getFromUserMeta(user, 'city'))}
-                    value={lang === 'ru' ? (values.regionRu.label ? values.regionRu : undefined) : values.regionKz.label ? values.regionKz : undefined}
+                    value={lang === 'ru' ? (values.regionRu.label ? values.regionRu : values.regionRu.label === null ? undefined : getFromUserMeta(user, 'region') ? { label: getFromUserMeta(user, 'region') } : undefined) : values.regionKz.label ? values.regionKz : values.regionKz.label === null ? undefined : getFromUserMeta(user, 'region') ? { label: getFromUserMeta(user, 'region') } : undefined}
                     onChange={regionHandler}
                     options={
                       lang === 'ru'
@@ -525,7 +563,7 @@ const EditProfile = ({ type, updateUserData, user }) => {
                 )}
               />
               <Field
-                name="subject"
+                name="school"
                 placeholder={lang === 'ru' ? "Школа" : "Мектеп"}
                 className="editProfileForm__input editProfileForm__selector"
                 styles={selectorStyles}
@@ -534,7 +572,7 @@ const EditProfile = ({ type, updateUserData, user }) => {
                     {...input}
                     {...rest}
                     // value={options.find(option => option.value === +getFromUserMeta(user, 'subject'))}
-                    value={lang === 'ru' ? (values.schoolRu.label ? values.schoolRu : undefined) : values.schoolKz.label ? values.schoolKz : undefined}
+                    value={lang === 'ru' ? (values.schoolRu.label ? values.schoolRu : values.schoolRu.label === null ? undefined : getFromUserMeta(user, 'school') ? { label: getFromUserMeta(user, 'school') } : undefined) : values.schoolKz.label ? values.schoolKz : values.schoolKz.label === null ? undefined : getFromUserMeta(user, 'school') ? { label: getFromUserMeta(user, 'school') } : undefined}
                     onChange={schoolHandler}
                     options={
                       lang === 'ru' ?
