@@ -47,7 +47,6 @@ const ModalPass = ({show, hidePassModal, showLoginModal}) => {
 
   const onSendCodeSubmit = values => {
     setFormData(prev => ({...prev, code: values.code}))
-    setStepsCount(2)
     ApiCheckKeyForPassword({ phone: formData.phone, code: values.code })
       .then(res => {
         if (res.data.success === 1) {
