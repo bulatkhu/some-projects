@@ -1,6 +1,7 @@
-import React from 'react'
+import React, {useEffect,useState} from 'react'
 import './payment.scss'
 import {Translate} from "react-translated";
+import {apiGetStudentsCourses} from '../../../../request/student/apiStudent'
 
 
 const Payment = () => {
@@ -13,6 +14,15 @@ const Payment = () => {
     <path d="M6.00065 6.66667C5.82384 6.66667 5.65427 6.59643 5.52925 6.4714C5.40422 6.34638 5.33398 6.17681 5.33398 6V0.666667C5.33398 0.489856 5.40422 0.320286 5.52925 0.195262C5.65427 0.0702379 5.82384 0 6.00065 0C6.17746 0 6.34703 0.0702379 6.47206 0.195262C6.59708 0.320286 6.66732 0.489856 6.66732 0.666667V6C6.66732 6.17681 6.59708 6.34638 6.47206 6.4714C6.34703 6.59643 6.17746 6.66667 6.00065 6.66667Z" fill="white"/>
   </svg>
 
+  const [data,setData] = useState([]);
+  
+  useEffect(()=>{
+    apiGetStudentsCourses()
+    .then(res=>{
+      setData(res.data.courses)
+      console.log(res)
+    })
+  },[])
 
   return (
     <section className="payment">
@@ -27,11 +37,12 @@ const Payment = () => {
               <div className="payment__tableTitle historyPayment__item"><Translate text="Құны"/></div>
               <div className="payment__tableTitle historyPayment__item"><Translate text="Мерзімі"/></div>
               <div className="payment__tableTitle historyPayment__item">EduCoin</div>
-              <div className="payment__tableTitle historyPayment__item">Чек</div>
             </div>
 
+            {data.length > 0 ?
+          data.map(it=>(
             <div className="historyPayment__column payment__row">
-              <div className="payment__tableItem historyPayment__item">Қазақстан тарихы</div>
+              <div className="payment__tableItem historyPayment__item">{it.title}</div>
               <div className="payment__tableItem historyPayment__item">16000т</div>
               <div className="payment__tableItem historyPayment__item">
                 <span>4000т</span>
@@ -41,87 +52,14 @@ const Payment = () => {
                   <span>7000 ₸</span> <span className="newPaying__coin"/> <span>=7000 ₸</span>
                 </div>
               </div>
-              <div className="payment__tableItem historyPayment__item">
-                <a href="/" className="payment__button newPaying__button"><span className="historyPayment__downloadText">Download.pdf</span> <span className="historyPayment__download">{downloadIcon}</span></a>
-              </div>
             </div>
-
-            <div className="historyPayment__column payment__row">
-              <div className="payment__tableItem historyPayment__item">Оқу сауаттылығы</div>
-              <div className="payment__tableItem historyPayment__item">16000т</div>
-              <div className="payment__tableItem historyPayment__item">
-                <span>4000т</span>
-              </div>
-              <div className="payment__tableItem historyPayment__item">
-                <div className="newPaying__educoin">
-                  <span>7000 ₸</span> <span className="newPaying__coin"/> <span>=7000 ₸</span>
-                </div>
-              </div>
-              <div className="payment__tableItem historyPayment__item">
-                <a href="/" className="payment__button newPaying__button"><span className="historyPayment__downloadText">Download.pdf</span> <span className="historyPayment__download">{downloadIcon}</span></a>
-              </div>
-            </div>
-
-            <div className="historyPayment__column payment__row">
-              <div className="payment__tableItem historyPayment__item">Математикалық
-                сауаттылық</div>
-              <div className="payment__tableItem historyPayment__item">16000т</div>
-              <div className="payment__tableItem historyPayment__item">
-                <span>4000т</span>
-              </div>
-              <div className="payment__tableItem historyPayment__item">
-                <div className="newPaying__educoin">
-                  <span>7000 ₸</span> <span className="newPaying__coin"/> <span>=7000 ₸</span>
-                </div>
-              </div>
-              <div className="payment__tableItem historyPayment__item">
-                <a href="/" className="payment__button newPaying__button"><span className="historyPayment__downloadText">Download.pdf</span> <span className="historyPayment__download">{downloadIcon}</span></a>
-
-              </div>
-            </div>
-
-            <div className="historyPayment__column payment__row">
-              <div className="payment__tableItem historyPayment__item">Физика</div>
-              <div className="payment__tableItem historyPayment__item">20000т</div>
-              <div className="payment__tableItem historyPayment__item">
-                <span>4000т</span>
-              </div>
-              <div className="payment__tableItem historyPayment__item">
-                <div className="newPaying__educoin">
-                  <span>7000 ₸</span> <span className="newPaying__coin"/> <span>=7000 ₸</span>
-                </div>
-              </div>
-              <div className="payment__tableItem historyPayment__item">
-                <a href="/" className="payment__button newPaying__button"><span className="historyPayment__downloadText">Download.pdf</span> <span className="historyPayment__download">{downloadIcon}</span></a>
-
-              </div>
-            </div>
-
-            <div className="historyPayment__column payment__row">
-              <div className="payment__tableItem historyPayment__item">Математика </div>
-              <div className="payment__tableItem historyPayment__item">20000т</div>
-              <div className="payment__tableItem historyPayment__item">
-                <span>4000т</span>
-              </div>
-              <div className="payment__tableItem historyPayment__item">
-                <div className="newPaying__educoin">
-                  <span>7000 ₸</span> <span className="newPaying__coin"/> <span>=7000 ₸</span>
-                </div>
-              </div>
-              <div className="payment__tableItem historyPayment__item">
-                <a href="/" className="payment__button newPaying__button"><span className="historyPayment__downloadText">Download.pdf</span> <span className="historyPayment__download">{downloadIcon}</span></a>
-              </div>
-            </div>
+          )) 
+          :
+          null 
+          }
 
           </div>
 
-        </div>
-
-        <div className="historyPayment__buttonWrapper">
-          <button className="historyPayment__button">
-            <Translate text="ТӨЛЕМ ЖАСАУ"/>
-            4000 ₸
-          </button>
         </div>
       </div>
 
