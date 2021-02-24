@@ -1,4 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import {useHistory} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {Form, Field} from 'react-final-form'
@@ -19,6 +20,7 @@ const ModalSignIn = props => {
   const [showPassword, setShowPassword] = useState(false)
   const [showError, setShowError] = useState({error: null, isError: false})
 
+  const lang = useSelector(state => state.lang.value)
 
   useEffect(() => {
     if (showPassword) {
@@ -97,7 +99,11 @@ const ModalSignIn = props => {
         {
           showError.isError
             ? <p className="modalSignIn__text">
-              <span className="modalSignIn__red">{showError.error}</span>
+              <Translator>
+                          {({translate}) => (
+              <span className="modalSignIn__red">{translate({ text:showError.error })}</span>
+                          )}
+                          </Translator>
             </p>
             : null
         }
@@ -127,7 +133,9 @@ const ModalSignIn = props => {
                       {...input}
                     />
                     {meta.error && meta.touched &&
-                    <span className="error" style={{display: 'block', margin: '-10px 0 10px 0'}}>Invalid phone number</span>}
+                    <span className="error" style={{display: 'block', margin: '-10px 0 10px 0'}}>{lang === 'ru' ? 'Неверный номер телефона' : 
+                    'дұрыс емес телефон нөмірі'}</span>}
+
                   </>
                 }}
               </Field>
@@ -166,7 +174,7 @@ const ModalSignIn = props => {
                         </Translator>
                       }
                       {meta.error && meta.touched &&
-                      <span className="regForm__error error">Invalid password</span>}
+                      <span className="regForm__error error">{lang === 'ru' ? 'Неверный пароль' : 'қате құпия сөз'}</span>}
                     </>
                   )}
                 </Field>

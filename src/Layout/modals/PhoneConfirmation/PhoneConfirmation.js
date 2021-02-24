@@ -1,83 +1,90 @@
 import React, {useState} from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import {Field, Form} from 'react-final-form'
 import {connect} from 'react-redux'
 import Countdown from 'react-countdown'
 import Loader from '../../general/component/loader/loader'
 import {checkKey, keyGenerate} from '../../../request/apiRequests'
 import {hideModalReg, showModalLogin} from '../../../redux/actions/menu/menuActionsFuncs'
+import { Translate } from 'react-translated'
 
 
-const CallAgainBtn = () => {
-  return <button type="submit" className="phoneConfirm__button">Call me back again</button>
-}
 
 
-const renderer = props => {
-  let {minutes, seconds, completed} = props
-
-  if (completed) {
-    return <CallAgainBtn/>
-  } else {
-    if (+minutes <= 9) {
-      minutes = '0' + minutes
-    }
-
-    if (+seconds <= 9) {
-      seconds = '0' + seconds
-    }
-
-    return (
-      <span>
-          {minutes}:{seconds}
-        </span>
-    )
-  }
-}
-
-const TimerComponent = React.memo(({complete}) => {
-
-  return (
-    <Countdown
-      date={Date.now() + 60 * 1000 * 3}
-      renderer={renderer}
-      onComplete={complete}
-    />
-  )
-})
-
-
-const GenerateCallbackForm = ({genKeySubmit, phone, info, withClass = true}) => {
-
-
-  return (
-    <Form
-      onSubmit={genKeySubmit}
-      render={({handleSubmit}) => (
-        <form
-          className={[withClass ? 'phoneConfirm__confirm' : null].join(' ')}
-          onSubmit={handleSubmit}
-        >
-          <Field
-            name="phone"
-            defaultValue={phone}
-          >
-            {({input}) => (
-              <input
-                type="text"
-                className="hidden"
-                {...input}
-              />
-            )}
-          </Field>
-          <CallAgainBtn/>
-        </form>
-      )}
-    />
-  )
-}
 
 
 const PhoneConfirmation = ({phone, data, setPhoneConf, hideRegModal, onShowLoginModal}) => {
+  const lang = useSelector(state => state.lang.value)
+  const CallAgainBtn = () => {
+    return <button type="submit" className="phoneConfirm__button">{lang === 'ru' ? 'Перезвонить мне снова' : 'Маған қайта қоңырау шалыңыз'}</button>
+  }
+
+  const renderer = props => {
+    let {minutes, seconds, completed} = props
+  
+    if (completed) {
+      return <CallAgainBtn/>
+    } else {
+      if (+minutes <= 9) {
+        minutes = '0' + minutes
+      }
+  
+      if (+seconds <= 9) {
+        seconds = '0' + seconds
+      }
+  
+      return (
+        <span>
+            {minutes}:{seconds}
+          </span>
+      )
+    }
+  }
+  
+  const TimerComponent = React.memo(({complete}) => {
+  
+    return (
+      <Countdown
+        date={Date.now() + 60 * 1000 * 3}
+        renderer={renderer}
+        onComplete={complete}
+      />
+    )
+  })
+  
+  
+  const GenerateCallbackForm = ({genKeySubmit, phone, info, withClass = true}) => {
+  
+  
+    return (
+      <Form
+        onSubmit={genKeySubmit}
+        render={({handleSubmit}) => (
+          <form
+            className={[withClass ? 'phoneConfirm__confirm' : null].join(' ')}
+            onSubmit={handleSubmit}
+          >
+            <Field
+              name="phone"
+              defaultValue={phone}
+            >
+              {({input}) => (
+                <input
+                  type="text"
+                  className="hidden"
+                  {...input}
+                />
+              )}
+            </Field>
+            <CallAgainBtn/>
+          </form>
+        )}
+      />
+    )
+  }
+  
+
+  
   const [info, setInfo] = useState(data)
   const [isLoading, setIsLoading] = useState(false)
   const [timerExpired, setTimerExpired] = useState(false)
@@ -148,7 +155,7 @@ const PhoneConfirmation = ({phone, data, setPhoneConf, hideRegModal, onShowLogin
       <div className="phoneConfirm">
 
         <div className="phoneConfirm__confirm">
-          <p className="error">{onError}</p>
+          <p className="error">{<Translate text={onError}/>}</p>
           {
             info.data
               ? <p className="error">{info.data}</p>
@@ -183,10 +190,9 @@ const PhoneConfirmation = ({phone, data, setPhoneConf, hideRegModal, onShowLogin
                   isLoading
                     ? <Loader/>
                     : <>
-                      <p className="success">{info.data}</p>
+                      <p className="success">{<Translate text={info.data} />}</p>
                       <p className="phoneConfirm__description">
-                        Қоңырау шалған нөмірдің
-                        соңғы 6 санын енгізіңіз.
+                        <Translate text='Қоңырау шалған нөмірдіңсоңғы 6 санын енгізіңіз.'/>
                       </p>
                       <Field
                         name="code"
@@ -218,7 +224,7 @@ const PhoneConfirmation = ({phone, data, setPhoneConf, hideRegModal, onShowLogin
                         />
                       </p>
 
-                      <button className="phoneConfirm__button">Растау</button>
+                      <button className="phoneConfirm__button"><Translate text='Растау'/></button>
                     </>
                 }
               </form>
@@ -226,7 +232,7 @@ const PhoneConfirmation = ({phone, data, setPhoneConf, hideRegModal, onShowLogin
           />
           : <GenerateCallbackForm
             phone={phone}
-            info={info}
+            info={<Translate text={info}/>}
             genKeySubmit={genKeyOnSubmit}
           />
 
