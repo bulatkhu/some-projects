@@ -113,9 +113,9 @@ const ModalRegister = props => {
 
               {
                 error
-                  ? <p className="error">{error}</p>
+                  ? <p className="error">{<Translate text={error}/>}</p>
                   : success
-                  ? <p className="success">{success}</p>
+                  ? <p className="success">{<Translate text={success}/>}</p>
                   : null
               }
 
@@ -129,7 +129,7 @@ const ModalRegister = props => {
 
                   errors.password = {}
                   if (values.re_password !== values.password) {
-                    errors.re_password = 'Passwords are not equal'
+                    errors.re_password = <Translate text='Passwords are not equal'/>
                   }
 
                   if (!values.password) {
@@ -241,7 +241,7 @@ const ModalRegister = props => {
                                   {...input}
                                 />
                                 {meta.error && meta.touched ?
-                                  <span className="regForm__error error">Invalid email</span> : null}
+                                  <span className="regForm__error error"><Translate text='Invalid email' /></span> : null}
                               </label>
                             </div>
                           )}
@@ -268,7 +268,7 @@ const ModalRegister = props => {
                                   {...input}
                                 />
                                 {meta.error && meta.touched ?
-                                  <span className="regForm__error error">Invalid phone number</span> : null}
+                                  <span className="regForm__error error"><Translate text='Invalid phone number'/></span> : null}
                               </label>
                             </div>
                           )}

@@ -144,7 +144,7 @@ const ModalRequest = ({isShow, setShow}) => {
                                         {...input}
                                       />
                                       {meta.error && meta.touched
-                                        ? <span className="inputs__boxError error">Invalid phone number</span>
+                                        ? <span className="inputs__boxError error"><Translate text='Invalid phone number'/></span>
                                         : null}
                                     </>
                                   )}

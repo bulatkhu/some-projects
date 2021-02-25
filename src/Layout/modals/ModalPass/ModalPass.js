@@ -80,7 +80,7 @@ const ModalPass = ({show, hidePassModal, showLoginModal}) => {
         setInfoFromServer(err.message)
       })
   }
-
+  console.log(infoFromServer,'sdsdsdsdsd')
   return (
     <div
       className={overlayClass}
@@ -89,7 +89,7 @@ const ModalPass = ({show, hidePassModal, showLoginModal}) => {
 
       <div className="modalPass">
 
-        <p className="error__middle">{infoFromServer}</p>
+        <p className="error__middle">{infoFromServer && <Translate text={infoFromServer}/>}</p>
 
         {
           stepsCount === 0 && <Form
@@ -99,7 +99,7 @@ const ModalPass = ({show, hidePassModal, showLoginModal}) => {
                 className="modalPass__part"
                 onSubmit={handleSubmit}
               >
-                <h1 className="modalPass__title">Құпиясөзді қалпына келтіру</h1>
+                <h1 className="modalPass__title"><Translate text='Құпиясөзді қалпына келтіру'/></h1>
                 <Field
                   required
                   name="phone"
@@ -121,7 +121,7 @@ const ModalPass = ({show, hidePassModal, showLoginModal}) => {
                           {...input}
                         />
                         {meta.error && meta.touched && <span style={{display: 'block', margin: '-10px 0 0 0'}}
-                                                             className="error">Invalid phone number</span>}
+                                                             className="error"><Translate text='Invalid phone number'/></span>}
                       </label>
                     )
                   }}
@@ -149,8 +149,7 @@ const ModalPass = ({show, hidePassModal, showLoginModal}) => {
                 onSubmit={handleSubmit}
               >
                 <p className="modalPass__subTitle">
-                  Қоңырау шалған нөмірдің соңғы
-                  6 санын пароль ретінде енгізіңіз.
+                  <Translate text='Қоңырау шалған нөмірдің соңғы 6 санын пароль ретінде енгізіңіз.' />
                   <span
                     className="modalPass__infoMark"
                     onMouseEnter={() => setIsInfoShown(true)}
@@ -179,7 +178,7 @@ const ModalPass = ({show, hidePassModal, showLoginModal}) => {
                   className="modalPass__btn centered"
                   color="blue"
                   submit
-                >Растау</LittleBtn>
+                ><Translate text='Растау'/></LittleBtn>
               </form>
             )}
           />
@@ -190,13 +189,13 @@ const ModalPass = ({show, hidePassModal, showLoginModal}) => {
           validate={values => {
             const errors = {}
             if (values.re_password !== values.password) {
-              errors.re_password = 'Passwords are not equal'
+              errors.re_password = <Translate text='Passwords are not equal'/>
             }
             const hasNumber = /\d/
             const oneUpperCapital = /(?=.*[A-Z])/
             errors.password = {}
             if (values.re_password !== values.password) {
-              errors.re_password = 'Passwords are not equal'
+              errors.re_password = <Translate text='Passwords are not equal'/>
             }
 
             if (!values.password) {
@@ -244,7 +243,7 @@ const ModalPass = ({show, hidePassModal, showLoginModal}) => {
                           <input
                             required
                             className={inputClass}
-                            placeholder="Жаңа құпиясөз енгіз"
+                            placeholder={<Translate text="Жаңа құпиясөз енгіз"/>}
                             type="password"
                             {...input}
                           />
@@ -265,7 +264,7 @@ const ModalPass = ({show, hidePassModal, showLoginModal}) => {
                       }
                       {meta.error && meta.touched &&
                       <span className="error modalPass__error">
-                          Invalid password
+                          <Translate text='Invalid password'/>
                         </span>}
                     </label>
                   )
@@ -285,7 +284,7 @@ const ModalPass = ({show, hidePassModal, showLoginModal}) => {
                           <input
                             required
                             className={inputClass}
-                            placeholder="Құпиясөзді қайта енгіз"
+                            placeholder={<Translate text="Құпиясөзді қайта енгіз"/>}
                             type="password"
                             {...input}
                           />
@@ -304,7 +303,7 @@ const ModalPass = ({show, hidePassModal, showLoginModal}) => {
                 bigFontSize
                 color="red"
                 submit
-              >Растау</LittleBtn>
+              ><Translate text='Растау'/></LittleBtn>
             </form>
           )}
         />
