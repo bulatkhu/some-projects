@@ -481,7 +481,6 @@ const EditProfile = ({ type, updateUserData, user }) => {
               </Field>
               <Field
                 name="city"
-
                 placeholder={lang === 'ru' ? "Город" : "Облыс/қала"}
                 className="editProfileForm__input editProfileForm__selector"
                 styles={selectorStyles}

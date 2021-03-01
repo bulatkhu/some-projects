@@ -98,9 +98,7 @@ function Course({match: {params}}) {
   const [currentLesson, setCurrentLesson] = useState(null)
   const [isTestItemsFetching, setIsTestItemsFetching] = useState(true)
   const [error, setError] = useState(null)
-
-
-
+  
 
 
   const handleResponse = () => {
@@ -117,10 +115,9 @@ function Course({match: {params}}) {
       currentLesson: lesson,
       parts
     }
-
     setLinkToVideo(res.currentLesson.upload_video)
     setSideParts(partsToSideParts(res.parts))
-
+    setCurrentLesson(lesson.comment)
     if (!res.error) {
       if (!res.quiz) {
         setError(`Error, this course does't have any quizzes`)
@@ -128,7 +125,7 @@ function Course({match: {params}}) {
         setIsTestItemsFetching(false)
         return null
       }
-      setCurrentLesson(res.currentLesson)
+      
       setIsTestItemsFetching(false)
 
       const {questions, duration} = res.quiz
@@ -164,6 +161,9 @@ function Course({match: {params}}) {
     }
   }
 
+  useEffect(()=>{
+    console.log(currentLesson,2222222222222222222222222222222);
+  },[currentLesson]);
 
   const  requestGetQuiz = () => {
     getQuizById({contentId, id})
@@ -178,14 +178,14 @@ function Course({match: {params}}) {
         setIsTestItemsFetching(false)
         return null
       })
-  }
+  };
 
-
+  
 
   useEffect(() => {
     requestGetQuiz()
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
 
 
@@ -241,9 +241,7 @@ function Course({match: {params}}) {
   }
 
 
-
-
-
+  
 
   return (
     <section className="course">
@@ -335,7 +333,7 @@ function Course({match: {params}}) {
                       <Translate text="Сабақ бойынша сұрақ қою"/>
                     </h2>
 
-                    <AddTestComment id={id}/>
+                    <AddTestComment id={id} lesson={currentLesson}/>
                   </div>
 
 

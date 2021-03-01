@@ -118,7 +118,7 @@ const SubjectWrapper = ({response, isLoaded, details}) => {
   const {user} = response.product || null
   const comments = response.product.comments
 
-
+  console.log(comments)
   return (
     <div className="subject__content">
 
