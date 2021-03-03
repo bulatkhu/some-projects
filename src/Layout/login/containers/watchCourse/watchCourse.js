@@ -96,6 +96,7 @@ function Course({match: {params}}) {
   const [sideParts, setSideParts] = useState([])
   const [linkToVideo, setLinkToVideo] = useState(null)
   const [currentLesson, setCurrentLesson] = useState(null)
+  const [myCurrentLesson, setMyCurrentLesson] = useState(null)
   const [isTestItemsFetching, setIsTestItemsFetching] = useState(true)
   const [error, setError] = useState(null)
   
@@ -117,7 +118,8 @@ function Course({match: {params}}) {
     }
     setLinkToVideo(res.currentLesson.upload_video)
     setSideParts(partsToSideParts(res.parts))
-    setCurrentLesson(lesson.comment)
+    setCurrentLesson(res.currentLesson)
+    setMyCurrentLesson(lesson.comment)
     if (!res.error) {
       if (!res.quiz) {
         setError(`Error, this course does't have any quizzes`)
@@ -162,8 +164,8 @@ function Course({match: {params}}) {
   }
 
   useEffect(()=>{
-    console.log(currentLesson,2222222222222222222222222222222);
-  },[currentLesson]);
+    console.log(myCurrentLesson,2222222222222222222222222222222);
+  },[myCurrentLesson]);
 
   const  requestGetQuiz = () => {
     getQuizById({contentId, id})
@@ -333,7 +335,7 @@ function Course({match: {params}}) {
                       <Translate text="Сабақ бойынша сұрақ қою"/>
                     </h2>
 
-                    <AddTestComment id={id} lesson={currentLesson}/>
+                    <AddTestComment id={id} lesson={myCurrentLesson}/>
                   </div>
 
 
