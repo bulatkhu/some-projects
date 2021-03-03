@@ -304,12 +304,11 @@ const TestSlider = ({showResults, testItems, setTestItems}) => {
                     <ul onClick={event => showResults ? null : setAnswer(event)}>
                       {item1.questions.map((item, indexOfItem) => {
                         const cls = ['slideItem__variant']
-
                         if (showResults) {
                           cls.push('slideItem__otherHover')
 
                           if (item1.answer && item1.answer.length) {
-                            if (item1.rightAnswers.find(rightAnswer => rightAnswer === indexOfItem)) {
+                            if (item1.rightAnswers.find(rightAnswer => rightAnswer === indexOfItem) !== undefined) {
                               cls.push('right')
                             } else if (item1.answer.find(answer => answer === indexOfItem) !== undefined) {
                               cls.push('false')
