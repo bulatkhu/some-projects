@@ -39,7 +39,20 @@ const AddTestComment = ({id,lesson}) => {
     if(lesson){
       let lessonsArr = [];
     for(let com of lesson){
-      if(com.mode === 'publish') lessonsArr.push(com);
+      let myComments = [];
+      if(com.mode === 'publish' && !com.parent) {
+        for(let com2 of lesson){
+          if(com2.parent === com.id && com2.mode === 'publish'){
+            myComments.push(com2);
+          } 
+        }
+        if(myComments.length){
+          com.myComments = myComments;
+        }
+        console.log(com)
+        lessonsArr.push(com);
+      
+      }
     }
     setMyLesson([...lessonsArr])
   }
@@ -81,31 +94,8 @@ const AddTestComment = ({id,lesson}) => {
 
       </div>
 
-    </form>
-    {/* <div style={{
-      marginTop:'20px',
-      width:'100%',
-      minHeight:'300px',
-      backgroundColor:'white',
-      paddingTop:'10px'
-    }}>
-      {myLesson ?
-    myLesson.map(com=>(
-      <>
-      <div style={{
-        width:'100%',
-        margin:'10px'
-      }}>
-        User:
-        <p>{com.comment}</p>
-      </div>
-      <hr/>
-      </>
-    )) 
-    : null 
-    }
-    </div> */}
-    {myLesson && <Comments comments={myLesson}></Comments>}
+    </form> 
+    {myLesson && <Comments comments={myLesson} noStars={true} id={id}></Comments>}
     </>
   )
 }

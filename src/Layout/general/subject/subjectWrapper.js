@@ -1,8 +1,8 @@
-import React, {useEffect, useRef, useState} from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Comments from '../../login/components/comments/comments'
 import VideoPlayer from '../videoPlayer/videoPlayer'
-import {SITE_BASE_URL} from '../../../app.config'
-import {Transition} from 'react-transition-group'
+import { SITE_BASE_URL } from '../../../app.config'
+import { Transition } from 'react-transition-group'
 import SubjectPart from "./subjectPart";
 import Prices from "../../landing/containers/prices/prices";
 import AddComment from '../../login/components/addComment/addComment'
@@ -17,10 +17,10 @@ const defaultStyle = {
 }
 
 const transitionStyles = {
-  entering: {  transform: 'translateX(0)', opacity: 1, display: 'none'},
-  entered: {  transform: 'translateX(0)', opacity: 1, display: 'block'},
-  exiting: {  transform: 'translateX(-40%)', opacity: 0.1, display: 'block'},
-  exited: {  transform: 'translateX(-100%)', opacity: 0, display: 'none'},
+  entering: { transform: 'translateX(0)', opacity: 1, display: 'none' },
+  entered: { transform: 'translateX(0)', opacity: 1, display: 'block' },
+  exiting: { transform: 'translateX(-40%)', opacity: 0.1, display: 'block' },
+  exited: { transform: 'translateX(-100%)', opacity: 0, display: 'none' },
 }
 
 function transformPartsToShowParts(resParts) {
@@ -43,7 +43,7 @@ function getVideoFromRes(response) {
   return linkToVideo
 }
 
-const transitionWrapper = ({show, content}) => (
+const transitionWrapper = ({ show, content }) => (
   <Transition in={show} timeout={duration}>
     {state => (
       <div style={{
@@ -57,7 +57,7 @@ const transitionWrapper = ({show, content}) => (
 );
 
 
-const SubjectWrapper = ({response, isLoaded, details}) => {
+const SubjectWrapper = ({ response, isLoaded, details }) => {
   const ItemsWrapper = useRef(null)
   const [elements, setElements] = useState([])
   const [contentToShow, setContentToShow] = useState(1)
@@ -115,9 +115,28 @@ const SubjectWrapper = ({response, isLoaded, details}) => {
 
   const parts = transformPartsToShowParts(response.parts)
 
-  const {user} = response.product || null
-  const comments = response.product.comments
+  const { user } = response.product || null
+  let comments = response.product.comments
+  if (comments) {
+    let lessonsArr = [];
+    for (let com of comments) {
+      let myComments = [];
+      if (com.mode === 'publish' && !com.parent) {
+        for (let com2 of comments) {
+          if (com2.parent === com.id && com2.mode === 'publish') {
+            myComments.push(com2);
+          }
+        }
+        if (myComments.length) {
+          com.myComments = myComments;
+        }
+        console.log(com)
+        lessonsArr.push(com);
 
+      }
+    }
+    comments = lessonsArr;
+  }
   console.log(comments)
   return (
     <div className="subject__content">
@@ -146,11 +165,11 @@ const SubjectWrapper = ({response, isLoaded, details}) => {
       {
         linkToVideo
           ? <div className="subjectVideo">
-              <VideoPlayer
-                className="subjectVideo__video"
-                url={linkToVideo}
-              />
-            </div>
+            <VideoPlayer
+              className="subjectVideo__video"
+              url={linkToVideo}
+            />
+          </div>
           : null
       }
 
@@ -185,7 +204,7 @@ const SubjectWrapper = ({response, isLoaded, details}) => {
                     {
                       parts.length
                         ? parts.map((part, id) => (
-                          <SubjectPart details={details} key={id} id={id} courses={part.courses} name={part.name}/>
+                          <SubjectPart details={details} key={id} id={id} courses={part.courses} name={part.name} />
                         ))
                         : <p className="error">Course does not have parts</p>
                     }
@@ -203,7 +222,7 @@ const SubjectWrapper = ({response, isLoaded, details}) => {
 
                       <div
                         className="subject__textContent"
-                        dangerouslySetInnerHTML={{__html: response.product.content}}
+                        dangerouslySetInnerHTML={{ __html: response.product.content }}
                       />
 
                     </div>
@@ -218,7 +237,7 @@ const SubjectWrapper = ({response, isLoaded, details}) => {
                 content: (
                   <>
                     <AddComment id={response ? response.product.id : null} />
-                    <Comments comments={comments}/>
+                    <Comments comments={comments} noStars={false} />
                   </>
                 )
               })
@@ -232,7 +251,7 @@ const SubjectWrapper = ({response, isLoaded, details}) => {
 
 
       <div className="subject__column">
-        <Prices classPrices={false}/>
+        <Prices classPrices={false} />
       </div>
 
 
