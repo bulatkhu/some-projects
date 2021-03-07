@@ -23,6 +23,7 @@ const pricesData = [
 
 const Prices = ({classPrices = true, isAuth, user, onShowLogin}) => {
   const [showCheckOut, setShowCheckOut] = useState({show: false, type: null})
+  const [prices,setPrices] = useState({});
 
   const onShowCheckOut = type => {
     setShowCheckOut({show: true, type: type})
@@ -32,6 +33,15 @@ const Prices = ({classPrices = true, isAuth, user, onShowLogin}) => {
     getCoursesForPrices()
     .then((res)=>{
       console.log(res)
+      let pr = Object.keys(res.data.data.kz.combinations);
+      let pr2 = res.data.data.kz.combinations[pr[0]][0].price;
+      console.log(pr2);
+      console.log(pr)
+      setPrices({
+        main:res.data.data.kz.main[0].price,
+        combinations:pr2,
+        combo:res.data.data.kz.main[0].price + pr2
+      })
     })
   },[])
 
@@ -90,7 +100,7 @@ const Prices = ({classPrices = true, isAuth, user, onShowLogin}) => {
                       </div>
                       <div className="topTableFirst__prices">
                         <div className="topTableFirst__oldPrice">115 000₸</div>
-                        <div className="topTableFirst__currentPrice">22 990₸</div>
+                        <div className="topTableFirst__currentPrice">{prices.main}₸</div>
                       </div>
                     </div>
 
@@ -100,7 +110,7 @@ const Prices = ({classPrices = true, isAuth, user, onShowLogin}) => {
                       </div>
                       <div className="topTableFirst__prices">
                         <div className="topTableFirst__oldPrice">140 000₸ </div>
-                        <div className="topTableFirst__currentPrice">27 990₸</div>
+                        <div className="topTableFirst__currentPrice">{prices.combinations}₸</div>
                       </div>
                     </div>
 
@@ -110,7 +120,7 @@ const Prices = ({classPrices = true, isAuth, user, onShowLogin}) => {
                       </div>
                       <div className="topTableFirst__prices">
                         <div className="topTableFirst__oldPrice">225 000₸</div>
-                        <div className="topTableFirst__currentPrice">44 990₸</div>
+                        <div className="topTableFirst__currentPrice">{prices.combo}₸</div>
                       </div>
                     </div>
 
