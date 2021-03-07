@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {Translate} from 'react-translated'
@@ -8,6 +8,7 @@ import ModalPortal from '../../../modals/ModalPortal/ModalPortal'
 import CheckOut from '../checkOut/checkOut'
 import {showModalLogin} from '../../../../redux/actions/menu/menuActionsFuncs'
 import './prices.scoped.scss'
+import {getCoursesForPrices} from '../../../../request/apiPrices'
 
 const pricesData = [
   {title: <Translate text="Видеосабақтар"/>, price1: true, price2: true, price3: true, price4: true},
@@ -26,6 +27,13 @@ const Prices = ({classPrices = true, isAuth, user, onShowLogin}) => {
   const onShowCheckOut = type => {
     setShowCheckOut({show: true, type: type})
   }
+
+  useEffect(()=>{
+    getCoursesForPrices()
+    .then((res)=>{
+      console.log(res)
+    })
+  },[])
 
   const firstButton = () => {
     const type = (user && user.type) ? user.type : null

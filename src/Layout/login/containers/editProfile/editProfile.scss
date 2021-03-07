@@ -280,6 +280,21 @@
     padding: 0;
     outline: none;
     color: #B9B9B9;
+    &:nth-child(4) {
+      z-index: 9999;
+    }
+    &:nth-child(5) {
+      z-index: 9998;
+    }
+    &:nth-child(6) {
+      z-index: 9997;
+    }
+    &:nth-child(7) {
+      z-index: 9996;
+    }
+
+  
+
   }
 
   &__textHolder {
