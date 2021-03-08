@@ -33,7 +33,12 @@ export function getStudentQuizzes() {
   return axios.get(`${APP_BASE_URL}/getStudentQuizzs`, {params: {token}})
 }
 
-export function ApiCreateCommentParts({comment, partId}) {
+export function ApiCreateCommentParts({comment, partId,parent}) {
   const token = getToken()
-  return axios.post(`${APP_BASE_URL}/content/part/CreateComment`, {comment, part_id: partId, token})
+  return axios.post(`${APP_BASE_URL}/content/part/CreateComment`, {comment, part_id: partId, parent, token})
+}
+
+export function ApiCreateCommentContent({comment, content_id ,parent}) {
+  const token = getToken()
+  return axios.post(`${APP_BASE_URL}/content/CreateComment`, {comment, content_id: content_id, parent, token})
 }

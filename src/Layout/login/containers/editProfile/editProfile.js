@@ -21,12 +21,27 @@ const initialCrop = {
   aspect: 10 / 10,
 }
 
-const options = [
-  { label: 2021, value: 2021 },
-  { label: 2020, value: 2020 },
-  { label: 2019, value: 2019 },
-  { label: 2018, value: 2018 },
-  { label: 2017, value: 2017 }
+const optionsKz = [
+  { label: 'Биология - География', value: 'Биология - География' },
+  { label: 'Биология - Химия', value: 'Биология - Химия' },
+  { label: 'Математика - Физика', value: 'Математика - Физика' },
+  { label: 'Математика - География', value: 'Математика - География' },
+  { label: 'Шет тілі - Дуниежузі тарихы', value: 'Шет тілі - Дуниежузі тарихы' },
+  { label: 'Дүниежузі тарихы - География', value: 'Дүниежузі тарихы - География' },
+  { label: 'Дүниежузі тарихы - АҚҚ', value: 'Дүниежузі тарихы - АҚҚ' },
+  { label: 'Шет тілі - География', value: 'Шет тілі - География' },
+  { label: 'Қазақ тілі - Қазак әдебиеті', value: 'Қазақ тілі - Қазак әдебиеті' },
+]
+const optionsRu = [
+  { label: 'Биология - География', value: 'Биология - География' },
+  { label: 'Биология - Химия', value: 'Биология - Химия' },
+  { label: 'Математика - Физика', value: 'Математика - Физика' },
+  { label: 'Математика - География', value: 'Математика - География' },
+  { label: 'Иностранный язык - Всемирная история', value: 'Иностранный язык - Всемирная история' },
+  { label: 'Всемирная история - География', value: 'Всемирная история - География' },
+  { label: 'Всемирная история - АО', value: 'Всемирная история - АО' },
+  { label: 'Иностранный язык - География', value: 'Иностранный язык - География' },
+  { label: 'Казахский язык - Казахская литература', value: 'Казахский язык - Казахская литература' },
 ]
 
 const selectorStyles = {
@@ -140,6 +155,8 @@ const EditProfile = ({ type, updateUserData, user }) => {
     schoolKz: { label: undefined }
   })
 
+  const [sub,setSub] = useState('');
+
   const lang = useSelector(state => state.lang.value)
   console.log(lang)
 
@@ -233,6 +250,12 @@ const EditProfile = ({ type, updateUserData, user }) => {
       values2 = {
         ...values2,
         school: `${lang === 'ru' ? values.schoolRu.label : values.schoolKz.label}`,
+      }
+    }
+    if(sub){
+      values2 = {
+        ...values2,
+        profileSubject:sub
       }
     }
     console.log(values2, 'sssssssssssssssss')
@@ -436,6 +459,9 @@ const EditProfile = ({ type, updateUserData, user }) => {
     console.log(values)
   }, [values])
 
+  const subHandler = (e)=>{
+    setSub(e.value);
+  }
 
   const avatarField = <Field name="avatar">
     {({ input: { value, onChange, ...input } }) => {
@@ -612,8 +638,9 @@ const EditProfile = ({ type, updateUserData, user }) => {
                     {...input}
                     {...rest}
                     // defaultValue={options[0]}
-                    defaultValue={options.find(option => option.value === +getFromUserMeta(user, 'profileSubject'))}
-                    options={options}
+                    value={sub ? {label:sub} : {label:getFromUserMeta(user, 'profileSubject')}}
+                    onChange={subHandler}
+                    options={lang === 'kz' ? optionsKz : optionsRu}
                   />
                 )}
               />
