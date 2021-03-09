@@ -22,7 +22,7 @@ console.log(url)
     // />
   <Player
     theme="dark"
-    style={{ '--vm-player-theme': '#e86c8b' }}
+    style={{ '--vm-player-theme': '#407BBF' }}
   >
     <Youtube videoId={`${url ? url.split('https://youtu.be/')[1] : "DyTCOwB0DVw"}`} />
     <DefaultUi />
