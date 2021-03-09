@@ -12,6 +12,8 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "@vime/core": "^5.0.27",
+    "@vime/react": "^5.0.27",
     "axios": "^0.20.0",
     "craco-plugin-scoped-css": "^1.1.0",
     "final-form": "^4.20.1",
