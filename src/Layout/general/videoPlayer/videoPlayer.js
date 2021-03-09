@@ -2,8 +2,8 @@ import React from 'react'
 import ReactPlayer from 'react-player'
 import '../../landing/components/VideoPlayerModal/VideoPlayerModal.scoped.scss'
 import './videoPlayer.scss'
-
-const VideoPlayer = ({className, url}) => {
+import { Player, Ui, DefaultUi, Video } from '@vime/react';
+const VideoPlayer = ({ className, url }) => {
 
 
   return (
@@ -20,6 +20,14 @@ const VideoPlayer = ({className, url}) => {
         }
       }}
     />
+//<Player>
+  //    {/* Provider component is placed here. */}
+   //   <Video>
+   //       <source data-src="https://vimeo.com/192834629" type="video/mp4" />
+   //     </Video>
+   //   <DefaultUi>
+  //    </DefaultUi>
+  //  </Player>
   )
 }
 
