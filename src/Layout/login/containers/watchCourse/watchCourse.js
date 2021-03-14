@@ -260,6 +260,7 @@ function Course({match: {params}}) {
                   <div className="lesson__playerWrapper">
                     <VideoPlayer
                       url={linkToVideo}
+                      id={id}
                       className="lesson__video"
                     />
                   </div>
