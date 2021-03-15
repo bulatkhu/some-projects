@@ -3,7 +3,7 @@ import ReactPlayer from 'react-player'
 import '../../landing/components/VideoPlayerModal/VideoPlayerModal.scoped.scss'
 import './videoPlayer.scss'
 import {apiSetBonusForVideo} from '../../../request/student/apiStudent'
-import { Player, Video, DefaultUi, Youtube, Control } from '@vime/react';
+import { Player, Video, DefaultUi, Youtube, Control, Controls } from '@vime/react';
 const VideoPlayer = ({ className, url, id }) => {
   console.log(url)
   const [count, setCount] = useState(0)
@@ -43,6 +43,7 @@ const VideoPlayer = ({ className, url, id }) => {
       theme="dark"
       style={{ '--vm-player-theme': '#407BBF' }}
       onClick={bonus}
+      key={url}
     >
       <Youtube videoId={`${url ? url.split('https://youtu.be/')[1] : "DyTCOwB0DVw"}`} />
       <DefaultUi>

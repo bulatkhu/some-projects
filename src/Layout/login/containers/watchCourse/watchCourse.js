@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react'
+import React, {useCallback, useEffect, useRef, useState, useMemo} from 'react'
 import Countdown from 'react-countdown'
 import {Link} from 'react-router-dom'
 import {Translate} from 'react-translated'
@@ -100,6 +100,20 @@ function Course({match: {params}}) {
   const [isTestItemsFetching, setIsTestItemsFetching] = useState(true)
   const [error, setError] = useState(null)
   
+
+  const player = useMemo(()=>{
+    console.log('MEMOOO')
+    return(
+    <div className="lesson__playerWrapper">
+      <VideoPlayer
+        url={linkToVideo}
+        id={id}
+        className="lesson__video"
+      />
+    </div>
+    )
+  }
+  ,[linkToVideo])
 
 
   const handleResponse = () => {
@@ -252,18 +266,23 @@ function Course({match: {params}}) {
       <div className="course__content">
 
         <div className="course__column">
-
+        {/* const player = useMemo(()=>(
+    <div className="course-video">
+    <div className="lesson__playerWrapper">
+      <VideoPlayer
+        url={linkToVideo}
+        id={id}
+        className="lesson__video"
+      />
+    </div>
+  </div>
+    )
+  ,[linkToVideo]) */}
           {
             linkToVideo
               ? (
                 <div className="course-video">
-                  <div className="lesson__playerWrapper">
-                    <VideoPlayer
-                      url={linkToVideo}
-                      id={id}
-                      className="lesson__video"
-                    />
-                  </div>
+                  {player}
                 </div>
               )
               : null
