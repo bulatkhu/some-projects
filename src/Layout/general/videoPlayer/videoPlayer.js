@@ -1,10 +1,29 @@
-import React from 'react'
+import React, {useState} from 'react'
 import ReactPlayer from 'react-player'
 import '../../landing/components/VideoPlayerModal/VideoPlayerModal.scoped.scss'
 import './videoPlayer.scss'
-import { Player, Video, DefaultUi, Youtube } from '@vime/react';
-const VideoPlayer = ({ className, url }) => {
-console.log(url)
+import {apiSetBonusForVideo} from '../../../request/student/apiStudent'
+import { Player, Video, DefaultUi, Youtube, Control, Controls } from '@vime/react';
+const VideoPlayer = ({ className, url, id }) => {
+  console.log(url)
+  const [count, setCount] = useState(0)
+
+
+  const bonus = () => {
+    console.log('blabla')
+    if(count === 0){
+      setCount(1);
+      apiSetBonusForVideo(id)
+    .then((res)=>{
+      console.log(res)
+    })
+    .catch(err=>{
+      console.log(err)
+    })
+    
+    };
+  }
+
 
   return (
     // <ReactPlayer
@@ -20,13 +39,16 @@ console.log(url)
     //     }
     //   }}
     // />
-  <Player
-    theme="dark"
-    style={{ '--vm-player-theme': '#e86c8b' }}
-  >
-    <Youtube videoId={`${url ? url.split('https://youtu.be/')[1] : "DyTCOwB0DVw"}`} />
-    <DefaultUi />
-  </Player>
+    <Player
+      theme="dark"
+      style={{ '--vm-player-theme': '#407BBF' }}
+      onClick={bonus}
+      key={url}
+    >
+      <Youtube videoId={`${url ? url.split('https://youtu.be/')[1] : "DyTCOwB0DVw"}`} />
+      <DefaultUi>
+        </DefaultUi>
+    </Player>
   )
 }
 

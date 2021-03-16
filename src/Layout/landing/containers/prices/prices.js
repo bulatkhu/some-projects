@@ -43,6 +43,9 @@ const Prices = ({classPrices = true, isAuth, user, onShowLogin}) => {
         combo:res.data.data.kz.main[0].price + pr2
       })
     })
+    .catch(err=>{
+      console.log(err)
+    })
   },[])
 
   const firstButton = () => {
