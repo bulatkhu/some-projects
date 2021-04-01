@@ -4,16 +4,15 @@ import '../../landing/components/VideoPlayerModal/VideoPlayerModal.scoped.scss'
 import './videoPlayer.scss'
 import {apiSetBonusForVideo} from '../../../request/student/apiStudent'
 import { Player, Video, DefaultUi, Youtube, Control, Controls } from '@vime/react';
-const VideoPlayer = ({ className, url, id }) => {
+const VideoPlayer = ({ className, url, id, contentId }) => {
   console.log(url)
   const [count, setCount] = useState(0)
 
 
   const bonus = () => {
-    console.log('blabla')
-    if(count === 0){
+    console.log('blablaBLAVLA')
       setCount(1);
-      apiSetBonusForVideo(id)
+      apiSetBonusForVideo(id,contentId)
     .then((res)=>{
       console.log(res,"BONUS")
     })
@@ -21,17 +20,19 @@ const VideoPlayer = ({ className, url, id }) => {
       console.log(err,"BONUS")
     })
     
-    };
   }
 
 
   return (
     <ReactPlayer
+    key={id}
       className={['videoPlayer', className].join(' ')}
       url={url || 'https://vimeo.com/259411563'}
       controls={true}
       width={'100%'}
       height={'100%'}
+      onClick={bonus}
+      onPlay={bonus}
       playsinline={true}
       config={{
         vimeo: {
