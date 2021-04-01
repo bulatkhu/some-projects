@@ -108,6 +108,7 @@ function Course({match: {params}}) {
       <VideoPlayer
         url={linkToVideo}
         id={id}
+        contentId={contentId}
         className="lesson__video"
       />
     </div>
