@@ -10,7 +10,7 @@ const VideoPlayer = ({ className, url, id }) => {
 
 
   const bonus = () => {
-    console.log('blabla')
+    console.log('blablaBLAVLA')
     if(count === 0){
       setCount(1);
       apiSetBonusForVideo(id)
@@ -32,6 +32,8 @@ const VideoPlayer = ({ className, url, id }) => {
       controls={true}
       width={'100%'}
       height={'100%'}
+      onClick={bonus}
+      onPlay={bonus}
       playsinline={true}
       config={{
         vimeo: {
