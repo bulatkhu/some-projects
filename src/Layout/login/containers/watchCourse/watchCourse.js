@@ -437,7 +437,7 @@ function Course({match: {params}}) {
 
               {sideParts.map((item, key) => {
                 const isActive = key === 0
-
+                console.log(sideParts)
                 return (
                   <div key={key + item.title} className="accordion__wrapper">
                     <div
@@ -450,7 +450,7 @@ function Course({match: {params}}) {
                       {item.players.map((item1, key1) => (
                         <div key={key1} className="accorBot__wrapper">
                           <Link to={item1.link}
-                                className={['accorBot__icon', item1.access === 'open' ? 'green' : null].join(' ')}>&nbsp;</Link>
+                                className={['accorBot__icon', item1.viewd ? 'green' : null].join(' ')}>&nbsp;</Link>
                           <div className="accorBot__content">
 
                             <div className="accorBot__text">{item1.title}</div>
