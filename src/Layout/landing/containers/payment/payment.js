@@ -175,19 +175,6 @@ const Payment = ({data}) => {
               енгізіп, «Продолжить» батырмасын басыңыз.</p>
           </div>
 
-          <div className="resultsBlock__wrapper">
-            <h3 className="resultsBlock__title">«Kaspi.kz» сайты арқылы төлем жасау. </h3>
-
-            <p className="resultsBlock__text">1. <a rel="noopener noreferrer" target="_blank"
-                                                    style={{color: '#329DFF'}}
-                                                    href="https://kaspi.kz/">«Kaspi.kz»</a> сайтына кіріңіз.
-            </p>
-            <p className="resultsBlock__text">2. «Платежи» бөліміне өтіп, іздеу жолағына «Educon» деп
-              теріңіз.</p>
-            <p className="resultsBlock__text">3. «Номер заказа» жолағына сізге берілген тапсырыс нөмірін
-              енгізіп, «Продолжить» батырмасын басыңыз.</p>
-          </div>
-
         </div>
 
       </div>
