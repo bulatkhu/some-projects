@@ -92,6 +92,21 @@ const EduCoinComponent = ({ credits, id }) => {
             }
           }
 
+          if (it.bonus_type === 'bought') {
+            if (date - Date.parse(it.created_at) < day) {
+              ob = {
+                ...ob,
+                courseDay:ob.courseDay + it.count
+              }
+            }
+            else {
+              ob = {
+                ...ob,
+                courseTotal:ob.courseTotal + it.count
+              }
+            }
+          }
+
 
         }
         setData(ob)
