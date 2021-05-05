@@ -289,7 +289,7 @@ const CheckOut = ({type, show, info}) => {
     formInfo.title = 'COMBO'
     formInfo.subTitle = '5 пәнге/6 айға'
     formInfo.color = '#FD6CA3'
-    formInfo.price = 44990
+    formInfo.price = 50980
   }
 
   const relationId = () => {
