@@ -123,7 +123,7 @@ const Prices = ({classPrices = true, isAuth, user, onShowLogin}) => {
                       </div>
                       <div className="topTableFirst__prices">
                         <div className="topTableFirst__oldPrice">225 000₸</div>
-                        <div className="topTableFirst__currentPrice">44 990₸</div>
+                        <div className="topTableFirst__currentPrice">{prices.combo}₸</div>
                       </div>
                     </div>
 
