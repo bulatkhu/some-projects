@@ -67,6 +67,7 @@ const Prices = ({classPrices = true, isAuth, user, onShowLogin}) => {
               type={showCheckOut.type}
               info={showCheckOut}
               show={setShowCheckOut}
+              pr={prices.combo}
             />
           </ModalPortal>
         )

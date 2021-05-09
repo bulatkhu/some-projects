@@ -125,7 +125,7 @@ const selectsLangs = [
 ]
 
 
-const CheckOut = ({type, show, info}) => {
+const CheckOut = ({type, show, info, pr}) => {
   const [typeState, setTypeState] = useState(null)
   const [showResults, setShowResults] = useState({show: false, card: null, data: null})
   const [langOption, setLangOption] = useState(selectsLangs[0])
@@ -289,7 +289,7 @@ const CheckOut = ({type, show, info}) => {
     formInfo.title = 'COMBO'
     formInfo.subTitle = '5 пәнге/6 айға'
     formInfo.color = '#FD6CA3'
-    formInfo.price = 44990
+    formInfo.price = pr
   }
 
   const relationId = () => {
