@@ -39,7 +39,8 @@ const ModalSignIn = props => {
     if (phone.trim() && password.trim()) {
 
       const response = await login(values)
-      if (response.error) return setShowError({ error: response.data.error, isError: true })
+      console.log(response)
+      if (response.error) return setShowError({ error: response.errInfo.message, isError: true })
 
       if (+response.data.status === 1) {
         const {user} = response.data.data

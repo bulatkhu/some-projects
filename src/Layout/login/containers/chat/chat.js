@@ -17,6 +17,18 @@ const noPhotoStyles = {
   textAlign: 'center'
 }
 
+let int1;
+const ff = (id,setDiaMessage,setDialogueList) => {
+      console.log(id)
+      getMessagesByUserId(id)
+      .then(res => {
+        if (res.error) return setDiaMessage(res.data.message)
+        setDiaMessage(null)
+        setDialogueList(res.data.data)
+      })
+}
+
+
 const Chat = ({user}) => {
   const [candidates, setCandidates] = useState([])
   const [dialogueId, setDialogueId] = useState(null)
@@ -60,6 +72,38 @@ const Chat = ({user}) => {
     }
 
   },[dialogueId, candidates, user, isCandidatesFetched])
+
+  const [count, setCount] = useState(1);
+
+  useEffect(()=>{
+    
+    if(dialogueId){
+      
+      if(count){
+        int1 = setInterval(ff,1000,dialogueId,setDiaMessage,setDialogueList);
+        setCount(0);
+      }
+      else{
+     clearInterval(int1);
+     int1 = setInterval(ff,1000,dialogueId,setDiaMessage,setDialogueList);
+      }
+    }
+  },[dialogueId])
+
+
+  // useEffect(()=>{
+  //   setInterval(()=>{
+  //     if(dialogueId){
+  //       getMessagesByUserId(dialogueId)
+  //       .then(res => {
+  //         if (res.error) return setDiaMessage(res.data.message)
+  //         setDiaMessage(null)
+  //         setDialogueList(res.data.data)
+  //       })
+  //     }
+  //     console.log(123123)
+  //   },500)
+  // },[])
 
   const onSendMessage = event => {
     event.preventDefault()
